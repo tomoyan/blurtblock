@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- favicon -->
+        {% include 'favicon.html' %}
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+        <title>BlurtBlock</title>
+    </head>
+    <body>
+
+        <div class="container">
+
+            <!-- top navigation menu -->
+            {% include 'navbar.html' %}
+
+            <div class="jumbotron">
+                <h1 class="display-4">Beem Tools</h1>
+                <p class="lead">blockchain tools using python beem library</p>
+            </div>
+
+            <!-- card list -->
+            <div class="row">
+                <div class="col-sm-6 pb-1">
+                    <!-- hive list -->
+                    <!-- coingecko widget hive -->
+                    <div class="card list-group-item-danger">
+                        <script src="https://widgets.coingecko.com/coingecko-coin-price-chart-widget.js"></script>
+                        <coingecko-coin-price-chart-widget  coin-id="hive" currency="usd" height="250" locale="en"></coingecko-coin-price-chart-widget>
+                    </div>
+
+                    <div class="card list-group-item-danger">
+                        <div class="card-header">Hive</div>
+                        <ul class="list-group list-group-flush">
+                            <a href="/hive/profile" class="list-group-item list-group-item-action">Profile</a>
+                            <a href="/hive/follower" class="list-group-item list-group-item-action">Follower</a>
+                            <a href="/hive/following" class="list-group-item list-group-item-action">Following</a>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 pb-1">
+                    <!-- steemit list -->
+                    <!-- coingecko widget steemit-->
+                    <div class="card list-group-item-success">
+                        <script src="https://widgets.coingecko.com/coingecko-coin-price-chart-widget.js"></script>
+                        <coingecko-coin-price-chart-widget  coin-id="steem" currency="usd" height="250" locale="en"></coingecko-coin-price-chart-widget>
+                    </div>
+
+                    <div class="card list-group-item-success">
+                        <div class="card-header">Steemit</div>
+                        <ul class="list-group list-group-flush">
+                            <a href="/steemit/profile" class="list-group-item list-group-item-action">Profile</a>
+                            <a href="/steemit/follower" class="list-group-item list-group-item-action">Follower</a>
+                            <a href="/steemit/following" class="list-group-item list-group-item-action">Following</a>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        {% include 'bootstrap_js.html' %}
+      </body>
+</html>

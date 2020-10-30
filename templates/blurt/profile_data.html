@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- favicon -->
+        {% include 'favicon.html' %}
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/blurt_style.css') }}">
+
+        <!-- chartjs -->
+        <script src="{{ url_for('static', filename='js/Chart.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/utils.js') }}"></script>
+
+        <style>
+        canvas {
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+        }
+        </style>
+
+        <script src="{{ url_for('static', filename='js/jquery-3.5.1.min.js') }}"></script>
+
+        <title>BlurtBlock</title>
+    </head>
+    <body>
+
+        <div class="container">
+
+            <!-- top navigation menu -->
+            {% include 'navbar.html' %}
+
+            <div class="jumbotron bg-blurt text-white">
+                <img src="https://blurt.blog/images/logo.png"
+                width="150" alt="blurt logo" class="img-thumbnail">
+
+                {% if username %}
+                <h1 class="display-4">Blurt Profile:
+                    <u>
+                        <a href="https://blurt.blog/@{{ username }}"
+                        class="bg-blurt text-white">{{ username }}</a>
+                    </u>
+                    <img src="https://images.blurt.blog/u/{{ username }}/avatar"
+                            onerror="this.onerror=null;
+                            this.src='/static/images/blurt_profile.png';"
+                            alt="profile_image"
+                            class="img-thumbnail rounded-circle float-right"
+                            width="auto">
+                </h1>
+
+                <div class="d-flex bd-highlight">
+                    <div class="p-2 flex-grow-1 bd-highlight">
+                        <p class="lead">
+                            Balance: <b>{{ data['blurt'] }} BLURT</b><br>
+                            Blurt Power: <b>{{ data['bp'] }} BP</b><br>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- progress bar -->
+                <h5 class="lead">Voting Power: {{ data['voting_power'] }}%</h5>
+                <div class="progress" style="height: 30px;">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning"
+                    role="progressbar" style="width: {{ data['voting_power'] }}%"
+                    aria-valuenow="100"
+                    aria-valuemin="0" aria-valuemax="100">Full charge in {{ data['recharge_time_str'] }}</div>
+                </div>
+
+                {% else %}
+                <h1 class="display-4">Blurt Profile</h1>
+                <p class="lead">No user information</p>
+                {% endif  %}
+            </div>
+
+            <!-- profile contents -->
+            {% if username %}
+            <!-- middle navigation menu -->
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <!-- main nav -->
+                    <a class="nav-item nav-link active" id="nav-main-tab" data-toggle="tab" href="#nav-main"
+                        role="tab" aria-controls="nav-main" aria-selected="true">
+                        Main
+                    </a>
+
+                    <!-- API calls to backend-->
+                    <script type="text/javascript">
+                       document.reward_api = '/api/blurt/reward/{{ username }}';
+                       document.follower_api = '/api/blurt/follower/{{ username }}';
+                       document.following_api = '/api/blurt/following/{{ username }}';
+                       document.mute_api = '/api/blurt/mute/{{ username }}';
+                       document.delegation_api = '/api/blurt/delegation/{{ username }}';
+                    </script>
+                    <script type="text/javascript" src="{{ url_for('static', filename='js/blurt.js') }}">
+                    </script>
+
+                    <!-- reward nav -->
+                    <a class="nav-item nav-link" id="nav-reward-tab" data-toggle="tab" href="#nav-reward"
+                        role="tab" aria-controls="nav-reward" aria-selected="false">
+                        Rewards
+                        <span id="rewardSize">
+                            <!-- loading spinner -->
+                            <div class="spinner-grow spinner-grow-sm text-secondary" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </span>
+                    </a>
+
+                    <!-- follower nav -->
+                    <a class="nav-item nav-link" id="nav-follower-tab" data-toggle="tab" href="#nav-follower"
+                        role="tab" aria-controls="nav-follower" aria-selected="false">
+                        Follower <span id="followerSize" class="badge badge-secondary">0</span>
+                    </a>
+
+                    <!-- following nav -->
+                    <a class="nav-item nav-link" id="nav-following-tab" data-toggle="tab" href="#nav-following"
+                        role="tab" aria-controls="nav-following" aria-selected="false">
+                        Following <span id="followingSize" class="badge badge-secondary">0</span>
+                    </a>
+
+                    <!-- mute nav -->
+                    <a class="nav-item nav-link" id="nav-mute-tab" data-toggle="tab" href="#nav-mute"
+                        role="tab" aria-controls="nav-mute" aria-selected="false">
+                        Mute <span id="muteSize" class="badge badge-secondary">0</span>
+                    </a>
+
+                    <!-- delegation nav -->
+                    <a class="nav-item nav-link" id="nav-delegation-tab" data-toggle="tab" href="#nav-delegation"
+                        role="tab" aria-controls="nav-delegation" aria-selected="false">
+                        Delegation <span id="delegationSize" class="badge badge-secondary">0</span>
+                    </a>
+
+                </div>
+            </nav>
+
+            <!-- middle contents -->
+            <div class="tab-content" id="nav-tabContent">
+
+                <div class="tab-pane fade show active" id="nav-main" role="tabpanel" aria-labelledby="nav-main-tab">
+                    <h1 class="display-4">Upvote Activity (7days) Upvoted# {{ data['total_votes'] }}</h1>
+
+                    <!-- chart loading spinner -->
+                    <div id="mdb-preloader" class="text-center">
+                        <div class="spinner-grow text-blurt m-3" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        <div class="spinner-border text-blurt m-3" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        <div class="spinner-grow text-blurt m-3" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        <div class="spinner-border text-blurt m-3" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        <div class="spinner-grow text-blurt m-3" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        <div class="text-center">
+                            <img
+                                src="{{ url_for('static', filename='images/dancing_bear.gif') }}"
+                                class="img-fluid"
+                                alt="dancing_bear">
+                        </div>
+                        <!-- <img src="{{ url_for('static', filename='images/dancing_bear.gif') }}"> -->
+                    </div>
+
+                    <div class="row">
+
+                        <!-- upvote chart goes in to canvas -->
+                        <canvas id="canvas"></canvas>
+                        {% block javascript %}
+                        <script>
+                            var chartData = {
+                                labels: {{ data['labels'] | tojson }},
+                                datasets: [{
+                                    label: 'Vote Count',
+                                    borderColor: window.chartColors.yellow,
+                                    backgroundColor: window.chartColors.yellow,
+                                    fill: false,
+                                    data: {{ data['count_data'] }},
+                                    yAxisID: 'y-axis-1',
+                                }, {
+                                    label: 'Vote Weight',
+                                    borderColor: window.chartColors.blue,
+                                    backgroundColor: window.chartColors.blue,
+                                    fill: false,
+                                    data: {{ data['weight_data'] }},
+                                    yAxisID: 'y-axis-2'
+                                }]
+                            };
+
+                            window.onload = function() {
+                                // hide spinner when chart is loaded
+                                $('#mdb-preloader').delay(100).fadeOut(300);
+
+                                var ctx = document.getElementById('canvas').getContext('2d');
+                                window.myLine = new Chart(ctx, {
+                                    type: 'bar',
+                                    data: chartData,
+                                    options: {
+                                        responsive: true,
+                                        // hoverMode: 'index',
+                                        // stacked: false,
+                                        title: {
+                                            display: false,
+                                            text: 'Upvote Count and Weight'
+                                        },
+                                        scales: {
+                                            yAxes: [{
+                                                type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+                                                display: true,
+                                                position: 'left',
+                                                id: 'y-axis-1',
+                                                ticks: {'beginAtZero': true}
+                                            }, {
+                                                type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+                                                display: true,
+                                                position: 'right',
+                                                id: 'y-axis-2',
+                                                ticks: {'beginAtZero': true},
+                                                // grid line settings
+                                                gridLines: {
+                                                    drawOnChartArea: false, // only want the grid lines for one axis to show up
+                                                },
+                                            }],
+                                        }
+                                    }
+                                });
+                            };
+                        </script>
+                        {% endblock %}
+                    </div>
+
+                    <h1 class="display-4">Upvoted Post by {{ username }}</h1>
+                    {% if data['permlinks'] %}
+                    <ul class="list-group pb-3">
+                        {% for link in data['permlinks'] %}
+                            <li class="list-group-item">
+                                <a class="text-blurt" href="https://blurt.blog/{{ link }}">{{ link }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <ul class="list-group pb-3">
+                        <li class="list-group-item"> No Upvoted Post -- yet </li>
+                    </ul>
+                    {% endif %}
+                </div>
+
+                <!-- List of Reward -->
+                <div class="tab-pane fade" id="nav-reward" role="tabpanel" aria-labelledby="nav-reward-tab">
+                    <h1 class="display-4">Reward Summary</h1>
+                    <div class="row">
+                        <div class="col">
+                            <div class="card mb-3">
+                                <div class="card-body pt-1 pb-1">
+                                    <ul id="rewardResult"class="list-group list-group-flush">
+                                        <div class="text-center">
+                                            Loading data...
+                                            <img
+                                                src="{{ url_for('static', filename='images/loading.gif') }}"
+                                                class="rounded"
+                                                alt="loading">
+                                        </div>
+                                        <!-- reward list goes in here -->
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- List of Follower -->
+                <div class="tab-pane fade" id="nav-follower" role="tabpanel" aria-labelledby="nav-follower-tab">
+                    <h1 class="display-4">Follower</h1>
+                    <div class="row">
+                        <div class="col">
+                            <div class="card mb-3">
+                                <div class="card-body pt-1 pb-1">
+                                    <ul id="followerResult"class="list-group list-group-flush">
+                                        <!-- follower list goes in here -->
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- List of Following -->
+                <div class="tab-pane fade" id="nav-following" role="tabpanel" aria-labelledby="nav-following-tab">
+                    <h1 class="display-4">Following</h1>
+                    <div class="row">
+                        <div class="col">
+                            <div class="card mb-3">
+                                <div class="card-body pt-1 pb-1">
+                                    <ul id="followingResult"class="list-group list-group-flush">
+                                        <!-- following list goes in here -->
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- list of mute -->
+                <div class="tab-pane fade" id="nav-mute" role="tabpanel" aria-labelledby="nav-mute-tab">
+                    <h1 class="display-4">Muted Users</h1>
+                    <div class="row">
+                        <div class="col">
+                            <div class="card mb-3">
+                                <div class="card-body pt-1 pb-1">
+                                    <ul id="mutingResult"class="list-group list-group-flush">
+                                        <!-- muting list goes in here -->
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h1 class="display-4">Muted by Users</h1>
+                    <div class="row">
+                        <div class="col">
+                            <div class="card mb-3">
+                                <div class="card-body pt-1 pb-1">
+                                    <ul id="muteResult"class="list-group list-group-flush">
+                                        <!-- mute list goes in here -->
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- list of delegation -->
+                <div class="tab-pane fade" id="nav-delegation" role="tabpanel" aria-labelledby="nav-delegation-tab">
+
+                    <h1 class="display-4">Outgoing Delegation</h1>
+                    <div class="row">
+                        <div class="col">
+                            <div class="card mb-3">
+                                <div class="card-body pt-1 pb-1">
+                                    <ul id="outgoingResult"class="list-group list-group-flush">
+                                        <!-- outgoing delegation list goes in here -->
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h1 class="display-4">Expiring Delegation</h1>
+                    <div class="row">
+                        <div class="col">
+                            <div class="card mb-3">
+                                <div class="card-body pt-1 pb-1">
+                                    <ul id="expiringResult"class="list-group list-group-flush">
+                                        <!-- expiring delegation list goes in here -->
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h1 class="display-4">Incoming Delegation</h1>
+                    <div class="row">
+                        <div class="col">
+                            <div class="card mb-3">
+                                <div class="card-body pt-1 pb-1">
+                                    <ul id="incomingResult"class="list-group list-group-flush">
+                                        <!-- incoming delegation list goes in here -->
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            {% endif  %}
+
+        </div>
+
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+      </body>
+    <!-- Footer -->
+    <footer class="page-footer font-small">
+      <!-- Copyright -->
+        <div class="footer-copyright text-center py-3">Powered by:
+            <a
+                href="https://blurtwallet.com/~witnesses?highlight=tomoyan"
+                class="btn btn-blurt"
+                target="_blank" rel="noopener noreferrer"> @tomoyan
+            </a>
+        </div>
+    </footer>
+</html>

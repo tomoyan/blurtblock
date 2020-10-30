@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- favicon -->
+        {% include 'favicon.html' %}
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/blurt_style.css') }}">
+
+        <title>BlurtBlock</title>
+    </head>
+    <body>
+
+        <div class="container">
+
+            <!-- top navigation menu -->
+            {% include 'navbar.html' %}
+
+            <div class="jumbotron bg-blurt text-white">
+                <img src="https://blurt.blog/images/logo.png"
+                width="150" alt="blurt logo" class="img-thumbnail">
+                <h1 class="display-4">Blurt Profile</h1>
+                <p class="lead">user information</p>
+            </div>
+
+            <!-- flash alert -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-warning" role="alert">
+                    {{ message[1] }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+            <!-- Username Input Form -->
+            <form action="{{ url_for('blurt') }}" method="post">
+            <!-- <form method="post"> -->
+                <!-- used to protect the form against csrf attacks -->
+                {{ form.hidden_tag() }}
+
+                <div class="form-row align-items-center">
+                    <div class="col-auto">
+                        <label class="sr-only" for="inlineFormInputGroup">Username</label>
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                            <div class="input-group-text">@</div>
+                        </div>
+                        <input type="text" class="form-control" id="inlineFormInputGroup"
+                            name="username" placeholder="Username">
+                      </div>
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-blurt mb-2">Submit</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        {% include 'bootstrap_js.html' %}
+      </body>
+
+    <!-- Footer -->
+    <footer class="page-footer font-small">
+      <!-- Copyright -->
+        <div class="footer-copyright text-center py-3">Powered by:
+            <a
+                href="https://blurtwallet.com/~witnesses?highlight=tomoyan"
+                class="btn btn-blurt"
+                target="_blank" rel="noopener noreferrer"> @tomoyan
+            </a>
+        </div>
+    </footer>
+</html>

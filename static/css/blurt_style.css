@@ -1,0 +1,45 @@
+.bg-blurt {
+    background-color:#f2652e!important}
+
+.btn-blurt {
+    color:#fff;
+    background-color:#f2652e;
+    border-color:#f2652e}
+
+.badge-blurt {
+    color:#fff;
+    background-color:#f2652e
+}
+body {
+  background: url('../images/jack.png') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.text-blurt{
+    color:#f2652e!important
+}
+
+.nav-tabs .nav-link {
+    color: rgba(0,0,0,.5);
+}
+
+.nav-tabs .nav-link:hover {
+    color: #f2652e;
+}
+
+.nav-tabs .nav-link.active {
+    color: #fff;
+    background-color: #f2652e;
+    border-color: #dee2e6 #dee2e6 #fff;
+}
+
+.list-group-item {
+    background: #dcdcdc;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.list-group-item:nth-child(odd) { background: #fff; }
