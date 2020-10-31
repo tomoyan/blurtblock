@@ -29,7 +29,10 @@ $(document).ready(function(){
                                     alt="profile_image"
                                     class="img-thumbnail rounded-circle float-left mr-3"
                                     width="auto"></span>
-                            <span><a class="text-blurt font-weight-bold mr-3" href="https://blurt.blog/@${key}">${key}</a></span>
+                            <span>
+                                <a class="text-blurt font-weight-bold mr-3" href="https://blurt.blog/@${key}"
+                                    target="_blank" rel="noopener noreferrer">${key}
+                                </a></span>
                             <span class="badge badge-blurt font-weight-light">Following</span>
                         </li>`;
                     }
@@ -42,7 +45,10 @@ $(document).ready(function(){
                                     alt="profile_image"
                                     class="img-thumbnail rounded-circle float-left mr-3"
                                     width="auto"></span>
-                            <span><a class="text-blurt font-weight-bold" href="https://blurt.blog/@${key}">${key}</a></span>
+                            <span>
+                                <a class="text-blurt font-weight-bold" href="https://blurt.blog/@${key}"
+                                target="_blank" rel="noopener noreferrer">${key}
+                                </a></span>
                         </li>`;
                     }
 
@@ -85,7 +91,10 @@ $(document).ready(function(){
                                     alt="profile_image"
                                     class="img-thumbnail rounded-circle float-left mr-3"
                                     width="auto"></span>
-                            <span><a class="text-blurt font-weight-bold mr-3" href="https://blurt.blog/@${key}">${key}</a></span>
+                            <span>
+                                <a class="text-blurt font-weight-bold mr-3" href="https://blurt.blog/@${key}"
+                                    target="_blank" rel="noopener noreferrer">${key}
+                                </a></span>
                             <span class="badge badge-blurt font-weight-light">Follows you</span>
                         </li>`;
                     }
@@ -98,7 +107,10 @@ $(document).ready(function(){
                                     alt="profile_image"
                                     class="img-thumbnail rounded-circle float-left mr-3"
                                     width="auto"></span>
-                            <span><a class="text-blurt font-weight-bold" href="https://blurt.blog/@${key}">${key}</a></span>
+                            <span>
+                                <a class="text-blurt font-weight-bold" href="https://blurt.blog/@${key}"
+                                    target="_blank" rel="noopener noreferrer">${key}
+                                </a></span>
                         </li>`;
                     }
 
@@ -142,7 +154,10 @@ $(document).ready(function(){
                                     alt="profile_image"
                                     class="img-thumbnail rounded-circle float-left mr-3"
                                     width="auto"></span>
-                            <span><a class="text-blurt font-weight-bold mr-3" href="https://blurt.blog/@${value}">${value}</a></span>
+                            <span>
+                                <a class="text-blurt font-weight-bold mr-3" href="https://blurt.blog/@${value}"
+                                    target="_blank" rel="noopener noreferrer">${value}
+                                </a></span>
                         </li>`;
 
                     $("#mutingResult").append(liStr);
@@ -164,7 +179,10 @@ $(document).ready(function(){
                                     alt="profile_image"
                                     class="img-thumbnail rounded-circle float-left mr-3"
                                     width="auto"></span>
-                            <span><a class="text-blurt font-weight-bold mr-3" href="https://blurt.blog/@${value}">${value}</a></span>
+                            <span>
+                                <a class="text-blurt font-weight-bold mr-3" href="https://blurt.blog/@${value}"
+                                    target="_blank" rel="noopener noreferrer">${value}
+                                </a></span>
                         </li>`;
 
                     $("#muteResult").append(liStr);
@@ -213,7 +231,8 @@ $(document).ready(function(){
                                         width="auto">
                                 </span>
                                 <span>
-                                    <a class="text-blurt font-weight-bold mr-3" href="https://blurt.blog/@${value.delegator}">
+                                    <a class="text-blurt font-weight-bold mr-3" href="https://blurt.blog/@${value.delegator}"
+                                        target="_blank" rel="noopener noreferrer">
                                         ${value.delegator}</a>
                                 </span>
                             </div>
@@ -251,7 +270,8 @@ $(document).ready(function(){
                                         width="auto">
                                 </span>
                                 <span>
-                                    <a class="text-blurt font-weight-bold mr-3" href="https://blurt.blog/@${value.delegatee}">
+                                    <a class="text-blurt font-weight-bold mr-3" href="https://blurt.blog/@${value.delegatee}"
+                                        target="_blank" rel="noopener noreferrer">
                                         ${value.delegatee}</a>
                                 </span>
                             </div>

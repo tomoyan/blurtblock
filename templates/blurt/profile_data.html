@@ -46,7 +46,8 @@
                 <h1 class="display-4">Blurt Profile:
                     <u>
                         <a href="https://blurt.blog/@{{ username }}"
-                        class="bg-blurt text-white">{{ username }}</a>
+                        class="bg-blurt text-white"
+                        target="_blank" rel="noopener noreferrer">{{ username }}</a>
                     </u>
                     <img src="https://images.blurt.blog/u/{{ username }}/avatar"
                             onerror="this.onerror=null;
@@ -247,7 +248,8 @@
                     <ul class="list-group pb-3">
                         {% for link in data['permlinks'] %}
                             <li class="list-group-item">
-                                <a class="text-blurt" href="https://blurt.blog/{{ link }}">{{ link }}</a>
+                                <a class="text-blurt" href="https://blurt.blog/{{ link }}"
+                                target="_blank" rel="noopener noreferrer">{{ link }}</a>
                             </li>
                         {% endfor %}
                     </ul>
