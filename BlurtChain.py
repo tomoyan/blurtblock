@@ -25,8 +25,8 @@ class BlurtChain:
             # 'https://api.blurt.blog',
             # 'https://api.blurt.tools',
             # 'https://api.blurtworld.com',
-            'https://rpc.blurtworld.com',
             'https://rpc.blurt.buzz',
+            'https://rpc.blurtworld.com',
             'https://rpc.blurt.world',
             'https://blurtd.privex.io'
         ]
@@ -247,6 +247,9 @@ class BlurtChain:
             'producer_day': f'{0.0:.3f}',
             'producer_week': f'{0.0:.3f}',
             # 'producer_month': f'{0.0:.3f}',
+            'total_day': f'{0.0:.3f}',
+            'total_week': f'{0.0:.3f}',
+            # 'total_month': f'{0.0:.3f}',
         }
 
         if self.username:
@@ -282,6 +285,17 @@ class BlurtChain:
             # data['author_month'] = month_rewards['author']
             # data['curation_month'] = month_rewards['curation']
             # data['producer_month'] = month_rewards['producer']
+
+            # total rewards
+            data['total_day'] = float(day_rewards['author']) + \
+                float(day_rewards['curation']) + \
+                float(day_rewards['producer'])
+            data['total_day'] = f"{data['total_day']:.3f}"
+
+            data['total_week'] = float(week_rewards['author']) + \
+                float(week_rewards['curation']) + \
+                float(week_rewards['producer'])
+            data['total_week'] = f"{data['total_week']:.3f}"
 
         return data
 
