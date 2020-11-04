@@ -10,6 +10,7 @@
 
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}"> -->
         <link rel="stylesheet" href="{{ url_for('static', filename='css/blurt_style.css') }}">
 
         <!-- chartjs -->
@@ -27,7 +28,8 @@
         <script src="{{ url_for('static', filename='js/jquery-3.5.1.min.js') }}"></script>
 
         <!-- fontawesome kit -->
-        <script src="https://kit.fontawesome.com/7933aa8507.js" crossorigin="anonymous"></script>
+        <script src="{{ url_for('static', filename='js/fontawesome.js') }}"></script>
+        <!-- <script src="https://kit.fontawesome.com/7933aa8507.js" crossorigin="anonymous"></script> -->
 
         <!-- Primary Meta Tags -->
         <title>BlurtBlock - Blurt Profile Information</title>
