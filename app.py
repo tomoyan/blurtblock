@@ -8,6 +8,7 @@ from flask import Flask, render_template, redirect, request, flash, jsonify
 from config import Config
 from forms import UserNameForm
 from markupsafe import escape
+from flask_talisman import Talisman
 
 import BlurtChain as BC
 
@@ -15,9 +16,13 @@ import BlurtChain as BC
 app = Flask(__name__)
 app.config.from_object(Config)
 
+# Forces all connects to https, unless running with debug enabled.
+talisman = Talisman(app)
+talisman.content_security_policy_report_only = True
 
-# This handles 404 error
+
 @app.errorhandler(404)
+# This handles 404 error
 def page_not_found(e):
     return render_template('404.html')
 

@@ -10,6 +10,7 @@ Dumper==1.2.0
 ecdsa==0.15
 Events==0.3
 Flask==1.1.2
+flask-talisman==0.7.0
 Flask-WTF==0.14.3
 future==0.18.2
 gunicorn==20.0.4
