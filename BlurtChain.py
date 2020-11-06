@@ -8,8 +8,6 @@ from datetime import datetime, timedelta
 from statistics import mean
 import random
 from functools import lru_cache
-# import logging
-# from dumper import dump
 
 
 class BlurtChain:
@@ -22,13 +20,11 @@ class BlurtChain:
         self.account = None
         self.witness = 0
         self.nodes = [
-            # 'https://api.blurt.blog',
-            # 'https://api.blurt.tools',
-            # 'https://api.blurtworld.com',
             'https://rpc.blurt.buzz',
+            'https://blurtd.privex.io',
             'https://rpc.blurtworld.com',
             'https://rpc.blurt.world',
-            'https://blurtd.privex.io'
+            # 'https://api.softmetal.xyz',
         ]
         random.shuffle(self.nodes)
 

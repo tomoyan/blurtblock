@@ -1,9 +1,3 @@
-# from beem.account import Account
-# from beem.amount import Amount
-# from beem.instance import set_shared_blockchain_instance
-# from datetime import datetime, timedelta
-# import logging
-
 from flask import Flask, render_template, redirect, request, flash, jsonify
 from config import Config
 from forms import UserNameForm
@@ -18,6 +12,14 @@ app = Flask(__name__)
 app.config.from_object(Config)
 
 # Forces all connects to https, unless running with debug enabled.
+# csp = {
+#     'default-src': '\'self\'',
+#     'img-src': '*',
+#     'style-src': '*',
+#     'connect-src': '*',
+#     'force_https': 'False'
+# }
+# talisman = Talisman(app, content_security_policy=csp)
 talisman = Talisman(app)
 talisman.content_security_policy_report_only = True
 
@@ -33,8 +35,6 @@ def page_not_found(e):
 #     return render_template('index.html')
 
 
-# @app.route('/blurt', methods=['GET', 'POST'])
-# @app.route('/blurt/', methods=['GET', 'POST'])
 @app.route('/', methods=['GET', 'POST'])
 def blurt():
     form = UserNameForm(request.form)
@@ -50,8 +50,6 @@ def blurt():
     return render_template('blurt/profile.html', form=form)
 
 
-# @app.route('/blurt/<username>')
-# @app.route('/blurt/<username>/')
 @app.route('/<username>')
 @app.route('/<username>/')
 def blurt_profile_data(username=None):
@@ -91,6 +89,8 @@ def stats():
     ops = [
         'labels', 'total', 'vote',
         'comment', 'account_create',
+        'transfer_to_vesting',
+        'withdraw_vesting'
     ]
 
     for op in ops:
@@ -111,7 +111,7 @@ def stats():
                 stats_data[op].append(process_data(op, d[data]))
 
     stats_data['labels'] = labels
-    print(stats_data)
+    # print(stats_data)
 
     return render_template('blurt/stats.html', data=stats_data)
 
@@ -120,19 +120,17 @@ def stats():
 @app.route('/api/blurt/follower/<username>')
 @app.route('/api/blurt/follower/<username>/')
 def blurt_follower(username=None):
-    # print('BLURT_FOLLOWER_DEF')
     data = {}
     if username:
         blurt = BC.BlurtChain(username)
         data = blurt.get_follower()
-        # print('BLURT_FOLLOWER', vars(blurt))
+
     return jsonify(data)
 
 
 @app.route('/api/blurt/following/<username>')
 @app.route('/api/blurt/following/<username>/')
 def blurt_following(username=None):
-    # print('BLURT_FOLLOWING_DEF')
     data = {}
     if username:
         blurt = BC.BlurtChain(username)

@@ -131,6 +131,22 @@
                         fill: false,
                         data: {{ data['total'] | tojson }},
                         yAxisID: 'y-axis-4'
+                    }, {
+                        label: 'POWERUP',
+                        borderColor: 'white',
+                        borderWidth: 2,
+                        backgroundColor: '#00A0FF',
+                        fill: false,
+                        data: {{ data['transfer_to_vesting'] | tojson }},
+                        yAxisID: 'y-axis-5'
+                    }, {
+                        label: 'POWERDOWN',
+                        borderColor: 'white',
+                        borderWidth: 2,
+                        backgroundColor: '#FF314B',
+                        fill: false,
+                        data: {{ data['withdraw_vesting'] | tojson }},
+                        yAxisID: 'y-axis-5'
                     }]
                 };
 
@@ -176,6 +192,18 @@
                                     display: false,
                                     position: 'right',
                                     id: 'y-axis-4',
+                                    ticks: { 'beginAtZero': true },
+                                }, {
+                                    type: 'linear',
+                                    display: false,
+                                    position: 'right',
+                                    id: 'y-axis-5',
+                                    ticks: { 'beginAtZero': true },
+                                }, {
+                                    type: 'linear',
+                                    display: false,
+                                    position: 'right',
+                                    id: 'y-axis-6',
                                     ticks: { 'beginAtZero': true },
                                 }],
                             },
