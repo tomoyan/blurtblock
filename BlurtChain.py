@@ -8,6 +8,7 @@ from datetime import datetime, timedelta
 from statistics import mean
 import random
 from functools import lru_cache
+import ast
 
 
 class BlurtChain:
@@ -332,3 +333,50 @@ class BlurtChain:
         }
 
         return data
+
+    def process_data(self, count_type, data):
+        result = 0
+
+        if count_type in data:
+            result = data[count_type]
+
+        return result
+
+    @lru_cache(maxsize=32)
+    def get_stats(self):
+        stats_file = 'stats.txt'
+        stats_data = {}
+        labels = []
+
+        # get counts from these operations
+        ops = [
+            'labels', 'total', 'vote',
+            'comment', 'account_create',
+            'transfer_to_vesting',
+            'withdraw_vesting',
+            # 'powerup', 'powerdown',
+        ]
+
+        for op in ops:
+            stats_data[op] = []
+
+        # read stats file
+        with open(stats_file) as f:
+            stats = f.read()
+
+        # convert stats as a dictionary
+        d = ast.literal_eval(stats)
+
+        # go through stats dictinary
+        # and count number of operations
+        for data in d:
+            if data == 'Start Block' or data == 'Stop Block':
+                continue
+            else:
+                labels.append(data)
+                for op in ops:
+                    stats_data[op].append(self.process_data(op, d[data]))
+
+        stats_data['labels'] = labels
+
+        return stats_data

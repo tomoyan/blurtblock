@@ -90,10 +90,10 @@
                 </div>
             </div>
 
-            <!-- stats chart goes into canvas -->
             <div style="width:100%;">
-            <canvas id="canvas"></canvas>
+                <canvas id="bar"></canvas>
             </div>
+
 
             <script>
                 var progress = document.getElementById('animationProgress');
@@ -108,7 +108,7 @@
                         data: {{ data['vote'] | tojson }},
                         yAxisID: 'y-axis-1',
                     }, {
-                        label: 'ACCOUNT_CREATE',
+                        label: 'ACCOUNT CREATE',
                         borderColor: 'white',
                         borderWidth: 2,
                         backgroundColor: '#6376A8',
@@ -132,7 +132,7 @@
                         data: {{ data['total'] | tojson }},
                         yAxisID: 'y-axis-4'
                     }, {
-                        label: 'POWERUP',
+                        label: 'POWERUP COUNT',
                         borderColor: 'white',
                         borderWidth: 2,
                         backgroundColor: '#00A0FF',
@@ -140,13 +140,13 @@
                         data: {{ data['transfer_to_vesting'] | tojson }},
                         yAxisID: 'y-axis-5'
                     }, {
-                        label: 'POWERDOWN',
+                        label: 'POWERDOWN COUNT',
                         borderColor: 'white',
                         borderWidth: 2,
                         backgroundColor: '#FF314B',
                         fill: false,
                         data: {{ data['withdraw_vesting'] | tojson }},
-                        yAxisID: 'y-axis-5'
+                        yAxisID: 'y-axis-6'
                     }]
                 };
 
@@ -154,7 +154,7 @@
                     // hide loading spinners
                     $('#mdb-preloader').delay(100).fadeOut(500);
 
-                    var ctx = document.getElementById('canvas').getContext('2d');
+                    var ctx = document.getElementById('bar').getContext('2d');
                     window.myLine = new Chart(ctx, {
                         type: 'bar',
                         data: chartData,
@@ -207,12 +207,11 @@
                                     ticks: { 'beginAtZero': true },
                                 }],
                             },
-        legend: {
-            labels: {
-                // This more specific font property overrides the global property
-                fontColor: 'black'
-            }
-        }
+                            legend: {
+                                labels: {
+                                    fontColor: 'black'
+                                }
+                            }
                         }
                     });
                 };

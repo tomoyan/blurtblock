@@ -53,7 +53,6 @@ def blurt():
 @app.route('/<username>')
 @app.route('/<username>/')
 def blurt_profile_data(username=None):
-    # print(f'BLURT_PROFILE_DATA USERNAME: {username}')
     data = {}
     if username:
         username = escape(username).lower()
@@ -66,54 +65,25 @@ def blurt_profile_data(username=None):
         data['count_data'] = vote_data['count_data']
         data['weight_data'] = vote_data['weight_data']
         data['total_votes'] = vote_data['total_votes']
-        # print(f'GET_ACCOUNT_INFO: {data}')
+
     return render_template('blurt/profile_data.html',
                            username=blurt.username, data=data)
 
 
-def process_data(count_type, data):
-    result = 0
-
-    if count_type in data:
-        result = data[count_type]
-
-    return result
-
-
-@app.route('/stats')
-@app.route('/stats/')
+@app.route('/blurt/stats')
+@app.route('/blurt/stats/')
 def stats():
-    stats_file = 'stats.txt'
-    stats_data = {}
-    labels = []
-    ops = [
-        'labels', 'total', 'vote',
-        'comment', 'account_create',
-        'transfer_to_vesting',
-        'withdraw_vesting'
-    ]
-
-    for op in ops:
-        stats_data[op] = []
-
-    with open(stats_file) as f:
-        stats = f.read()
-
-    # reconstructing the stats as a dictionary
-    d = ast.literal_eval(stats)
-    for data in d:
-        if data == 'Start Block' or data == 'Stop Block':
-            continue
-        else:
-            labels.append(data)
-
-            for op in ops:
-                stats_data[op].append(process_data(op, d[data]))
-
-    stats_data['labels'] = labels
+    blurt = BC.BlurtChain(username=None)
+    stats_data = blurt.get_stats()
     # print(stats_data)
 
     return render_template('blurt/stats.html', data=stats_data)
+
+
+@app.route('/blurt/upvote')
+@app.route('/blurt/upvote/')
+def upvote():
+    return render_template('blurt/upvote.html')
 
 
 # BLURT API
