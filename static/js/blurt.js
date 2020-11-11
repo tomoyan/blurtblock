@@ -479,6 +479,37 @@ $(document).ready(function(){
                                 </div>
                               </div>
                             </div>
+                        </li>
+                        <li class="list-group-item" data-field=>
+                            <div class="container">
+                              <div class="row">
+                                <div class="col-sm text-left">
+                                    <span>
+                                        Last 14 Days
+                                    </span>
+                                </div>
+                                <div class="col-sm text-right">
+                                    <span>
+                                        ${data['author_week2']} BP
+                                    </span>
+                                </div>
+                                <div class="col-sm text-right">
+                                    <span>
+                                        ${data['curation_week2']} BP
+                                    </span>
+                                </div>
+                                <div class="col-sm text-right">
+                                    <span>
+                                        ${data['producer_week2']} BP
+                                    </span>
+                                </div>
+                                <div class="col-sm text-right">
+                                    <span>
+                                        ${data['total_week2']} BP
+                                    </span>
+                                </div>
+                              </div>
+                            </div>
                         </li>`;
                     $("#rewardResult").html(liStr);
                }

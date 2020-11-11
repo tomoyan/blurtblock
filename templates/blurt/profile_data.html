@@ -138,25 +138,25 @@
                     <!-- follower nav -->
                     <a class="nav-item nav-link" id="nav-follower-tab" data-toggle="tab" href="#nav-follower"
                         role="tab" aria-controls="nav-follower" aria-selected="false">
-                        Follower <span id="followerSize" class="badge badge-secondary">0</span>
+                        Follower <span id="followerSize" class="badge badge-secondary"></span>
                     </a>
 
                     <!-- following nav -->
                     <a class="nav-item nav-link" id="nav-following-tab" data-toggle="tab" href="#nav-following"
                         role="tab" aria-controls="nav-following" aria-selected="false">
-                        Following <span id="followingSize" class="badge badge-secondary">0</span>
+                        Following <span id="followingSize" class="badge badge-secondary"></span>
                     </a>
 
                     <!-- mute nav -->
                     <a class="nav-item nav-link" id="nav-mute-tab" data-toggle="tab" href="#nav-mute"
                         role="tab" aria-controls="nav-mute" aria-selected="false">
-                        Mute <span id="muteSize" class="badge badge-secondary">0</span>
+                        Mute <span id="muteSize" class="badge badge-secondary"></span>
                     </a>
 
                     <!-- delegation nav -->
                     <a class="nav-item nav-link" id="nav-delegation-tab" data-toggle="tab" href="#nav-delegation"
                         role="tab" aria-controls="nav-delegation" aria-selected="false">
-                        Delegation <span id="delegationSize" class="badge badge-secondary">0</span>
+                        Delegation <span id="delegationSize" class="badge badge-secondary"></span>
                     </a>
 
                 </div>
@@ -166,7 +166,83 @@
             <div class="tab-content" id="nav-tabContent">
 
                 <div class="tab-pane fade show active" id="nav-main" role="tabpanel" aria-labelledby="nav-main-tab">
-                    <h1 class="display-4">Upvote Activity (7days) Upvoted# {{ data['total_votes'] }}</h1>
+
+                    <div id="accordion">
+                        <div class="card">
+                            <div class="card-header" id="headingOne">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-blurt btn-block collapsed"
+                                        data-toggle="collapse" data-target="#collapseOne"
+                                        aria-expanded="true" aria-controls="collapseOne">
+                                        <h1 class="display-4">Upvoted Post by users</h1>
+                                    </button>
+                                </h5>
+                            </div>
+
+                            <div id="collapseOne" class="collapse"
+                                aria-labelledby="headingOne" data-parent="#accordion">
+                                <div class="card-body">
+                                        {% if data['upvotes'] %}
+                                        <ul class="list-group pb-3">
+                                            {% for row in data['upvotes'] %}
+                                                <li class="list-group-item">
+                                                    {{ row['timestamp'] }}
+                                                    <a class="text-blurt"
+                                                        href="https://blurtblock.herokuapp.com/{{ row['voter'] }}"
+                                                        target="_blank" rel="noopener noreferrer">{{ row['voter'] }}
+                                                    </a>
+                                                    voted {{ row['weight'] }}% on
+                                                    <a class="text-blurt"
+                                                        href="https://blurt.blog/{{ row['permlink'] }}"
+                                                        target="_blank" rel="noopener noreferrer">{{ row['permlink'] }}
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                        {% else %}
+                                        <ul class="list-group pb-3">
+                                            <li class="list-group-item"> Not Upvoted -- yet </li>
+                                        </ul>
+                                        {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header" id="headingTwo">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-blurt btn-block collapsed"
+                                        data-toggle="collapse" data-target="#collapseTwo"
+                                        aria-expanded="false" aria-controls="collapseTwo">
+                                        <h1 class="display-4">Upvoted Post by {{ username }}</h1>
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapseTwo" class="collapse"
+                                aria-labelledby="headingTwo" data-parent="#accordion">
+                                <div class="card-body">
+                                        {% if data['permlinks'] %}
+                                        <ul class="list-group pb-3">
+                                            {% for row in data['permlinks'] %}
+                                                <li class="list-group-item">
+                                                    {{ row['timestamp'] }}
+                                                    <a class="text-blurt" href="https://blurt.blog/{{ row['permlink'] }}"
+                                                    target="_blank" rel="noopener noreferrer">{{ row['permlink'] }}</a>
+                                                    ({{ row['weight'] }}%)
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                        {% else %}
+                                        <ul class="list-group pb-3">
+                                            <li class="list-group-item"> No Upvoted Post -- yet </li>
+                                        </ul>
+                                        {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h1 class="display-4">Upvote Activity (7days) - Upvoted# {{ data['total_votes'] }}</h1>
 
                     <!-- chart loading spinner -->
                     <div id="mdb-preloader" class="text-center">
@@ -263,21 +339,6 @@
                         {% endblock %}
                     </div>
 
-                    <h1 class="display-4">Upvoted Post by {{ username }}</h1>
-                    {% if data['permlinks'] %}
-                    <ul class="list-group pb-3">
-                        {% for link in data['permlinks'] %}
-                            <li class="list-group-item">
-                                <a class="text-blurt" href="https://blurt.blog/{{ link }}"
-                                target="_blank" rel="noopener noreferrer">{{ link }}</a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                    {% else %}
-                    <ul class="list-group pb-3">
-                        <li class="list-group-item"> No Upvoted Post -- yet </li>
-                    </ul>
-                    {% endif %}
                 </div>
 
                 <!-- List of Reward -->

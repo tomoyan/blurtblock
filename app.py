@@ -62,6 +62,7 @@ def blurt_profile_data(username=None):
         vote_data = blurt.get_vote_history()
         data['labels'] = vote_data['labels']
         data['permlinks'] = vote_data['permlinks']
+        data['upvotes'] = vote_data['upvotes']
         data['count_data'] = vote_data['count_data']
         data['weight_data'] = vote_data['weight_data']
         data['total_votes'] = vote_data['total_votes']
@@ -75,7 +76,6 @@ def blurt_profile_data(username=None):
 def stats():
     blurt = BC.BlurtChain(username=None)
     stats_data = blurt.get_stats()
-    # print(stats_data)
 
     return render_template('blurt/stats.html', data=stats_data)
 

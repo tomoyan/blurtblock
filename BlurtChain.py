@@ -119,6 +119,7 @@ class BlurtChain:
         result = {}
         labels = []
         permlinks = []
+        upvotes = []
         count_data = []
         weight_data = []
         total_votes = 0
@@ -131,8 +132,16 @@ class BlurtChain:
             # Count how many times voted in 7 days
             for data in history:
                 if self.username == data["voter"]:
+                    timestamp = datetime.strptime(
+                        data['timestamp'], '%Y-%m-%dT%H:%M:%S')
                     permlink = f'@{data["author"]}/{data["permlink"]}'
-                    permlinks.append(permlink)
+                    weight = data['weight'] * 0.01
+                    link_data = {
+                        'timestamp': timestamp,
+                        'permlink': permlink,
+                        'weight': weight,
+                    }
+                    permlinks.append(link_data)
 
                     if data["author"] in votes.keys():
                         votes[data["author"]]['count'] += 1
@@ -144,7 +153,18 @@ class BlurtChain:
                             'weight': [data["weight"]],
                         }
                 else:
-                    next
+                    timestamp = datetime.strptime(
+                        data['timestamp'], '%Y-%m-%dT%H:%M:%S')
+                    voter = data['voter']
+                    permlink = f'@{data["author"]}/{data["permlink"]}'
+                    weight = data['weight'] * 0.01
+                    upvote_data = {
+                        'timestamp': timestamp,
+                        'voter': voter,
+                        'permlink': permlink,
+                        'weight': weight,
+                    }
+                    upvotes.append(upvote_data)
 
             for key, value in votes.items():
                 labels.append(key)
@@ -157,7 +177,8 @@ class BlurtChain:
         result['total_votes'] = total_votes
 
         result['labels'] = labels
-        result['permlinks'] = sorted(permlinks)
+        result['permlinks'] = permlinks
+        result['upvotes'] = upvotes
         result['count_data'] = count_data
         result['weight_data'] = weight_data
 
@@ -237,21 +258,26 @@ class BlurtChain:
         data = {
             'author_day': f'{0.0:.3f}',
             'author_week': f'{0.0:.3f}',
+            'author_week2': f'{0.0:.3f}',
             # 'author_month': f'{0.0:.3f}',
             'curation_day': f'{0.0:.3f}',
             'curation_week': f'{0.0:.3f}',
+            'curation_week2': f'{0.0:.3f}',
             # 'curation_month': f'{0.0:.3f}',
             'producer_day': f'{0.0:.3f}',
             'producer_week': f'{0.0:.3f}',
+            'producer_week2': f'{0.0:.3f}',
             # 'producer_month': f'{0.0:.3f}',
             'total_day': f'{0.0:.3f}',
             'total_week': f'{0.0:.3f}',
+            'total_week2': f'{0.0:.3f}',
             # 'total_month': f'{0.0:.3f}',
         }
 
         if self.username:
             day = datetime.utcnow() - timedelta(days=1)
             week = datetime.utcnow() - timedelta(days=7)
+            week2 = datetime.utcnow() - timedelta(days=14)
             # month = datetime.utcnow() - timedelta(days=30)
 
             # get account history
@@ -262,6 +288,9 @@ class BlurtChain:
             week_history = self.account.history_reverse(
                 stop=week, only_ops=ops)
 
+            week2_history = self.account.history_reverse(
+                stop=week2, only_ops=ops)
+
             # month_history = self.account.history_reverse(
             #     stop=month, only_ops=ops)
 
@@ -271,13 +300,19 @@ class BlurtChain:
             data['curation_day'] = day_rewards['curation']
             data['producer_day'] = day_rewards['producer']
 
-            # 7 day rewards
+            # 7 days rewards
             week_rewards = self.rewards(week_history)
             data['author_week'] = week_rewards['author']
             data['curation_week'] = week_rewards['curation']
             data['producer_week'] = week_rewards['producer']
 
-            # 30 day rewards
+            # 14 days rewards
+            week2_rewards = self.rewards(week2_history)
+            data['author_week2'] = week2_rewards['author']
+            data['curation_week2'] = week2_rewards['curation']
+            data['producer_week2'] = week2_rewards['producer']
+
+            # 30 days rewards
             # month_rewards = self.rewards(month_history)
             # data['author_month'] = month_rewards['author']
             # data['curation_month'] = month_rewards['curation']
@@ -293,6 +328,16 @@ class BlurtChain:
                 float(week_rewards['curation']) + \
                 float(week_rewards['producer'])
             data['total_week'] = f"{data['total_week']:.3f}"
+
+            data['total_week2'] = float(week2_rewards['author']) + \
+                float(week2_rewards['curation']) + \
+                float(week2_rewards['producer'])
+            data['total_week2'] = f"{data['total_week2']:.3f}"
+
+            # data['total_month'] = float(month_rewards['author']) + \
+            #     float(month_rewards['curation']) + \
+            #     float(month_rewards['producer'])
+            # data['total_month'] = f"{data['total_month']:.3f}"
 
         return data
 
