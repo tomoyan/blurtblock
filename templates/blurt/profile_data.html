@@ -114,7 +114,11 @@
 
                     <!-- API calls to backend-->
                     <script type="text/javascript">
-                       document.reward_api = '/api/blurt/reward/{{ username }}';
+                       // 1, 7, 30 day rewards api
+                       document.rewardOne_api = '/api/blurt/reward/{{ username }}/1';
+                       document.rewardSeven_api = '/api/blurt/reward/{{ username }}/7';
+                       document.rewardThirty_api = '/api/blurt/reward/{{ username }}/30';
+
                        document.follower_api = '/api/blurt/follower/{{ username }}';
                        document.following_api = '/api/blurt/following/{{ username }}';
                        document.mute_api = '/api/blurt/mute/{{ username }}';
@@ -124,15 +128,18 @@
                     </script>
 
                     <!-- reward nav -->
-                    <a class="nav-item nav-link" id="nav-reward-tab" data-toggle="tab" href="#nav-reward"
+<!--                     <a class="nav-item nav-link" id="nav-reward-tab" data-toggle="tab" href="#nav-reward"
                         role="tab" aria-controls="nav-reward" aria-selected="false">
                         Rewards
                         <span id="rewardSize">
-                            <!-- loading spinner -->
-<!--                             <div class="spinner-grow spinner-grow-sm text-secondary" role="status">
-                                <span class="sr-only">Loading...</span>
-                            </div> -->
                         </span>
+                    </a> -->
+
+                    <!-- new reward nav -->
+                    <a class="nav-item nav-link" id="rewards-tab" data-toggle="tab" href="#rewards"
+                        role="tab" aria-controls="rewards" aria-selected="false">
+                        Rewards
+                        <span id="reward1Size"></span>
                     </a>
 
                     <!-- follower nav -->
@@ -267,7 +274,6 @@
                                 class="img-fluid"
                                 alt="dancing_bear">
                         </div>
-                        <!-- <img src="{{ url_for('static', filename='images/dancing_bear.gif') }}"> -->
                     </div>
 
                     <div class="row">
@@ -282,7 +288,7 @@
                                     label: 'Vote Count',
                                     borderColor: window.chartColors.yellow,
                                     // backgroundColor: window.chartColors.yellow,
-                                    backgroundColor: '#EDE9D0',
+                                    backgroundColor: '#F9F871',
                                     fill: false,
                                     data: {{ data['count_data'] }},
                                     yAxisID: 'y-axis-1',
@@ -290,7 +296,7 @@
                                     label: 'Vote Weight',
                                     borderColor: window.chartColors.blue,
                                     // backgroundColor: window.chartColors.blue,
-                                    backgroundColor: '#765491',
+                                    backgroundColor: '#5EC2C2',
                                     fill: false,
                                     data: {{ data['weight_data'] }},
                                     yAxisID: 'y-axis-2'
@@ -342,14 +348,13 @@
                 </div>
 
                 <!-- List of Reward -->
-                <div class="tab-pane fade" id="nav-reward" role="tabpanel" aria-labelledby="nav-reward-tab">
+<!--                 <div class="tab-pane fade" id="nav-reward" role="tabpanel" aria-labelledby="nav-reward-tab">
                     <h1 class="display-4">Reward Summary</h1>
                     <div class="row">
                         <div class="col">
                             <div class="card mb-3">
                                 <div class="card-body pt-1 pb-1">
-                                    <ul id="rewardResult"class="list-group list-group-flush">
-                                        <!-- reward loading spinner -->
+                                    <ul id="rewardResult" class="list-group list-group-flush">
                                         <div id="mdb-preloader" class="text-center">
                                             <div class="spinner-grow text-blurt m-3" role="status">
                                                 <span class="sr-only">Loading...</span>
@@ -374,7 +379,181 @@
                                                     alt="loading">
                                             </div>
                                         </div>
-                                        <!-- reward list goes in here -->
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+
+                <!-- New List of Rewards -->
+                <div class="tab-pane fade" id="rewards" role="tabpanel" aria-labelledby="rewards-tab">
+                    <h1 class="display-4">Reward Summary</h1>
+                    <div class="row">
+                        <div class="col">
+                            <div class="card mb-3">
+                                <div class="card-body pt-1 pb-1">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item" data-field="">
+                                            <div class="container">
+                                              <div class="row">
+                                                <div class="col-sm text-left">
+                                                    <span class="font-weight-bold">
+                                                        Duration
+                                                    </span>
+                                                </div>
+                                                <div class="col-sm text-right">
+                                                    <span class="font-weight-bold">
+                                                        Author BP
+                                                    </span>
+                                                </div>
+                                                <div class="col-sm text-right">
+                                                    <span class="font-weight-bold">
+                                                        Curation BP
+                                                    </span>
+                                                </div>
+                                                <div class="col-sm text-right">
+                                                    <span class="font-weight-bold">
+                                                        Producer BP
+                                                    </span>
+                                                </div>
+                                                <div class="col-sm text-right">
+                                                    <span class="font-weight-bold">
+                                                        Total BP
+                                                    </span>
+                                                </div>
+                                              </div>
+                                            </div>
+                                        </li>
+                                        <!-- 24 hour rewards -->
+                                        <li class="list-group-item" data-field="">
+                                            <div class="container">
+                                              <div class="row">
+                                                <div class="col-sm text-left">
+                                                    <span>
+                                                        Last 24 Hours
+                                                    </span>
+                                                </div>
+                                                <div class="col-sm text-right">
+                                                    <span id="authorOne">
+                                                        <div class="spinner-border spinner-border-sm text-blurt" role="status">
+                                                            <span class="sr-only">Loading...</span>
+                                                        </div>
+                                                    </span>
+                                                </div>
+                                                <div class="col-sm text-right">
+                                                    <span id="curationOne">
+                                                        <div class="spinner-grow spinner-grow-sm text-blurt" role="status">
+                                                            <span class="sr-only">Loading...</span>
+                                                        </div>
+                                                    </span>
+                                                </div>
+                                                <div class="col-sm text-right">
+                                                    <span id="producerOne">
+                                                        <div class="spinner-border spinner-border-sm text-blurt" role="status">
+                                                            <span class="sr-only">Loading...</span>
+                                                        </div>
+                                                    </span>
+                                                </div>
+                                                <div class="col-sm text-right">
+                                                    <span id="totalOne">
+                                                        <div class="spinner-grow spinner-grow-sm text-blurt" role="status">
+                                                            <span class="sr-only">Loading...</span>
+                                                        </div>
+                                                    </span>
+                                                </div>
+                                              </div>
+                                            </div>
+                                        </li>
+                                        <!-- 7 days rewards -->
+                                        <li class="list-group-item" data-field="">
+                                            <div class="container">
+                                              <div class="row">
+                                                <div class="col-sm text-left">
+                                                    <span>
+                                                        Last 7 Days
+                                                    </span>
+                                                </div>
+                                                <div class="col-sm text-right">
+                                                    <span id="authorSeven">
+                                                        <div class="spinner-grow spinner-grow-sm text-blurt" role="status">
+                                                            <span class="sr-only">Loading...</span>
+                                                        </div>
+                                                    </span>
+                                                </div>
+                                                <div class="col-sm text-right">
+                                                    <span id="curationSeven">
+                                                        <div class="spinner-border spinner-border-sm text-blurt" role="status">
+                                                            <span class="sr-only">Loading...</span>
+                                                        </div>
+                                                    </span>
+                                                </div>
+                                                <div class="col-sm text-right">
+                                                    <span id="producerSeven">
+                                                        <div class="spinner-grow spinner-grow-sm text-blurt" role="status">
+                                                            <span class="sr-only">Loading...</span>
+                                                        </div>
+                                                    </span>
+                                                </div>
+                                                <div class="col-sm text-right">
+                                                    <span id="totalSeven">
+                                                        <div class="spinner-border spinner-border-sm text-blurt" role="status">
+                                                            <span class="sr-only">Loading...</span>
+                                                        </div>
+                                                    </span>
+                                                </div>
+                                              </div>
+                                            </div>
+                                        </li>
+                                        <!-- 14 days rewards -->
+                                        <li class="list-group-item" data-field="">
+                                            <div class="container">
+                                              <div class="row">
+                                                <div class="col-sm text-left">
+                                                    <span>
+                                                        Last 30 Days
+                                                    </span>
+                                                </div>
+                                                <div class="col-sm text-right">
+                                                    <span id="authorThirty">
+                                                        <div class="spinner-border spinner-border-sm text-blurt" role="status">
+                                                            <span class="sr-only">Loading...</span>
+                                                        </div>
+                                                    </span>
+                                                </div>
+                                                <div class="col-sm text-right">
+                                                    <span id="curationThirty">
+                                                        <div class="spinner-grow spinner-grow-sm text-blurt" role="status">
+                                                            <span class="sr-only">Loading...</span>
+                                                        </div>
+                                                    </span>
+                                                </div>
+                                                <div class="col-sm text-right">
+                                                    <span id="producerThirty">
+                                                        <div class="spinner-border spinner-border-sm text-blurt" role="status">
+                                                            <span class="sr-only">Loading...</span>
+                                                        </div>
+                                                    </span>
+                                                </div>
+                                                <div class="col-sm text-right">
+                                                    <span id="totalThirty">
+                                                        <div class="spinner-grow spinner-grow-sm text-blurt" role="status">
+                                                            <span class="sr-only">Loading...</span>
+                                                        </div>
+                                                    </span>
+                                                </div>
+                                              </div>
+                                              <span id="loadingImage">
+                                              <div class="text-center">
+                                                Loading data...
+                                                <img
+                                                    src="{{ url_for('static', filename='images/loading.gif') }}"
+                                                    class="rounded"
+                                                    alt="loading">
+                                              </div>
+                                              </span>
+                                            </div>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>

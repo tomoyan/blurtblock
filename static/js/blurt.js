@@ -10,7 +10,6 @@ $(document).ready(function(){
                     size = 0;
                 }
                 $("#followerSize").html(size);
-                // console.log(Object.keys(data).length);
 
                 // liStr holds html list
                 var liStr = ``;
@@ -20,7 +19,7 @@ $(document).ready(function(){
                     $("#followerResult").html(liStr);
                 }
                 else {
-                   $("#followerResult").html(" ");
+                   $("#followerResult").empty();
                    $.each(data, function(key, data){
                         if (data) {
                         liStr = `
@@ -85,7 +84,6 @@ $(document).ready(function(){
                     size = 0;
                 }
                 $("#followingSize").html(size);
-                // console.log(Object.keys(data).length);
 
                 // liStr holds html list
                 var liStr = ``;
@@ -95,7 +93,7 @@ $(document).ready(function(){
                     $("#followingResult").html(liStr);
                 }
                 else {
-                   $("#followingResult").html(" ");
+                   $("#followingResult").empty();
                    $.each(data, function(key, data){
                         if (data) {
                         liStr = `
@@ -161,8 +159,6 @@ $(document).ready(function(){
                 }
                 $("#muteSize").html(size);
                 // console.log(data['muter']);
-                // console.log(data['muting']);
-                // console.log(Object.keys(data).length);
 
                 // liStr holds html list
                 var liStr = ``;
@@ -172,7 +168,7 @@ $(document).ready(function(){
                     $("#mutingResult").html(liStr);
                 }
                 else {
-                   $("#mutingResult").html(" ");
+                   $("#mutingResult").empty();
                    $.each(data['muting'], function(index, value){
                         liStr = `
                             <li class="list-group-item" data-field=>
@@ -203,7 +199,7 @@ $(document).ready(function(){
                     $("#muteResult").html(liStr);
                 }
                 else {
-                   $("#muteResult").html(" ");
+                   $("#muteResult").empty();
                    $.each(data['muter'], function(index, value){
                         liStr = `
                             <li class="list-group-item" data-field=>
@@ -257,7 +253,7 @@ $(document).ready(function(){
                     $("#incomingResult").html(liStr);
                 }
                 else {
-                   $("#incomingResult").html(" ");
+                   $("#incomingResult").empty();
                    $.each(data['incoming'], function(index, value){
                         liStr = `
                             <li class="list-group-item" data-field=>
@@ -296,7 +292,7 @@ $(document).ready(function(){
                     $("#outgoingResult").html(liStr);
                 }
                 else {
-                   $("#outgoingResult").html(" ");
+                   $("#outgoingResult").empty();
                    $.each(data['outgoing'], function(index, value){
                         liStr = `
                             <li class="list-group-item" data-field=>
@@ -335,7 +331,7 @@ $(document).ready(function(){
                     $("#expiringResult").html(liStr);
                 }
                 else {
-                   $("#expiringResult").html(" ");
+                   $("#expiringResult").empty();
                    $.each(data['expiring'], function(index, value){
                         liStr = `
                             <li class="list-group-item" data-field=>
@@ -364,157 +360,254 @@ $(document).ready(function(){
         });
     });
 
-    $("#nav-reward-tab").click(function(){
-        $.ajax(document.reward_api,
+    $("#rewards-tab").click(function(){
+        // 1 day rewards summary
+        $.ajax(document.rewardOne_api,
         {
             dataType: 'json', // type of response data
-            timeout: 60000,     // timeout milliseconds
-            success: function (data, status, xhr) {   // success callback function
-                var size = Object.keys(data).length;
-                if (size === undefined) {
-                    size = 0;
-                }
-                $("#rewardSize").html(" ");
-                // console.log(Object.keys(data).length);
+            timeout: 60000, // timeout milliseconds
+            success: function (data, status, xhr) {
+                var authorBP = ``;
+                var curationBP = ``;
+                var producerBP = ``;
+                var totalBP = ``;
 
-                // liStr holds html list
-                var liStr = ``;
                 if (jQuery.isEmptyObject(data)) {
-                    liStr = `
-                    <li class="list-group-item" data-field=>
-                        <span>No Rewards Data</span>
-                    </li>`;
+                    authorBP = `0 BP`;
+                    curationBP = `0 BP`;
+                    producerBP = `0 BP`;
+                    totalBP = `0 BP`;
                 }
                 else {
-                    liStr = `
-                        <li class="list-group-item" data-field=>
-                            <div class="container">
-                              <div class="row">
-                                <div class="col-sm text-left">
-                                    <span class="font-weight-bold">
-                                        Duration
-                                    </span>
-                                </div>
-                                <div class="col-sm text-right">
-                                    <span class="font-weight-bold">
-                                        Author BP
-                                    </span>
-                                </div>
-                                <div class="col-sm text-right">
-                                    <span class="font-weight-bold">
-                                        Curation BP
-                                    </span>
-                                </div>
-                                <div class="col-sm text-right">
-                                    <span class="font-weight-bold">
-                                        Producer BP
-                                    </span>
-                                </div>
-                                <div class="col-sm text-right">
-                                    <span class="font-weight-bold">
-                                        Total BP
-                                    </span>
-                                </div>
-                              </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item" data-field=>
-                            <div class="container">
-                              <div class="row">
-                                <div class="col-sm text-left">
-                                    <span>
-                                        Last 24 Hours
-                                    </span>
-                                </div>
-                                <div class="col-sm text-right">
-                                    <span>
-                                        ${data['author_day']} BP
-                                    </span>
-                                </div>
-                                <div class="col-sm text-right">
-                                    <span>
-                                        ${data['curation_day']} BP
-                                    </span>
-                                </div>
-                                <div class="col-sm text-right">
-                                    <span>
-                                        ${data['producer_day']} BP
-                                    </span>
-                                </div>
-                                <div class="col-sm text-right">
-                                    <span>
-                                        ${data['total_day']} BP
-                                    </span>
-                                </div>
-                              </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item" data-field=>
-                            <div class="container">
-                              <div class="row">
-                                <div class="col-sm text-left">
-                                    <span>
-                                        Last 7 Days
-                                    </span>
-                                </div>
-                                <div class="col-sm text-right">
-                                    <span>
-                                        ${data['author_week']} BP
-                                    </span>
-                                </div>
-                                <div class="col-sm text-right">
-                                    <span>
-                                        ${data['curation_week']} BP
-                                    </span>
-                                </div>
-                                <div class="col-sm text-right">
-                                    <span>
-                                        ${data['producer_week']} BP
-                                    </span>
-                                </div>
-                                <div class="col-sm text-right">
-                                    <span>
-                                        ${data['total_week']} BP
-                                    </span>
-                                </div>
-                              </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item" data-field=>
-                            <div class="container">
-                              <div class="row">
-                                <div class="col-sm text-left">
-                                    <span>
-                                        Last 14 Days
-                                    </span>
-                                </div>
-                                <div class="col-sm text-right">
-                                    <span>
-                                        ${data['author_week2']} BP
-                                    </span>
-                                </div>
-                                <div class="col-sm text-right">
-                                    <span>
-                                        ${data['curation_week2']} BP
-                                    </span>
-                                </div>
-                                <div class="col-sm text-right">
-                                    <span>
-                                        ${data['producer_week2']} BP
-                                    </span>
-                                </div>
-                                <div class="col-sm text-right">
-                                    <span>
-                                        ${data['total_week2']} BP
-                                    </span>
-                                </div>
-                              </div>
-                            </div>
-                        </li>`;
-                    $("#rewardResult").html(liStr);
-               }
+                    authorBP = `${data['author']} BP`;
+                    curationBP = `${data['curation']} BP`;
+                    producerBP = `${data['producer']} BP`;
+                    totalBP = `${data['total']} BP`;
+                }
+
+                $("#authorOne").html(authorBP);
+                $("#curationOne").html(curationBP);
+                $("#producerOne").html(producerBP);
+                $("#totalOne").html(totalBP);
+            },
+        });
+
+        // 7 day rewards summary
+        $.ajax(document.rewardSeven_api,
+        {
+            dataType: 'json', // type of response data
+            timeout: 60000, // timeout milliseconds
+            success: function (data, status, xhr) {
+                var authorBP = ``;
+                var curationBP = ``;
+                var producerBP = ``;
+                var totalBP = ``;
+
+                if (jQuery.isEmptyObject(data)) {
+                    authorBP = `0 BP`;
+                    curationBP = `0 BP`;
+                    producerBP = `0 BP`;
+                    totalBP = `0 BP`;
+                }
+                else {
+                    authorBP = `${data['author']} BP`;
+                    curationBP = `${data['curation']} BP`;
+                    producerBP = `${data['producer']} BP`;
+                    totalBP = `${data['total']} BP`;
+                }
+
+                $("#authorSeven").html(authorBP);
+                $("#curationSeven").html(curationBP);
+                $("#producerSeven").html(producerBP);
+                $("#totalSeven").html(totalBP);
+            },
+        });
+
+        // 30 day rewards summary
+        $.ajax(document.rewardThirty_api,
+        {
+            dataType: 'json', // type of response data
+            timeout: 60000, // timeout milliseconds
+            success: function (data, status, xhr) {
+                var authorBP = ``;
+                var curationBP = ``;
+                var producerBP = ``;
+                var totalBP = ``;
+
+                if (jQuery.isEmptyObject(data)) {
+                    authorBP = `0 BP`;
+                    curationBP = `0 BP`;
+                    producerBP = `0 BP`;
+                    totalBP = `0 BP`;
+                }
+                else {
+                    authorBP = `${data['author']} BP`;
+                    curationBP = `${data['curation']} BP`;
+                    producerBP = `${data['producer']} BP`;
+                    totalBP = `${data['total']} BP`;
+                }
+
+                $("#authorThirty").html(authorBP);
+                $("#curationThirty").html(curationBP);
+                $("#producerThirty").html(producerBP);
+                $("#totalThirty").html(totalBP);
+                $("#loadingImage").remove();
             },
         });
     });
+
+
+    // $("#nav-reward-tab").click(function(){
+    //     $.ajax(document.reward_api,
+    //     {
+    //         dataType: 'json', // type of response data
+    //         timeout: 60000,     // timeout milliseconds
+    //         success: function (data, status, xhr) {   // success callback function
+    //             var size = Object.keys(data).length;
+    //             if (size === undefined) {
+    //                 size = 0;
+    //             }
+    //             $("#rewardSize").html(" ");
+    //             // console.log(Object.keys(data).length);
+
+    //             // liStr holds html list
+    //             var liStr = ``;
+    //             if (jQuery.isEmptyObject(data)) {
+    //                 liStr = `
+    //                 <li class="list-group-item" data-field=>
+    //                     <span>No Rewards Data</span>
+    //                 </li>`;
+    //             }
+    //             else {
+    //                 liStr = `
+    //                     <li class="list-group-item" data-field=>
+    //                         <div class="container">
+    //                           <div class="row">
+    //                             <div class="col-sm text-left">
+    //                                 <span class="font-weight-bold">
+    //                                     Duration
+    //                                 </span>
+    //                             </div>
+    //                             <div class="col-sm text-right">
+    //                                 <span class="font-weight-bold">
+    //                                     Author BP
+    //                                 </span>
+    //                             </div>
+    //                             <div class="col-sm text-right">
+    //                                 <span class="font-weight-bold">
+    //                                     Curation BP
+    //                                 </span>
+    //                             </div>
+    //                             <div class="col-sm text-right">
+    //                                 <span class="font-weight-bold">
+    //                                     Producer BP
+    //                                 </span>
+    //                             </div>
+    //                             <div class="col-sm text-right">
+    //                                 <span class="font-weight-bold">
+    //                                     Total BP
+    //                                 </span>
+    //                             </div>
+    //                           </div>
+    //                         </div>
+    //                     </li>
+    //                     <li class="list-group-item" data-field=>
+    //                         <div class="container">
+    //                           <div class="row">
+    //                             <div class="col-sm text-left">
+    //                                 <span>
+    //                                     Last 24 Hours
+    //                                 </span>
+    //                             </div>
+    //                             <div class="col-sm text-right">
+    //                                 <span>
+    //                                     ${data['author_day']} BP
+    //                                 </span>
+    //                             </div>
+    //                             <div class="col-sm text-right">
+    //                                 <span>
+    //                                     ${data['curation_day']} BP
+    //                                 </span>
+    //                             </div>
+    //                             <div class="col-sm text-right">
+    //                                 <span>
+    //                                     ${data['producer_day']} BP
+    //                                 </span>
+    //                             </div>
+    //                             <div class="col-sm text-right">
+    //                                 <span>
+    //                                     ${data['total_day']} BP
+    //                                 </span>
+    //                             </div>
+    //                           </div>
+    //                         </div>
+    //                     </li>
+    //                     <li class="list-group-item" data-field=>
+    //                         <div class="container">
+    //                           <div class="row">
+    //                             <div class="col-sm text-left">
+    //                                 <span>
+    //                                     Last 7 Days
+    //                                 </span>
+    //                             </div>
+    //                             <div class="col-sm text-right">
+    //                                 <span>
+    //                                     ${data['author_week']} BP
+    //                                 </span>
+    //                             </div>
+    //                             <div class="col-sm text-right">
+    //                                 <span>
+    //                                     ${data['curation_week']} BP
+    //                                 </span>
+    //                             </div>
+    //                             <div class="col-sm text-right">
+    //                                 <span>
+    //                                     ${data['producer_week']} BP
+    //                                 </span>
+    //                             </div>
+    //                             <div class="col-sm text-right">
+    //                                 <span>
+    //                                     ${data['total_week']} BP
+    //                                 </span>
+    //                             </div>
+    //                           </div>
+    //                         </div>
+    //                     </li>
+    //                     <li class="list-group-item" data-field=>
+    //                         <div class="container">
+    //                           <div class="row">
+    //                             <div class="col-sm text-left">
+    //                                 <span>
+    //                                     Last 14 Days
+    //                                 </span>
+    //                             </div>
+    //                             <div class="col-sm text-right">
+    //                                 <span>
+    //                                     ${data['author_week2']} BP
+    //                                 </span>
+    //                             </div>
+    //                             <div class="col-sm text-right">
+    //                                 <span>
+    //                                     ${data['curation_week2']} BP
+    //                                 </span>
+    //                             </div>
+    //                             <div class="col-sm text-right">
+    //                                 <span>
+    //                                     ${data['producer_week2']} BP
+    //                                 </span>
+    //                             </div>
+    //                             <div class="col-sm text-right">
+    //                                 <span>
+    //                                     ${data['total_week2']} BP
+    //                                 </span>
+    //                             </div>
+    //                           </div>
+    //                         </div>
+    //                     </li>`;
+    //                 $("#rewardResult").html(liStr);
+    //            }
+    //         },
+    //     });
+    // });
 
 });

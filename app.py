@@ -3,7 +3,6 @@ from config import Config
 from forms import UserNameForm
 from markupsafe import escape
 from flask_talisman import Talisman
-import ast
 
 import BlurtChain as BC
 
@@ -142,13 +141,24 @@ def blurt_delegation(username=None):
     return jsonify(data)
 
 
-@app.route('/api/blurt/reward/<username>')
-@app.route('/api/blurt/reward/<username>/')
-def blurt_reward(username=None):
+# @app.route('/api/blurt/reward/<username>')
+# @app.route('/api/blurt/reward/<username>/')
+# def blurt_reward(username=None):
+#     data = {}
+#     if username:
+#         blurt = BC.BlurtChain(username)
+#         data = blurt.get_reward_summary()
+
+#     return jsonify(data)
+
+
+@app.route('/api/blurt/reward/<username>/<int:duration>')
+@app.route('/api/blurt/reward/<username>/<int:duration>/')
+def blurt_reward(username=None, duration=1):
     data = {}
     if username:
         blurt = BC.BlurtChain(username)
-        data = blurt.get_reward_summary()
+        data = blurt.get_reward_summary(duration)
 
     return jsonify(data)
 
