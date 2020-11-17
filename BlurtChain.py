@@ -423,7 +423,7 @@ class BlurtChain:
 
     @lru_cache(maxsize=32)
     def get_stats(self):
-        stats_file = 'stats.txt'
+        stats_file = 'newstats.txt'
         stats_data = {}
         labels = []
 
