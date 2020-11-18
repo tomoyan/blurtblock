@@ -20,6 +20,9 @@ pip install -U beem
 Install pakcages:  
 pip install -r requirements.txt  
 
+Create/Update requirements file:  
+pip freeze > requirements.txt  
+
 ## FLASK APP  
 Run flask app on development  
 export FLASK_APP=app.py  
