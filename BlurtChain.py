@@ -23,8 +23,8 @@ class BlurtChain:
         self.nodes = [
             'https://rpc.blurt.buzz',
             'https://blurtd.privex.io',
-            'https://rpc.blurtworld.com',
-            'https://rpc.blurt.world',
+            # 'https://rpc.blurtworld.com',
+            # 'https://rpc.blurt.world',
             # 'https://api.softmetal.xyz',
         ]
         random.shuffle(self.nodes)
@@ -113,8 +113,8 @@ class BlurtChain:
 
         return self.following_data
 
-    @lru_cache(maxsize=32)
-    def get_vote_history(self):
+    @lru_cache(maxsize=128)
+    def get_vote_history(self, username):
         votes = {}
         result = {}
         labels = []

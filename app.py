@@ -1,4 +1,7 @@
 from flask import Flask, render_template, redirect, request, flash, jsonify
+from flask import session
+from flask_session import Session
+
 from config import Config
 from forms import UserNameForm
 from markupsafe import escape
@@ -9,6 +12,7 @@ import BlurtChain as BC
 
 app = Flask(__name__)
 app.config.from_object(Config)
+Session(app)
 
 # Forces all connects to https, unless running with debug enabled.
 # csp = {
@@ -57,8 +61,23 @@ def blurt_profile_data(username=None):
         username = escape(username).lower()
         blurt = BC.BlurtChain(username)
 
-        data = blurt.get_account_info()
-        vote_data = blurt.get_vote_history()
+        account_info = username + '_account_info'
+        vote_history = username + 'vote_history'
+
+        # check session data for account_info
+        if session.get(account_info):
+            data = session[account_info]
+        else:
+            data = blurt.get_account_info()
+            session[account_info] = data
+
+        # check session data for vote_history
+        if session.get(vote_history):
+            vote_data = session[vote_history]
+        else:
+            vote_data = blurt.get_vote_history(username)
+            session[vote_history] = vote_data
+
         data['labels'] = vote_data['labels']
         data['permlinks'] = vote_data['permlinks']
         data['upvotes'] = vote_data['upvotes']
