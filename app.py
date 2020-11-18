@@ -57,33 +57,27 @@ def blurt():
 @app.route('/<username>/')
 def blurt_profile_data(username=None):
     data = {}
+
     if username:
         username = escape(username).lower()
         blurt = BC.BlurtChain(username)
 
-        account_info = username + '_account_info'
-        vote_history = username + 'vote_history'
-
-        # check session data for account_info
-        if session.get(account_info):
-            data = session[account_info]
+        # check session profile_data
+        profile_data = username + '_profile_data'
+        if session.get(profile_data):
+            data = session[profile_data]
         else:
             data = blurt.get_account_info()
-            session[account_info] = data
-
-        # check session data for vote_history
-        if session.get(vote_history):
-            vote_data = session[vote_history]
-        else:
             vote_data = blurt.get_vote_history(username)
-            session[vote_history] = vote_data
 
-        data['labels'] = vote_data['labels']
-        data['permlinks'] = vote_data['permlinks']
-        data['upvotes'] = vote_data['upvotes']
-        data['count_data'] = vote_data['count_data']
-        data['weight_data'] = vote_data['weight_data']
-        data['total_votes'] = vote_data['total_votes']
+            data['labels'] = vote_data['labels']
+            data['permlinks'] = vote_data['permlinks']
+            data['upvotes'] = vote_data['upvotes']
+            data['count_data'] = vote_data['count_data']
+            data['weight_data'] = vote_data['weight_data']
+            data['total_votes'] = vote_data['total_votes']
+
+            session[profile_data] = data
 
     return render_template('blurt/profile_data.html',
                            username=blurt.username, data=data)
@@ -177,7 +171,14 @@ def blurt_reward(username=None, duration=1):
     data = {}
     if username:
         blurt = BC.BlurtChain(username)
-        data = blurt.get_reward_summary(duration)
+
+        # check session reward_data
+        reward_data = username + '_reward_' + str(duration)
+        if session.get(reward_data):
+            data = session[reward_data]
+        else:
+            data = blurt.get_reward_summary(duration)
+            session[reward_data] = data
 
     return jsonify(data)
 

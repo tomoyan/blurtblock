@@ -23,8 +23,8 @@ class BlurtChain:
         self.nodes = [
             'https://rpc.blurt.buzz',
             'https://blurtd.privex.io',
-            # 'https://rpc.blurtworld.com',
-            # 'https://rpc.blurt.world',
+            'https://rpc.blurtworld.com',
+            'https://rpc.blurt.world',
             # 'https://api.softmetal.xyz',
         ]
         random.shuffle(self.nodes)
