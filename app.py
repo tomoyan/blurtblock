@@ -5,7 +5,7 @@ from flask_session import Session
 from config import Config
 from forms import UserNameForm
 from markupsafe import escape
-from flask_talisman import Talisman
+# from flask_talisman import Talisman
 
 import BlurtChain as BC
 
@@ -23,8 +23,8 @@ Session(app)
 #     'force_https': 'False'
 # }
 # talisman = Talisman(app, content_security_policy=csp)
-talisman = Talisman(app)
-talisman.content_security_policy_report_only = True
+# talisman = Talisman(app)
+# talisman.content_security_policy_report_only = True
 
 
 @app.errorhandler(404)
