@@ -8,7 +8,11 @@ body {
 }
 
 .jumbotron {
-    opacity: 0.80;;
+    opacity: 0.80;
+}
+
+#a-ads {
+    opacity: 0.80;
 }
 
 .bg-blurt {
