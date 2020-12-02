@@ -29,7 +29,12 @@ Firebase(realtime database) API key (firebase.google.com):
 FB_APIKEY = os.environ.get('FB_APIKEY') or 'YOUR_FB_APIKEY'  
 
 ## FLASK APP  
-Run flask app on development  
-export FLASK_APP=app.py  
-export FLASK_ENV=development  
+Add flask environment variablea in .flaskenv file:  
+touch .flaskenv  
+
+FLASK_APP=app.py  
+FLASK_ENV=development  
+SECRET_KEY=YOUR_SECRET_KEY  
+
+Run flask app:  
 flask run  
