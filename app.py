@@ -4,8 +4,8 @@ from flask_session import Session
 
 from config import Config
 from forms import UserNameForm
+from forms import postUrlForm
 from markupsafe import escape
-
 import BlurtChain as BC
 
 
@@ -79,10 +79,23 @@ def stats():
     return render_template('blurt/stats.html', data=stats_data)
 
 
-@app.route('/blurt/upvote')
-@app.route('/blurt/upvote/')
+@app.route('/blurt/upvote', methods=['GET', 'POST'])
+@app.route('/blurt/upvote/', methods=['GET', 'POST'])
 def upvote():
-    return render_template('blurt/upvote.html')
+    form = postUrlForm(request.form)
+
+    if request.method == 'POST':
+        if form.validate():
+            url = request.form['url'].lower()
+            blurt = BC.BlurtChain(username=None)
+            result = blurt.process_upvote(url)
+            # print('RESULT: ', result)
+            flash(result['message'])
+        else:
+            # check empty url
+            flash('Error: URL is required')
+
+    return render_template('blurt/upvote.html', form=form)
 
 
 # BLURT API
@@ -172,4 +185,3 @@ def blurt_reward(username=None, duration=1):
 
 if __name__ == "__main__":
     app.run()
-    # app.run(debug=True)

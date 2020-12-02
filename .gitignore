@@ -3,3 +3,4 @@ test.py
 *.pyc
 __pycache__/
 flask_session/
+.flaskenv
