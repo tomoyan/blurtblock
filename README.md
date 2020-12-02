@@ -14,10 +14,7 @@ source venv/bin/activate
 DEACTIVATE venv (Ubuntu command):  
 deactivate  
 
-Install beem with pip:  
-pip install -U beem  
-
-Install pakcages:  
+Install all pakcages from requirements file:  
 pip install -r requirements.txt  
 
 Create/Update requirements file:  
