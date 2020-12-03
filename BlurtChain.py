@@ -230,32 +230,32 @@ class BlurtChain:
 
             # find incoming delegatons
             data['incoming'] = []
-            # incoming_temp = dict()
-            # blurt_start_time = datetime(2020, 7, 1)
+            incoming_temp = dict()
+            blurt_start_time = datetime(2020, 7, 1)
 
-            # delegate_vesting_shares = self.account.history(
-            #     only_ops=["delegate_vesting_shares"], batch_size=1000)
+            delegate_vesting_shares = self.account.history(
+                only_ops=["delegate_vesting_shares"], batch_size=10000)
 
-            # for operation in delegate_vesting_shares:
-            #     timestamp = datetime.strptime(
-            #         operation['timestamp'], "%Y-%m-%dT%H:%M:%S")
+            for operation in delegate_vesting_shares:
+                timestamp = datetime.strptime(
+                    operation['timestamp'], "%Y-%m-%dT%H:%M:%S")
 
-            #     if timestamp < blurt_start_time:
-            #         continue
+                if timestamp < blurt_start_time:
+                    continue
 
-            #     if self.username == operation["delegator"]:
-            #         continue
+                if self.username == operation["delegator"]:
+                    continue
 
-            #     if operation["vesting_shares"] == '0.000000 VESTS':
-            #         incoming_temp.pop(operation["delegator"])
-            #         continue
-            #     else:
-            #         incoming_temp[operation["delegator"]] = operation
+                if operation["vesting_shares"] == '0.000000 VESTS':
+                    incoming_temp.pop(operation["delegator"])
+                    continue
+                else:
+                    incoming_temp[operation["delegator"]] = operation
 
-            # if incoming_temp:
-            #     for key, value in incoming_temp.items():
-            #         value['bp'] = self.vests_to_bp(value['vesting_shares'])
-            #         data['incoming'].append(value)
+            if incoming_temp:
+                for key, value in incoming_temp.items():
+                    value['bp'] = self.vests_to_bp(value['vesting_shares'])
+                    data['incoming'].append(value)
 
         return data
 

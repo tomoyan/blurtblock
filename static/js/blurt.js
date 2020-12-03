@@ -249,7 +249,7 @@ $(document).ready(function(){
                 var liStr = ``;
                 if (jQuery.isEmptyObject(data['incoming'])) {
                     liStr = `
-                    <li class="list-group-item" data-field=><span>No Incoming Delegation (not implemented)</span></li>`;
+                    <li class="list-group-item" data-field=><span>No Incoming Delegation</span></li>`;
                     $("#incomingResult").html(liStr);
                 }
                 else {
