@@ -20,11 +20,6 @@ def page_not_found(e):
     return render_template('404.html')
 
 
-# @app.route('/')
-# def home():
-#     return render_template('index.html')
-
-
 @app.route('/', methods=['GET', 'POST'])
 def blurt():
     form = UserNameForm(request.form)
@@ -89,7 +84,6 @@ def upvote():
             url = request.form['url'].lower()
             blurt = BC.BlurtChain(username=None)
             result = blurt.process_upvote(url)
-            # print('RESULT: ', result)
             flash(result['message'])
         else:
             # check empty url
@@ -152,17 +146,6 @@ def blurt_delegation(username=None):
         data = blurt.get_delegation()
 
     return jsonify(data)
-
-
-# @app.route('/api/blurt/reward/<username>')
-# @app.route('/api/blurt/reward/<username>/')
-# def blurt_reward(username=None):
-#     data = {}
-#     if username:
-#         blurt = BC.BlurtChain(username)
-#         data = blurt.get_reward_summary()
-
-#     return jsonify(data)
 
 
 @app.route('/api/blurt/reward/<username>/<int:duration>')
