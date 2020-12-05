@@ -523,6 +523,7 @@ class BlurtChain:
             data['message'] = witness_data['message']
             return data
 
+        # check post date (not added yet)
         # coal check (not added yet)
         # delegation check (not added yet)
 
