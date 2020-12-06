@@ -15,10 +15,10 @@ import pyrebase
 
 # Firebase configuration
 firebase_config = {
-    "apiKey": Config.UPVOTE_KEY,
-    "authDomain": "blurtdb.firebaseapp.com",
-    "databaseURL": "https://blurtdb.firebaseio.com",
-    "storageBucket": "blurtdb.appspot.com",
+    "apiKey": Config.FB_APIKEY,
+    "authDomain": Config.FB_AUTHDOMAIN,
+    "databaseURL": Config.FB_DATABASEURL,
+    "storageBucket": Config.FB_STORAGEBUCKET,
 }
 # Firebase initialization
 firebase = pyrebase.initialize_app(firebase_config)
@@ -394,7 +394,7 @@ class BlurtChain:
             'message': 'Error: Post URL'
         }
 
-        endpoint = 'https://rpc.blurt.world'
+        endpoint = self.nodes[0]
         post_data = {
             'id': '0',
             'jsonrpc': '2.0',
@@ -409,8 +409,8 @@ class BlurtChain:
             # no Exception will be raised
             response.raise_for_status()
         except Exception as err:
-            print(f'Error has occurred: {err}')
-            result['message'] = 'Error has occurred.'
+            # print(f'Error has occurred: {err}')
+            result['message'] = f'Error has occurred: {err}'
             return result
 
         if response:
@@ -428,11 +428,10 @@ class BlurtChain:
 
         return result
 
-    def save_data(self, name, data):
-        # save data into database
-        result = self.firebase.child(name).push(data)
-
     def check_last_upvote(self, username):
+        # 24 hour = 86400 sec
+        # 12 hour = 43200 sec
+        wait_time = 43200.0
         result = False
 
         # get the last upvote record
@@ -443,7 +442,7 @@ class BlurtChain:
             result = True
             return result
 
-        # check if last upvoted was 24h ago
+        # check if last upvoted is more than wait_time
         for data in record.each():
             val = data.val()
 
@@ -453,8 +452,7 @@ class BlurtChain:
 
             time_diff = current_time - last_vote
 
-            # 24 hour = 86400 sec
-            if time_diff.total_seconds() >= 86400.0:
+            if time_diff.total_seconds() >= wait_time:
                 result = True
 
         return result
@@ -475,12 +473,41 @@ class BlurtChain:
             result = blurt.vote(vote_weight, identifier, account=account)
             vote_result["status"] = True
             vote_result["message"] = "Upvoted"
-            print(f'VOTE_RESULT {result}')
-        except Exception as e:
-            print(e)
-            vote_result["message"] = f"Error: Please check your post URL"
+        except Exception as err:
+            print(err)
+            vote_result["message"] = f"Error: Please check your URL {err}"
 
         return vote_result
+
+    def check_active_post(self, post_str):
+        active_posts = []
+        cashout_time = "1969-12-31T23:59:59"
+        result = False
+
+        strings = post_str.split('/')
+        username = strings[0]
+        post_id = strings[1]
+        blurt = Blurt(node=self.nodes)
+        blurt_account = Account(username, blockchain_instance=blurt)
+        posts = blurt_account.get_blog(raw_data=True)
+
+        for post in posts:
+            # post has been paid out
+            if post["comment"]["cashout_time"] == cashout_time:
+                continue
+
+            if post["blog"]:
+                active_posts.append(post["comment"]["permlink"])
+
+        if post_id in active_posts:
+            result = True
+
+        return result
+
+    def save_data_fb(self, name, data):
+        # save data into firebase database
+        result = self.firebase.child(name).push(data)
+        return result
 
     def process_upvote(self, url):
         username = None
@@ -498,7 +525,7 @@ class BlurtChain:
             'url': url,
             'created': current_time,
         }
-        self.save_data("access_log", access_data)
+        self.save_data_fb("access_log", access_data)
 
         # check post url check
         strings = url.split("@")
@@ -514,7 +541,7 @@ class BlurtChain:
         # check last upvote
         can_vote = self.check_last_upvote(username)
         if can_vote is False:
-            data['message'] = 'Error: Please come back later'
+            data['message'] = 'Error: Please come back later (every 12h)'
             return data
 
         # check witness (using condenser_api)
@@ -523,13 +550,17 @@ class BlurtChain:
             data['message'] = witness_data['message']
             return data
 
-        # check post date (not added yet)
+        # check post is active
+        active_post = self.check_active_post(strings[1])
+        if active_post is False:
+            data['message'] = 'Error: This post is too old to upvote'
+            return data
+
         # coal check (not added yet)
         # delegation check (not added yet)
 
         # upvote
         is_upvoted = self.upvote_post(identifier)
-        print("is_upvoted: ", is_upvoted)
         if is_upvoted["status"] is False:
             data['message'] = is_upvoted["message"]
             return data
@@ -540,7 +571,7 @@ class BlurtChain:
             'identifier': identifier,
             'created': current_time,
         }
-        self.save_data("upvote_log", upvote_data)
+        self.save_data_fb("upvote_log", upvote_data)
 
         data = {
             'status': True,
