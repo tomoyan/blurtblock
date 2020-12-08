@@ -506,9 +506,36 @@ class BlurtChain:
 
         return result
 
-    def save_data_fb(self, name, data):
+    def coal_check(self, username):
+        result = {
+            'status': False,
+            'message': 'Error: COAL listed'
+        }
+
+        endpoint = "https://api.blurt.buzz/blacklist"
+        try:
+            response = requests.get(endpoint, timeout=3)
+            response.raise_for_status()
+        except Exception as err:
+            result['message'] = f'Error has occurred: {err}'
+            return result
+
+        if response:
+            json_response = response.json()
+            for res in json_response:
+                if res["name"] == username:
+                    return result
+
+            result = {
+                'status': True,
+                'message': 'OK'
+            }
+
+        return result
+
+    def save_data_fb(self, db_name, data):
         # save data into firebase database
-        result = self.firebase.child(name).push(data)
+        result = self.firebase.child(db_name).push(data)
         return result
 
     def process_upvote(self, url):
@@ -558,7 +585,12 @@ class BlurtChain:
             data['message'] = 'Error: This post is too old to upvote'
             return data
 
-        # coal check (not added yet)
+        # coal user check
+        is_coal = self.coal_check(username)
+        if is_coal["status"] is False:
+            data['message'] = 'Error: Sorry COAL listed'
+            return data
+
         # delegation check (not added yet)
 
         # upvote
