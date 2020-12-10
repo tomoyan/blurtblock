@@ -106,7 +106,9 @@
                        document.follower_api = '/api/blurt/follower/{{ username }}';
                        document.following_api = '/api/blurt/following/{{ username }}';
                        document.mute_api = '/api/blurt/mute/{{ username }}';
-                       document.delegation_api = '/api/blurt/delegation/{{ username }}';
+                       document.delegationApiIn = '/api/blurt/delegation/{{ username }}/in';
+                       document.delegationApiOut = '/api/blurt/delegation/{{ username }}/out';
+                       document.delegationApiExp = '/api/blurt/delegation/{{ username }}/exp';
                     </script>
                     <script type="text/javascript" src="{{ url_for('static', filename='js/blurt.js') }}">
                     </script>
@@ -721,9 +723,6 @@
                                     <ul id="expiringResult"class="list-group list-group-flush">
                                         <!-- loading spinner -->
                                         <div id="mdb-preloader" class="text-center">
-                                            <div class="spinner-grow text-blurt m-3" role="status">
-                                                <span class="sr-only">Loading...</span>
-                                            </div>
                                             <div class="spinner-border text-blurt m-3" role="status">
                                                 <span class="sr-only">Loading...</span>
                                             </div>
@@ -731,6 +730,9 @@
                                                 <span class="sr-only">Loading...</span>
                                             </div>
                                             <div class="spinner-border text-blurt m-3" role="status">
+                                                <span class="sr-only">Loading...</span>
+                                            </div>
+                                            <div class="spinner-grow text-blurt m-3" role="status">
                                                 <span class="sr-only">Loading...</span>
                                             </div>
                                             <div class="spinner-grow text-blurt m-3" role="status">

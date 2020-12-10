@@ -211,6 +211,60 @@ class BlurtChain:
         return data
 
     @lru_cache(maxsize=32)
+    def get_delegation_new(self, option):
+        # find delegation for username
+        data = {}
+
+        if not self.username:
+            return data
+
+        # find incoming delegaton
+        if option == "in":
+            data['incoming'] = []
+            incoming_temp = dict()
+            blurt_start_time = datetime(2020, 7, 1)
+
+            delegate_vesting_shares = self.account.history(
+                only_ops=["delegate_vesting_shares"], batch_size=10000)
+
+            for operation in delegate_vesting_shares:
+                timestamp = datetime.strptime(
+                    operation['timestamp'], "%Y-%m-%dT%H:%M:%S")
+
+                if timestamp < blurt_start_time:
+                    continue
+
+                if self.username == operation["delegator"]:
+                    continue
+
+                if operation["vesting_shares"] == '0.000000 VESTS':
+                    incoming_temp.pop(operation["delegator"])
+                    continue
+                else:
+                    incoming_temp[operation["delegator"]] = operation
+
+            if incoming_temp:
+                for key, value in incoming_temp.items():
+                    value['bp'] = self.vests_to_bp(value['vesting_shares'])
+                    data['incoming'].append(value)
+        # find outgoing delegaton
+        elif option == "out":
+            data['outgoing'] = self.account.get_vesting_delegations()
+            for value in data['outgoing']:
+                value['bp'] = self.vests_to_bp(value['vesting_shares'])
+        # find expiring delegaton
+        elif option == "exp":
+            data['expiring'] = self.account.get_expiring_vesting_delegations()
+            for value in data['expiring']:
+                value['bp'] = self.vests_to_bp(value['vesting_shares'])
+                date_time = value['expiration'].split('T')
+                value['expiration'] = f'{date_time[0]} {date_time[-1]}'
+        else:
+            return data
+
+        return data
+
+    @lru_cache(maxsize=32)
     def get_delegation(self):
         # find delegations for username
         data = {}
@@ -350,6 +404,46 @@ class BlurtChain:
 
     @lru_cache(maxsize=32)
     def get_stats(self):
+        stats_data = {}
+        labels = []
+
+        # get counts of each operation
+        ops = [
+            'labels', 'total', 'vote',
+            'comment', 'account_create',
+            'transfer_to_vesting',
+            'withdraw_vesting',
+        ]
+
+        for op in ops:
+            stats_data[op] = []
+
+        # get stats data from firebase
+        db_name = "blurt_stats"
+        fb_stats_data = self.firebase.child(
+            db_name).order_by_key().limit_to_last(1).get()
+
+        fb_stats = {}
+        for data in fb_stats_data.each():
+            fb_stats = data.val()
+
+        # only use last 6 months stats
+        months = list(fb_stats.keys())[-6:]
+
+        for stats in fb_stats:
+            if stats in months:
+                labels.append(stats)
+
+            for op in ops:
+                stats_data[op].append(
+                    self.process_data(op, fb_stats[stats]))
+
+        stats_data['labels'] = labels
+
+        return stats_data
+
+    @lru_cache(maxsize=32)
+    def old_get_stats(self):
         stats_file = 'newstats.txt'
         stats_data = {}
         labels = []

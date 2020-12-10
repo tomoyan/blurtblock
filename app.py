@@ -137,13 +137,20 @@ def blurt_mute(username=None):
     return jsonify(data)
 
 
-@app.route('/api/blurt/delegation/<username>')
-@app.route('/api/blurt/delegation/<username>/')
-def blurt_delegation(username=None):
+@app.route('/api/blurt/delegation/<username>/<option>')
+@app.route('/api/blurt/delegation/<username>/<option>/')
+def blurt_delegation(username=None, option=None):
+    delegation_type = ["in", "out", "exp"]
     data = {}
-    if username:
-        blurt = BC.BlurtChain(username)
-        data = blurt.get_delegation()
+    if username and option in delegation_type:
+        # check session delegation_data
+        delegation_data = username + '_delegation_' + option
+        if session.get(delegation_data):
+            data = session[delegation_data]
+        else:
+            blurt = BC.BlurtChain(username)
+            data = blurt.get_delegation_new(option)
+            session[delegation_data] = data
 
     return jsonify(data)
 

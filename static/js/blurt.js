@@ -232,20 +232,12 @@ $(document).ready(function(){
     });
 
     $("#nav-delegation-tab").click(function(){
-        $.ajax(document.delegation_api,
+        // incoming elegation
+        $.ajax(document.delegationApiIn,
         {
             dataType: 'json', // type of response data
             timeout: 60000,     // timeout milliseconds
-            success: function (data, status, xhr) {   // success callback function
-                var size = Object.keys(data['incoming']).length
-                    + Object.keys(data['outgoing']).length
-                    + Object.keys(data['expiring']).length;
-                if (size === undefined) {
-                    size = 0;
-                }
-                $("#delegationSize").html(size);
-
-                // liStr holds html list
+            success: function (data, status, xhr) {
                 var liStr = ``;
                 if (jQuery.isEmptyObject(data['incoming'])) {
                     liStr = `
@@ -285,7 +277,16 @@ $(document).ready(function(){
                         $("#incomingResult").append(liStr);
                     });
                }
+            },
+        });
 
+        // outgoing elegation
+        $.ajax(document.delegationApiOut,
+        {
+            dataType: 'json', // type of response data
+            timeout: 60000,     // timeout milliseconds
+            success: function (data, status, xhr) {
+                var liStr = ``;
                 if (jQuery.isEmptyObject(data['outgoing'])) {
                     liStr = `
                     <li class="list-group-item" data-field=><span>No Outgoing Delegation</span></li>`;
@@ -324,7 +325,16 @@ $(document).ready(function(){
                         $("#outgoingResult").append(liStr);
                     });
                }
+            },
+        });
 
+        // expiring elegation
+        $.ajax(document.delegationApiExp,
+        {
+            dataType: 'json', // type of response data
+            timeout: 60000,     // timeout milliseconds
+            success: function (data, status, xhr) {
+                var liStr = ``;
                 if (jQuery.isEmptyObject(data['expiring'])) {
                     liStr = `
                     <li class="list-group-item" data-field=><span>No Expiring Delegation</span></li>`;
@@ -352,11 +362,7 @@ $(document).ready(function(){
                         $("#expiringResult").append(liStr);
                     });
                }
-
             },
-            // error: function (jqXhr, textStatus, errorMessage) { // error callback
-            //     $("#incomingResult").append('Error: ' + errorMessage);
-            // }
         });
     });
 
