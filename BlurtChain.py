@@ -518,7 +518,7 @@ class BlurtChain:
             result['status'] = True
             result['message'] = 'Thank you for your support.'
         else:
-            result['message'] = 'Error: Please vote for my witness.'
+            result['message'] = 'Error: Please vote for my witness ☝️'
 
         return result
 
@@ -603,21 +603,19 @@ class BlurtChain:
     def coal_check(self, username):
         result = {
             'status': False,
-            'message': 'Error: COAL listed'
+            'message': 'Error: Sorry user is listed in COAL'
         }
 
         endpoint = "https://api.blurt.buzz/blacklist"
-        try:
-            response = requests.get(endpoint, timeout=3)
-            response.raise_for_status()
-        except Exception as err:
-            result['message'] = f'Error has occurred: {err}'
-            return result
+
+        get_result = self.get_request(endpoint)
+        response = get_result["response"]
 
         if response:
             json_response = response.json()
             for res in json_response:
                 if res["name"] == username:
+                    # username is listed in coal
                     return result
 
             result = {
@@ -682,7 +680,7 @@ class BlurtChain:
         # coal user check
         is_coal = self.coal_check(username)
         if is_coal["status"] is False:
-            data['message'] = 'Error: Sorry COAL listed'
+            data['message'] = is_coal["message"]
             return data
 
         # delegation check (not added yet)
@@ -707,3 +705,37 @@ class BlurtChain:
         }
 
         return data
+
+    def get_request(self, endpoint, **kwargs):
+        """
+        endpoint = "https://httpbin.org/get"
+        params = {'page': 2, 'count': 3}
+        result = self.get_request(endpoint, **params)
+        """
+
+        result = {
+            'status': False,
+            'message': 'Error'
+        }
+
+        try:
+            response = requests.get(endpoint, params=kwargs, timeout=3)
+            response.raise_for_status()
+        except Exception as err:
+            result['message'] = f'Error has occurred: {err}'
+            return result
+
+        if response:
+            result['status'] = True
+            result['message'] = 'OK'
+            result['response'] = response
+
+        return result
+
+    def post_request(self, endpoint, **kwargs):
+        result = {
+            'status': False,
+            'message': 'Error'
+        }
+
+        return result
