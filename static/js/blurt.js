@@ -278,6 +278,9 @@ $(document).ready(function(){
                     });
                }
             },
+            error: function (jqXhr, textStatus, errorMessage) { // error callback
+                $("#incomingResult").html('Oops! ' + errorMessage + ' Please reload the page.');
+            }
         });
 
         // outgoing elegation
@@ -459,6 +462,13 @@ $(document).ready(function(){
                 $("#totalThirty").html(totalBP);
                 $("#loadingImage").remove();
             },
+            error: function (jqXhr, textStatus, errorMessage) { // error callback
+                $("#authorThirty").remove();
+                $("#curationThirty").remove();
+                $("#producerThirty").remove();
+                $("#totalThirty").remove();
+                $("#loadingImage").html('Oops! ' + errorMessage + ' Please reload the page.');
+            }
         });
     });
 
