@@ -27,6 +27,7 @@ UPVOTE_KEY = os.environ.get('UPVOTE_KEY') or 'YOUR_PRIVATE_POSTING_KEY'
 
 Firebase(realtime database) API key (firebase.google.com):  
 FB_APIKEY = os.environ.get('FB_APIKEY') or 'YOUR_FB_APIKEY'  
+https://github.com/nhorvath/Pyrebase4  
 
 ## FLASK APP  
 Add flask environment variablea in .flaskenv file:  
