@@ -279,7 +279,7 @@ $(document).ready(function(){
                }
             },
             error: function (jqXhr, textStatus, errorMessage) { // error callback
-                $("#incomingResult").html('Oops! ' + errorMessage + ' Please reload the page.');
+                $("#incomingResult").html('Oops! ' + errorMessage + ' Please reload');
             }
         });
 
@@ -436,7 +436,7 @@ $(document).ready(function(){
         $.ajax(document.rewardThirty_api,
         {
             dataType: 'json', // type of response data
-            timeout: 60000, // timeout milliseconds
+            timeout: 120000, // timeout milliseconds
             success: function (data, status, xhr) {
                 var authorBP = ``;
                 var curationBP = ``;
@@ -467,7 +467,7 @@ $(document).ready(function(){
                 $("#curationThirty").remove();
                 $("#producerThirty").remove();
                 $("#totalThirty").remove();
-                $("#loadingImage").html('Oops! ' + errorMessage + ' Please reload the page.');
+                $("#loadingImage").html('Oops! ' + errorMessage + ' Please reload');
             }
         });
     });

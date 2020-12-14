@@ -164,7 +164,7 @@ def blurt_reward(username=None, duration=1):
 
         # check session reward_data
         reward_data = username + '_reward_' + str(duration)
-        session.pop(reward_data, None)
+        # session.pop(reward_data, None)
         if session.get(reward_data):
             data = session[reward_data]
         else:
