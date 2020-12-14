@@ -436,7 +436,7 @@ $(document).ready(function(){
         $.ajax(document.rewardThirty_api,
         {
             dataType: 'json', // type of response data
-            timeout: 120000, // timeout milliseconds
+            timeout: 60000, // timeout milliseconds
             success: function (data, status, xhr) {
                 var authorBP = ``;
                 var curationBP = ``;
