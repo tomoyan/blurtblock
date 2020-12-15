@@ -35,7 +35,7 @@ class BlurtChain:
         self.witness = 0
         self.nodes = [
             'https://rpc.blurt.buzz',
-            'https://blurtd.privex.io',
+            # 'https://blurtd.privex.io',
             # 'https://rpc.blurtworld.com',
             # 'https://rpc.blurt.world',
             # 'https://api.softmetal.xyz',
@@ -323,24 +323,35 @@ class BlurtChain:
         return bp
 
     @lru_cache(maxsize=32)
-    def get_reward_summary(self, duration):
+    def get_reward_summary(self, duration, **kwargs):
         data = {
             'author': f'{0.0:.3f}',
             'curation': f'{0.0:.3f}',
             'producer': f'{0.0:.3f}',
             'total': f'{0.0:.3f}',
         }
+        option = kwargs.get('option', None)
 
         if self.username:
             if duration < 1 or duration > 30:
                 duration = 1
 
-            stop = datetime.utcnow() - timedelta(days=duration)
-
             # get account history
             ops = ['author_reward', 'curation_reward', 'producer_reward']
+            reward_history = {}
+            start = datetime.utcnow()
+            # 30 days - first 2 weeks rewards
+            if duration == 30 and option == 'first':
+                stop = start - timedelta(days=15)
+            # 30 days - last 2 weeks rewards
+            elif duration == 30 and option == 'last':
+                start = start - timedelta(days=15)
+                stop = start - timedelta(days=15)
+            else:
+                stop = start - timedelta(days=duration)
+
             reward_history = self.account.history_reverse(
-                stop=stop, only_ops=ops)
+                start=start, stop=stop, only_ops=ops)
 
             # convert reward vest to blurt power
             rewards = self.rewards(reward_history)

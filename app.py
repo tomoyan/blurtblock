@@ -157,7 +157,9 @@ def blurt_delegation(username=None, option=None):
 
 @app.route('/api/blurt/reward/<username>/<int:duration>')
 @app.route('/api/blurt/reward/<username>/<int:duration>/')
-def blurt_reward(username=None, duration=1):
+@app.route('/api/blurt/reward/<username>/<int:duration>/<option>')
+@app.route('/api/blurt/reward/<username>/<int:duration>/<option>/')
+def blurt_reward(username=None, duration=1, option=None):
     data = {}
     if username:
         blurt = BC.BlurtChain(username)
@@ -167,7 +169,7 @@ def blurt_reward(username=None, duration=1):
         if session.get(reward_data):
             data = session[reward_data]
         else:
-            data = blurt.get_reward_summary(duration)
+            data = blurt.get_reward_summary(duration, option=option)
             session[reward_data] = data
 
     return jsonify(data)

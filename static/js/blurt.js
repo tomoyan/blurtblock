@@ -432,34 +432,53 @@ $(document).ready(function(){
             },
         });
 
-        // 30 day rewards summary
-        $.ajax(document.rewardThirty_api,
+        var authorBP_30 = `0.00`;
+        var curationBP_30 = `0.00`;
+        var producerBP_30 = `0.00`;
+        var totalBP_30 = `0.00`;
+        // 30 day rewards summary (first 2 weeks)
+        $.ajax(document.rewardThirtyFirstApi,
         {
             dataType: 'json', // type of response data
-            timeout: 60000, // timeout milliseconds
+            timeout: 60000, // timeout milliseconds (60 sec)
             success: function (data, status, xhr) {
-                var authorBP = ``;
-                var curationBP = ``;
-                var producerBP = ``;
-                var totalBP = ``;
-
                 if (jQuery.isEmptyObject(data)) {
-                    authorBP = `0 BP`;
-                    curationBP = `0 BP`;
-                    producerBP = `0 BP`;
-                    totalBP = `0 BP`;
+                    authorBP_30 = parseFloat(authorBP_30) + parseFloat("0");
+                    curationBP_30 = parseFloat(curationBP_30) + parseFloat("0");
+                    producerBP_30 = parseFloat(producerBP_30) + parseFloat("0");
+                    totalBP_30 = parseFloat(totalBP_30) + parseFloat("0");
                 }
                 else {
-                    authorBP = `${data['author']} BP`;
-                    curationBP = `${data['curation']} BP`;
-                    producerBP = `${data['producer']} BP`;
-                    totalBP = `${data['total']} BP`;
+                    var author = `${data['author']}`.replace(",", "");
+                    authorBP_30 = parseFloat(authorBP_30) + parseFloat(author);
+
+                    var curation = `${data['curation']}`.replace(",", "");
+                    curationBP_30 = parseFloat(curationBP_30) + parseFloat(curation);
+
+                    var producer = `${data['producer']}`.replace(",", "");
+                    producerBP_30 = parseFloat(producerBP_30) + parseFloat(producer);
+
+                    var total = `${data['total']}`.replace(",", "");
+                    totalBP_30 = parseFloat(totalBP_30) + parseFloat(total);
                 }
 
-                $("#authorThirty").html(authorBP);
-                $("#curationThirty").html(curationBP);
-                $("#producerThirty").html(producerBP);
-                $("#totalThirty").html(totalBP);
+                if (authorBP_30 == "0") {
+                  authorBP_30 = "0.000";
+                }
+                if (curationBP_30 == "0") {
+                  curationBP_30 = "0.000";
+                }
+                if (producerBP_30 == "0") {
+                  producerBP_30 = "0.000";
+                }
+                if (totalBP_30 == "0") {
+                  totalBP_30 = "0.000";
+                }
+
+                $("#authorThirty").html(authorBP_30.toLocaleString() + ' BP');
+                $("#curationThirty").html(curationBP_30.toLocaleString() + ' BP');
+                $("#producerThirty").html(producerBP_30.toLocaleString() + ' BP');
+                $("#totalThirty").html(totalBP_30.toLocaleString() + ' BP');
                 $("#loadingImage").remove();
             },
             error: function (jqXhr, textStatus, errorMessage) { // error callback
@@ -467,9 +486,68 @@ $(document).ready(function(){
                 $("#curationThirty").remove();
                 $("#producerThirty").remove();
                 $("#totalThirty").remove();
-                $("#loadingImage").html('Oops! ' + errorMessage + ' Please reload');
+                $("#loadingImage").html('<div class="text-center"> Oops! '
+                    + errorMessage  + '<br>'
+                    + 'Please reload </div>');
             }
         });
+
+        // 30 day rewards summary (last 2 weeks)
+        $.ajax(document.rewardThirtyLastApi,
+        {
+            dataType: 'json', // type of response data
+            timeout: 60000, // timeout milliseconds (60 sec)
+            success: function (data, status, xhr) {
+                if (jQuery.isEmptyObject(data)) {
+                    authorBP_30 = parseFloat(authorBP_30) + parseFloat("0");
+                    curationBP_30 = parseFloat(curationBP_30) + parseFloat("0");
+                    producerBP_30 = parseFloat(producerBP_30) + parseFloat("0");
+                    totalBP_30 = parseFloat(totalBP_30) + parseFloat("0");
+                }
+                else {
+                    var author = `${data['author']}`.replace(",", "");
+                    authorBP_30 = parseFloat(authorBP_30) + parseFloat(author);
+
+                    var curation = `${data['curation']}`.replace(",", "");
+                    curationBP_30 = parseFloat(curationBP_30) + parseFloat(curation);
+
+                    var producer = `${data['producer']}`.replace(",", "");
+                    producerBP_30 = parseFloat(producerBP_30) + parseFloat(producer);
+
+                    var total = `${data['total']}`.replace(",", "");
+                    totalBP_30 = parseFloat(totalBP_30) + parseFloat(total);
+                }
+
+                if (authorBP_30 == "0") {
+                  authorBP_30 = "0.000";
+                }
+                if (curationBP_30 == "0") {
+                  curationBP_30 = "0.000";
+                }
+                if (producerBP_30 == "0") {
+                  producerBP_30 = "0.000";
+                }
+                if (totalBP_30 == "0") {
+                  totalBP_30 = "0.000";
+                }
+
+                $("#authorThirty").html(authorBP_30.toLocaleString() + ' BP');
+                $("#curationThirty").html(curationBP_30.toLocaleString() + ' BP');
+                $("#producerThirty").html(producerBP_30.toLocaleString() + ' BP');
+                $("#totalThirty").html(totalBP_30.toLocaleString() + ' BP');
+                $("#loadingImage").remove();
+            },
+            error: function (jqXhr, textStatus, errorMessage) { // error callback
+                $("#authorThirty").remove();
+                $("#curationThirty").remove();
+                $("#producerThirty").remove();
+                $("#totalThirty").remove();
+                $("#loadingImage").html('<div class="text-center"> Oops! '
+                    + errorMessage  + '<br>'
+                    + 'Please reload </div>');
+            }
+        });
+
     });
 
 });
