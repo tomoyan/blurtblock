@@ -323,6 +323,53 @@ class BlurtChain:
         return bp
 
     @lru_cache(maxsize=32)
+    def get_author_reward(self, duration):
+        if duration < 1 or duration > 30:
+            duration = 1
+        author_reward = f"{0.0:.3f}"
+
+        if self.username:
+            stop = datetime.utcnow() - timedelta(days=duration)
+
+            # get author_reward history
+            reward_history = self.account.history_reverse(
+                stop=stop, only_ops=['author_reward'])
+
+            # convert reward vest to blurt power
+            reward = self.rewards(reward_history)
+            author_reward = f"{float(reward['author']):.3f}"
+
+        return author_reward
+
+    @lru_cache(maxsize=32)
+    def get_curation_reward(self, duration):
+        if duration < 1 or duration > 30:
+            duration = 1
+        curation_reward = f"{0.0:.3f}"
+        curation_reward = self.account.get_curation_reward(days=duration)
+
+        return f"{curation_reward:.3f}"
+
+    @lru_cache(maxsize=32)
+    def get_producer_reward(self, duration):
+        if duration < 1 or duration > 30:
+            duration = 1
+        producer_reward = f"{0.0:.3f}"
+
+        if self.username and self.witness:
+            stop = datetime.utcnow() - timedelta(days=duration)
+
+            # get author_reward history
+            reward_history = self.account.history_reverse(
+                stop=stop, only_ops=['producer_reward'])
+
+            # convert reward vest to blurt power
+            reward = self.rewards(reward_history)
+            producer_reward = f"{float(reward['producer']):.3f}"
+
+        return producer_reward
+
+    @lru_cache(maxsize=32)
     def get_reward_summary(self, duration, **kwargs):
         data = {
             'author': f'{0.0:.3f}',
@@ -330,7 +377,7 @@ class BlurtChain:
             'producer': f'{0.0:.3f}',
             'total': f'{0.0:.3f}',
         }
-        option = kwargs.get('option', None)
+        # option = kwargs.get('option', None)
 
         if self.username:
             if duration < 1 or duration > 30:
@@ -339,19 +386,10 @@ class BlurtChain:
             # get account history
             ops = ['author_reward', 'curation_reward', 'producer_reward']
             reward_history = {}
-            start = datetime.utcnow()
-            # 30 days - first 2 weeks rewards
-            if duration == 30 and option == 'first':
-                stop = start - timedelta(days=15)
-            # 30 days - last 2 weeks rewards
-            elif duration == 30 and option == 'last':
-                start = start - timedelta(days=15)
-                stop = start - timedelta(days=15)
-            else:
-                stop = start - timedelta(days=duration)
 
+            stop = datetime.utcnow() - timedelta(days=duration)
             reward_history = self.account.history_reverse(
-                start=start, stop=stop, only_ops=ops)
+                stop=stop, only_ops=ops)
 
             # convert reward vest to blurt power
             rewards = self.rewards(reward_history)
