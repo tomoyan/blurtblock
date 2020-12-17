@@ -604,8 +604,8 @@ class BlurtChain:
         upvote_account = Config.UPVOTE_ACCOUNT
         upvote_key = Config.UPVOTE_KEY
         vote_weight = 100.0
-        # random vote_weight between 50-90
-        vote_weight = round(random.uniform(50, 90), 2)
+        # random vote_weight between 45-75 %
+        vote_weight = round(random.uniform(45, 75), 2)
         vote_result = {
             "status": False,
             "message": "Error"
