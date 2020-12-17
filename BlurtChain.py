@@ -491,45 +491,6 @@ class BlurtChain:
 
         return stats_data
 
-    @lru_cache(maxsize=32)
-    def old_get_stats(self):
-        stats_file = 'newstats.txt'
-        stats_data = {}
-        labels = []
-
-        # get counts from these operations
-        ops = [
-            'labels', 'total', 'vote',
-            'comment', 'account_create',
-            'transfer_to_vesting',
-            'withdraw_vesting',
-            # 'powerup', 'powerdown',
-        ]
-
-        for op in ops:
-            stats_data[op] = []
-
-        # read stats file
-        with open(stats_file) as f:
-            stats = f.read()
-
-        # convert stats as a dictionary
-        d = ast.literal_eval(stats)
-
-        # go through stats dictinary
-        # and count number of operations
-        for data in d:
-            if data == 'Start Block' or data == 'Stop Block':
-                continue
-            else:
-                labels.append(data)
-                for op in ops:
-                    stats_data[op].append(self.process_data(op, d[data]))
-
-        stats_data['labels'] = labels
-
-        return stats_data
-
     def check_witness(self, username):
         witness_list = []
         result = {
@@ -600,12 +561,38 @@ class BlurtChain:
 
         return result
 
-    def upvote_post(self, identifier):
+    def delegation_bonus(self, username):
+        bonus_weight = 0.0
+
+        blurt = Blurt(node=self.nodes)
+        account = Account(username, blockchain_instance=blurt)
+
+        # check delegation_bonus (bonus_weight 0 - 30%)
+        vesting_delegations = account.get_vesting_delegations()
+        for delegation in vesting_delegations:
+            if delegation["delegatee"] == "tomoyan":
+                vesting_shares = Amount(delegation["vesting_shares"])
+                delegation_bp = self.blurt.vests_to_bp(vesting_shares.amount)
+
+                if delegation_bp > 0.0 and delegation_bp <= 1000.0:
+                    bonus_weight = round(random.uniform(0, 5), 2)
+                elif delegation_bp > 1000.0 and delegation_bp <= 10000.0:
+                    bonus_weight = round(random.uniform(5, 10), 2)
+                elif delegation_bp > 10000.0 and delegation_bp <= 100000.0:
+                    bonus_weight = round(random.uniform(10, 20), 2)
+                elif delegation_bp > 100000.0 and delegation_bp <= 1000000.0:
+                    bonus_weight = round(random.uniform(20, 30), 2)
+                elif delegation_bp > 1000000.0:
+                    bonus_weight = 30.0
+
+                break
+
+        return bonus_weight
+
+    def upvote_post(self, identifier, bonus_weight):
         upvote_account = Config.UPVOTE_ACCOUNT
         upvote_key = Config.UPVOTE_KEY
-        vote_weight = 100.0
-        # random vote_weight between 45-75 %
-        vote_weight = round(random.uniform(45, 75), 2)
+
         vote_result = {
             "status": False,
             "message": "Error"
@@ -614,10 +601,18 @@ class BlurtChain:
         blurt = Blurt(node=self.nodes, keys=[upvote_key])
         account = Account(upvote_account, blockchain_instance=blurt)
 
+        # random vote_weight (40-70 %)
+        vote_weight = round(random.uniform(40, 70), 2)
+
+        # add delegation_bonus (bonus_weight 0 - 30%)
+        vote_weight += bonus_weight
+        if vote_weight > 100.0:
+            vote_weight = 100.0
+
         try:
             result = blurt.vote(vote_weight, identifier, account=account)
             vote_result["status"] = True
-            vote_result["message"] = "Upvoted"
+            vote_result["message"] = f"Upvoted: {result}"
         except Exception as err:
             print(err)
             vote_result["message"] = f"Error: Please check your URL {err}"
@@ -732,10 +727,11 @@ class BlurtChain:
             data['message'] = is_coal["message"]
             return data
 
-        # delegation check (not added yet)
+        # check delegation bonus
+        bonus_weight = self.delegation_bonus(username)
 
         # upvote
-        is_upvoted = self.upvote_post(identifier)
+        is_upvoted = self.upvote_post(identifier, bonus_weight)
         if is_upvoted["status"] is False:
             data['message'] = is_upvoted["message"]
             return data
