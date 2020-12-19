@@ -485,15 +485,15 @@ $(document).ready(function(){
                         $.ajax(this);
                         return;
                     }
-                    return;
+                    // return;
                 }
-                else {
-                    $("#loadingImage").remove();
-                    $("#authorThirty").html(`0.00 BP`);
-                    $("#curationThirty").html(`0.00 BP`);
-                    $("#producerThirty").html(`0.00 BP`);
-                    $("#totalThirty").html(`0.00 BP`);
-                }
+                // else {
+                $("#loadingImage").remove();
+                $("#authorThirty").html(`0.00 BP`);
+                $("#curationThirty").html(`0.00 BP`);
+                $("#producerThirty").html(`0.00 BP`);
+                $("#totalThirty").html(`0.00 BP`);
+                // }
             }
         });
 
