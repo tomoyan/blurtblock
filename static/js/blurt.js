@@ -444,130 +444,181 @@ $(document).ready(function(){
             }
         });
 
-        var total30 = `0.000`;
+        // var total30 = `0.000`;
         // 30 day rewards summary
-        $.ajax(document.authorReward30,
+        $.ajax(document.rewardThirtyApi,
         {
             dataType: 'json', // type of response data
-            timeout: 60000, // timeout milliseconds
+            timeout: 30000, // 30 sec timeout in milliseconds
+            tryCount : 0,
+            retryLimit : 2, // rety 2 times in 30 sec
             success: function (data, status, xhr) {
-                var authorBP = `0.000`;
+                var authorBP = `0.00 BP`;
+                var curationBP = `0.00 BP`;
+                var producerBP = `0.00 BP`;
+                var totalBP = `0.00 BP`;
 
                 if (jQuery.isEmptyObject(data)) {
-                    authorBP = `0.000`;
+                    authorBP = `0.00 BP`;
+                    curationBP = `0.00 BP`;
+                    producerBP = `0.00 BP`;
+                    totalBP = `0.00 BP`;
                 }
                 else {
-                    authorBP = data;
-                    total30 = parseFloat(total30) + parseFloat(data);
-                }
-
-                if (authorBP > 0) {
-                    authorBP = parseFloat(authorBP);
-                    total30 = parseFloat(total30);
-                }
-                if (total30 > 0) {
-                    total30 = parseFloat(total30);
-                }
-                else{
-                    total30 = total30.toFixed(3);
+                    authorBP = `${data['author']} BP`;
+                    curationBP = `${data['curation']} BP`;
+                    producerBP = `${data['producer']} BP`;
+                    totalBP = `${data['total']} BP`;
                 }
 
                 $("#loadingImage").remove();
-                $("#authorThirty").html(authorBP.toLocaleString(
-                        { minimumFractionDigits: 3,
-                          maximumFractionDigits: 3}) + ' BP');
-                $("#totalThirty").html(total30.toLocaleString(
-                        { minimumFractionDigits: 3,
-                          maximumFractionDigits: 3}) + ' BP');
+                $("#authorThirty").html(authorBP);
+                $("#curationThirty").html(curationBP);
+                $("#producerThirty").html(producerBP);
+                $("#totalThirty").html(totalBP);
             },
-            error: function (jqXhr, textStatus, errorMessage) { // error callback
-                $("#authorThirty").html(
-                    '<div class="text-center"> Oops! '
-                    + errorMessage  + '</div>');
-            }
-        });
-
-        $.ajax(document.curationReward30,
-        {
-            dataType: 'json', // type of response data
-            timeout: 60000, // timeout milliseconds
-            success: function (data, status, xhr) {
-                var curationBP = ``;
-
-                if (jQuery.isEmptyObject(data)) {
-                    curationBP = `0.000`;
+            error: function (jqXhr, textStatus, errorMessage) {
+                if (textStatus == 'timeout') {
+                    this.tryCount++;
+                    if (this.tryCount <= this.retryLimit) {
+                        //try again
+                        $.ajax(this);
+                        return;
+                    }
+                    return;
                 }
                 else {
-                    curationBP = data;
-                    total30 = parseFloat(total30) + parseFloat(data);
+                    $("#loadingImage").remove();
+                    $("#authorThirty").html(authorBP);
+                    $("#curationThirty").html(curationBP);
+                    $("#producerThirty").html(producerBP);
+                    $("#totalThirty").html(totalBP);
                 }
-
-                if (curationBP > 0) {
-                    curationBP = parseFloat(curationBP);
-                    total30 = parseFloat(total30);
-                }
-                if (total30 > 0) {
-                    total30 = parseFloat(total30);
-                }
-                else{
-                    total30 = total30.toFixed(3);
-                }
-
-                $("#loadingImage").remove();
-                $("#curationThirty").html(curationBP.toLocaleString(
-                        { minimumFractionDigits: 3,
-                          maximumFractionDigits: 3}) + ' BP');
-                $("#totalThirty").html(total30.toLocaleString(
-                        { minimumFractionDigits: 3,
-                          maximumFractionDigits: 3}) + ' BP');
-            },
-            error: function (jqXhr, textStatus, errorMessage) { // error callback
-                $("#curationThirty").html(
-                    '<div class="text-center"> Oops! '
-                    + errorMessage  + '</div>');
             }
         });
 
-        $.ajax(document.producerReward30,
-        {
-            dataType: 'json', // type of response data
-            timeout: 60000, // timeout milliseconds
-            success: function (data, status, xhr) {
-                var producerBP = ``;
+        // $.ajax(document.authorReward30,
+        // {
+        //     dataType: 'json', // type of response data
+        //     timeout: 60000, // timeout milliseconds
+        //     success: function (data, status, xhr) {
+        //         var authorBP = `0.000`;
 
-                if (jQuery.isEmptyObject(data)) {
-                    producerBP = `0.000`;
-                }
-                else {
-                    producerBP = data;
-                    total30 = parseFloat(total30) + parseFloat(data);
-                }
+        //         if (jQuery.isEmptyObject(data)) {
+        //             authorBP = `0.000`;
+        //         }
+        //         else {
+        //             authorBP = data;
+        //             total30 = parseFloat(total30) + parseFloat(data);
+        //         }
 
-                if (producerBP > 0) {
-                    producerBP = parseFloat(producerBP);
-                    total30 = parseFloat(total30);
-                }
-                if (total30 > 0) {
-                    total30 = parseFloat(total30);
-                }
-                else{
-                    total30 = total30.toFixed(3);
-                }
+        //         if (authorBP > 0) {
+        //             authorBP = parseFloat(authorBP);
+        //             total30 = parseFloat(total30);
+        //         }
+        //         if (total30 > 0) {
+        //             total30 = parseFloat(total30);
+        //         }
+        //         else{
+        //             total30 = total30.toFixed(3);
+        //         }
 
-                $("#loadingImage").remove();
-                $("#producerThirty").html(producerBP.toLocaleString(
-                        { minimumFractionDigits: 3,
-                          maximumFractionDigits: 3}) + ' BP');
-                $("#totalThirty").html(total30.toLocaleString(
-                        { minimumFractionDigits: 3,
-                          maximumFractionDigits: 3}) + ' BP');
-            },
-            error: function (jqXhr, textStatus, errorMessage) { // error callback
-                $("#producerThirty").html(
-                    '<div class="text-center"> Oops! '
-                    + errorMessage  + '</div>');
-            }
-        });
+        //         $("#loadingImage").remove();
+        //         $("#authorThirty").html(authorBP.toLocaleString(
+        //                 { minimumFractionDigits: 3,
+        //                   maximumFractionDigits: 3}) + ' BP');
+        //         $("#totalThirty").html(total30.toLocaleString(
+        //                 { minimumFractionDigits: 3,
+        //                   maximumFractionDigits: 3}) + ' BP');
+        //     },
+        //     error: function (jqXhr, textStatus, errorMessage) { // error callback
+        //         $("#authorThirty").html(
+        //             '<div class="text-center"> Oops! '
+        //             + errorMessage  + '</div>');
+        //     }
+        // });
+
+        // $.ajax(document.curationReward30,
+        // {
+        //     dataType: 'json', // type of response data
+        //     timeout: 60000, // timeout milliseconds
+        //     success: function (data, status, xhr) {
+        //         var curationBP = ``;
+
+        //         if (jQuery.isEmptyObject(data)) {
+        //             curationBP = `0.000`;
+        //         }
+        //         else {
+        //             curationBP = data;
+        //             total30 = parseFloat(total30) + parseFloat(data);
+        //         }
+
+        //         if (curationBP > 0) {
+        //             curationBP = parseFloat(curationBP);
+        //             total30 = parseFloat(total30);
+        //         }
+        //         if (total30 > 0) {
+        //             total30 = parseFloat(total30);
+        //         }
+        //         else{
+        //             total30 = total30.toFixed(3);
+        //         }
+
+        //         $("#loadingImage").remove();
+        //         $("#curationThirty").html(curationBP.toLocaleString(
+        //                 { minimumFractionDigits: 3,
+        //                   maximumFractionDigits: 3}) + ' BP');
+        //         $("#totalThirty").html(total30.toLocaleString(
+        //                 { minimumFractionDigits: 3,
+        //                   maximumFractionDigits: 3}) + ' BP');
+        //     },
+        //     error: function (jqXhr, textStatus, errorMessage) { // error callback
+        //         $("#curationThirty").html(
+        //             '<div class="text-center"> Oops! '
+        //             + errorMessage  + '</div>');
+        //     }
+        // });
+
+        // $.ajax(document.producerReward30,
+        // {
+        //     dataType: 'json', // type of response data
+        //     timeout: 60000, // timeout milliseconds
+        //     success: function (data, status, xhr) {
+        //         var producerBP = ``;
+
+        //         if (jQuery.isEmptyObject(data)) {
+        //             producerBP = `0.000`;
+        //         }
+        //         else {
+        //             producerBP = data;
+        //             total30 = parseFloat(total30) + parseFloat(data);
+        //         }
+
+        //         if (producerBP > 0) {
+        //             producerBP = parseFloat(producerBP);
+        //             total30 = parseFloat(total30);
+        //         }
+        //         if (total30 > 0) {
+        //             total30 = parseFloat(total30);
+        //         }
+        //         else{
+        //             total30 = total30.toFixed(3);
+        //         }
+
+        //         $("#loadingImage").remove();
+        //         $("#producerThirty").html(producerBP.toLocaleString(
+        //                 { minimumFractionDigits: 3,
+        //                   maximumFractionDigits: 3}) + ' BP');
+        //         $("#totalThirty").html(total30.toLocaleString(
+        //                 { minimumFractionDigits: 3,
+        //                   maximumFractionDigits: 3}) + ' BP');
+        //     },
+        //     error: function (jqXhr, textStatus, errorMessage) { // error callback
+        //         $("#producerThirty").html(
+        //             '<div class="text-center"> Oops! '
+        //             + errorMessage  + '</div>');
+        //     }
+        // });
 
     });
 
