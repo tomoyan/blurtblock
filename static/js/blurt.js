@@ -449,9 +449,9 @@ $(document).ready(function(){
         $.ajax(document.rewardThirtyApi,
         {
             dataType: 'json', // type of response data
-            timeout: 30000, // 30 sec timeout in milliseconds
+            timeout: 20000, // 20 sec timeout in milliseconds
             tryCount : 0,
-            retryLimit : 2, // rety 2 times in 30 sec
+            retryLimit : 3, // rety 3 times in 30 sec
             success: function (data, status, xhr) {
                 var authorBP = `0.00 BP`;
                 var curationBP = `0.00 BP`;
@@ -480,7 +480,7 @@ $(document).ready(function(){
             error: function (jqXhr, textStatus, errorMessage) {
                 if (textStatus == 'timeout') {
                     this.tryCount++;
-                    if (this.tryCount <= this.retryLimit) {
+                    if (this.tryCount < this.retryLimit) {
                         //try again
                         $.ajax(this);
                         return;
@@ -489,10 +489,10 @@ $(document).ready(function(){
                 }
                 else {
                     $("#loadingImage").remove();
-                    $("#authorThirty").html(authorBP);
-                    $("#curationThirty").html(curationBP);
-                    $("#producerThirty").html(producerBP);
-                    $("#totalThirty").html(totalBP);
+                    $("#authorThirty").html(`0.00 BP`);
+                    $("#curationThirty").html(`0.00 BP`);
+                    $("#producerThirty").html(`0.00 BP`);
+                    $("#totalThirty").html(`0.00 BP`);
                 }
             }
         });
