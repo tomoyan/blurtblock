@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 from statistics import mean
 from functools import lru_cache
 import random
-import ast
+# import ast
 import requests
 import pyrebase
 
@@ -741,6 +741,7 @@ class BlurtChain:
             'username': username,
             'identifier': identifier,
             'created': current_time,
+            'bonus_weight': bonus_weight,
         }
         self.save_data_fb("upvote_log", upvote_data)
 
