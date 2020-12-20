@@ -14,5 +14,5 @@ class Config(object):
     FB_AUTHDOMAIN = 'blurtdb.firebaseapp.com'
     FB_DATABASEURL = 'https://blurtdb.firebaseio.com'
     FB_STORAGEBUCKET = 'blurtdb.appspot.com'
-    FB_SERVICEACCOUNT = os.environ.get(
-        'FB_SERVICEACCOUNT') or 'YOUR_SERVICEACCOUNT'
+    # FB_SERVICEACCOUNT = os.environ.get(
+    #     'FB_SERVICEACCOUNT') or 'YOUR_SERVICEACCOUNT'
