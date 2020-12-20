@@ -19,6 +19,7 @@ firebase_config = {
     "authDomain": Config.FB_AUTHDOMAIN,
     "databaseURL": Config.FB_DATABASEURL,
     "storageBucket": Config.FB_STORAGEBUCKET,
+    "serviceAccount": Config.FB_SERVICEACCOUNT,
 }
 # Firebase initialization
 firebase = pyrebase.initialize_app(firebase_config)
