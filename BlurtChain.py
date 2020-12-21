@@ -9,29 +9,20 @@ from datetime import datetime, timedelta
 from statistics import mean
 from functools import lru_cache
 import random
-# import ast
 import requests
 import pyrebase
+import base64
+import json
 
 # Firebase configuration
-serviceAccountCredentials = {
-    "type": "service_account",
-    "project_id": "blurtdb",
-    "private_key_id": Config.FB_PRIVATE_KEY_ID,
-    "private_key": Config.FB_PRIVATE_KEY,
-    "client_email": Config.FB_CLIENT_EMAIL,
-    "client_id": Config.FB_CLIENT_ID,
-    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-    "token_uri": "https://oauth2.googleapis.com/token",
-    "auth_provider_x509_cert_url": Config.FB_AUTH_PROVIDER_X509_CERT_URL,
-    "client_x509_cert_url": Config.FB_CLIENT_X509_CERT_URL
-}
+serviceAccountCredentials = json.loads(
+    base64.b64decode(Config.FB_SERVICEACCOUNT.encode()).decode())
 firebase_config = {
     "apiKey": Config.FB_APIKEY,
     "authDomain": Config.FB_AUTHDOMAIN,
     "databaseURL": Config.FB_DATABASEURL,
     "storageBucket": Config.FB_STORAGEBUCKET,
-    # "serviceAccount": serviceAccountCredentials,
+    "serviceAccount": serviceAccountCredentials,
 }
 # Firebase initialization
 firebase = pyrebase.initialize_app(firebase_config)
