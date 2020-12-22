@@ -455,7 +455,7 @@ $(document).ready(function(){
             success: function (data, status, xhr) {
                 var authorBP = `0.000 BP`;
                 var curationBP = `0.000 BP`;
-                var producerBP = `0.00 BP`;
+                var producerBP = `0.000 BP`;
                 var totalBP = `0.000 BP`;
 
                 if (jQuery.isEmptyObject(data)) {
@@ -489,10 +489,10 @@ $(document).ready(function(){
                 }
                 // else {
                 $("#loadingImage").remove();
-                $("#authorThirty").html(`0.00 BP`);
-                $("#curationThirty").html(`0.00 BP`);
-                $("#producerThirty").html(`0.00 BP`);
-                $("#totalThirty").html(`0.00 BP`);
+                $("#authorThirty").html(`0.000 BP`);
+                $("#curationThirty").html(`0.000 BP`);
+                $("#producerThirty").html(`0.000 BP`);
+                $("#totalThirty").html(`0.000 BP`);
                 // }
             }
         });
