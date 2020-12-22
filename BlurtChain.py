@@ -39,7 +39,7 @@ class BlurtChain:
         self.witness = 0
         self.nodes = [
             'https://rpc.blurt.buzz',
-            # 'https://blurtd.privex.io',
+            'https://blurtd.privex.io',
             # 'https://rpc.blurtworld.com',
             # 'https://rpc.blurt.world',
             # 'https://api.softmetal.xyz',
@@ -421,15 +421,15 @@ class BlurtChain:
         producer_reward_vests = Amount("0 VESTS")
 
         for reward in history:
+            print(reward)
             if reward['type'] == 'author_reward':
                 author_reward_vests += Amount(reward['vesting_payout'])
 
-            if reward['type'] == 'curation_reward':
+            elif reward['type'] == 'curation_reward':
                 curation_reward_vests += Amount(reward['reward'])
 
-            if self.witness:
-                if reward['type'] == 'producer_reward':
-                    producer_reward_vests += Amount(reward['vesting_shares'])
+            elif self.witness and reward['type'] == 'producer_reward':
+                producer_reward_vests += Amount(reward['vesting_shares'])
 
         author_bp = self.blurt.vests_to_bp(author_reward_vests.amount)
         curation_bp = self.blurt.vests_to_bp(curation_reward_vests.amount)
