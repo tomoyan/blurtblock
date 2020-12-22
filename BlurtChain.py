@@ -421,7 +421,6 @@ class BlurtChain:
         producer_reward_vests = Amount("0 VESTS")
 
         for reward in history:
-            print(reward)
             if reward['type'] == 'author_reward':
                 author_reward_vests += Amount(reward['vesting_payout'])
 
