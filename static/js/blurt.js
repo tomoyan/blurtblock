@@ -449,20 +449,20 @@ $(document).ready(function(){
         $.ajax(document.rewardThirtyApi,
         {
             dataType: 'json', // type of response data
-            timeout: 20000, // 20 sec timeout in milliseconds
+            timeout: 30000, // 30 sec timeout in milliseconds
             tryCount : 0,
-            retryLimit : 3, // rety 3 times in 30 sec
+            retryLimit : 3, // rety 3 times
             success: function (data, status, xhr) {
-                var authorBP = `0.00 BP`;
-                var curationBP = `0.00 BP`;
+                var authorBP = `0.000 BP`;
+                var curationBP = `0.000 BP`;
                 var producerBP = `0.00 BP`;
-                var totalBP = `0.00 BP`;
+                var totalBP = `0.000 BP`;
 
                 if (jQuery.isEmptyObject(data)) {
-                    authorBP = `0.00 BP`;
-                    curationBP = `0.00 BP`;
-                    producerBP = `0.00 BP`;
-                    totalBP = `0.00 BP`;
+                    authorBP = `0.000 BP`;
+                    curationBP = `0.000 BP`;
+                    producerBP = `0.000 BP`;
+                    totalBP = `0.000 BP`;
                 }
                 else {
                     authorBP = `${data['author']} BP`;
