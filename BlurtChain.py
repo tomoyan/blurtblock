@@ -617,6 +617,7 @@ class BlurtChain:
             result = blurt.vote(vote_weight, identifier, account=account)
             vote_result["status"] = True
             vote_result["message"] = f"Upvoted: {result}"
+            vote_result["vote_weight"] = vote_weight
         except Exception as err:
             print(err)
             vote_result["message"] = f"Error: Please check your URL {err}"
@@ -745,6 +746,7 @@ class BlurtChain:
             'username': username,
             'identifier': identifier,
             'created': current_time,
+            'vote_weight': is_upvoted["vote_weight"],
             'bonus_weight': bonus_weight,
         }
         self.save_data_fb("upvote_log", upvote_data)
