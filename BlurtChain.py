@@ -389,6 +389,7 @@ class BlurtChain:
 
             # get account history
             ops = ['author_reward', 'curation_reward', 'producer_reward']
+            ops = ['author_reward', 'curation_reward']
             reward_history = {}
 
             stop = datetime.utcnow() - timedelta(days=duration)
