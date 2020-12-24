@@ -5,17 +5,17 @@ Clone command (https) to local directory
 git clone https://github.com/tomoyan/blurtblock.git  
 
 ## Python  
-Create virtual environment:  
+1. Create virtual environment:  
 python3 -m venv venv  
 
-ACTIVATE venv (Ubuntu command):  
+2. ACTIVATE venv (Ubuntu command):  
 source venv/bin/activate  
+
+3. Install all pakcages from requirements file:  
+pip install -r requirements.txt  
 
 DEACTIVATE venv (Ubuntu command):  
 deactivate  
-
-Install all pakcages from requirements file:  
-pip install -r requirements.txt  
 
 Create/Update requirements file:  
 pip freeze > requirements.txt  
