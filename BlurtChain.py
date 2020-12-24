@@ -388,7 +388,7 @@ class BlurtChain:
                 duration = 1
 
             # get account history
-            ops = ['author_reward', 'curation_reward', 'producer_reward']
+            # ops = ['author_reward', 'curation_reward', 'producer_reward']
             ops = ['author_reward', 'curation_reward']
             reward_history = {}
 
@@ -605,8 +605,8 @@ class BlurtChain:
         blurt = Blurt(node=self.nodes, keys=[upvote_key])
         account = Account(upvote_account, blockchain_instance=blurt)
 
-        # random vote_weight (40-70 %)
-        vote_weight = round(random.uniform(40, 70), 2)
+        # random vote_weight (25-70 %)
+        vote_weight = round(random.uniform(25, 70), 2)
 
         # add delegation_bonus (bonus_weight 0 - 30%)
         vote_weight += bonus_weight
@@ -679,6 +679,22 @@ class BlurtChain:
         result = self.firebase.child(db_name).push(data)
         return result
 
+    def cleanup_data_fb(self, db_name, duration):
+        # get log history
+        logs = self.firebase.child(db_name).get()
+
+        datetime_old = datetime.now() - timedelta(days=duration)
+
+        for log in logs.each():
+            key = log.key()
+            data = log.val()
+
+            datetime_obj = datetime.strptime(
+                data["created"], "%m/%d/%Y %H:%M:%S")
+
+            if datetime_obj < datetime_old:
+                self.firebase.child(db_name).child(key).remove()
+
     def process_upvote(self, url):
         username = None
         identifier = None
@@ -750,6 +766,9 @@ class BlurtChain:
             'bonus_weight': bonus_weight,
         }
         self.save_data_fb("upvote_log", upvote_data)
+
+        # clean up access_log
+        self.cleanup_data_fb("access_log", 7)
 
         data = {
             'status': True,
