@@ -593,6 +593,23 @@ class BlurtChain:
 
         return bonus_weight
 
+    def member_bonus(self, username):
+        bonus_weight = 0.0
+        member_list = []
+        db_name = "user_level"
+        level = 100
+
+        users = self.firebase.child(db_name).child(level).get()
+
+        for user in users.each():
+            data = user.val()
+            member_list.append(data["username"])
+
+        if username in member_list:
+            bonus_weight = 100.0
+
+        return bonus_weight
+
     def upvote_post(self, identifier, bonus_weight):
         upvote_account = Config.UPVOTE_ACCOUNT
         upvote_key = Config.UPVOTE_KEY
@@ -750,6 +767,10 @@ class BlurtChain:
 
         # check delegation bonus
         bonus_weight = self.delegation_bonus(username)
+
+        # check member bonus
+        member_bonus = self.member_bonus(username)
+        bonus_weight += member_bonus
 
         # upvote
         is_upvoted = self.upvote_post(identifier, bonus_weight)
