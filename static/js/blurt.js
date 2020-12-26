@@ -236,7 +236,9 @@ $(document).ready(function(){
         $.ajax(document.delegationApiIn,
         {
             dataType: 'json', // type of response data
-            timeout: 60000,     // timeout milliseconds
+            timeout: 30000, // 30 sec timeout in milliseconds
+            tryCount : 0,
+            retryLimit : 3, // rety 3 times
             success: function (data, status, xhr) {
                 var liStr = ``;
                 if (jQuery.isEmptyObject(data['incoming'])) {
@@ -279,6 +281,14 @@ $(document).ready(function(){
                }
             },
             error: function (jqXhr, textStatus, errorMessage) { // error callback
+                if (textStatus == 'timeout') {
+                    this.tryCount++;
+                    if (this.tryCount < this.retryLimit) {
+                        //try again
+                        $.ajax(this);
+                        return;
+                    }
+                }
                 $("#incomingResult").html('Oops! ' + errorMessage + ' Please reload');
             }
         });
