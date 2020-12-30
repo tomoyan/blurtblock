@@ -30,12 +30,20 @@ FB_APIKEY = os.environ.get('FB_APIKEY') or 'YOUR_FB_APIKEY'
 https://github.com/nhorvath/Pyrebase4  
 
 ## FLASK APP  
-Add flask environment variablea in .flaskenv file:  
+Add flask environment variables in .flaskenv file:  
 touch .flaskenv  
 
+#flask env config  
 FLASK_APP=app.py  
 FLASK_ENV=development  
-SECRET_KEY=YOUR_SECRET_KEY  
+SECRET_KEY=your_key  
+#firebase apikey  
+FB_APIKEY=your_key  
+#service account credentials 
+FB_SERVICEACCOUNT=your_key  
+#upvote account and key  
+UPVOTE_ACCOUNT=your_account  
+UPVOTE_KEY=your_key  
 
 Run flask app:  
 flask run  
