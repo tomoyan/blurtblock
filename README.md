@@ -39,7 +39,7 @@ FLASK_ENV=development
 SECRET_KEY=your_key  
 #firebase apikey  
 FB_APIKEY=your_key  
-#service account credentials 
+#service account credentials   
 FB_SERVICEACCOUNT=your_key  
 #upvote account and key  
 UPVOTE_ACCOUNT=your_account  
