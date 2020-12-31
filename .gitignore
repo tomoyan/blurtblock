@@ -1,5 +1,6 @@
 venv/
 test.py
+blurtdb-firebase-service-account.json
 adminsdk-ji5fi-5caf7d93c9.json
 test-firebase-adminsdk.json
 *.pyc

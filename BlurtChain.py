@@ -788,8 +788,10 @@ class BlurtChain:
         }
         self.save_data_fb("upvote_log", upvote_data)
 
-        # clean up access_log
+        # clean up access_log (7days)
         self.cleanup_data_fb("access_log", 7)
+        # clean up upvote_log (30days)
+        self.cleanup_data_fb("upvote_log", 30)
 
         data = {
             'status': True,
