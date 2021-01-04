@@ -38,10 +38,10 @@ class BlurtChain:
         self.account = None
         self.witness = 0
         self.nodes = [
-            'https://rpc.blurt.buzz',
-            'https://blurtd.privex.io',
+            'https://rpc.blurt.world',
+            # 'https://rpc.blurt.buzz',
+            # 'https://blurtd.privex.io',
             # 'https://rpc.blurtworld.com',
-            # 'https://rpc.blurt.world',
             # 'https://api.softmetal.xyz',
         ]
         random.shuffle(self.nodes)
@@ -748,10 +748,10 @@ class BlurtChain:
             return data
 
         # check witness (using condenser_api)
-        witness_data = self.check_witness(username)
-        if witness_data['status'] is False:
-            data['message'] = witness_data['message']
-            return data
+        # witness_data = self.check_witness(username)
+        # if witness_data['status'] is False:
+        #     data['message'] = witness_data['message']
+        #     return data
 
         # check post is active
         active_post = self.check_active_post(strings[1])
@@ -760,15 +760,15 @@ class BlurtChain:
             return data
 
         # coal user check
-        is_coal = self.coal_check(username)
-        if is_coal["status"] is False:
-            data['message'] = is_coal["message"]
-            return data
+        # is_coal = self.coal_check(username)
+        # if is_coal["status"] is False:
+        #     data['message'] = is_coal["message"]
+        #     return data
 
         # check delegation bonus
         bonus_weight = self.delegation_bonus(username)
 
-        # check member bonus
+        # check member level bonus
         member_bonus = self.member_bonus(username)
         bonus_weight += member_bonus
 
