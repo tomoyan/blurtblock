@@ -226,30 +226,27 @@ class BlurtChain:
         if option == "in":
             data['incoming'] = []
             incoming_temp = dict()
-            blurt_start_time = datetime(2020, 7, 1)
 
             delegate_vesting_shares = self.account.history(
                 only_ops=["delegate_vesting_shares"], batch_size=10000)
 
             for operation in delegate_vesting_shares:
-                timestamp = datetime.strptime(
-                    operation['timestamp'], "%Y-%m-%dT%H:%M:%S")
-
-                if timestamp < blurt_start_time:
-                    continue
-
-                if self.username == operation["delegator"]:
-                    continue
-
-                if operation["vesting_shares"] == '0.000000 VESTS':
-                    incoming_temp.pop(operation["delegator"])
-                    continue
-                else:
-                    incoming_temp[operation["delegator"]] = operation
+                if self.username != operation["delegator"]:
+                    if operation["vesting_shares"]['amount'] == '0':
+                        incoming_temp.pop(operation["delegator"])
+                    else:
+                        precision = operation['vesting_shares']['precision']
+                        precision = 10 ** precision
+                        incoming_temp[operation["delegator"]] = operation
+                        vesting_shares = int(
+                            operation['vesting_shares']['amount']) / precision
+                        operation["vesting_shares"]['amount'] = vesting_shares
 
             if incoming_temp:
                 for key, value in incoming_temp.items():
-                    value['bp'] = self.vests_to_bp(value['vesting_shares'])
+                    value['bp'] = self.blurt.vests_to_bp(
+                        value['vesting_shares']['amount'])
+                    value['bp'] = f"{value['bp']:.3f}"
                     data['incoming'].append(value)
         # find outgoing delegaton
         elif option == "out":
@@ -265,55 +262,6 @@ class BlurtChain:
                 value['expiration'] = f'{date_time[0]} {date_time[-1]}'
         else:
             return data
-
-        return data
-
-    @lru_cache(maxsize=32)
-    def get_delegation(self):
-        # find delegations for username
-        data = {}
-
-        if self.username:
-            # find outgoing delegatons
-            data['outgoing'] = self.account.get_vesting_delegations()
-            for value in data['outgoing']:
-                value['bp'] = self.vests_to_bp(value['vesting_shares'])
-
-            # find expiring delegatons
-            data['expiring'] = self.account.get_expiring_vesting_delegations()
-            for value in data['expiring']:
-                value['bp'] = self.vests_to_bp(value['vesting_shares'])
-                date_time = value['expiration'].split('T')
-                value['expiration'] = f'{date_time[0]} {date_time[-1]}'
-
-            # find incoming delegatons
-            data['incoming'] = []
-            incoming_temp = dict()
-            blurt_start_time = datetime(2020, 7, 1)
-
-            delegate_vesting_shares = self.account.history(
-                only_ops=["delegate_vesting_shares"], batch_size=10000)
-
-            for operation in delegate_vesting_shares:
-                timestamp = datetime.strptime(
-                    operation['timestamp'], "%Y-%m-%dT%H:%M:%S")
-
-                if timestamp < blurt_start_time:
-                    continue
-
-                if self.username == operation["delegator"]:
-                    continue
-
-                if operation["vesting_shares"] == '0.000000 VESTS':
-                    incoming_temp.pop(operation["delegator"])
-                    continue
-                else:
-                    incoming_temp[operation["delegator"]] = operation
-
-            if incoming_temp:
-                for key, value in incoming_temp.items():
-                    value['bp'] = self.vests_to_bp(value['vesting_shares'])
-                    data['incoming'].append(value)
 
         return data
 

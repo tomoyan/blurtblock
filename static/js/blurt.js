@@ -238,7 +238,7 @@ $(document).ready(function(){
             dataType: 'json', // type of response data
             timeout: 30000, // 30 sec timeout in milliseconds
             tryCount : 0,
-            retryLimit : 3, // rety 3 times
+            retryLimit : 6, // retry times
             success: function (data, status, xhr) {
                 var liStr = ``;
                 if (jQuery.isEmptyObject(data['incoming'])) {
@@ -263,9 +263,15 @@ $(document).ready(function(){
                                             width="auto">
                                     </span>
                                     <span>
-                                        <a class="text-blurt font-weight-bold mr-3" href="https://blurt.blog/@${value.delegator}"
+                                        <a class="text-blurt font-weight-bold mr-3"
+                                            href="https://blurt.blog/@${value.delegator}"
                                             target="_blank" rel="noopener noreferrer">
                                             ${value.delegator}</a>
+                                        <br>
+                                        <a class="text-blurt font-weight-bold mr-3"
+                                            href="http://blurtblock.herokuapp.com/${value.delegator}"
+                                            target="_blank" rel="noopener noreferrer">
+                                            Profile</a>
                                     </span>
                                 </div>
                                 <div class="col-sm">
@@ -322,9 +328,15 @@ $(document).ready(function(){
                                             width="auto">
                                     </span>
                                     <span>
-                                        <a class="text-blurt font-weight-bold mr-3" href="https://blurt.blog/@${value.delegatee}"
+                                        <a class="text-blurt font-weight-bold mr-3"
+                                            href="https://blurt.blog/@${value.delegatee}"
                                             target="_blank" rel="noopener noreferrer">
                                             ${value.delegatee}</a>
+                                        <br>
+                                        <a class="text-blurt font-weight-bold mr-3"
+                                            href="http://blurtblock.herokuapp.com/${value.delegatee}"
+                                            target="_blank" rel="noopener noreferrer">
+                                            Profile</a>
                                     </span>
                                 </div>
                                 <div class="col-sm">
