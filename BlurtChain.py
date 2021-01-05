@@ -39,7 +39,7 @@ class BlurtChain:
         self.witness = 0
         self.nodes = [
             'https://rpc.blurt.world',
-            # 'https://rpc.blurt.buzz',
+            'https://rpc.blurt.buzz',
             # 'https://blurtd.privex.io',
             # 'https://rpc.blurtworld.com',
             # 'https://api.softmetal.xyz',
@@ -224,10 +224,14 @@ class BlurtChain:
 
         # find incoming delegaton
         if option == "in":
+            node_list = ['https://rpc.blurt.world', ]
+            blurt = Blurt(node_list)
+            blurt_account = Account(self.username, blockchain_instance=blurt)
+
             data['incoming'] = []
             incoming_temp = dict()
 
-            delegate_vesting_shares = self.account.history(
+            delegate_vesting_shares = blurt_account.history(
                 only_ops=["delegate_vesting_shares"], batch_size=10000)
 
             for operation in delegate_vesting_shares:
