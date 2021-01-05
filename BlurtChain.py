@@ -143,7 +143,7 @@ class BlurtChain:
         count_data = []
         weight_data = []
         total_votes = 0
-        stop = datetime.utcnow() - timedelta(days=7)
+        stop = datetime.utcnow() - timedelta(days=1)
 
         if self.username:
             history = self.account.history_reverse(
