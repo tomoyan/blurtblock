@@ -269,7 +269,7 @@ $(document).ready(function(){
                                             ${value.delegator}</a>
                                         <br>
                                         <a class="text-blurt font-weight-bold mr-3"
-                                            href="http://blurtblock.herokuapp.com/${value.delegator}"
+                                            href="https://blurtblock.herokuapp.com/${value.delegator}"
                                             target="_blank" rel="noopener noreferrer">
                                             Profile</a>
                                     </span>
@@ -334,7 +334,7 @@ $(document).ready(function(){
                                             ${value.delegatee}</a>
                                         <br>
                                         <a class="text-blurt font-weight-bold mr-3"
-                                            href="http://blurtblock.herokuapp.com/${value.delegatee}"
+                                            href="https://blurtblock.herokuapp.com/${value.delegatee}"
                                             target="_blank" rel="noopener noreferrer">
                                             Profile</a>
                                     </span>
