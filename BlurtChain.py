@@ -233,7 +233,7 @@ class BlurtChain:
             incoming_temp = dict()
 
             delegate_vesting_shares = blurt_account.history(
-                only_ops=["delegate_vesting_shares"], batch_size=10000)
+                only_ops=["delegate_vesting_shares"], batch_size=1000)
 
             for operation in delegate_vesting_shares:
                 if self.username != operation["delegator"]:

@@ -238,7 +238,9 @@
                         </div>
                     </div>
 
-                    <h1 class="display-4 text-secondary">Upvote Activity (7days) - Upvoted# {{ data['total_votes'] }}</h1>
+                <div class="card">
+                    <div class="card-body">
+                    <h1 class="display-4 text-center text-secondary">Upvote Activity (7days) - Upvoted# {{ data['total_votes'] }}</h1>
 
                     <!-- chart loading spinner -->
                     <div id="mdb-preloader" class="text-center">
@@ -333,6 +335,8 @@
                         </script>
                         {% endblock %}
                     </div>
+                    </div>
+                </div>
 
                 </div>
 
