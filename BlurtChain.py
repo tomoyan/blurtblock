@@ -147,6 +147,7 @@ class BlurtChain:
 
         if self.username:
             history = self.account.history_reverse(
+                batch_size=1000,
                 stop=stop, only_ops=['vote'])
 
             # Count how many times voted in 7 days
