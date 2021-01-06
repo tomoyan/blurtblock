@@ -38,7 +38,7 @@ class BlurtChain:
         self.account = None
         self.witness = 0
         self.nodes = [
-            'https://rpc.blurt.world',
+            # 'https://rpc.blurt.world',
             'https://rpc.blurt.buzz',
             # 'https://blurtd.privex.io',
             # 'https://rpc.blurtworld.com',
@@ -147,7 +147,6 @@ class BlurtChain:
 
         if self.username:
             history = self.account.history_reverse(
-                batch_size=1000,
                 stop=stop, only_ops=['vote'])
 
             # Count how many times voted in 7 days
