@@ -151,11 +151,11 @@ class BlurtChain:
 
             # Count how many times voted in 7 days
             for data in history:
+                permlink = f'@{data["author"]}/{data["permlink"]}'
+                weight = f"{data['weight'] * 0.01:.2f}"
+                timestamp = datetime.strptime(
+                    data['timestamp'], '%Y-%m-%dT%H:%M:%S')
                 if self.username == data["voter"]:
-                    timestamp = datetime.strptime(
-                        data['timestamp'], '%Y-%m-%dT%H:%M:%S')
-                    permlink = f'@{data["author"]}/{data["permlink"]}'
-                    weight = data['weight'] * 0.01
                     link_data = {
                         'timestamp': timestamp,
                         'permlink': permlink,
@@ -173,11 +173,7 @@ class BlurtChain:
                             'weight': [data["weight"]],
                         }
                 else:
-                    timestamp = datetime.strptime(
-                        data['timestamp'], '%Y-%m-%dT%H:%M:%S')
                     voter = data['voter']
-                    permlink = f'@{data["author"]}/{data["permlink"]}'
-                    weight = data['weight'] * 0.01
                     upvote_data = {
                         'timestamp': timestamp,
                         'voter': voter,
@@ -785,3 +781,34 @@ class BlurtChain:
         }
 
         return result
+
+    def get_leaderboard(self):
+        db_name = 'upvote_log'
+        logs = self.firebase.child(db_name).get()
+        users = {}
+        leaderboard = []
+
+        for log in logs.each():
+            value = log.val()
+
+            if 'vote_weight' not in value:
+                continue
+
+            username = value['username']
+            vote_weight = value['vote_weight']
+            if username in users:
+                users[username] += vote_weight
+            else:
+                users[username] = vote_weight
+
+        # sort users data by total value
+        users = dict(sorted(users.items(), reverse=True,
+                            key=lambda item: item[1]))
+
+        for user in users:
+            leaderboard.append({
+                'username': user,
+                'total': f'{users[user]:0.2f}',
+            })
+
+        return leaderboard

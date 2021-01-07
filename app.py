@@ -46,7 +46,7 @@ def blurt_profile_data(username=None):
 
         # check session profile_data
         profile_data = username + '_profile_data'
-        if session.get(profile_data):
+        if False and session.get(profile_data):
             data = session[profile_data]
         else:
             data = blurt.get_account_info()
@@ -90,6 +90,12 @@ def upvote():
             flash('Error: URL is required')
 
     return render_template('blurt/upvote.html', form=form)
+
+
+@app.route('/blurt/leaderboard', methods=['GET', 'POST'])
+@app.route('/blurt/leaderboard/', methods=['GET', 'POST'])
+def leaderboard():
+    return render_template('blurt/leaderboard.html')
 
 
 # BLURT API
@@ -230,6 +236,17 @@ def blurt_producer(username=None, duration=1):
                 session[reward_data] = data
 
     return jsonify(data)
+
+
+@app.route('/api/blurt/leaderboard')
+@app.route('/api/blurt/leaderboard/')
+def blurt_leaderboard(username=None):
+    leaderboard = {}
+
+    blurt = BC.BlurtChain(username)
+    leaderboard = blurt.get_leaderboard()
+
+    return jsonify(leaderboard)
 
 
 if __name__ == "__main__":
