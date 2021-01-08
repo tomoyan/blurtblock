@@ -92,10 +92,16 @@ def upvote():
     return render_template('blurt/upvote.html', form=form)
 
 
-@app.route('/blurt/leaderboard', methods=['GET', 'POST'])
-@app.route('/blurt/leaderboard/', methods=['GET', 'POST'])
-def leaderboard():
-    return render_template('blurt/leaderboard.html')
+@app.route('/blurt/leaderboard')
+@app.route('/blurt/leaderboard/')
+def leaderboard(username=None):
+    data = {}
+
+    blurt = BC.BlurtChain(username)
+    data = blurt.get_leaderboard()
+
+    return render_template('blurt/leaderboard.html',
+                           data=data)
 
 
 # BLURT API
@@ -241,12 +247,12 @@ def blurt_producer(username=None, duration=1):
 @app.route('/api/blurt/leaderboard')
 @app.route('/api/blurt/leaderboard/')
 def blurt_leaderboard(username=None):
-    leaderboard = {}
+    data = {}
 
     blurt = BC.BlurtChain(username)
-    leaderboard = blurt.get_leaderboard()
+    data = blurt.get_leaderboard()
 
-    return jsonify(leaderboard)
+    return jsonify(data)
 
 
 if __name__ == "__main__":

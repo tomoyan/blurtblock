@@ -805,10 +805,15 @@ class BlurtChain:
         users = dict(sorted(users.items(), reverse=True,
                             key=lambda item: item[1]))
 
-        for user in users:
+        max_value = 0.0
+        for count, user in enumerate(users):
+            if count == 0:
+                max_value = users[user]
+
             leaderboard.append({
                 'username': user,
-                'total': f'{users[user]:0.2f}',
+                'points': f'{users[user]:0.2f}',
+                'percentage': f'{users[user] / max_value * 100:0.2f}',
             })
 
         return leaderboard

@@ -54,13 +54,14 @@
                     <a href="https://blurtblock.herokuapp.com/blurt/upvote/"
                         class="font-weight-bold bg-blurt text-white">
                         <u>BlurtUpvote</u>
-                    </a> and automatically accumulate upvote points.
+                    </a> and lucky leaderboard users will receive BLURT?
                     <br>
                     <strong>Top</strong> users will receive bonus upvote %
+                    <br>
                 </p>
                 <hr class="my-4">
                 <p class="lead">
-                    More Upvotes, More Points, More Rewards.
+                    Upvote Everyday, Get More Points, More Rewards.
                     <br>
                     Details - Coming Soon!
                     <br>
@@ -68,8 +69,41 @@
                 </p>
             </div>
 
-            <div class="container-sm">
-
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="display-4">Leaderboard</h1>
+                        <ul class="list-group text-blurt">
+                            {% for user in data %}
+                            <li class="list-group-item">
+                                <img
+                                    src="https://images.blurt.blog/u/{{user['username']}}/avatar/small"
+                                        onerror="this.onerror=null;
+                                        this.src='/static/images/blurt_profile.png';"
+                                    alt="profile_image"
+                                    class="img-thumbnail rounded-circle float-left mr-3"
+                                >
+                                {{loop.index}}.
+                                    <a class="text-blurt font-weight-bold mr-3"
+                                        href="https://blurtblock.herokuapp.com/{{user['username']}}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"><u>{{user['username']}}</u>
+                                    </a>
+                                <br>
+                                {{user['points']}} points
+                                <div class="progress">
+                                    <div
+                                        class="progress-bar bg-blurt"
+                                        role="progressbar"
+                                        style="width: {{user['percentage']}}%"
+                                        aria-valuenow="{{user['percentage']}}"
+                                        aria-valuemin="0"
+                                        aria-valuemax="100">
+                                    </div>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                </div>
             </div>
 
         </div>
