@@ -787,6 +787,7 @@ class BlurtChain:
         logs = self.firebase.child(db_name).get()
         users = {}
         leaderboard = []
+        max_users = 100
 
         for log in logs.each():
             value = log.val()
@@ -809,6 +810,9 @@ class BlurtChain:
         for count, user in enumerate(users):
             if count == 0:
                 max_value = users[user]
+
+            if count == max_users:
+                break
 
             leaderboard.append({
                 'username': user,

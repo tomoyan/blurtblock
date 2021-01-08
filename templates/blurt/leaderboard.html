@@ -54,15 +54,13 @@
                     <a href="https://blurtblock.herokuapp.com/blurt/upvote/"
                         class="font-weight-bold bg-blurt text-white">
                         <u>BlurtUpvote</u>
-                    </a> and lucky leaderboard users will receive BLURT?
+                    </a> and lucky leaderboard users will receive extra rewards!
                     <br>
-                    <strong>Top</strong> users will receive bonus upvote %
+                    Upvote Everyday, Get More Points, More Rewards.
                     <br>
                 </p>
                 <hr class="my-4">
                 <p class="lead">
-                    Upvote Everyday, Get More Points, More Rewards.
-                    <br>
                     Details - Coming Soon!
                     <br>
                     Don't forget to delegate <strong>BP</strong> to @tomoyan for delegation bonus!
@@ -71,9 +69,10 @@
 
             <div class="card">
                 <div class="card-body">
-                    <h1 class="display-4">Leaderboard</h1>
+                    <h1 class="display-4">Leaderboard Top 100</h1>
                         <ul class="list-group text-blurt">
                             {% for user in data %}
+                            {% if loop.index <= 10 %}
                             <li class="list-group-item">
                                 <img
                                     src="https://images.blurt.blog/u/{{user['username']}}/avatar/small"
@@ -82,7 +81,21 @@
                                     alt="profile_image"
                                     class="img-thumbnail rounded-circle float-left mr-3"
                                 >
-                                {{loop.index}}.
+                                {% if loop.index == 1 %}
+                                    <img
+                                        src="https://www.flaticon.com/svg/static/icons/svg/1021/1021116.svg"
+                                        width="50" height="50">
+                                {% elif loop.index == 2 %}
+                                    <img
+                                        src="https://www.flaticon.com/svg/static/icons/svg/1021/1021085.svg"
+                                        width="50" height="50">
+                                {% elif loop.index == 3 %}
+                                    <img
+                                        src="https://www.flaticon.com/svg/static/icons/svg/1021/1021077.svg"
+                                        width="50" height="50">
+                                {% else %}
+                                    {{loop.index}}.
+                                {% endif %}
                                     <a class="text-blurt font-weight-bold mr-3"
                                         href="https://blurtblock.herokuapp.com/{{user['username']}}"
                                         target="_blank"
@@ -101,6 +114,53 @@
                                     </div>
                                 </div>
                             </li>
+                            {% elif loop.index > 10 and loop.index <= 50 %}
+                            <li class="list-group-item">
+                                <img
+                                    src="https://images.blurt.blog/u/{{user['username']}}/avatar/small"
+                                        onerror="this.onerror=null;
+                                        this.src='/static/images/blurt_profile.png';"
+                                    alt="profile_image"
+                                    class="img-thumbnail rounded-circle float-left mr-3"
+                                    width="50" height="50"
+                                >
+                                {{loop.index}}.
+                                    <a class="text-blurt font-weight-bold mr-3"
+                                        href="https://blurtblock.herokuapp.com/{{user['username']}}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"><u>{{user['username']}}</u>
+                                    </a>
+                                {{user['points']}} points
+                                <div class="progress">
+                                    <div
+                                        class="upvote-progress-bar bg-blurt"
+                                        role="progressbar"
+                                        style="width: {{user['percentage']}}%"
+                                        aria-valuenow="{{user['percentage']}}"
+                                        aria-valuemin="0"
+                                        aria-valuemax="100">
+                                    </div>
+                                </div>
+                            </li>
+                            {% else %}
+                            <li class="list-group-item">
+                                <img
+                                    src="https://images.blurt.blog/u/{{user['username']}}/avatar/small"
+                                        onerror="this.onerror=null;
+                                        this.src='/static/images/blurt_profile.png';"
+                                    alt="profile_image"
+                                    class="img-thumbnail rounded-circle float-left mr-3"
+                                    width="45" height="45"
+                                >
+                                {{loop.index}}.
+                                    <a class="text-blurt font-weight-bold mr-3"
+                                        href="https://blurtblock.herokuapp.com/{{user['username']}}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"><u>{{user['username']}}</u>
+                                    </a>
+                                {{user['points']}} points
+                            </li>
+                            {% endif %}
                             {% endfor %}
                         </ul>
                 </div>
