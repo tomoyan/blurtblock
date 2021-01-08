@@ -55,3 +55,8 @@ body {
 }
 
 .list-group-item:nth-child(odd) { background: #fff; }
+
+/*gradient color for upvote progress bar*/
+.upvote-progress-bar {
+    background: -webkit-linear-gradient(left, #bda79e 0%,#f2652e 100%);
+}
