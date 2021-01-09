@@ -83,8 +83,8 @@ def upvote():
         if form.validate():
             url = request.form['url'].lower()
             blurt = BC.BlurtChain(username=None)
-            blurt.remote_addr = request.environ.get(
-                'HTTP_X_REAL_IP', request.remote_addr)
+            blurt.forwarded_for = request.headers.getlist("X-Forwarded-For")
+            blurt.access_routes = request.access_route
             result = blurt.process_upvote(url)
             flash(result['message'])
         else:

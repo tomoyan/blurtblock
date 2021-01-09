@@ -673,9 +673,10 @@ class BlurtChain:
 
         # save client access_data
         access_data = {
-            'url': url,
+            'post_url': url,
             'created': current_time,
-            'remote_addr': self.remote_addr,
+            'forwarded_for': self.forwarded_for,
+            'access_routes': self.access_routes,
         }
         self.save_data_fb("access_log", access_data)
 
