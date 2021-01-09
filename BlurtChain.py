@@ -13,7 +13,6 @@ import requests
 import pyrebase
 import base64
 import json
-import socket
 
 # Firebase configuration
 serviceAccountCredentials = json.loads(
@@ -673,14 +672,10 @@ class BlurtChain:
         }
 
         # save client access_data
-        client_host = socket.gethostname()
-        client_ip = socket.gethostbyname(client_host)
-
         access_data = {
             'url': url,
             'created': current_time,
-            'client_host': client_host,
-            'client_ip': client_ip,
+            'remote_addr': self.remote_addr,
         }
         self.save_data_fb("access_log", access_data)
 
