@@ -783,6 +783,20 @@ class BlurtChain:
 
         return result
 
+    def get_delegators(self):
+        delegators = []
+
+        # get delegators from firebase
+        # and return list
+        db_name = 'delegators'
+        data = self.firebase.child(
+            db_name).order_by_key().limit_to_last(1).get()
+
+        for delegator in data.each():
+            delegators = delegator.val()
+
+        return delegators
+
     def get_leaderboard(self):
         db_name = 'upvote_log'
         logs = self.firebase.child(db_name).get()
@@ -807,6 +821,8 @@ class BlurtChain:
         users = dict(sorted(users.items(), reverse=True,
                             key=lambda item: item[1]))
 
+        delegators = self.get_delegators()
+
         max_value = 0.0
         for count, user in enumerate(users):
             if count == 0:
@@ -819,6 +835,6 @@ class BlurtChain:
                 'username': user,
                 'points': f'{users[user]:0.2f}',
                 'percentage': f'{users[user] / max_value * 100:0.2f}',
+                'is_delegator': user in delegators,
             })
-
         return leaderboard

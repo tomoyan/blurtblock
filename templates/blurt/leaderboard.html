@@ -100,6 +100,9 @@
                                         href="https://blurtblock.herokuapp.com/{{user['username']}}"
                                         target="_blank"
                                         rel="noopener noreferrer"><u>{{user['username']}}</u>
+                                        {% if user['is_delegator'] %}
+                                            <i class="fas fa-fire"></i>
+                                        {% endif %}
                                     </a>
                                 <br>
                                 {{user['points']}} points
@@ -129,6 +132,9 @@
                                         href="https://blurtblock.herokuapp.com/{{user['username']}}"
                                         target="_blank"
                                         rel="noopener noreferrer"><u>{{user['username']}}</u>
+                                        {% if user['is_delegator'] %}
+                                            <i class="fas fa-fire"></i>
+                                        {% endif %}
                                     </a>
                                 {{user['points']}} points
                                 <div class="progress">
@@ -157,6 +163,9 @@
                                         href="https://blurtblock.herokuapp.com/{{user['username']}}"
                                         target="_blank"
                                         rel="noopener noreferrer"><u>{{user['username']}}</u>
+                                        {% if user['is_delegator'] %}
+                                            <i class="fas fa-fire"></i>
+                                        {% endif %}
                                     </a>
                                 {{user['points']}} points
                             </li>
