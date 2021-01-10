@@ -570,8 +570,8 @@ class BlurtChain:
         blurt = Blurt(node=self.nodes, keys=[upvote_key])
         account = Account(upvote_account, blockchain_instance=blurt)
 
-        # random vote_weight (10-40 %)
-        vote_weight = round(random.uniform(10, 40), 2)
+        # random vote_weight (20-35 %)
+        vote_weight = round(random.uniform(20, 35), 2)
 
         # add delegation_bonus (bonus_weight 0 - 30%)
         vote_weight += bonus_weight
