@@ -580,7 +580,7 @@ class BlurtChain:
             result = blurt.vote(weight, identifier, account=account)
             vote_result["status"] = True
             vote_result["message"] = f"Upvoted: {result}"
-            vote_result["vote_weight"] = vote_weight
+            vote_result["vote_weight"] = vote_weight + delegation_bonus
         except Exception as err:
             print(err)
             vote_result["message"] = f"Error: Please check your URL {err}"
