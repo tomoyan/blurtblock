@@ -526,16 +526,14 @@ class BlurtChain:
                 vesting_shares = Amount(delegation["vesting_shares"])
                 delegation_bp = self.blurt.vests_to_bp(vesting_shares.amount)
 
-                if delegation_bp > 0.0 and delegation_bp <= 1000.0:
+                if 0.0 <= delegation_bp < 1000.0:
                     bonus_weight = round(random.uniform(30, 35), 2)
-                elif delegation_bp > 1000.0 and delegation_bp <= 10000.0:
+                elif 1000.0 <= delegation_bp < 5000.0:
                     bonus_weight = round(random.uniform(35, 40), 2)
-                elif delegation_bp > 10000.0 and delegation_bp <= 100000.0:
-                    bonus_weight = round(random.uniform(40, 45), 2)
-                elif delegation_bp > 100000.0 and delegation_bp <= 1000000.0:
-                    bonus_weight = round(random.uniform(45, 50), 2)
-                elif delegation_bp > 1000000.0:
-                    bonus_weight = 30.0
+                elif 5000.0 <= delegation_bp < 10000.0:
+                    bonus_weight = round(random.uniform(50, 55), 2)
+                elif delegation_bp > 10000.0:
+                    bonus_weight = 60.0
 
                 break
 
@@ -558,7 +556,7 @@ class BlurtChain:
 
         return bonus_weight
 
-    def upvote_post(self, identifier, bonus_weight):
+    def upvote_post(self, identifier, delegation_bonus, member_bonus):
         upvote_account = Config.UPVOTE_ACCOUNT
         upvote_key = Config.UPVOTE_KEY
 
@@ -573,13 +571,13 @@ class BlurtChain:
         # random vote_weight (20-35 %)
         vote_weight = round(random.uniform(20, 35), 2)
 
-        # add delegation_bonus (bonus_weight 0 - 30%)
-        vote_weight += bonus_weight
-        if vote_weight > 100.0:
-            vote_weight = 100.0
+        # add bonus weights
+        weight = vote_weight + delegation_bonus + member_bonus
+        if weight > 100.0:
+            weight = 100.0
 
         try:
-            result = blurt.vote(vote_weight, identifier, account=account)
+            result = blurt.vote(weight, identifier, account=account)
             vote_result["status"] = True
             vote_result["message"] = f"Upvoted: {result}"
             vote_result["vote_weight"] = vote_weight
@@ -696,33 +694,23 @@ class BlurtChain:
             data['message'] = 'Error: Please come back later (every 12h)'
             return data
 
-        # check witness (using condenser_api)
-        # witness_data = self.check_witness(username)
-        # if witness_data['status'] is False:
-        #     data['message'] = witness_data['message']
-        #     return data
-
         # check post is active
         active_post = self.check_active_post(strings[1])
         if active_post is False:
             data['message'] = 'Error: This post is too old to upvote'
             return data
 
-        # coal user check
-        # is_coal = self.coal_check(username)
-        # if is_coal["status"] is False:
-        #     data['message'] = is_coal["message"]
-        #     return data
-
         # check delegation bonus
-        bonus_weight = self.delegation_bonus(username)
+        delegation_bonus = self.delegation_bonus(username)
 
         # check member level bonus
         member_bonus = self.member_bonus(username)
-        bonus_weight += member_bonus
+
+        bonus_weight = delegation_bonus + member_bonus
 
         # upvote
-        is_upvoted = self.upvote_post(identifier, bonus_weight)
+        is_upvoted = self.upvote_post(
+            identifier, delegation_bonus, member_bonus)
         if is_upvoted["status"] is False:
             data['message'] = is_upvoted["message"]
             return data
@@ -736,11 +724,6 @@ class BlurtChain:
             'bonus_weight': bonus_weight,
         }
         self.save_data_fb("upvote_log", upvote_data)
-
-        # clean up access_log (7days)
-        self.cleanup_data_fb("access_log", 7)
-        # clean up upvote_log (30days)
-        self.cleanup_data_fb("upvote_log", 30)
 
         data = {
             'status': True,
@@ -837,4 +820,10 @@ class BlurtChain:
                 'percentage': f'{users[user] / max_value * 100:0.2f}',
                 'is_delegator': user in delegators,
             })
+
+        # clean up access_log (1 days)
+        self.cleanup_data_fb("access_log", 1)
+        # clean up upvote_log (30 days)
+        self.cleanup_data_fb("upvote_log", 30)
+
         return leaderboard
