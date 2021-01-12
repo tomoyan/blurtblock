@@ -59,6 +59,16 @@
                         <ul class="list-group text-blurt">
                             {% for user in data %}
                             {% if loop.index <= 10 %}
+                            {% if loop.index == 4 %}
+                            <!-- A-ADS -->
+                            <li class="list-group-item p-1">
+                                <iframe data-aa="1515162"
+                                    src="//acceptable.a-ads.com/1515162" scrolling="no"
+                                    style="border:0px; padding:0; width:100%; height:100%; overflow:hidden"
+                                    allowtransparency="true">
+                                </iframe>
+                            </li>
+                            {% endif %}
                             <li class="list-group-item">
                                 <img
                                     src="https://images.blurt.blog/u/{{user['username']}}/avatar/small"
