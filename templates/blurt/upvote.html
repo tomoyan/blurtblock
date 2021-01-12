@@ -35,20 +35,11 @@
                 width="150" alt="blurt logo" class="img-thumbnail">
                 <h1 class="display-4">BLURT For Everyone!</h1>
                 <p class="lead">
-                    Receive upvote from
-                    <a href="https://blurt.blog/@tomoyan"
-                        class="bg-blurt text-white"
-                        target="_blank" rel="noopener noreferrer">
-                        <u>@tomoyan</u>
-                    </a>
-                    every 12 hours
+                    Get free UPVOTE every 12 hours
                 </p>
                 <hr class="my-4">
-                <p class="lead">
-                    BLURT POWER delegation bonus has been <strong>INCREASED</strong> up to <u><strong>50%</strong></u>!
-                </p>
                 <p class="font-weight-light">
-                    The more you delegate, the bigger UPVOTE you receive!
+                    BLURT POWER delegation bonus has been <strong>INCREASED</strong> up to <u><strong>50%</strong></u>!
                     <br>
                     Delegate BP to
                     <a href="https://blurt.blog/@tomoyan"
@@ -57,12 +48,6 @@
                         <u>@tomoyan</u>
                     </a>
                 </p>
-<!--                 <p class="lead">
-                    <a class="btn btn-primary  btn-lg" role="button"
-                        href="https://blurtwallet.com/~witnesses?highlight=tomoyan"
-                        target="_blank" rel="noopener noreferrer">Vote
-                    </a>
-                </p> -->
             </div>
 
             <div class="container-sm">
@@ -79,11 +64,7 @@
                             aria-describedby="urlHelp"
                             placeholder="https://blurt.blog/@USERNAME/post-address"
                             >
-<!--                         <small id="urlHelp" class="form-text text-muted">
-                            Witness suppoerters and delegators will receive up to 100% UPVOTE.
-                        </small> -->
                     </div>
-                    <!-- <button type="submit" class="btn btn-blurt" disabled>Submit</button> -->
 
                     <!-- A-ADS -->
                     <p id="a-ads">
@@ -122,6 +103,12 @@
                         <button type="submit" class="btn btn-blurt">Submit</button>
                     </span>
                 </form>
+                <script type="text/javascript">
+                    // disable submit button after submit
+                    $('form').submit(function(){
+                        $(this).find('button[type=submit]').prop('disabled', true);
+                    });
+                </script>
             </div>
 
         </div>
