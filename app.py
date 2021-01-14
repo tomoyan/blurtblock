@@ -110,11 +110,6 @@ def leaderboard(username=None):
                            data=data)
 
 
-@app.route('/.well-known/brave-rewards-verification.txt')
-def verification(username=None):
-    return render_template('/blurt/brave-rewards-verification.txt')
-
-
 # BLURT API
 @app.route('/api/blurt/follower/<username>')
 @app.route('/api/blurt/follower/<username>/')

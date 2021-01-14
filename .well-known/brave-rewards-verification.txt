@@ -1,4 +1,0 @@
-This is a Brave Rewards publisher verification file.
-
-Domain: blurtblock.herokuapp.com
-Token: c9aaaa37bbe0db1456873a015eb32310291032812fdd9fb39e97fc2234cceb5a
