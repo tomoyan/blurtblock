@@ -823,7 +823,7 @@ class BlurtChain:
 
         # clean up access_log (1 days)
         self.cleanup_data_fb("access_log", 1)
-        # clean up upvote_log (30 days)
-        self.cleanup_data_fb("upvote_log", 30)
+        # clean up upvote_log (7 days)
+        self.cleanup_data_fb("upvote_log", 7)
 
         return leaderboard
