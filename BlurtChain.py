@@ -91,6 +91,10 @@ class BlurtChain:
             recharge_time = self.account.get_manabar_recharge_time_str(manabar)
             self.account_info['recharge_time_str'] = recharge_time
 
+            # leaderboard rank
+            ranking = self.get_ranking(self.username)
+            self.account_info['ranking'] = ranking
+
         return self.account_info
 
     @lru_cache(maxsize=32)
@@ -435,9 +439,9 @@ class BlurtChain:
             if stats in months:
                 labels.append(stats)
 
-            for op in ops:
-                stats_data[op].append(
-                    self.process_data(op, fb_stats[stats]))
+                for op in ops:
+                    stats_data[op].append(
+                        self.process_data(op, fb_stats[stats]))
 
         stats_data['labels'] = labels
 
@@ -827,3 +831,28 @@ class BlurtChain:
         self.cleanup_data_fb("upvote_log", 7)
 
         return leaderboard
+
+    def get_ranking(self, user):
+        rank = None
+        users = {}
+        db_name = 'upvote_log'
+
+        logs = self.firebase.child(db_name).get()
+        for log in logs.each():
+            value = log.val()
+            username = value['username']
+            vote_weight = value['vote_weight']
+
+            if username in users:
+                users[username] += vote_weight
+            else:
+                users[username] = vote_weight
+
+        # sort users data by total value
+        users = dict(sorted(users.items(), reverse=True,
+                            key=lambda item: item[1]))
+
+        users = list(users.keys())
+        rank = users.index(user) + 1 if user in users else None
+
+        return rank

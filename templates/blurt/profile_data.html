@@ -67,6 +67,18 @@
                         <p class="lead">
                             Balance: <b>{{ data['blurt'] }} BLURT</b><br>
                             Blurt Power: <b>{{ data['bp'] }} BP</b><br>
+                            <u>
+                                <a href="/blurt/leaderboard/"
+                                class="bg-blurt text-white"
+                                target="_blank" rel="noopener noreferrer">Ranking</a>
+                            </u>:
+                            <b>
+                            {% if data['ranking'] %}
+                            {{ data['ranking'] }}
+                            {% else %}
+                            --
+                            {% endif %}
+                            </b><br>
                         </p>
                     </div>
                 </div>

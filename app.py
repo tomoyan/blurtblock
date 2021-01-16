@@ -46,7 +46,7 @@ def blurt_profile_data(username=None):
 
         # check session profile_data
         profile_data = username + '_profile_data'
-        if False and session.get(profile_data):
+        if session.get(profile_data):
             data = session[profile_data]
         else:
             data = blurt.get_account_info()
@@ -257,6 +257,17 @@ def blurt_leaderboard(username=None):
 
     blurt = BC.BlurtChain(username)
     data = blurt.get_leaderboard()
+
+    return jsonify(data)
+
+
+@app.route('/api/blurt/ranking/<username>')
+@app.route('/api/blurt/ranking/<username>/')
+def blurt_ranking(username=None):
+    data = {}
+    if username:
+        blurt = BC.BlurtChain(username)
+        data = blurt.get_ranking(username)
 
     return jsonify(data)
 
