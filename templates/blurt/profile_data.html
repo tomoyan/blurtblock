@@ -183,7 +183,7 @@
                                     <button class="btn btn-blurt btn-block collapsed"
                                         data-toggle="collapse" data-target="#collapseOne"
                                         aria-expanded="true" aria-controls="collapseOne">
-                                        <h1 class="display-4">Upvoted Post by users</h1>
+                                        <h1 class="display-4">Upvoted by users</h1>
                                     </button>
                                 </h5>
                             </div>
@@ -223,7 +223,7 @@
                                     <button class="btn btn-blurt btn-block collapsed"
                                         data-toggle="collapse" data-target="#collapseTwo"
                                         aria-expanded="false" aria-controls="collapseTwo">
-                                        <h1 class="display-4">Upvoted Post by {{ username }}</h1>
+                                        <h1 class="display-4">Upvoted by {{ username }}</h1>
                                     </button>
                                 </h5>
                             </div>
@@ -253,7 +253,7 @@
 
                 <div class="card">
                     <div class="card-body">
-                    <h1 class="display-4 text-center text-secondary">Upvote Activity (7days) - Upvoted# {{ data['total_votes'] }}</h1>
+                    <h1 class="display-4 text-center text-secondary">Upvoted {{ data['total_votes'] }} times (7days)</h1>
 
                     <!-- chart loading spinner -->
                     <div id="mdb-preloader" class="text-center">
