@@ -38,11 +38,7 @@ class BlurtChain:
         self.account = None
         self.witness = 0
         self.nodes = [
-            # 'https://rpc.blurt.world',
-            'https://rpc.blurt.buzz',
-            # 'https://blurtd.privex.io',
-            # 'https://rpc.blurtworld.com',
-            # 'https://api.softmetal.xyz',
+            'https://rpc.blurt.world',
         ]
         random.shuffle(self.nodes)
 
