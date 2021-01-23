@@ -252,11 +252,11 @@
                     </div>
 
                 <div class="card">
-                    <div class="card-body">
-                    <h1 class="display-4 text-center text-secondary">Upvoted {{ data['total_votes'] }} times (7days)</h1>
+                    <!-- <div class="card-body"> -->
+                    <!-- <h1 class="display-4 text-center text-secondary">Upvoted {{ data['total_votes'] }} times (7days)</h1> -->
 
                     <!-- chart loading spinner -->
-                    <div id="mdb-preloader" class="text-center">
+<!--                     <div id="mdb-preloader" class="text-center">
                         <div class="spinner-grow text-blurt m-3" role="status">
                             <span class="sr-only">Loading...</span>
                         </div>
@@ -278,12 +278,12 @@
                                 class="img-fluid"
                                 alt="dancing_bear">
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class="row">
 
                         <!-- upvote chart goes in to canvas -->
-                        <canvas id="canvas"></canvas>
+                        <!-- <canvas id="canvas"></canvas> -->
                         {% block javascript %}
                         <script>
                             var chartData = {
@@ -348,7 +348,7 @@
                         </script>
                         {% endblock %}
                     </div>
-                    </div>
+                    <!-- </div> -->
                 </div>
 
                 </div>

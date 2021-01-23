@@ -144,7 +144,7 @@ class BlurtChain:
         count_data = []
         weight_data = []
         total_votes = 0
-        stop = datetime.utcnow() - timedelta(days=7)
+        stop = datetime.utcnow() - timedelta(days=1)
 
         if self.username:
             history = self.account.history_reverse(
@@ -164,15 +164,15 @@ class BlurtChain:
                     }
                     permlinks.append(link_data)
 
-                    if data["author"] in votes.keys():
-                        votes[data["author"]]['count'] += 1
-                        votes[data["author"]
-                              ]['weight'].append(data["weight"])
-                    else:
-                        votes[data["author"]] = {
-                            'count': 1,
-                            'weight': [data["weight"]],
-                        }
+                    # if data["author"] in votes.keys():
+                    #     votes[data["author"]]['count'] += 1
+                    #     votes[data["author"]
+                    #           ]['weight'].append(data["weight"])
+                    # else:
+                    #     votes[data["author"]] = {
+                    #         'count': 1,
+                    #         'weight': [data["weight"]],
+                    #     }
                 else:
                     voter = data['voter']
                     upvote_data = {
@@ -183,13 +183,13 @@ class BlurtChain:
                     }
                     upvotes.append(upvote_data)
 
-            for key, value in votes.items():
-                labels.append(key)
-                count_data.append(value['count'])
-                weight_data.append(mean(value['weight']) * 0.01)
+            # for key, value in votes.items():
+            #     labels.append(key)
+            #     count_data.append(value['count'])
+            #     weight_data.append(mean(value['weight']) * 0.01)
 
-                total_votes += value['count']
-                value['weight'] = mean(value['weight']) * 0.01
+            #     total_votes += value['count']
+            #     value['weight'] = mean(value['weight']) * 0.01
 
         result['total_votes'] = total_votes
 
