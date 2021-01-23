@@ -39,6 +39,7 @@ class BlurtChain:
         self.witness = 0
         self.nodes = [
             'https://rpc.blurt.world',
+            'https://rpc.blurt.buzz',
         ]
         random.shuffle(self.nodes)
 
