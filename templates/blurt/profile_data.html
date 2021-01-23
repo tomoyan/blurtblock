@@ -63,7 +63,7 @@
                 </h1>
 
                 <div class="d-flex bd-highlight">
-                    <div class="p-2 flex-grow-1 bd-highlight">
+                    <div class="flex-grow-1 bd-highlight">
                         <p class="lead">
                             Balance: <b>{{ data['blurt'] }} BLURT</b><br>
                             Blurt Power: <b>{{ data['bp'] }} BP</b><br>
@@ -307,44 +307,44 @@
                                 }]
                             };
 
-                            window.onload = function() {
-                                // hide spinner when chart is loaded
-                                $('#mdb-preloader').delay(100).fadeOut(300);
+                            // window.onload = function() {
+                            //     // hide spinner when chart is loaded
+                            //     $('#mdb-preloader').delay(100).fadeOut(300);
 
-                                var ctx = document.getElementById('canvas').getContext('2d');
-                                window.myLine = new Chart(ctx, {
-                                    type: 'bar',
-                                    data: chartData,
-                                    options: {
-                                        responsive: true,
-                                        // hoverMode: 'index',
-                                        // stacked: false,
-                                        title: {
-                                            display: false,
-                                            text: 'Upvote Count and Weight'
-                                        },
-                                        scales: {
-                                            yAxes: [{
-                                                type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
-                                                display: true,
-                                                position: 'left',
-                                                id: 'y-axis-1',
-                                                ticks: {'beginAtZero': true}
-                                            }, {
-                                                type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
-                                                display: true,
-                                                position: 'right',
-                                                id: 'y-axis-2',
-                                                ticks: {'beginAtZero': true},
-                                                // grid line settings
-                                                gridLines: {
-                                                    drawOnChartArea: false, // only want the grid lines for one axis to show up
-                                                },
-                                            }],
-                                        }
-                                    }
-                                });
-                            };
+                            //     // var ctx = document.getElementById('canvas').getContext('2d');
+                            //     window.myLine = new Chart(ctx, {
+                            //         type: 'bar',
+                            //         data: chartData,
+                            //         options: {
+                            //             responsive: true,
+                            //             // hoverMode: 'index',
+                            //             // stacked: false,
+                            //             title: {
+                            //                 display: false,
+                            //                 text: 'Upvote Count and Weight'
+                            //             },
+                            //             scales: {
+                            //                 yAxes: [{
+                            //                     type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+                            //                     display: true,
+                            //                     position: 'left',
+                            //                     id: 'y-axis-1',
+                            //                     ticks: {'beginAtZero': true}
+                            //                 }, {
+                            //                     type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+                            //                     display: true,
+                            //                     position: 'right',
+                            //                     id: 'y-axis-2',
+                            //                     ticks: {'beginAtZero': true},
+                            //                     // grid line settings
+                            //                     gridLines: {
+                            //                         drawOnChartArea: false, // only want the grid lines for one axis to show up
+                            //                     },
+                            //                 }],
+                            //             }
+                            //         }
+                            //     });
+                            // };
                         </script>
                         {% endblock %}
                     </div>
