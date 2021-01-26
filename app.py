@@ -50,14 +50,6 @@ def blurt_profile_data(username=None):
             data = session[profile_data]
         else:
             data = blurt.get_account_info()
-            vote_data = blurt.get_vote_history(username)
-
-            data['labels'] = vote_data['labels']
-            data['permlinks'] = vote_data['permlinks']
-            data['upvotes'] = vote_data['upvotes']
-            data['count_data'] = vote_data['count_data']
-            data['weight_data'] = vote_data['weight_data']
-            data['total_votes'] = vote_data['total_votes']
 
             session[profile_data] = data
 

@@ -49,11 +49,13 @@
 
                 {% if username %}
                 <h1 class="display-4">Blurt Profile:
+                    <small>
                     <u>
                         <a href="https://blurt.blog/@{{ username }}"
                         class="bg-blurt text-white"
                         target="_blank" rel="noopener noreferrer">{{ username }}</a>
                     </u>
+                    </small>
                     <img src="https://images.blurt.blog/u/{{ username }}/avatar"
                             onerror="this.onerror=null;
                             this.src='/static/images/blurt_profile.png';"
@@ -176,7 +178,11 @@
 
                 <div class="tab-pane fade show active" id="nav-main" role="tabpanel" aria-labelledby="nav-main-tab">
 
-                    <div id="accordion">
+                <!-- main content -->
+                <h1 class="display-4">Wallet Info</h1>
+                {% include 'blurt/profile_data_main.html' %}
+
+<!--                     <div id="accordion">
                         <div class="card">
                             <div class="card-header" id="headingOne">
                                 <h5 class="mb-0">
@@ -249,9 +255,9 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
-                <div class="card">
+                <!-- <div class="card"> -->
                     <!-- <div class="card-body"> -->
                     <!-- <h1 class="display-4 text-center text-secondary">Upvoted {{ data['total_votes'] }} times (7days)</h1> -->
 
@@ -280,76 +286,9 @@
                         </div>
                     </div> -->
 
-                    <div class="row">
 
-                        <!-- upvote chart goes in to canvas -->
-                        <!-- <canvas id="canvas"></canvas> -->
-                        {% block javascript %}
-                        <script>
-                            var chartData = {
-                                labels: {{ data['labels'] | tojson }},
-                                datasets: [{
-                                    label: 'Vote Count',
-                                    borderColor: window.chartColors.yellow,
-                                    // backgroundColor: window.chartColors.yellow,
-                                    backgroundColor: '#F9F871',
-                                    fill: false,
-                                    data: {{ data['count_data'] }},
-                                    yAxisID: 'y-axis-1',
-                                }, {
-                                    label: 'Vote Weight',
-                                    borderColor: window.chartColors.blue,
-                                    // backgroundColor: window.chartColors.blue,
-                                    backgroundColor: '#5EC2C2',
-                                    fill: false,
-                                    data: {{ data['weight_data'] }},
-                                    yAxisID: 'y-axis-2'
-                                }]
-                            };
-
-                            // window.onload = function() {
-                            //     // hide spinner when chart is loaded
-                            //     $('#mdb-preloader').delay(100).fadeOut(300);
-
-                            //     // var ctx = document.getElementById('canvas').getContext('2d');
-                            //     window.myLine = new Chart(ctx, {
-                            //         type: 'bar',
-                            //         data: chartData,
-                            //         options: {
-                            //             responsive: true,
-                            //             // hoverMode: 'index',
-                            //             // stacked: false,
-                            //             title: {
-                            //                 display: false,
-                            //                 text: 'Upvote Count and Weight'
-                            //             },
-                            //             scales: {
-                            //                 yAxes: [{
-                            //                     type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
-                            //                     display: true,
-                            //                     position: 'left',
-                            //                     id: 'y-axis-1',
-                            //                     ticks: {'beginAtZero': true}
-                            //                 }, {
-                            //                     type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
-                            //                     display: true,
-                            //                     position: 'right',
-                            //                     id: 'y-axis-2',
-                            //                     ticks: {'beginAtZero': true},
-                            //                     // grid line settings
-                            //                     gridLines: {
-                            //                         drawOnChartArea: false, // only want the grid lines for one axis to show up
-                            //                     },
-                            //                 }],
-                            //             }
-                            //         }
-                            //     });
-                            // };
-                        </script>
-                        {% endblock %}
-                    </div>
                     <!-- </div> -->
-                </div>
+                <!-- </div> -->
 
                 </div>
 

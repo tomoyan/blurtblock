@@ -1,0 +1,90 @@
+                <div class="card">
+                    <div class="card">
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col text-truncate">
+                                          <b>CURRENT REWARD</b>
+                                        </div>
+                                        <div class="col text-truncate">
+                                          {{ data['current_reward'] }} BP
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col text-truncate">
+                                          <b>BLURT</b>
+                                        </div>
+                                        <div class="col text-truncate">
+                                          {{ data['blurt'] }} BLURT
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col text-truncate">
+                                          <b>BLURT POWER</b>
+                                        </div>
+                                        <div class="col text-truncate">
+                                          {{ data['bp'] }} BP
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col text-truncate">
+                                          <b>SAVINGS</b>
+                                        </div>
+                                        <div class="col text-truncate">
+                                          {{ data['savings'] }} BLURT
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col text-truncate">
+                                          <b>EFFECTIVE POWER</b>
+                                        </div>
+                                        <div class="col text-truncate">
+                                          {{ data['effective'] }} BP
+                                          (BP & Delegations)
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col text-truncate">
+                                          <b>DELEGATED BP</b>
+                                        </div>
+                                        <div class="col text-truncate">
+                                            - {{ data['delegated_bp'] }} BP
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col text-truncate">
+                                          <b>RECEIVED BP</b>
+                                        </div>
+                                        <div class="col text-truncate">
+                                            + {{ data['received_bp'] }} BP
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col text-truncate">
+                                          <b>NEXT POWERDOWN</b>
+                                        </div>
+                                        <div class="col text-truncate">
+                                            {{ data['withdraw_date'] }}
+                                            (~ {{ data['withdraw_bp'] }} BP)
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>

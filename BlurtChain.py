@@ -1,12 +1,13 @@
 from beem.instance import set_shared_blockchain_instance
 from beem.account import Account
 from beem.amount import Amount
+from beem.comment import Comment
 from beem.witness import Witness
+from beemapi.noderpc import NodeRPC
 from beem import Blurt
 from config import Config
 
 from datetime import datetime, timedelta
-from statistics import mean
 from functools import lru_cache
 import random
 import requests
@@ -70,16 +71,6 @@ class BlurtChain:
         self.account_info = {}
 
         if self.username:
-            # GET BLURT AMOUNT
-            available_balances = self.account.available_balances
-            blurt = available_balances[0]
-            blurt = str(blurt).split()[0]
-            self.account_info['blurt'] = f'{float(blurt):,.3f}'
-
-            # GET BLURT POWER
-            blurt_power = self.account.get_steem_power()
-            self.account_info['bp'] = f'{blurt_power:,.3f}'
-
             # GET VOTING POWER %
             voting_power = self.account.get_voting_power()
             self.account_info['voting_power'] = f'{voting_power:.2f}'
@@ -87,6 +78,57 @@ class BlurtChain:
             manabar = self.account.get_manabar()
             recharge_time = self.account.get_manabar_recharge_time_str(manabar)
             self.account_info['recharge_time_str'] = recharge_time
+
+            # GET ACCOUNT DETAILS
+            noderpc = NodeRPC('https://rpc.blurt.world')
+            account_data = noderpc.get_account(self.username)[0]
+
+            # BLURT BALANCE
+            balance = float(account_data['balance'].split()[0])
+            self.account_info['blurt'] = f'{balance:,.3f}'
+
+            # BLURT POWER
+            vesting_shares = account_data['vesting_shares']
+            vesting_shares = float(self.vests_to_bp(vesting_shares))
+            self.account_info['bp'] = f'{vesting_shares:,.3f}'
+
+            # SAVINGS BALANCE
+            savings_balance = account_data['savings_balance']
+            savings_balance = float(account_data['savings_balance'].split()[0])
+            self.account_info['savings'] = f'{savings_balance:,.3f}'
+
+            # CURRENT REWARD
+            current_reward = float(
+                account_data['reward_vesting_blurt'].split()[0])
+            self.account_info['current_reward'] = f'{current_reward:,.3f}'
+
+            # DELEGATED BP
+            delegated_bp = account_data['delegated_vesting_shares']
+            delegated_bp = float(self.vests_to_bp(delegated_bp))
+            self.account_info['delegated_bp'] = f'{delegated_bp:,.3f}'
+
+            # RECEIVED BP
+            received_bp = account_data['received_vesting_shares']
+            received_bp = float(self.vests_to_bp(received_bp))
+            self.account_info['received_bp'] = f'{received_bp:,.3f}'
+
+            # GET EFFECTIVE BLURT POWER (staked token + delegations)
+            token_power = self.account.get_token_power()
+            self.account_info['effective'] = f'{token_power:,.3f}'
+
+            # POWERDOWN SCHEDULE
+            withdraw_bp = account_data['vesting_withdraw_rate']
+            withdraw_bp = float(self.vests_to_bp(withdraw_bp))
+            self.account_info['withdraw_bp'] = f'{withdraw_bp:,.3f}'
+            withdraw_date = account_data['next_vesting_withdrawal']
+            withdraw_date = datetime.strptime(
+                withdraw_date, '%Y-%m-%dT%H:%M:%S')
+
+            current_date = datetime.utcnow()
+            if current_date > withdraw_date:
+                self.account_info['withdraw_date'] = '--'
+            else:
+                self.account_info['withdraw_date'] = withdraw_date
 
             # leaderboard rank
             ranking = self.get_ranking(self.username)
@@ -135,6 +177,30 @@ class BlurtChain:
         return self.following_data
 
     @lru_cache(maxsize=128)
+    def get_pending_posts(self):
+        active_posts = []
+        posts = self.account.blog_history(limit=50)
+
+        for post in posts:
+            c = Comment(post['authorperm'], blockchain_instance=self.blurt)
+            time_elapsed = c.time_elapsed()
+
+            # Skip old posts(7 days = 604800 sec)
+            if time_elapsed.total_seconds() > 604800:
+                break
+
+            rewards = c.get_author_rewards()
+
+            if rewards['pending_rewards']:
+                active_posts.append({
+                    'title': c['title'],
+                    'authorperm': post['authorperm'],
+                    'pending_rewards': rewards['total_payout'],
+                })
+
+        return active_posts
+
+    @ lru_cache(maxsize=128)
     def get_vote_history(self, username):
         votes = {}
         result = {}
@@ -201,7 +267,7 @@ class BlurtChain:
 
         return result
 
-    @lru_cache(maxsize=32)
+    @ lru_cache(maxsize=32)
     def get_mute(self):
         data = {}
 
@@ -211,7 +277,7 @@ class BlurtChain:
 
         return data
 
-    @lru_cache(maxsize=32)
+    @ lru_cache(maxsize=32)
     def get_delegation_new(self, option):
         # find delegation for username
         data = {}
