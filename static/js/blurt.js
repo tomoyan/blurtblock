@@ -238,7 +238,7 @@ $(document).ready(function(){
             dataType: 'json', // type of response data
             timeout: 30000, // 30 sec timeout in milliseconds
             tryCount : 0,
-            retryLimit : 6, // retry times
+            retryLimit : 10, // retry times
             success: function (data, status, xhr) {
                 var liStr = ``;
                 if (jQuery.isEmptyObject(data['incoming'])) {

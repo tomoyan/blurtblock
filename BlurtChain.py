@@ -287,7 +287,7 @@ class BlurtChain:
 
         # find incoming delegaton
         if option == "in":
-            node_list = ['https://rpc.blurt.world', ]
+            node_list = ['https://rpc.blurt.buzz']
             blurt = Blurt(node_list)
             blurt_account = Account(self.username, blockchain_instance=blurt)
 
@@ -297,24 +297,23 @@ class BlurtChain:
             delegate_vesting_shares = blurt_account.history(
                 only_ops=["delegate_vesting_shares"], batch_size=1000)
 
+            # find delegators
             for operation in delegate_vesting_shares:
-                if self.username != operation["delegator"]:
-                    if operation["vesting_shares"]['amount'] == '0':
-                        incoming_temp.pop(operation["delegator"])
-                    else:
-                        precision = operation['vesting_shares']['precision']
-                        precision = 10 ** precision
-                        incoming_temp[operation["delegator"]] = operation
-                        vesting_shares = int(
-                            operation['vesting_shares']['amount']) / precision
-                        operation["vesting_shares"]['amount'] = vesting_shares
+                if self.username == operation["delegator"]:
+                    continue
+                incoming_temp[operation["delegator"]] = operation
 
-            if incoming_temp:
-                for key, value in incoming_temp.items():
-                    value['bp'] = self.blurt.vests_to_bp(
-                        value['vesting_shares']['amount'])
-                    value['bp'] = f"{value['bp']:.3f}"
-                    data['incoming'].append(value)
+            for key in incoming_temp:
+                info = incoming_temp[key]
+
+                if info['vesting_shares'] == '0.000000 VESTS':
+                    # skip 0 VESTS
+                    continue
+                else:
+                    # convert VESTS to BP
+                    info['bp'] = self.vests_to_bp(info['vesting_shares'])
+                    info['bp'] = f"{float(info['bp']):,.3f}"
+                    data['incoming'].append(info)
         # find outgoing delegaton
         elif option == "out":
             data['outgoing'] = self.account.get_vesting_delegations()
