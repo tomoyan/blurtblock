@@ -1,6 +1,7 @@
 venv/
 test.py
 weekly_delegation_reward.py
+update_delegator_list.py
 blurtdb-firebase-service-account.json
 adminsdk-ji5fi-5caf7d93c9.json
 test-firebase-adminsdk.json

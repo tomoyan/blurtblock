@@ -295,7 +295,7 @@ class BlurtChain:
             incoming_temp = dict()
 
             delegate_vesting_shares = blurt_account.history(
-                only_ops=["delegate_vesting_shares"], batch_size=1000)
+                only_ops=["delegate_vesting_shares"])
 
             # find delegators
             for operation in delegate_vesting_shares:
