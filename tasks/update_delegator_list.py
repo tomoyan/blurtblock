@@ -69,9 +69,6 @@ def update_delegator_list():
     db_name = 'delegators'
     db_prd.child(db_name).push(delegators)
 
-    db_name = 'delegation_list'
-    db_prd.child(db_name).push(delegation_list)
-
 
 def vests_to_bp(vests):
     # VESTS to BP conversion
