@@ -40,8 +40,8 @@ def main():
     # Clean up upvote_log (7 days)
     fb_data_cleanup("upvote_log", 7)
 
-def update_delegator_list():
 
+def update_delegator_list():
     username = os.environ.get('UPVOTE_ACCOUNT')
     blurt_account = Account(username, blockchain_instance=blurt)
 
@@ -68,6 +68,9 @@ def update_delegator_list():
     # Save delegators into firebase
     db_name = 'delegators'
     db_prd.child(db_name).push(delegators)
+
+    db_name = 'delegation_list'
+    db_prd.child(db_name).push(delegation_list)
 
 
 def vests_to_bp(vests):
