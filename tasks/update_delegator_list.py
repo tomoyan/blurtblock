@@ -3,6 +3,8 @@ from beem.account import Account
 from beem.account import Amount
 from datetime import datetime, timedelta
 import pyrebase
+import base64
+import json
 import os
 
 # Setup blurt nodes and account
@@ -12,12 +14,15 @@ blurt_nodes = [
 blurt = Blurt(blurt_nodes)
 
 # Firebase configuration
+serviceAccountCredentials = json.loads(
+    base64.b64decode(os.environ.get('FB_SERVICEACCOUNT').encode()).decode())
+
 firebase_config_prd = {
     "apiKey": os.environ.get('FB_APIKEY'),
     "authDomain": os.environ.get('FB_AUTHDOMAIN'),
     "databaseURL": os.environ.get('FB_DATABASEURL'),
     "storageBucket": os.environ.get('FB_STORAGEBUCKET'),
-    "serviceAccount": os.environ.get('FB_SERVICEACCOUNT'),
+    "serviceAccount": serviceAccountCredentials,
 }
 firebase = pyrebase.initialize_app(firebase_config_prd)
 
