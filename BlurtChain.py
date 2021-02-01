@@ -229,15 +229,6 @@ class BlurtChain:
                     }
                     permlinks.append(link_data)
 
-                    # if data["author"] in votes.keys():
-                    #     votes[data["author"]]['count'] += 1
-                    #     votes[data["author"]
-                    #           ]['weight'].append(data["weight"])
-                    # else:
-                    #     votes[data["author"]] = {
-                    #         'count': 1,
-                    #         'weight': [data["weight"]],
-                    #     }
                 else:
                     voter = data['voter']
                     upvote_data = {
@@ -247,14 +238,6 @@ class BlurtChain:
                         'weight': weight,
                     }
                     upvotes.append(upvote_data)
-
-            # for key, value in votes.items():
-            #     labels.append(key)
-            #     count_data.append(value['count'])
-            #     weight_data.append(mean(value['weight']) * 0.01)
-
-            #     total_votes += value['count']
-            #     value['weight'] = mean(value['weight']) * 0.01
 
         result['total_votes'] = total_votes
 
@@ -633,8 +616,8 @@ class BlurtChain:
         blurt = Blurt(node=self.nodes, keys=[upvote_key])
         account = Account(upvote_account, blockchain_instance=blurt)
 
-        # random vote_weight (20-35 %)
-        vote_weight = round(random.uniform(20, 35), 2)
+        # random vote_weight (10-25%)
+        vote_weight = round(random.uniform(10, 25), 2)
 
         # add bonus weights
         weight = vote_weight + delegation_bonus + member_bonus
@@ -677,51 +660,10 @@ class BlurtChain:
 
         return result
 
-    def coal_check(self, username):
-        result = {
-            'status': False,
-            'message': 'Error: Sorry user is listed in COAL'
-        }
-
-        endpoint = "https://api.blurt.buzz/blacklist"
-
-        get_result = self.get_request(endpoint)
-        response = get_result["response"]
-
-        if response:
-            json_response = response.json()
-            for res in json_response:
-                if res["name"] == username:
-                    # username is listed in coal
-                    return result
-
-            result = {
-                'status': True,
-                'message': 'OK'
-            }
-
-        return result
-
     def save_data_fb(self, db_name, data):
         # save data into firebase database
         result = self.firebase.child(db_name).push(data)
         return result
-
-    def cleanup_data_fb(self, db_name, duration):
-        # get log history
-        logs = self.firebase.child(db_name).get()
-
-        datetime_old = datetime.now() - timedelta(days=duration)
-
-        for log in logs.each():
-            key = log.key()
-            data = log.val()
-
-            datetime_obj = datetime.strptime(
-                data["created"], "%m/%d/%Y %H:%M:%S")
-
-            if datetime_obj < datetime_old:
-                self.firebase.child(db_name).child(key).remove()
 
     def process_upvote(self, url):
         username = None
