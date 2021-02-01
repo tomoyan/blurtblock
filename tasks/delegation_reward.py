@@ -138,6 +138,12 @@ Give it a try! Anybody can use it even if you don't delegate.
 {table}
 Thank you for your support!
 Have a Blurt day :)
+<a href="https://www.presearch.org/signup?rid=1684719" target="_blank">
+  <strong>Get PRE Tokens for Internet Search</strong>
+  <img
+    src="https://presearch.org/images/rf/ban-4.jpg"
+    title="Presearch" alt="presearch" />
+</a>
     """
 
     b.post(
