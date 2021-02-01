@@ -13,6 +13,9 @@ blurt_nodes = [
 ]
 blurt = Blurt(blurt_nodes)
 
+username = os.environ.get('USERNAME')
+account = Account(username, blockchain_instance=blurt)
+
 # Firebase configuration
 serviceAccountCredentials = json.loads(
     base64.b64decode(os.environ.get('FB_SERVICEACCOUNT').encode()).decode())
@@ -32,7 +35,8 @@ db_prd = firebase.database()
 
 def main():
     # Update delegator list once a day
-    update_delegator_list()
+    # And store data into delegation_list
+    update_delegation_list()
 
     # Clean up access_log (1 days)
     fb_data_cleanup("access_log", 1)
@@ -41,42 +45,33 @@ def main():
     fb_data_cleanup("upvote_log", 7)
 
 
-def update_delegator_list():
-    username = os.environ.get('UPVOTE_ACCOUNT')
-    blurt_account = Account(username, blockchain_instance=blurt)
+def update_delegation_list():
+    delegations = {}
 
     # Get delegation history
-    delegate_vesting_shares = blurt_account.history(
+    delegate_vesting_shares = account.history(
         only_ops=["delegate_vesting_shares"])
 
-    delegation_list = dict()
     for operation in delegate_vesting_shares:
         if operation['delegator'] == username:
             continue
 
-        bp = vests_to_bp(operation['vesting_shares'])
-        bp = f'{bp}'
-        delegation_list[operation['delegator']] = bp
+        if operation['vesting_shares']['amount'] == '0':
+            delegations.pop(operation['delegator'])
+        else:
+            amount = Amount(operation['vesting_shares'])
+            bp = blurt.vests_to_bp(amount)
+            delegations[operation['delegator']] = bp
 
-    # remove amount 0
-    delegators = []
-    for key in delegation_list:
-        if delegation_list[key] == '0.0':
-            continue
-        delegators.append(key)
+    delegation_list = []
+    for key in delegations:
+        delegation_list.append({
+            'username': key,
+            'bp': delegations[key],
+        })
 
-    # Save delegators into firebase
-    db_name = 'delegators'
-    db_prd.child(db_name).push(delegators)
-
-
-def vests_to_bp(vests):
-    # VESTS to BP conversion
-    bp = 0.000
-    v = Amount(vests)
-    bp = blurt.vests_to_bp(v)
-
-    return bp
+    db_name = 'delegation_list'
+    db_prd.child(db_name).child('list').set(delegation_list)
 
 
 def fb_data_cleanup(db_name, duration):
