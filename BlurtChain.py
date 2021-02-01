@@ -53,10 +53,9 @@ class BlurtChain:
         # Create account object
         try:
             self.account = Account(self.username, full=False, lazy=False)
-        except Exception as e:
+        except Exception:
             self.username = None
             self.account = None
-            print(f'AccountDoesNotExistsException : {e}')
 
         # Witness check
         try:
@@ -836,13 +835,13 @@ class BlurtChain:
         delegators = []
 
         # get delegators from firebase
-        # and return list
-        db_name = 'delegators'
-        data = self.firebase.child(
-            db_name).order_by_key().limit_to_last(1).get()
+        # and return list of usernames
+        db_name = 'delegation_list'
+        data = self.firebase.child(db_name).child('list').get()
 
-        for delegator in data.each():
-            delegators = delegator.val()
+        for d in data.each():
+            username = d.val()['username']
+            delegators.append(username)
 
         return delegators
 
@@ -886,11 +885,6 @@ class BlurtChain:
                 'percentage': f'{users[user] / max_value * 100:0.2f}',
                 'is_delegator': user in delegators,
             })
-
-        # clean up access_log (1 days)
-        # self.cleanup_data_fb("access_log", 1)
-        # clean up upvote_log (7 days)
-        # self.cleanup_data_fb("upvote_log", 7)
 
         return leaderboard
 
