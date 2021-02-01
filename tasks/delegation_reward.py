@@ -1,6 +1,5 @@
 from beem import Blurt
 from beem.account import Account
-from beem.account import Amount
 from datetime import datetime
 import pyrebase
 import base64
@@ -56,22 +55,14 @@ def get_reward_budget():
 
 
 def get_delegation_list():
-    delegations = {}
+    delegations = dict()
+    db_name = 'delegation_list'
+    data = db_prd.child(db_name).child('list').get()
 
-    # get delegation history
-    delegate_vesting_shares = account.history(
-        only_ops=["delegate_vesting_shares"])
-
-    for operation in delegate_vesting_shares:
-        if operation['delegator'] == username:
-            continue
-
-        if operation['vesting_shares']['amount'] == '0':
-            delegations.pop(operation['delegator'])
-        else:
-            amount = Amount(operation['vesting_shares'])
-            bp = blurt.vests_to_bp(amount)
-            delegations[operation['delegator']] = bp
+    for d in data.each():
+        username = d.val()['username']
+        bp = d.val()['bp']
+        delegations[username] = bp
 
     return delegations
 
