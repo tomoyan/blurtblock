@@ -574,10 +574,10 @@ class BlurtChain:
                 vesting_shares = Amount(delegation["vesting_shares"])
                 delegation_bp = self.blurt.vests_to_bp(vesting_shares.amount)
 
-                if 0.0 <= delegation_bp < 1000.0:
-                    bonus_weight = round(random.uniform(35, 40), 2)
-                elif 1000.0 <= delegation_bp < 5000.0:
+                if 1.0 <= delegation_bp < 1000.0:
                     bonus_weight = round(random.uniform(40, 45), 2)
+                elif 1000.0 <= delegation_bp < 5000.0:
+                    bonus_weight = round(random.uniform(45, 50), 2)
                 elif 5000.0 <= delegation_bp < 10000.0:
                     bonus_weight = round(random.uniform(50, 55), 2)
                 elif delegation_bp > 10000.0:
