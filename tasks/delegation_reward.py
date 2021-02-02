@@ -67,13 +67,51 @@ def get_delegation_list():
     return delegations
 
 
+def get_top_leaderboard():
+    members = {}
+    top_ten_members = []
+    count = 10
+    db_name = 'upvote_log'
+    logs = db_prd.child(db_name).get()
+
+    for log in logs.each():
+        value = log.val()
+        username = value['username']
+        vote_weight = value['vote_weight']
+
+        if username in members:
+            members[username] += vote_weight
+        else:
+            members[username] = vote_weight
+
+    members = dict(sorted(
+        members.items(), reverse=True,
+        key=lambda item: item[1]))
+
+    # Find top 10 members
+    for i, key in enumerate(members):
+        if i == count:
+            break
+        top_ten_members.append(key)
+
+    return top_ten_members
+
+
 def get_rewards(budget, delegations):
     rewards = dict()
     total_bp = sum(delegations.values())
 
+    top_members = get_top_leaderboard()
+
     # Rewards get divided by delegation %
     for key in delegations:
+        # Base amount
         amount = (delegations[key] / total_bp) * budget
+
+        # top_leaderboard will get 50% bonus
+        if key in top_members:
+            amount += amount * 0.5
+
         rewards[key] = amount
 
     # Save reward_list into firebase
