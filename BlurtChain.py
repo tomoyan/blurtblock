@@ -451,46 +451,6 @@ class BlurtChain:
 
         return result
 
-    @lru_cache(maxsize=32)
-    def get_stats(self):
-        stats_data = {}
-        labels = []
-
-        # get counts of each operation
-        ops = [
-            'labels', 'total', 'vote',
-            'comment', 'account_create',
-            'transfer_to_vesting',
-            'withdraw_vesting',
-        ]
-
-        for op in ops:
-            stats_data[op] = []
-
-        # get stats data from firebase
-        db_name = "blurt_stats"
-        fb_stats_data = self.firebase.child(
-            db_name).order_by_key().limit_to_last(1).get()
-
-        fb_stats = {}
-        for data in fb_stats_data.each():
-            fb_stats = data.val()
-
-        # only use last 6 months stats
-        months = list(fb_stats.keys())[-6:]
-
-        for stats in fb_stats:
-            if stats in months:
-                labels.append(stats)
-
-                for op in ops:
-                    stats_data[op].append(
-                        self.process_data(op, fb_stats[stats]))
-
-        stats_data['labels'] = labels
-
-        return stats_data
-
     def check_witness(self, username):
         witness_list = []
         result = {

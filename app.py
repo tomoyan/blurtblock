@@ -57,15 +57,6 @@ def blurt_profile_data(username=None):
                            username=blurt.username, data=data)
 
 
-@app.route('/blurt/stats')
-@app.route('/blurt/stats/')
-def stats():
-    blurt = BC.BlurtChain(username=None)
-    stats_data = blurt.get_stats()
-
-    return render_template('blurt/stats.html', data=stats_data)
-
-
 @app.route('/blurt/upvote', methods=['GET', 'POST'])
 @app.route('/blurt/upvote/', methods=['GET', 'POST'])
 def upvote():
