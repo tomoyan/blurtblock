@@ -61,6 +61,9 @@ def blurt_profile_data(username=None):
 @app.route('/blurt/upvote/', methods=['GET', 'POST'])
 def upvote():
     form = postUrlForm(request.form)
+    data = {
+        'banner': 'publish0x'
+    }
 
     if request.method == 'POST':
         if form.validate():
@@ -78,7 +81,7 @@ def upvote():
             # check empty url
             flash('Error: URL is required')
 
-    return render_template('blurt/upvote.html', form=form)
+    return render_template('blurt/upvote.html', form=form, data=data)
 
 
 @app.route('/blurt/leaderboard')

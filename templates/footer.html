@@ -1,18 +1,34 @@
-<!-- Footer -->
 <footer class="page-footer font-small sticky-bottom">
-    <div class="footer-copyright text-center py-3">
-
+    <div class="footer-copyright text-center py-1">
         <div class="container">
-            <div class="row">
-                <div class="col-sm">
-                    Created by
+            {% if data and data['banner'] == 'publish0x' %}
+            <!-- publish0x banner -->
+            <div class="container">
+                <a href="https://www.publish0x.com?a=4zbqpvkapr"
+                    target="_blank" rel="noopener noreferrer">
+                    <img src="https://cdn.publish0x.com/prod/fs/images/da2424398bd4625ed05e95650fd1fc59638d98e68350cf673d8b393558969644.png"
+                    class="img-fluid p-1" alt="publish0x">
+                </a>
+            </div>
+            {% else  %}
+            <!-- a-ads banner -->
+            <div class="container">
+                <iframe data-aa="1515162" src="//acceptable.a-ads.com/1515162" scrolling="no"
+                    style="border:0px; padding:0; width:100%; height:100%; overflow:hidden"
+                    allowtransparency="true">
+                </iframe>
+            </div>
+            {% endif  %}
+
+            <div class="row justify-content-center">
+                <div class="col-4">
                     <a
                         href="https://blurt.blog/@tomoyan"
                         class="btn btn-blurt"
                         target="_blank" rel="noopener noreferrer"> @tomoyan
                     </a>
                 </div>
-                <div class="col-sm">
+                <div class="col-4">
                     <a class="w-25 mx-auto nav-link text-blurt"
                         href="https://github.com/tomoyan/blurtblock"
                         target="_blank" rel="noopener noreferrer">
@@ -21,12 +37,5 @@
                 </div>
             </div>
         </div>
-
-        <!-- publish0x banner -->
-        <a href="https://www.publish0x.com?a=4zbqpvkapr"
-            target="_blank" rel="noopener noreferrer">
-            <img src="https://cdn.publish0x.com/prod/fs/images/da2424398bd4625ed05e95650fd1fc59638d98e68350cf673d8b393558969644.png"
-            class="img-fluid p-1" alt="publish0x">
-        </a>
     </div>
 </footer>
