@@ -117,7 +117,7 @@ def get_rewards(budget, delegations):
     # Save reward_list into firebase
     db_name = 'daily_rewards'
     today = datetime.now().strftime("%Y-%m-%d")
-    reward_list = []
+    reward_list = [f'Budget: {budget}']
     for key in rewards:
         reward_list.append(f'{key}: {rewards[key]}')
 
