@@ -47,8 +47,8 @@ def get_reward_budget():
     # Get 1 day curation reward in BP
     reward_bp = account.get_curation_reward(days=1)
 
-    # 10 % of reward gets distributed
-    percent = 10
+    # 15 % of reward gets distributed
+    percent = 15
     budget_bp = int(reward_bp * percent / 100)
 
     return budget_bp
