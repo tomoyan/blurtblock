@@ -135,8 +135,7 @@ def send_rewards(rewards):
     for key in rewards:
         amount = f'{rewards[key]:.2f}'
         memo = f"""Hi @{key}!
-    Here is your delegation reward.
-    Your delegation reward is {amount} BP
+    Here is your delegation reward {amount} BLURT.
     Thank you so much for your support!
     @tomoyan
         """
