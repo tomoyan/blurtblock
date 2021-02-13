@@ -174,6 +174,10 @@ Give it a try! Anybody can use it even if you don't delegate.
 
 ## Daily Rewards Today
 {table}
+
+## How to delegate BLURT POWER(BP)? 👇
+[Blurt Passive Income](https://blurt.blog/@tomoyan/how-to-blurt-passive-income-daily-payout-report)
+
 Thank you for your support!
 Have a Blurt day :)
 <a href="https://www.presearch.org/signup?rid=1684719" target="_blank">
