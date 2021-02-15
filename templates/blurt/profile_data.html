@@ -117,9 +117,6 @@
                        document.rewardOne_api = '/api/blurt/reward/{{ username }}/1';
                        document.rewardSeven_api = '/api/blurt/reward/{{ username }}/7';
                        document.rewardThirtyApi = '/api/blurt/reward/{{ username }}/30';
-                       // document.authorReward30 = '/api/blurt/author_reward/{{ username }}/30';
-                       // document.curationReward30 = '/api/blurt/curation_reward/{{ username }}/30';
-                       // document.producerReward30 = '/api/blurt/producer_reward/{{ username }}/30';
 
                        document.follower_api = '/api/blurt/follower/{{ username }}';
                        document.following_api = '/api/blurt/following/{{ username }}';
@@ -130,14 +127,6 @@
                     </script>
                     <script type="text/javascript" src="{{ url_for('static', filename='js/blurt.js') }}">
                     </script>
-
-                    <!-- reward nav -->
-<!--                     <a class="nav-item nav-link" id="nav-reward-tab" data-toggle="tab" href="#nav-reward"
-                        role="tab" aria-controls="nav-reward" aria-selected="false">
-                        Rewards
-                        <span id="rewardSize">
-                        </span>
-                    </a> -->
 
                     <!-- new reward nav -->
                     <a class="nav-item nav-link" id="rewards-tab" data-toggle="tab" href="#rewards"
@@ -186,114 +175,6 @@
                 <!-- main content -->
                 <h1 class="display-4">Wallet Info</h1>
                 {% include 'blurt/profile_data_main.html' %}
-
-<!--                     <div id="accordion">
-                        <div class="card">
-                            <div class="card-header" id="headingOne">
-                                <h5 class="mb-0">
-                                    <button class="btn btn-blurt btn-block collapsed"
-                                        data-toggle="collapse" data-target="#collapseOne"
-                                        aria-expanded="true" aria-controls="collapseOne">
-                                        <h1 class="display-4">Upvoted by users</h1>
-                                    </button>
-                                </h5>
-                            </div>
-
-                            <div id="collapseOne" class="collapse"
-                                aria-labelledby="headingOne" data-parent="#accordion">
-                                <div class="card-body">
-                                        {% if data['upvotes'] %}
-                                        <ul class="list-group pb-3">
-                                            {% for row in data['upvotes'] %}
-                                                <li class="list-group-item">
-                                                    {{ row['timestamp'] }}
-                                                    <a class="text-blurt"
-                                                        href="https://blurtblock.herokuapp.com/{{ row['voter'] }}"
-                                                        target="_blank" rel="noopener noreferrer">{{ row['voter'] }}
-                                                    </a>
-                                                    voted {{ row['weight'] }}% on
-                                                    <a class="text-blurt"
-                                                        href="https://blurt.blog/{{ row['permlink'] }}"
-                                                        target="_blank" rel="noopener noreferrer">{{ row['permlink'] }}
-                                                    </a>
-                                                </li>
-                                            {% endfor %}
-                                        </ul>
-                                        {% else %}
-                                        <ul class="list-group pb-3">
-                                            <li class="list-group-item"> Not Upvoted -- yet </li>
-                                        </ul>
-                                        {% endif %}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card">
-                            <div class="card-header" id="headingTwo">
-                                <h5 class="mb-0">
-                                    <button class="btn btn-blurt btn-block collapsed"
-                                        data-toggle="collapse" data-target="#collapseTwo"
-                                        aria-expanded="false" aria-controls="collapseTwo">
-                                        <h1 class="display-4">Upvoted by {{ username }}</h1>
-                                    </button>
-                                </h5>
-                            </div>
-                            <div id="collapseTwo" class="collapse"
-                                aria-labelledby="headingTwo" data-parent="#accordion">
-                                <div class="card-body">
-                                        {% if data['permlinks'] %}
-                                        <ul class="list-group pb-3">
-                                            {% for row in data['permlinks'] %}
-                                                <li class="list-group-item">
-                                                    {{ row['timestamp'] }}
-                                                    <a class="text-blurt" href="https://blurt.blog/{{ row['permlink'] }}"
-                                                    target="_blank" rel="noopener noreferrer">{{ row['permlink'] }}</a>
-                                                    ({{ row['weight'] }}%)
-                                                </li>
-                                            {% endfor %}
-                                        </ul>
-                                        {% else %}
-                                        <ul class="list-group pb-3">
-                                            <li class="list-group-item"> No Upvoted Post -- yet </li>
-                                        </ul>
-                                        {% endif %}
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
-
-                <!-- <div class="card"> -->
-                    <!-- <div class="card-body"> -->
-                    <!-- <h1 class="display-4 text-center text-secondary">Upvoted {{ data['total_votes'] }} times (7days)</h1> -->
-
-                    <!-- chart loading spinner -->
-<!--                     <div id="mdb-preloader" class="text-center">
-                        <div class="spinner-grow text-blurt m-3" role="status">
-                            <span class="sr-only">Loading...</span>
-                        </div>
-                        <div class="spinner-border text-blurt m-3" role="status">
-                            <span class="sr-only">Loading...</span>
-                        </div>
-                        <div class="spinner-grow text-blurt m-3" role="status">
-                            <span class="sr-only">Loading...</span>
-                        </div>
-                        <div class="spinner-border text-blurt m-3" role="status">
-                            <span class="sr-only">Loading...</span>
-                        </div>
-                        <div class="spinner-grow text-blurt m-3" role="status">
-                            <span class="sr-only">Loading...</span>
-                        </div>
-                        <div class="text-center">
-                            <img
-                                src="{{ url_for('static', filename='images/dancing_bear.gif') }}"
-                                class="img-fluid"
-                                alt="dancing_bear">
-                        </div>
-                    </div> -->
-
-
-                    <!-- </div> -->
-                <!-- </div> -->
 
                 </div>
 
