@@ -843,8 +843,8 @@ class BlurtChain:
             'post': ['transfer'],
         }
 
-        # 7 day history
-        duration = 7
+        # 3 day history
+        duration = 3
         ops = options[option]
         stop = datetime.utcnow() - timedelta(days=duration)
 
