@@ -644,4 +644,78 @@ $(document).ready(function(){
 
     });
 
+    $("#transferHistory").click(function(){
+        // 7 day transfer history
+        $.ajax(document.transferHistoryApi,
+        {
+            dataType: 'json', // type of response data
+            timeout: 30000, // 30 sec timeout in milliseconds
+            success: function (data, status, xhr) {
+                let transactions = ``
+                if (jQuery.isEmptyObject(data['history'])) {
+                    transactions = `<li class="list-group-item">No Transfer Data</li>`;
+                    $("#historyResult").html(transactions);
+                }
+                else {
+                    $("#historyResult").html("");
+                    $.each(data['history'], function(index, value){
+                        tx = `
+                        <li class="list-group-item">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-sm-auto text-sm-left text-truncate">
+                                        ${value['timestamp']}
+                                    </div>
+                                    <div class="col-sm-auto text-sm-left text-truncate">
+                                        ${value['amount']} BLURT
+                                        From: ${value['from']}
+                                        To: ${value['to']}
+                                    </div>
+                                    <div class="col-sm-auto text-sm-left text-truncate">
+                                        Memo: ${value['memo']}
+                                    </div>
+                                </div>
+                            </div>
+                        </li>`;
+                        $("#historyResult").append(tx);
+                    });
+                }
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                $("#historyResult").html('Oops! ' + errorMessage + ' Please reload');
+            }
+        });
+    });
+
+    $("#upvoteHistory").click(function(){
+        // 7 day upvote history
+        $.ajax(document.upvoteHistoryApi,
+        {
+            dataType: 'json', // type of response data
+            timeout: 60000, // timeout milliseconds
+            success: function (data, status, xhr) {
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+            }
+        });
+    });
+
+    $("#postHistory").click(function(){
+        // 7 day post history
+        $.ajax(document.postHistoryApi,
+        {
+            dataType: 'json', // type of response data
+            timeout: 60000, // timeout milliseconds
+            success: function (data, status, xhr) {
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                $("#historyResult").html('Oops! ' + errorMessage + ' Please reload');
+            }
+        });
+    });
+
+    // display spinners when transferHistory clicked
+    $("#transferHistory").click(function(){
+        $("#historySpinners").removeClass('invisible');
+    });
 });

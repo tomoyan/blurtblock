@@ -44,8 +44,8 @@
             {% include 'navbar.html' %}
 
             <div class="jumbotron bg-blurt text-white">
-                <img src="https://blurt.blog/images/logo.png"
-                width="150" alt="blurt logo" class="img-thumbnail">
+                <img src="{{ url_for('static', filename='images/logo.png') }}"
+                    width="150" alt="blurt logo" class="img-thumbnail">
 
                 {% if username %}
                 <h1 class="display-4">Blurt Profile:
@@ -170,6 +170,11 @@
                         Delegation <span id="delegationSize" class="badge badge-secondary"></span>
                     </a>
 
+                    <!-- history nav -->
+                    <a class="nav-item nav-link" id="nav-history-tab" data-toggle="tab" href="#nav-history"
+                        role="tab" aria-controls="nav-history" aria-selected="false">
+                        History <span id="historySize" class="badge badge-secondary"></span>
+                    </a>
                 </div>
             </nav>
 
@@ -698,6 +703,13 @@
                     </div>
                 </div>
 
+                <!-- list of history -->
+                <div class="tab-pane fade" id="nav-history"
+                    role="tabpanel" aria-labelledby="nav-history-tab">
+                    <!-- history content -->
+                    <h1 class="display-4">Account History</h1>
+                    {% include 'blurt/profile_data_history.html' %}
+                </div>
             </div>
 
             {% endif  %}

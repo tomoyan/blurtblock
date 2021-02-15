@@ -43,8 +43,8 @@
             {% include 'navbar.html' %}
 
             <div class="jumbotron bg-blurt text-white">
-                <img src="https://blurt.blog/images/logo.png"
-                width="150" alt="blurt logo" class="img-thumbnail">
+                <img src="{{ url_for('static', filename='images/logo.png') }}"
+                    width="150" alt="blurt logo" class="img-thumbnail">
                 <h1 class="display-4">Blurt Profile</h1>
                 <p class="lead">user information</p>
             </div>

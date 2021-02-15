@@ -33,6 +33,21 @@ body {
     color:#f2652e!important;
 }
 
+.btn-outline-blurt {
+    color: #f2652e;
+    border-color: #f2652e;
+}
+
+.btn-outline-blurt:hover {
+    color:#fff;
+    background-color:#f2652e;
+    border-color:#f2652e;
+}
+
+.btn-outline-blurt.focus,.btn-outline-blurt:focus{
+    box-shadow:0 0 0 .2rem rgba(255, 126, 101, 1)
+}
+
 .nav-tabs .nav-link {
     color: rgba(0,0,0,.5);
 }

@@ -258,5 +258,24 @@ def blurt_ranking(username=None):
     return jsonify(data)
 
 
+@app.route('/api/blurt/history/<username>/<string:option>')
+@app.route('/api/blurt/history/<username>/<string:option>/')
+def blurt_history(username=None, option=None):
+    data = dict()
+
+    if username and option:
+        blurt = BC.BlurtChain(username)
+
+        # check session history_data
+        history_data = username + '_history_' + str(option)
+        if session.get(history_data):
+            data = session[history_data]
+        else:
+            data = blurt.get_history(username, option)
+            session[history_data] = data
+
+    return jsonify(data)
+
+
 if __name__ == "__main__":
     app.run()

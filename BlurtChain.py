@@ -814,3 +814,44 @@ class BlurtChain:
         rank = users.index(user) + 1 if user in users else None
 
         return rank
+
+    def process_transfer(self, transactions):
+        result = []
+
+        for tx in transactions:
+            amount = Amount(tx['amount'])
+            bp = f'{self.blurt.vests_to_bp(amount):,.3f}'
+            data = {'timestamp': tx['timestamp'],
+                    'from': tx['from'],
+                    'to': tx['to'],
+                    'memo': tx['memo'],
+                    'amount': bp}
+            result.append(data)
+
+        return result
+
+    def get_history(self, username, option):
+        result = dict(
+            username=username,
+            option=option,
+            history=[]
+        )
+
+        options = {
+            'transfer': ['transfer'],
+            'upvote': ['vote'],
+            'post': ['transfer'],
+        }
+
+        # 7 day history
+        duration = 7
+        ops = options[option]
+        stop = datetime.utcnow() - timedelta(days=duration)
+
+        transactions = self.account.history_reverse(
+            stop=stop, only_ops=ops)
+
+        if option == 'transfer':
+            result['history'] = self.process_transfer(transactions)
+
+        return result
