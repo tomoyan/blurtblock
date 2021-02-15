@@ -522,13 +522,14 @@ $(document).ready(function(){
     });
 
     $("#transferHistory").click(function(){
-        // 7 day transfer history
+        // transfer history
         $.ajax(document.transferHistoryApi,
         {
             dataType: 'json', // type of response data
-            timeout: 30000, // 30 sec timeout in milliseconds
+            timeout: 60000, // 30 sec timeout in milliseconds
             success: function (data, status, xhr) {
                 let transactions = ``
+                let BASE = 'https://blurtblock.herokuapp.com'
                 if (jQuery.isEmptyObject(data['history'])) {
                     transactions = `<li class="list-group-item">No Transfer Data</li>`;
                     $("#historyResult").html(transactions);
@@ -545,10 +546,19 @@ $(document).ready(function(){
                                     </div>
                                     <div class="col-sm-auto text-sm-left text-truncate">
                                         ${value['amount']} BLURT
-                                        From: ${value['from']}
-                                        To: ${value['to']}
+                                        From:
+                                        <a class="text-blurt"
+                                            href="${BASE}/${value['from']}"
+                                            target="_blank" rel="noopener noreferrer">${value['from']}
+                                        </a>
+                                        To:
+                                        <a class="text-blurt"
+                                            href="${BASE}/${value['to']}"
+                                            target="_blank" rel="noopener noreferrer">${value['to']}
+                                        </a>
                                     </div>
-                                    <div class="col-sm-auto text-sm-left text-truncate">
+                                    <div class="col-sm-auto text-sm-left text-truncate"
+                                        style="max-width: 500px;">
                                         Memo: ${value['memo']}
                                     </div>
                                 </div>
@@ -565,24 +575,67 @@ $(document).ready(function(){
     });
 
     $("#upvoteHistory").click(function(){
-        // 7 day upvote history
+        // upvote history
         $.ajax(document.upvoteHistoryApi,
         {
             dataType: 'json', // type of response data
-            timeout: 60000, // timeout milliseconds
+            timeout: 60000, // 60 sec timeout in milliseconds
             success: function (data, status, xhr) {
+                let transactions = ``
+                let BASE = 'https://blurtblock.herokuapp.com'
+                let BLURT = 'https://blurt.world'
+                if (jQuery.isEmptyObject(data['history'])) {
+                    transactions = `<li class="list-group-item">No Upvote Data</li>`;
+                    $("#historyResult").html(transactions);
+                }
+                else {
+                    $("#historyResult").html("");
+                    $.each(data['history'], function(index, value){
+                        tx = `
+                        <li class="list-group-item">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-sm-auto text-sm-left text-truncate">
+                                        ${value['timestamp']}
+                                    </div>
+                                    <div class="col-sm-auto text-sm-left text-truncate">
+                                        <a class="text-blurt"
+                                            href="${BASE}/${value['voter']}"
+                                            target="_blank" rel="noopener noreferrer">${value['voter']}
+                                        </a>
+                                        voted
+                                        <a class="text-blurt"
+                                            href="${BASE}/${value['author']}"
+                                            target="_blank" rel="noopener noreferrer">${value['author']}
+                                        </a>
+                                        (${value['weight']}%)
+                                    </div>
+                                    <div class="col-sm-auto text-sm-left text-truncate"
+                                        style="max-width: 500px;">
+                                        <a class="text-blurt"
+                                            href="${BLURT}/@${value['author']}/${value['permlink']}"
+                                            target="_blank" rel="noopener noreferrer">${value['permlink']}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>`;
+                        $("#historyResult").append(tx);
+                    });
+                }
             },
             error: function (jqXhr, textStatus, errorMessage) {
+                $("#historyResult").html('Oops! ' + errorMessage + ' Please reload');
             }
         });
     });
 
     $("#postHistory").click(function(){
-        // 7 day post history
+        // post history
         $.ajax(document.postHistoryApi,
         {
             dataType: 'json', // type of response data
-            timeout: 60000, // timeout milliseconds
+            timeout: 60000, // 60 sec timeout in milliseconds
             success: function (data, status, xhr) {
             },
             error: function (jqXhr, textStatus, errorMessage) {
@@ -591,8 +644,12 @@ $(document).ready(function(){
         });
     });
 
-    // display spinners when transferHistory clicked
+    // display spinners when history buttons clicked
     $("#transferHistory").click(function(){
+        $("#historySpinners").removeClass('invisible');
+    });
+
+    $("#upvoteHistory").click(function(){
         $("#historySpinners").removeClass('invisible');
     });
 });

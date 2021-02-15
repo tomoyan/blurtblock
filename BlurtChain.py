@@ -815,17 +815,35 @@ class BlurtChain:
 
         return rank
 
-    def process_transfer(self, transactions):
+    def process_transfers(self, transactions):
+        # process transfer transactions
         result = []
 
         for tx in transactions:
             amount = Amount(tx['amount'])
             bp = f'{self.blurt.vests_to_bp(amount):,.3f}'
+
             data = {'timestamp': tx['timestamp'],
                     'from': tx['from'],
                     'to': tx['to'],
                     'memo': tx['memo'],
                     'amount': bp}
+            result.append(data)
+
+        return result
+
+    def process_votes(self, transactions):
+        # process upvote transactions
+        result = []
+
+        for tx in transactions:
+            weight = int(tx['weight'] / 100)
+
+            data = {'timestamp': tx['timestamp'],
+                    'voter': tx['voter'],
+                    'author': tx['author'],
+                    'permlink': tx['permlink'],
+                    'weight': weight}
             result.append(data)
 
         return result
@@ -852,6 +870,8 @@ class BlurtChain:
             stop=stop, only_ops=ops)
 
         if option == 'transfer':
-            result['history'] = self.process_transfer(transactions)
+            result['history'] = self.process_transfers(transactions)
+        elif option == 'upvote':
+            result['history'] = self.process_votes(transactions)
 
         return result
