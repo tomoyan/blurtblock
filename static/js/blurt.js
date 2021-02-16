@@ -530,6 +530,8 @@ $(document).ready(function(){
             success: function (data, status, xhr) {
                 let transactions = ``
                 let BASE = 'https://blurtblock.herokuapp.com'
+
+                $("#historySpinners").addClass('invisible');
                 if (jQuery.isEmptyObject(data['history'])) {
                     transactions = `<li class="list-group-item">No Transfer Data</li>`;
                     $("#historyResult").html(transactions);
@@ -546,20 +548,19 @@ $(document).ready(function(){
                                     </div>
                                     <div class="col-sm-auto text-sm-left text-truncate">
                                         ${value['amount']} BLURT
-                                        From:
                                         <a class="text-blurt"
                                             href="${BASE}/${value['from']}"
                                             target="_blank" rel="noopener noreferrer">${value['from']}
                                         </a>
-                                        To:
+                                        to
                                         <a class="text-blurt"
                                             href="${BASE}/${value['to']}"
                                             target="_blank" rel="noopener noreferrer">${value['to']}
                                         </a>
                                     </div>
                                     <div class="col-sm-auto text-sm-left text-truncate"
-                                        style="max-width: 500px;">
-                                        Memo: ${value['memo']}
+                                        style="max-width: 450px;">
+                                        ${value['memo']}
                                     </div>
                                 </div>
                             </div>
@@ -569,6 +570,7 @@ $(document).ready(function(){
                 }
             },
             error: function (jqXhr, textStatus, errorMessage) {
+                $("#historySpinners").addClass('invisible');
                 $("#historyResult").html('Oops! ' + errorMessage + ' Please reload');
             }
         });
@@ -584,6 +586,8 @@ $(document).ready(function(){
                 let transactions = ``
                 let BASE = 'https://blurtblock.herokuapp.com'
                 let BLURT = 'https://blurt.world'
+
+                $("#historySpinners").addClass('invisible');
                 if (jQuery.isEmptyObject(data['history'])) {
                     transactions = `<li class="list-group-item">No Upvote Data</li>`;
                     $("#historyResult").html(transactions);
@@ -625,6 +629,7 @@ $(document).ready(function(){
                 }
             },
             error: function (jqXhr, textStatus, errorMessage) {
+                $("#historySpinners").addClass('invisible');
                 $("#historyResult").html('Oops! ' + errorMessage + ' Please reload');
             }
         });
@@ -647,9 +652,11 @@ $(document).ready(function(){
     // display spinners when history buttons clicked
     $("#transferHistory").click(function(){
         $("#historySpinners").removeClass('invisible');
+        $("#historySpinners").addClass('visible');
     });
 
     $("#upvoteHistory").click(function(){
         $("#historySpinners").removeClass('invisible');
+        $("#historySpinners").addClass('visible');
     });
 });
