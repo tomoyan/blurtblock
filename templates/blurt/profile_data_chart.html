@@ -1,0 +1,118 @@
+<!-- chart data API -->
+<script type="text/javascript">
+    document.voteChartApi = '/api/blurt/votedata/{{ username }}';
+</script>
+
+<div class="card">
+    <div class="card-body" id="chartResult">
+        <div id="voteTitle" class="text-center">
+            <!-- vote activity # goes in here -->
+        </div>
+
+        <!-- loading spinner -->
+        <div id="chartPreloader" class="text-center">
+            <div
+                class="spinner-grow spinner-grow-sm text-blurt m-3"
+                role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <div
+                class="spinner-border spinner-border-sm text-blurt m-3"
+                role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <div
+                class="spinner-grow spinner-grow-sm text-blurt m-3"
+                role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <div
+                class="spinner-border spinner-border-sm text-blurt m-3"
+                role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <div
+                class="spinner-grow spinner-grow-sm text-blurt m-3"
+                role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+
+        <!-- upvote chart goes into canvas -->
+        <canvas id="upvoteChart"></canvas>
+        <script>
+            let voteTotal = 0
+            let voteLabel = []
+            let voteCount = []
+            let voteWeight = []
+            let voteTitle = `7 Day Upvote Activities: 0 times`
+            $("#nav-chart-tab").click(function(){
+                // upvote chart history api call
+                $.ajax(document.voteChartApi,
+                {
+                    dataType: 'json', // type of response data
+                    timeout: 60000, // 60 sec timeout in milliseconds
+                    success: function (data, status, xhr) {
+                        voteTotal = data['totalVote'];
+                        voteLabel = data['label'];
+                        voteCount = data['voteCount'];
+                        voteWeight = data['voteWeight'];
+                        voteTitle = `7 Day Upvote Activities:
+                            ${voteTotal} times`
+
+                        let ctx = document.getElementById('upvoteChart').getContext('2d');
+                        let chart = new Chart(ctx, {
+                            // The type of chart we want to create
+                            type: 'bar',
+
+                            // upvote count and weight dataset
+                            data: {
+                                labels: voteLabel,
+                                datasets: [{
+                                    label: 'Upvote Count',
+                                    backgroundColor: '#FFA468',
+                                    borderColor: '#967047',
+                                    borderWidth: 1,
+                                    data: voteCount,
+                                    yAxisID: 'leftBar',
+                                },{
+                                    label: 'Upvote Weight',
+                                    backgroundColor: '#AED3D1',
+                                    borderColor: '#4B8078',
+                                    borderWidth: 1,
+                                    data: voteWeight,
+                                    yAxisID: 'rightBar',
+                                }]
+                            },
+
+                            // Configuration options go here
+                            options: {
+                                responsive: true,
+                                scales: {
+                                    yAxes: [{
+                                        id: 'leftBar',
+                                        position: 'left',
+                                        ticks: {'beginAtZero': true},
+                                        gridLines: { drawOnChartArea: false },
+                                    },{
+                                        id: 'rightBar',
+                                        position: 'right',
+                                        ticks: {'beginAtZero': true},
+                                        gridLines: { drawOnChartArea: false },
+                                    }]
+                                }
+                            }
+                        });
+                        $("#voteTitle").append(voteTitle);
+                        $("#chartPreloader").remove();
+                    },
+                    error: function (jqXhr, textStatus, errorMessage) {
+                        $("#voteTitle").append(voteTitle);
+                        $("#chartPreloader").remove();
+                        $("#chartResult").html('Oops! ' + errorMessage + ' Please reload');
+                    }
+                });
+            });
+        </script>
+    </div>
+</div>

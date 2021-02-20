@@ -74,6 +74,7 @@
                                 class="bg-blurt text-white"
                                 target="_blank" rel="noopener noreferrer">Ranking</a>
                             </u>:
+                            <!-- ranking -->
                             <b>
                             {% if data['ranking'] %}
                             {{ data['ranking'] }}
@@ -81,6 +82,14 @@
                             --
                             {% endif %}
                             </b><br>
+                            <!-- star ratings -->
+                            {% for n in range(5) %}
+                                {% if n < data['stars'] %}
+                                <i class="fa fa-star"></i>
+                                {% else %}
+                                <i class="far fa-star"></i>
+                                {% endif %}
+                            {% endfor %}
                         </p>
                     </div>
                 </div>
@@ -164,6 +173,12 @@
                         role="tab" aria-controls="nav-history" aria-selected="false">
                         History <span id="historySize" class="badge badge-secondary"></span>
                     </a>
+
+                    <!-- vote chart nav -->
+                    <a class="nav-item nav-link" id="nav-chart-tab" data-toggle="tab" href="#nav-chart"
+                        role="tab" aria-controls="nav-chart" aria-selected="false">
+                        Chart <span class="badge badge-secondary"></span>
+                    </a>
                 </div>
             </nav>
 
@@ -204,11 +219,6 @@
                                                         Curation BP
                                                     </span>
                                                 </div>
-<!--                                                 <div class="col-sm text-right">
-                                                    <span class="font-weight-bold">
-                                                        Producer BP
-                                                    </span>
-                                                </div> -->
                                                 <div class="col-sm text-right">
                                                     <span class="font-weight-bold">
                                                         Total BP
@@ -240,13 +250,6 @@
                                                         </div>
                                                     </span>
                                                 </div>
-<!--                                                 <div class="col-sm text-right">
-                                                    <span id="producerOne">
-                                                        <div class="spinner-border spinner-border-sm text-blurt" role="status">
-                                                            <span class="sr-only">Loading...</span>
-                                                        </div>
-                                                    </span>
-                                                </div> -->
                                                 <div class="col-sm text-right">
                                                     <span id="totalOne">
                                                         <div class="spinner-border spinner-border-sm text-blurt" role="status">
@@ -280,13 +283,6 @@
                                                         </div>
                                                     </span>
                                                 </div>
-<!--                                                 <div class="col-sm text-right">
-                                                    <span id="producerSeven">
-                                                        <div class="spinner-grow spinner-grow-sm text-blurt" role="status">
-                                                            <span class="sr-only">Loading...</span>
-                                                        </div>
-                                                    </span>
-                                                </div> -->
                                                 <div class="col-sm text-right">
                                                     <span id="totalSeven">
                                                         <div class="spinner-grow spinner-grow-sm text-blurt" role="status">
@@ -590,6 +586,14 @@
                     <!-- history content -->
                     <h1 class="display-4">Account History</h1>
                     {% include 'blurt/profile_data_history.html' %}
+                </div>
+
+                <!-- vote chart -->
+                <div class="tab-pane fade" id="nav-chart"
+                    role="tabpanel" aria-labelledby="nav-chart-tab">
+                    <!-- chart content -->
+                    <h1 class="display-4">Upvote Chart</h1>
+                    {% include 'blurt/profile_data_chart.html' %}
                 </div>
             </div>
 

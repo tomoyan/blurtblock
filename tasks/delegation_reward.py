@@ -47,8 +47,8 @@ def get_reward_budget():
     # Get 1 day curation reward in BP
     reward_bp = account.get_curation_reward(days=1)
 
-    # 25 % of reward gets distributed
-    percent = 25
+    # 30 % of reward gets distributed
+    percent = 30
     budget_bp = int(reward_bp * percent / 100)
 
     return budget_bp
@@ -108,9 +108,9 @@ def get_rewards(budget, delegations):
         # Base amount
         amount = (delegations[key] / total_bp) * budget
 
-        # top_leaderboard will get 50% bonus
+        # top_leaderboard will get 30% bonus
         if key in top_members:
-            amount += amount * 0.5
+            amount += amount * 0.3
 
         rewards[key] = amount
 

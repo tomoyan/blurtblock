@@ -50,8 +50,9 @@ def blurt_profile_data(username=None):
             data = session[profile_data]
         else:
             data = blurt.get_account_info()
-
             session[profile_data] = data
+
+        data['stars'] = 0
 
     return render_template('blurt/profile_data.html',
                            username=blurt.username, data=data)
@@ -273,6 +274,25 @@ def blurt_history(username=None, option=None):
         else:
             data = blurt.get_history(username, option)
             session[history_data] = data
+
+    return jsonify(data)
+
+
+@app.route('/api/blurt/votedata/<username>')
+@app.route('/api/blurt/votedata/<username>/')
+def blurt_votedata(username=None):
+    data = {}
+    if username:
+        blurt = BC.BlurtChain(username)
+
+        # check session data
+        vote_data = username + '_votedata'
+
+        if session.get(vote_data):
+            data = session[vote_data]
+        else:
+            data = blurt.get_upvote_data(username)
+            session[vote_data] = data
 
     return jsonify(data)
 

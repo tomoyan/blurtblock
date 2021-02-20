@@ -875,3 +875,40 @@ class BlurtChain:
             result['history'] = self.process_votes(transactions)
 
         return result
+
+    def get_upvote_data(self, username):
+        vote_data = {}
+        chart_data = {
+            'label': [],
+            'voteCount': [],
+            'voteWeight': [],
+            'totalVote': 0
+        }
+
+        # get user's upvote history and save label, counts and weights
+        duration = 7
+        stop = datetime.utcnow() - timedelta(days=duration)
+        ops = ['vote']
+        transactions = self.account.history_reverse(
+            stop=stop, only_ops=ops)
+
+        for tx in transactions:
+            if tx['voter'] != username:
+                continue
+
+            if tx['author'] in vote_data:
+                vote_data[tx['author']].append(tx['weight'])
+            else:
+                vote_data[tx['author']] = [tx['weight']]
+
+            chart_data['totalVote'] += 1
+
+        # calculate vote weight average
+        for key, value in vote_data.items():
+            count = len(value)
+            weight = (sum(value) / count) // 100
+            chart_data['label'].append(key)
+            chart_data['voteCount'].append(count)
+            chart_data['voteWeight'].append(weight)
+
+        return chart_data
