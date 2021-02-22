@@ -537,7 +537,7 @@ class BlurtChain:
                 delegation_bp = self.blurt.vests_to_bp(vesting_shares.amount)
 
                 if 1.0 <= delegation_bp < 1000.0:
-                    bonus_weight = round(random.uniform(45, 50), 2)
+                    bonus_weight = round(random.uniform(10, 50), 2)
                 elif 1000.0 <= delegation_bp < 5000.0:
                     bonus_weight = round(random.uniform(55, 60), 2)
                 elif 5000.0 <= delegation_bp < 10000.0:
