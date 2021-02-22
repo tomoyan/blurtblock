@@ -2,7 +2,7 @@
 <script type="text/javascript">
     document.transferHistoryApi = '/api/blurt/history/{{ username }}/transfer';
     document.upvoteHistoryApi = '/api/blurt/history/{{ username }}/upvote';
-    document.postHistoryApi = '/api/blurt/history/{{ username }}/post';
+    document.commentHistoryApi = '/api/blurt/history/{{ username }}/comment';
 </script>
 
 <div class="card">
@@ -29,13 +29,13 @@
                     Upvote
                 </button>
             </li>
-<!--             <li class="nav-item p-1">
+            <li class="nav-item p-1">
                 <button type="button"
-                    id="postHistory"
+                    id="commentHistory"
                     class="btn btn-outline-blurt btn-sm">
-                    Post
+                    Comment
                 </button>
-            </li> -->
+            </li>
         </ul>
     </div>
     <div class="card-body">

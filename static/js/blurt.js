@@ -635,19 +635,75 @@ $(document).ready(function(){
         });
     });
 
-    $("#postHistory").click(function(){
-        // post history
-        $.ajax(document.postHistoryApi,
+    $("#commentHistory").click(function(){
+        // comment history
+        $.ajax(document.commentHistoryApi,
         {
             dataType: 'json', // type of response data
             timeout: 60000, // 60 sec timeout in milliseconds
             success: function (data, status, xhr) {
+                let transactions = ``
+                let BASE = 'https://blurtblock.herokuapp.com'
+                let BLURT = 'https://blurt.world'
+
+                $("#historySpinners").addClass('invisible');
+                if (jQuery.isEmptyObject(data['history'])) {
+                    transactions = `<li class="list-group-item">No Comment Data</li>`;
+                    $("#historyResult").html(transactions);
+                }
+                else {
+                    $("#historyResult").html("");
+                    $.each(data['history'], function(index, value){
+                        tx = `
+                        <li class="list-group-item">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-sm-auto text-sm-left text-truncate">
+                                        ${value['timestamp']}
+                                    </div>
+                                    <div class="col-sm-auto text-sm-left text-truncate">
+                                        <a class="text-blurt"
+                                            href="${BASE}/${value['author']}"
+                                            target="_blank" rel="noopener noreferrer">${value['author']}
+                                        </a>
+                                    </div>
+                                    <div class="col-sm-auto text-sm-left text-truncate">
+                                        ${value['body']}
+                                    </div>
+                                    <div class="col-sm-auto text-sm-left text-truncate"
+                                        style="max-width: 500px;">
+                                        <a class="text-blurt"
+                                            href="${BLURT}/@${value['author']}/${value['permlink']}"
+                                            target="_blank" rel="noopener noreferrer">${value['permlink']}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>`;
+                        $("#historyResult").append(tx);
+                    });
+                }
             },
             error: function (jqXhr, textStatus, errorMessage) {
+                $("#historySpinners").addClass('invisible');
                 $("#historyResult").html('Oops! ' + errorMessage + ' Please reload');
             }
         });
     });
+
+    // $("#postHistory").click(function(){
+    //     // post history
+    //     $.ajax(document.postHistoryApi,
+    //     {
+    //         dataType: 'json', // type of response data
+    //         timeout: 60000, // 60 sec timeout in milliseconds
+    //         success: function (data, status, xhr) {
+    //         },
+    //         error: function (jqXhr, textStatus, errorMessage) {
+    //             $("#historyResult").html('Oops! ' + errorMessage + ' Please reload');
+    //         }
+    //     });
+    // });
 
     // display spinners when history buttons clicked
     $("#transferHistory").click(function(){
@@ -656,6 +712,11 @@ $(document).ready(function(){
     });
 
     $("#upvoteHistory").click(function(){
+        $("#historySpinners").removeClass('invisible');
+        $("#historySpinners").addClass('visible');
+    });
+
+    $("#commentHistory").click(function(){
         $("#historySpinners").removeClass('invisible');
         $("#historySpinners").addClass('visible');
     });

@@ -14,6 +14,8 @@ import requests
 import pyrebase
 import base64
 import json
+from markdown import markdown
+
 
 # Firebase configuration
 serviceAccountCredentials = json.loads(
@@ -823,11 +825,13 @@ class BlurtChain:
             amount = Amount(tx['amount'])
             bp = f'{self.blurt.vests_to_bp(amount):,.3f}'
 
-            data = {'timestamp': tx['timestamp'],
-                    'from': tx['from'],
-                    'to': tx['to'],
-                    'memo': tx['memo'],
-                    'amount': bp}
+            data = {
+                'timestamp': tx['timestamp'],
+                'from': tx['from'],
+                'to': tx['to'],
+                'memo': tx['memo'],
+                'amount': bp
+            }
             result.append(data)
 
         return result
@@ -839,16 +843,37 @@ class BlurtChain:
         for tx in transactions:
             weight = int(tx['weight'] / 100)
 
-            data = {'timestamp': tx['timestamp'],
-                    'voter': tx['voter'],
-                    'author': tx['author'],
-                    'permlink': tx['permlink'],
-                    'weight': weight}
+            data = {
+                'timestamp': tx['timestamp'],
+                'voter': tx['voter'],
+                'author': tx['author'],
+                'permlink': tx['permlink'],
+                'weight': weight
+            }
             result.append(data)
 
         return result
 
-    def get_history(self, username, option):
+    def process_comments(self, transactions):
+        # process comment transactions
+        result = []
+
+        for tx in transactions:
+            if tx['author'] == self.username:
+                continue
+
+            body = markdown(tx['body'])
+            data = {
+                'timestamp': tx['timestamp'],
+                'author': tx['author'],
+                'body': body,
+                'permlink': tx['permlink'],
+            }
+            result.append(data)
+
+        return result
+
+    def get_history(self, username, option, duration=3):
         result = dict(
             username=username,
             option=option,
@@ -858,11 +883,9 @@ class BlurtChain:
         options = {
             'transfer': ['transfer'],
             'upvote': ['vote'],
-            'post': ['transfer'],
+            'comment': ['comment'],
         }
 
-        # 3 day history
-        duration = 3
         ops = options[option]
         stop = datetime.utcnow() - timedelta(days=duration)
 
@@ -873,6 +896,10 @@ class BlurtChain:
             result['history'] = self.process_transfers(transactions)
         elif option == 'upvote':
             result['history'] = self.process_votes(transactions)
+        elif option == 'comment':
+            result['history'] = self.process_comments(transactions)
+        else:
+            pass
 
         return result
 
