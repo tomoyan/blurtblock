@@ -97,6 +97,18 @@ def leaderboard(username=None):
                            data=data)
 
 
+@app.route('/blurt/delegators')
+@app.route('/blurt/delegators/')
+def delegators(username=None):
+    data = {}
+
+    blurt = BC.BlurtChain(username)
+    data = blurt.get_delegators()
+
+    return render_template('blurt/delegators.html',
+                           data=data)
+
+
 # BLURT API
 @app.route('/api/blurt/follower/<username>')
 @app.route('/api/blurt/follower/<username>/')

@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- favicon -->
+        {% include 'favicon.html' %}
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}"> -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/blurt_style.css') }}">
+
+        <script src="{{ url_for('static', filename='js/jquery-3.5.1.min.js') }}"></script>
+
+        <!-- fontawesome kit -->
+        <script src="{{ url_for('static', filename='js/fontawesome.js') }}"></script>
+
+        <!-- Primary Meta Tags -->
+        {% include 'metatags.html' %}
+        <!-- Google Analytics -->
+        {% include 'gatag.html' %}
+
+    </head>
+    <body>
+
+        <div class="container">
+
+            <!-- top navigation menu -->
+            {% include 'navbar.html' %}
+
+            <div class="jumbotron bg-blurt text-white">
+                <img src="{{ url_for('static', filename='images/logo.png') }}"
+                    width="150" alt="blurt logo" class="img-thumbnail">
+                <h1 class="display-4">Delegator Rewards</h1>
+                <p class="lead">
+                    BLURT rewards are paid out everyday to all the BP delegators
+                </p>
+                <hr class="my-4">
+                Delegate BP to
+                <a href="https://blurt.blog/@tomoyan"
+                    class="bg-blurt text-white"
+                    target="_blank" rel="noopener noreferrer">
+                    <u>@tomoyan</u>
+                </a>
+                And get UPVOTE bonus and daily BLURT rewards!
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="display-4">Delegators</h1>
+                        <ul class="list-group text-blurt">
+                            {% for user in data %}
+                            <li class="list-group-item">
+                                <div class="container">
+                                    <div class="row">
+                                        {{loop.index}}.
+                                        <div class="col-3">
+                                            <!-- {{ user['username'] }} -->
+                                            <img
+                                                src="https://images.blurt.blog/u/{{user['username']}}/avatar/small"
+                                                    onerror="this.onerror=null;
+                                                    this.src='/static/images/blurt_profile.png';"
+                                                alt="profile_image"
+                                                class="img-thumbnail rounded-circle float-left mr-3"
+                                            >
+                                        </div>
+                                        <div class="col">
+                                            <a class="text-blurt font-weight-bold mr-3"
+                                                href="https://blurtblock.herokuapp.com/{{user['username']}}"
+                                                target="_blank"
+                                                rel="noopener noreferrer">
+                                                <u>{{user['username']}}</u>
+                                            </a>
+                                            <br>
+                                            {{ user['bp'] }} <b>BP</b>
+                                        </div>
+                                    </div>
+                                <div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+      </body>
+
+    <!-- Footer -->
+    {% include 'footer.html' %}
+
+</html>

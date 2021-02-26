@@ -42,7 +42,7 @@ class BlurtChain:
         self.witness = 0
         self.nodes = [
             'https://rpc.blurt.world',
-            'https://rpc.blurt.buzz',
+            # 'https://rpc.blurt.buzz',
         ]
         random.shuffle(self.nodes)
 
@@ -736,6 +736,23 @@ class BlurtChain:
         return result
 
     def get_delegators(self):
+        delegators = []
+
+        # get delegators from firebase
+        # and return list of usernames and BPs
+        db_name = 'delegation_list'
+        data = self.firebase.child(db_name).child('list').get()
+
+        for d in data.each():
+            insert_data = {
+                'username': d.val()['username'],
+                'bp': f'{d.val()["bp"]:,.3f}',
+            }
+            delegators.append(insert_data)
+
+        return delegators
+
+    def get_delegations(self):
         delegators = []
 
         # get delegators from firebase
