@@ -151,6 +151,9 @@ def publish_post(rewards):
     today = datetime.now().strftime("%Y-%m-%d")
     title = f'Daily Delegation Payout - {today}'
     tags = ['blurtblock', 'delegation', 'rewards', 'blurt']
+    base_url = 'https://blurtter.com'
+    permalink = '@tomoyan/how-to-blurt-passive-income-daily-payout-report'
+    post_url = f'{base_url}/{permalink}'
 
     table = """
 | Delegator | Reward |
@@ -174,8 +177,9 @@ Give it a try! Anybody can use it even if you don't delegate.
 ## Daily Rewards Today
 {table}
 
-## How to delegate BLURT POWER(BP)? 👇
-[Blurt Passive Income](https://blurt.blog/@tomoyan/how-to-blurt-passive-income-daily-payout-report)
+## How to delegate BLURT POWER(BP)? Here 👇
+[Blurt Passive Income: Delegation]({post_url})
+{post_url}
 
 Thank you for your support!
 Have a Blurt day :)
