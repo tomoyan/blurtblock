@@ -74,19 +74,35 @@
                         <label class="sr-only" for="inlineFormInputGroup">Username</label>
                         <div class="input-group mb-2">
                             <div class="input-group-prepend">
-                            <div class="input-group-text">@</div>
-                        </div>
-                        <input type="text" class="form-control" id="inlineFormInputGroup"
+                                <div class="input-group-text">@</div>
+                            </div>
+                            <input type="text" class="form-control" id="inlineFormInputGroup"
                             name="username" placeholder="Username">
-                      </div>
+                        </div>
                     </div>
                     <div class="col-auto">
-                        <button type="submit" class="btn btn-blurt mb-2">Submit</button>
+                        <button id="submit" type="submit" class="btn btn-blurt mb-2">Go</button>
+                    </div>
+                    <div class="col-auto mb-2 invisible" id="submitSpinners">
+                        <div class="spinner-border spinner-border-sm text-blurt" role="status">
+                            <span class="sr-only align-middle">Loading...</span>
+                        </div>
                     </div>
                 </div>
             </form>
 
         </div>
+
+        <script src="{{ url_for('static', filename='js/jquery-3.5.1.min.js') }}"></script>
+        <!-- show spinner when submit is clicked -->
+        <script>
+            $(document).ready(function(){
+                $("#submit").click(function(){
+                    $("#submitSpinners").removeClass('invisible');
+                    $("#submitSpinners").addClass('visible');
+                });
+            });
+        </script>
 
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
         {% include 'bootstrap_js.html' %}
