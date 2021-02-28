@@ -54,9 +54,8 @@ def blurt_profile_data(username=None):
 
         data['stars'] = 0
 
-        # call 30day reward api and cache data
+        # call 1day reward api and cache data
         blurt_reward(username, 1)
-        blurt_reward(username, 7)
 
     return render_template('blurt/profile_data.html',
                            username=blurt.username, data=data)
