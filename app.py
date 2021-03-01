@@ -55,7 +55,7 @@ def blurt_profile_data(username=None):
         data['stars'] = 0
 
         # process 30 day reward summary in the background
-        p1 = Process(target=blurt_reward, args=[username, 30])
+        p1 = Process(target=blurt.get_reward_summary, args=[30])
         p1.start()
 
     return render_template('blurt/profile_data.html',
