@@ -406,6 +406,9 @@ class BlurtChain:
             data['curation'] = f"{float(rewards['curation']):,.3f}"
             data['producer'] = f"{float(rewards['producer']):,.3f}"
 
+            key = f'{self.username}_reward_{duration}'
+            self.update_data_fb('reward_summary', key, data)
+
         return data
 
     @lru_cache(maxsize=32)
@@ -626,6 +629,28 @@ class BlurtChain:
         # save data into firebase database
         result = self.firebase.child(db_name).push(data)
         return result
+
+    def update_data_fb(self, db_name, key, data):
+        # update data into firebase database
+        result = self.firebase.child(db_name).child(key).update(data)
+        return result
+
+    def get_reward_summary_fb(self, key):
+        # get reward summary data and then remove from fb
+        result = dict()
+        db_name = 'reward_summary'
+        data = self.firebase.child(db_name).child(key).get()
+
+        if data.each():
+            for d in data.each():
+                result[d.key()] = d.val()
+
+        return result
+
+    def remove_reward_summary_fb(self, key):
+        # remove reward summary from fb
+        db_name = 'reward_summary'
+        self.firebase.child(db_name).child(key).remove()
 
     def process_upvote(self, url):
         username = None

@@ -7,7 +7,7 @@ from forms import UserNameForm
 from forms import postUrlForm
 from markupsafe import escape
 import BlurtChain as BC
-
+from multiprocessing import Process
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -54,8 +54,9 @@ def blurt_profile_data(username=None):
 
         data['stars'] = 0
 
-        # call 1day reward api and cache data
-        blurt_reward(username, 1)
+        # process 30 day reward summary in the background
+        p1 = Process(target=blurt_reward, args=[username, 30])
+        p1.start()
 
     return render_template('blurt/profile_data.html',
                            username=blurt.username, data=data)
@@ -183,14 +184,19 @@ def blurt_reward(username=None, duration=1, option=None):
     data = {}
     if username:
         blurt = BC.BlurtChain(username)
-
         # check session reward_data
         reward_data = username + '_reward_' + str(duration)
         if session.get(reward_data):
             data = session[reward_data]
+            blurt.remove_reward_summary_fb(reward_data)
         else:
-            data = blurt.get_reward_summary(duration, option=option)
+            data = blurt.get_reward_summary_fb(reward_data)
             session[reward_data] = data
+            blurt.remove_reward_summary_fb(reward_data)
+
+            if not data:
+                data = blurt.get_reward_summary(duration, option=option)
+                session[reward_data] = data
 
     return jsonify(data)
 
