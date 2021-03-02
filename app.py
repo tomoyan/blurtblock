@@ -7,7 +7,7 @@ from forms import UserNameForm
 from forms import postUrlForm
 from markupsafe import escape
 import BlurtChain as BC
-from multiprocessing import Process
+import concurrent.futures
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -35,6 +35,21 @@ def blurt():
     return render_template('blurt/profile.html', form=form)
 
 
+def _process_rewards(username=None, duration=1):
+    data = {}
+    if username:
+        # check session reward_data
+        reward_data = username + '_reward_' + str(duration)
+        if session.get(reward_data):
+            data = session[reward_data]
+        else:
+            blurt = BC.BlurtChain(username)
+            data = blurt.get_reward_summary(duration, option=option)
+            session[reward_data] = data
+
+    return data
+
+
 @app.route('/<username>')
 @app.route('/<username>/')
 def blurt_profile_data(username=None):
@@ -54,15 +69,11 @@ def blurt_profile_data(username=None):
 
         data['stars'] = 0
 
-        # process 30 day reward summary in the background
-        p1 = Process(target=blurt.get_reward_summary, args=[30])
-        p1.start()
-        # process 7 day reward summary in the background
-        p2 = Process(target=blurt.get_reward_summary, args=[7])
-        p2.start()
-        # process 1 day reward summary in the background
-        p3 = Process(target=blurt.get_reward_summary, args=[1])
-        p3.start()
+        # process rewards summary in the background
+        with concurrent.futures.ProcessPoolExecutor() as run:
+            f1 = run.submit(_process_rewards, username, 30)
+            f2 = run.submit(_process_rewards, username, 1)
+            f3 = run.submit(_process_rewards, username, 7)
 
     return render_template('blurt/profile_data.html',
                            username=blurt.username, data=data)
@@ -198,7 +209,7 @@ def blurt_reward(username=None, duration=1, option=None):
         else:
             data = blurt.get_reward_summary_fb(reward_data)
             session[reward_data] = data
-            # blurt.remove_reward_summary_fb(reward_data)
+            blurt.remove_reward_summary_fb(reward_data)
 
             if not data:
                 data = blurt.get_reward_summary(duration, option=option)
