@@ -691,6 +691,195 @@ $(document).ready(function(){
         });
     });
 
+    $("#rewardHistory").click(function(){
+        let heading = `
+        <li class="list-group-item">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm text-sm-left text-truncate">
+                        <strong>Duration</strong>
+                    </div>
+                    <div class="col-sm text-sm-left text-truncate">
+                        <strong>Author BP</strong>
+                    </div>
+                    <div class="col-sm text-sm-left text-truncate">
+                        <strong>Curation BP</strong>
+                    </div>
+                    <div class="col-sm text-sm-left text-truncate">
+                    <strong>Total BP</strong>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li  class="list-group-item">
+            <div id="oneDayResult">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm text-sm-left text-truncate">
+                            Last 24 Hours
+                        </div>
+                        <div class="col-sm text-sm-left text-truncate">
+                            <div class="spinner-border spinner-border-sm text-blurt"
+                                role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li  class="list-group-item">
+            <div id="sevenDayResult">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm text-sm-left text-truncate">
+                            Last 7 Days
+                        </div>
+                        <div class="col-sm text-sm-left text-truncate">
+                            <div class="spinner-border spinner-border-sm text-blurt"
+                                role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li  class="list-group-item">
+            <div id="thirtyDayResult">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm text-sm-left text-truncate">
+                            Last 30 Days
+                        </div>
+                        <div class="col-sm text-sm-left text-truncate">
+                            <div class="spinner-border spinner-border-sm text-blurt"
+                                role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>`;
+        $("#historyResult").html(heading);
+
+        // 1 day reward
+        $.ajax(document.rewardOne_api,
+        {
+            dataType: 'json', // type of response data
+            timeout: 30000, // 30 sec timeout in milliseconds
+            success: function (data, status, xhr) {
+                let transactions = ``
+
+                $("#historySpinners").addClass('invisible');
+                if (jQuery.isEmptyObject(data)) {
+                    transactions = `<li class="list-group-item">No Reward Data</li>`;
+                    $("#oneDayResult").html(transactions);
+                }
+                else {
+                    transactions = `
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-sm text-sm-left text-truncate">
+                                    Last 24 Hours
+                                </div>
+                                <div class="col-sm text-sm-left text-truncate">
+                                    ${data['author']} BP
+                                </div>
+                                <div class="col-sm text-sm-left text-truncate">
+                                    ${data['curation']} BP
+                                </div>
+                                <div class="col-sm text-sm-left text-truncate">
+                                    ${data['total']} BP
+                                </div>
+                            </div>
+                        </div>`;
+                    $("#oneDayResult").html(transactions);
+                }
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                $("#oneDayResult").html('Oops! ' + errorMessage + ' Please reload');
+            }
+        });
+        // 7 day reward
+        $.ajax(document.rewardSeven_api,
+        {
+            dataType: 'json', // type of response data
+            timeout: 30000, // 30 sec timeout in milliseconds
+            success: function (data, status, xhr) {
+                let transactions = ``
+
+                $("#historySpinners").addClass('invisible');
+                if (jQuery.isEmptyObject(data)) {
+                    transactions = `<li class="list-group-item">No Reward Data</li>`;
+                    $("#sevenDayResult").html(transactions);
+                }
+                else {
+                    transactions = `
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-sm text-sm-left text-truncate">
+                                    Last 7 Days
+                                </div>
+                                <div class="col-sm text-sm-left text-truncate">
+                                    ${data['author']} BP
+                                </div>
+                                <div class="col-sm text-sm-left text-truncate">
+                                    ${data['curation']} BP
+                                </div>
+                                <div class="col-sm text-sm-left text-truncate">
+                                    ${data['total']} BP
+                                </div>
+                            </div>
+                        </div>`;
+                    $("#sevenDayResult").html(transactions);
+                }
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                $("#sevenDayResult").html('Oops! ' + errorMessage + ' Please reload');
+            }
+        });
+        // 30 day reward
+        $.ajax(document.rewardThirtyApi,
+        {
+            dataType: 'json', // type of response data
+            timeout: 30000, // 30 sec timeout in milliseconds
+            success: function (data, status, xhr) {
+                let transactions = ``
+
+                $("#historySpinners").addClass('invisible');
+                if (jQuery.isEmptyObject(data)) {
+                    transactions = `<li class="list-group-item">No Reward Data</li>`;
+                    $("#thirtyDayResult").html(transactions);
+                }
+                else {
+                    transactions = `
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-sm text-sm-left text-truncate">
+                                    Last 30 Days
+                                </div>
+                                <div class="col-sm text-sm-left text-truncate">
+                                    ${data['author']} BP
+                                </div>
+                                <div class="col-sm text-sm-left text-truncate">
+                                    ${data['curation']} BP
+                                </div>
+                                <div class="col-sm text-sm-left text-truncate">
+                                    ${data['total']} BP
+                                </div>
+                            </div>
+                        </div>`;
+                    $("#thirtyDayResult").html(transactions);
+                }
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                $("#thirtyDayResult").html('Oops! ' + errorMessage + ' Please reload');
+            }
+        });
+    });
+
     // $("#postHistory").click(function(){
     //     // post history
     //     $.ajax(document.postHistoryApi,
@@ -706,6 +895,11 @@ $(document).ready(function(){
     // });
 
     // display spinners when history buttons clicked
+    $("#rewardHistory").click(function(){
+        $("#historySpinners").removeClass('invisible');
+        $("#historySpinners").addClass('visible');
+    });
+
     $("#transferHistory").click(function(){
         $("#historySpinners").removeClass('invisible');
         $("#historySpinners").addClass('visible');

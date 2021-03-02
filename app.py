@@ -57,6 +57,12 @@ def blurt_profile_data(username=None):
         # process 30 day reward summary in the background
         p1 = Process(target=blurt.get_reward_summary, args=[30])
         p1.start()
+        # process 7 day reward summary in the background
+        p2 = Process(target=blurt.get_reward_summary, args=[7])
+        p2.start()
+        # process 1 day reward summary in the background
+        p3 = Process(target=blurt.get_reward_summary, args=[1])
+        p3.start()
 
     return render_template('blurt/profile_data.html',
                            username=blurt.username, data=data)
@@ -192,7 +198,7 @@ def blurt_reward(username=None, duration=1, option=None):
         else:
             data = blurt.get_reward_summary_fb(reward_data)
             session[reward_data] = data
-            blurt.remove_reward_summary_fb(reward_data)
+            # blurt.remove_reward_summary_fb(reward_data)
 
             if not data:
                 data = blurt.get_reward_summary(duration, option=option)
