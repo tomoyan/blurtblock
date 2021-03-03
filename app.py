@@ -72,8 +72,8 @@ def blurt_profile_data(username=None):
         # process rewards summary in the background
         with concurrent.futures.ProcessPoolExecutor() as run:
             f1 = run.submit(_process_rewards, username, 30)
-            f2 = run.submit(_process_rewards, username, 1)
-            f3 = run.submit(_process_rewards, username, 7)
+            # f2 = run.submit(_process_rewards, username, 1)
+            # f3 = run.submit(_process_rewards, username, 7)
 
     return render_template('blurt/profile_data.html',
                            username=blurt.username, data=data)
@@ -209,7 +209,7 @@ def blurt_reward(username=None, duration=1, option=None):
         else:
             data = blurt.get_reward_summary_fb(reward_data)
             session[reward_data] = data
-            blurt.remove_reward_summary_fb(reward_data)
+            # blurt.remove_reward_summary_fb(reward_data)
 
             if not data:
                 data = blurt.get_reward_summary(duration, option=option)
