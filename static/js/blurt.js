@@ -1,303 +1,79 @@
 $(document).ready(function(){
-    $("#nav-follower-tab").click(function(){
-        $.ajax(document.follower_api,
-        {
-            dataType: 'json', // type of response data
-            timeout: 60000,     // timeout milliseconds
-            success: function (data, status, xhr) {   // success callback function
-                var size = Object.keys(data).length;
-                if (size === undefined) {
-                    size = 0;
-                }
-                $("#followerSize").html(size);
-
-                // liStr holds html list
-                var liStr = ``;
-                if (jQuery.isEmptyObject(data)) {
-                    liStr = `
-                    <li class="list-group-item" data-field=><span>No Follower Data</span></li>`;
-                    $("#followerResult").html(liStr);
-                }
-                else {
-                   $("#followerResult").empty();
-                   $.each(data, function(key, data){
-                        if (data) {
-                        liStr = `
-                            <li class="list-group-item" data-field=>
-                                <span><img src="https://images.blurt.blog/u/${key}/avatar/small"
-                                        onerror="this.onerror=null;
-                                        this.src='/static/images/blurt_profile.png';"
-                                        alt="profile_image"
-                                        class="img-thumbnail rounded-circle float-left mr-3"
-                                        width="auto"></span>
-                                <span>
-                                    <a class="text-blurt font-weight-bold mr-3" href="https://blurt.blog/@${key}"
-                                        target="_blank" rel="noopener noreferrer">${key}
-                                    </a></span>
-                                <span class="badge badge-blurt font-weight-light">Following</span>
-                                <br>
-                                <span>
-                                    <a class="text-blurt mr-3" href="https://blurtblock.herokuapp.com/${key}"
-                                        target="_blank" rel="noopener noreferrer">Profile
-                                    </a></span>
-                            </li>`;
-                        }
-                        else {
-                        liStr = `
-                            <li class="list-group-item" data-field=>
-                                <span><img src="https://images.blurt.blog/u/${key}/avatar/small"
-                                        onerror="this.onerror=null;
-                                        this.src='/static/images/blurt_profile.png';"
-                                        alt="profile_image"
-                                        class="img-thumbnail rounded-circle float-left mr-3"
-                                        width="auto"></span>
-                                <span>
-                                    <a class="text-blurt font-weight-bold" href="https://blurt.blog/@${key}"
-                                    target="_blank" rel="noopener noreferrer">${key}
-                                    </a></span>
-                                <br>
-                                <span>
-                                    <a class="text-blurt mr-3" href="https://blurtblock.herokuapp.com/${key}"
-                                        target="_blank" rel="noopener noreferrer">Profile
-                                    </a></span>
-                            </li>`;
-                        }
-
-                        $("#followerResult").append(liStr);
-                    });
-               }
-            },
-            // error: function (jqXhr, textStatus, errorMessage) { // error callback
-            //     $("#followerResult").append('Error: ' + errorMessage);
-            // }
-        });
-    });
-
-    $("#nav-following-tab").click(function(){
-        $.ajax(document.following_api,
-        {
-            dataType: 'json', // type of response data
-            timeout: 60000,     // timeout milliseconds
-            success: function (data, status, xhr) {   // success callback function
-                var size = Object.keys(data).length;
-                if (size === undefined) {
-                    size = 0;
-                }
-                $("#followingSize").html(size);
-
-                // liStr holds html list
-                var liStr = ``;
-                if (jQuery.isEmptyObject(data)) {
-                    liStr = `
-                    <li class="list-group-item" data-field=><span>No Following Data</span></li>`;
-                    $("#followingResult").html(liStr);
-                }
-                else {
-                   $("#followingResult").empty();
-                   $.each(data, function(key, data){
-                        if (data) {
-                        liStr = `
-                            <li class="list-group-item" data-field=>
-                                <span><img src="https://images.blurt.blog/u/${key}/avatar/small"
-                                        onerror="this.onerror=null;
-                                        this.src='/static/images/blurt_profile.png';"
-                                        alt="profile_image"
-                                        class="img-thumbnail rounded-circle float-left mr-3"
-                                        width="auto"></span>
-                                <span>
-                                    <a class="text-blurt font-weight-bold mr-3" href="https://blurt.blog/@${key}"
-                                        target="_blank" rel="noopener noreferrer">${key}
-                                    </a></span>
-                                <span class="badge badge-blurt font-weight-light">Follows you</span>
-                                <br>
-                                <span>
-                                    <a class="text-blurt mr-3" href="https://blurtblock.herokuapp.com/${key}"
-                                        target="_blank" rel="noopener noreferrer">Profile
-                                    </a></span>
-                            </li>`;
-                        }
-                        else {
-                        liStr = `
-                            <li class="list-group-item" data-field=>
-                                <span><img src="https://images.blurt.blog/u/${key}/avatar/small"
-                                        onerror="this.onerror=null;
-                                        this.src='/static/images/blurt_profile.png';"
-                                        alt="profile_image"
-                                        class="img-thumbnail rounded-circle float-left mr-3"
-                                        width="auto"></span>
-                                <span>
-                                    <a class="text-blurt font-weight-bold" href="https://blurt.blog/@${key}"
-                                        target="_blank" rel="noopener noreferrer">${key}
-                                    </a></span>
-                                <br>
-                                <span>
-                                    <a class="text-blurt mr-3" href="https://blurtblock.herokuapp.com/${key}"
-                                        target="_blank" rel="noopener noreferrer">Profile
-                                    </a></span>
-                            </li>`;
-                        }
-
-                        $("#followingResult").append(liStr);
-                    });
-               }
-            },
-            // error: function (jqXhr, textStatus, errorMessage) { // error callback
-            //     $("#followingResult").append('Error: ' + errorMessage);
-            // }
-        });
-    });
-
-    $("#nav-mute-tab").click(function(){
-        $.ajax(document.mute_api,
-        {
-            dataType: 'json', // type of response data
-            timeout: 60000,     // timeout milliseconds
-            success: function (data, status, xhr) {   // success callback function
-                var size = Object.keys(data['muting']).length + Object.keys(data['muter']).length;
-                if (size === undefined) {
-                    size = 0;
-                }
-                $("#muteSize").html(size);
-                // console.log(data['muter']);
-
-                // liStr holds html list
-                var liStr = ``;
-                if (jQuery.isEmptyObject(data['muting'])) {
-                    liStr = `
-                    <li class="list-group-item" data-field=><span>Not Muting Anybody</span></li>`;
-                    $("#mutingResult").html(liStr);
-                }
-                else {
-                   $("#mutingResult").empty();
-                   $.each(data['muting'], function(index, value){
-                        liStr = `
-                            <li class="list-group-item" data-field=>
-                                <span><img src="https://images.blurt.blog/u/${value}/avatar/small"
-                                        onerror="this.onerror=null;
-                                        this.src='/static/images/blurt_profile.png';"
-                                        alt="profile_image"
-                                        class="img-thumbnail rounded-circle float-left mr-3"
-                                        width="auto"></span>
-                                <span>
-                                    <a class="text-blurt font-weight-bold mr-3" href="https://blurt.blog/@${value}"
-                                        target="_blank" rel="noopener noreferrer">${value}
-                                    </a></span>
-                                <br>
-                                <span>
-                                    <a class="text-blurt mr-3" href="https://blurtblock.herokuapp.com/${value}"
-                                        target="_blank" rel="noopener noreferrer">Profile
-                                    </a></span>
-                            </li>`;
-
-                        $("#mutingResult").append(liStr);
-                    });
-               }
-
-                if (jQuery.isEmptyObject(data['muter'])) {
-                    liStr = `
-                    <li class="list-group-item" data-field=><span>Not Muted by Anybody</span></li>`;
-                    $("#muteResult").html(liStr);
-                }
-                else {
-                   $("#muteResult").empty();
-                   $.each(data['muter'], function(index, value){
-                        liStr = `
-                            <li class="list-group-item" data-field=>
-                                <span><img src="https://images.blurt.blog/u/${value}/avatar/small"
-                                        onerror="this.onerror=null;
-                                        this.src='/static/images/blurt_profile.png';"
-                                        alt="profile_image"
-                                        class="img-thumbnail rounded-circle float-left mr-3"
-                                        width="auto"></span>
-                                <span>
-                                    <a class="text-blurt font-weight-bold mr-3" href="https://blurt.blog/@${value}"
-                                        target="_blank" rel="noopener noreferrer">${value}
-                                    </a></span>
-                                <br>
-                                <span>
-                                    <a class="text-blurt mr-3" href="https://blurtblock.herokuapp.com/${value}"
-                                        target="_blank" rel="noopener noreferrer">Profile
-                                    </a></span>
-                            </li>`;
-
-                        $("#muteResult").append(liStr);
-                    });
-               }
-
-            },
-            // error: function (jqXhr, textStatus, errorMessage) { // error callback
-            //     $("#muteResult").append('Error: ' + errorMessage);
-            // }
-        });
-    });
+    let BLURTBLOCK = 'https://blurtblock.herokuapp.com';
+    let IMGBASE = 'https://cdn.steemitimages.com';
+    // let IMGBASE = 'https://images.blurt.blog';
 
     $("#nav-delegation-tab").click(function(){
+        let incomingmessage = `
+        <li class="list-group-item" data-field=><span>Not Implemented</span></li>`;
+        $("#incomingResult").html(incomingmessage);
+
         // incoming elegation
-        $.ajax(document.delegationApiIn,
-        {
-            dataType: 'json', // type of response data
-            timeout: 30000, // 30 sec timeout in milliseconds
-            tryCount : 0,
-            retryLimit : 6, // retry times
-            success: function (data, status, xhr) {
-                var liStr = ``;
-                if (jQuery.isEmptyObject(data['incoming'])) {
-                    liStr = `
-                    <li class="list-group-item" data-field=><span>No Incoming Delegation</span></li>`;
-                    $("#incomingResult").html(liStr);
-                }
-                else {
-                   $("#incomingResult").empty();
-                   $.each(data['incoming'], function(index, value){
-                        liStr = `
-                            <li class="list-group-item" data-field=>
+        // $.ajax(document.delegationApiIn,
+        // {
+        //     dataType: 'json', // type of response data
+        //     timeout: 30000, // 30 sec timeout in milliseconds
+        //     tryCount : 0,
+        //     retryLimit : 6, // retry times
+        //     success: function (data, status, xhr) {
+        //         var liStr = ``;
+        //         if (jQuery.isEmptyObject(data['incoming'])) {
+        //             liStr = `
+        //             <li class="list-group-item" data-field=><span>No Incoming Delegation</span></li>`;
+        //             $("#incomingResult").html(liStr);
+        //         }
+        //         else {
+        //            $("#incomingResult").empty();
+        //            $.each(data['incoming'], function(index, value){
+        //                 liStr = `
+        //                     <li class="list-group-item" data-field=>
 
-                            <div class="container">
-                              <div class="row">
-                                <div class="col-sm">
-                                    <span><img src="https://images.blurt.blog/u/${value.delegator}/avatar/small"
-                                            onerror="this.onerror=null;
-                                            this.src='/static/images/blurt_profile.png';"
-                                            alt="profile_image"
-                                            class="img-thumbnail rounded-circle float-left mr-3"
-                                            width="auto">
-                                    </span>
-                                    <span>
-                                        <a class="text-blurt font-weight-bold mr-3"
-                                            href="https://blurt.blog/@${value.delegator}"
-                                            target="_blank" rel="noopener noreferrer">
-                                            ${value.delegator}</a>
-                                        <br>
-                                        <a class="text-blurt font-weight-bold mr-3"
-                                            href="https://blurtblock.herokuapp.com/${value.delegator}"
-                                            target="_blank" rel="noopener noreferrer">
-                                            Profile</a>
-                                    </span>
-                                </div>
-                                <div class="col-sm">
-                                    <span class="font-weight-bold">${value.bp} BP</span>
-                                </div>
-                              </div>
-                            </div>
+        //                     <div class="container">
+        //                       <div class="row">
+        //                         <div class="col-sm">
+        //                             <span><img src="https://images.blurt.blog/u/${value.delegator}/avatar/small"
+        //                                     onerror="this.onerror=null;
+        //                                     this.src='/static/images/blurt_profile.png';"
+        //                                     alt="profile_image"
+        //                                     class="img-thumbnail rounded-circle float-left mr-3"
+        //                                     width="auto">
+        //                             </span>
+        //                             <span>
+        //                                 <a class="text-blurt font-weight-bold mr-3"
+        //                                     href="https://blurt.blog/@${value.delegator}"
+        //                                     target="_blank" rel="noopener noreferrer">
+        //                                     ${value.delegator}</a>
+        //                                 <br>
+        //                                 <a class="text-blurt font-weight-bold mr-3"
+        //                                     href="https://blurtblock.herokuapp.com/${value.delegator}"
+        //                                     target="_blank" rel="noopener noreferrer">
+        //                                     Profile</a>
+        //                             </span>
+        //                         </div>
+        //                         <div class="col-sm">
+        //                             <span class="font-weight-bold">${value.bp} BP</span>
+        //                         </div>
+        //                       </div>
+        //                     </div>
 
-                            </li>`;
+        //                     </li>`;
 
-                        $("#incomingResult").append(liStr);
-                    });
-               }
-            },
-            error: function (jqXhr, textStatus, errorMessage) { // error callback
-                if (textStatus == 'timeout') {
-                    this.tryCount++;
-                    if (this.tryCount < this.retryLimit) {
-                        //try again
-                        $.ajax(this);
-                        return;
-                    }
-                }
-                $("#incomingResult").html('Oops! ' + errorMessage + ' Please reload');
-            }
-        });
+        //                 $("#incomingResult").append(liStr);
+        //             });
+        //        }
+        //     },
+        //     error: function (jqXhr, textStatus, errorMessage) { // error callback
+        //         if (textStatus == 'timeout') {
+        //             this.tryCount++;
+        //             if (this.tryCount < this.retryLimit) {
+        //                 //try again
+        //                 $.ajax(this);
+        //                 return;
+        //             }
+        //         }
+        //         $("#incomingResult").html('Oops! ' + errorMessage + ' Please reload');
+        //     }
+        // });
 
         // outgoing elegation
         $.ajax(document.delegationApiOut,
@@ -391,136 +167,6 @@ $(document).ready(function(){
         });
     });
 
-    $("#rewards-tab").click(function(){
-        // 1 day rewards summary
-        $.ajax(document.rewardOne_api,
-        {
-            dataType: 'json', // type of response data
-            timeout: 60000, // timeout milliseconds
-            success: function (data, status, xhr) {
-                var authorBP = ``;
-                var curationBP = ``;
-                var producerBP = ``;
-                var totalBP = ``;
-
-                if (jQuery.isEmptyObject(data)) {
-                    authorBP = `0 BP`;
-                    curationBP = `0 BP`;
-                    producerBP = `0 BP`;
-                    totalBP = `0 BP`;
-                }
-                else {
-                    authorBP = `${data['author']} BP`;
-                    curationBP = `${data['curation']} BP`;
-                    producerBP = `${data['producer']} BP`;
-                    totalBP = `${data['total']} BP`;
-                }
-
-                $("#authorOne").html(authorBP);
-                $("#curationOne").html(curationBP);
-                $("#producerOne").html(producerBP);
-                $("#totalOne").html(totalBP);
-            },
-            error: function (jqXhr, textStatus, errorMessage) { // error callback
-                $("#authorOne").remove();
-                $("#curationOne").remove();
-                $("#producerOne").remove();
-                $("#totalOne").remove();
-            }
-        });
-
-        // 7 day rewards summary
-        $.ajax(document.rewardSeven_api,
-        {
-            dataType: 'json', // type of response data
-            timeout: 60000, // timeout milliseconds
-            success: function (data, status, xhr) {
-                var authorBP = ``;
-                var curationBP = ``;
-                var producerBP = ``;
-                var totalBP = ``;
-
-                if (jQuery.isEmptyObject(data)) {
-                    authorBP = `0 BP`;
-                    curationBP = `0 BP`;
-                    producerBP = `0 BP`;
-                    totalBP = `0 BP`;
-                }
-                else {
-                    authorBP = `${data['author']} BP`;
-                    curationBP = `${data['curation']} BP`;
-                    producerBP = `${data['producer']} BP`;
-                    totalBP = `${data['total']} BP`;
-                }
-
-                $("#authorSeven").html(authorBP);
-                $("#curationSeven").html(curationBP);
-                $("#producerSeven").html(producerBP);
-                $("#totalSeven").html(totalBP);
-            },
-            error: function (jqXhr, textStatus, errorMessage) { // error callback
-                $("#authorSeven").remove();
-                $("#curationSeven").remove();
-                $("#producerSeven").remove();
-                $("#totalSeven").remove();
-            }
-        });
-
-        // var total30 = `0.000`;
-        // 30 day rewards summary
-        $.ajax(document.rewardThirtyApi,
-        {
-            dataType: 'json', // type of response data
-            timeout: 30000, // 30 sec timeout in milliseconds
-            tryCount : 0,
-            retryLimit : 3, // rety 3 times
-            success: function (data, status, xhr) {
-                var authorBP = `0.000 BP`;
-                var curationBP = `0.000 BP`;
-                var producerBP = `0.000 BP`;
-                var totalBP = `0.000 BP`;
-
-                if (jQuery.isEmptyObject(data)) {
-                    authorBP = `0.000 BP`;
-                    curationBP = `0.000 BP`;
-                    producerBP = `0.000 BP`;
-                    totalBP = `0.000 BP`;
-                }
-                else {
-                    authorBP = `${data['author']} BP`;
-                    curationBP = `${data['curation']} BP`;
-                    producerBP = `${data['producer']} BP`;
-                    totalBP = `${data['total']} BP`;
-                }
-
-                $("#loadingImage").remove();
-                $("#authorThirty").html(authorBP);
-                $("#curationThirty").html(curationBP);
-                $("#producerThirty").html(producerBP);
-                $("#totalThirty").html(totalBP);
-            },
-            error: function (jqXhr, textStatus, errorMessage) {
-                if (textStatus == 'timeout') {
-                    this.tryCount++;
-                    if (this.tryCount < this.retryLimit) {
-                        //try again
-                        $.ajax(this);
-                        return;
-                    }
-                    // return;
-                }
-                // else {
-                $("#loadingImage").remove();
-                $("#authorThirty").html(`0.000 BP`);
-                $("#curationThirty").html(`0.000 BP`);
-                $("#producerThirty").html(`0.000 BP`);
-                $("#totalThirty").html(`0.000 BP`);
-                // }
-            }
-        });
-
-    });
-
     $("#transferHistory").click(function(){
         // transfer history
         $.ajax(document.transferHistoryApi,
@@ -529,7 +175,6 @@ $(document).ready(function(){
             timeout: 60000, // 30 sec timeout in milliseconds
             success: function (data, status, xhr) {
                 let transactions = ``
-                let BASE = 'https://blurtblock.herokuapp.com'
 
                 $("#historySpinners").addClass('invisible');
                 if (jQuery.isEmptyObject(data['history'])) {
@@ -549,12 +194,12 @@ $(document).ready(function(){
                                     <div class="col-sm-auto text-sm-left text-truncate">
                                         ${value['amount']} BLURT
                                         <a class="text-blurt"
-                                            href="${BASE}/${value['from']}"
+                                            href="${BLURTBLOCK}/${value['from']}"
                                             target="_blank" rel="noopener noreferrer">${value['from']}
                                         </a>
                                         to
                                         <a class="text-blurt"
-                                            href="${BASE}/${value['to']}"
+                                            href="${BLURTBLOCK}/${value['to']}"
                                             target="_blank" rel="noopener noreferrer">${value['to']}
                                         </a>
                                     </div>
@@ -584,7 +229,6 @@ $(document).ready(function(){
             timeout: 60000, // 60 sec timeout in milliseconds
             success: function (data, status, xhr) {
                 let transactions = ``
-                let BASE = 'https://blurtblock.herokuapp.com'
                 let BLURT = 'https://blurt.world'
 
                 $("#historySpinners").addClass('invisible');
@@ -604,12 +248,12 @@ $(document).ready(function(){
                                     </div>
                                     <div class="col-sm-auto text-sm-left text-truncate">
                                         <a class="text-blurt"
-                                            href="${BASE}/${value['voter']}"
+                                            href="${BLURTBLOCK}/${value['voter']}"
                                             target="_blank" rel="noopener noreferrer">${value['voter']}
                                         </a>
                                         voted
                                         <a class="text-blurt"
-                                            href="${BASE}/${value['author']}"
+                                            href="${BLURTBLOCK}/${value['author']}"
                                             target="_blank" rel="noopener noreferrer">${value['author']}
                                         </a>
                                         (${value['weight']}%)
@@ -643,7 +287,6 @@ $(document).ready(function(){
             timeout: 60000, // 60 sec timeout in milliseconds
             success: function (data, status, xhr) {
                 let transactions = ``
-                let BASE = 'https://blurtblock.herokuapp.com'
                 let BLURT = 'https://blurt.world'
 
                 $("#historySpinners").addClass('invisible');
@@ -663,7 +306,7 @@ $(document).ready(function(){
                                     </div>
                                     <div class="col-sm-auto text-sm-left text-truncate">
                                         <a class="text-blurt"
-                                            href="${BASE}/${value['author']}"
+                                            href="${BLURTBLOCK}/${value['author']}"
                                             target="_blank" rel="noopener noreferrer">${value['author']}
                                         </a>
                                     </div>
@@ -880,6 +523,201 @@ $(document).ready(function(){
         });
     });
 
+    $("#followHistory").click(function(){
+        // follow history
+        $.ajax(document.followerApi,
+        {
+            // type of response data
+            dataType: 'json',
+            // 30 sec timeout in milliseconds
+            timeout: 30000,
+            success: function (data, status, xhr) {
+                let transaction = ``;
+                // clear out the result html
+                $("#historyResult").html(transaction);
+
+                $("#historySpinners").addClass('invisible');
+                if (jQuery.isEmptyObject(data)) {
+                    transaction = `<li class="list-group-item">No Follow Data</li>`;
+                    $("#historyResult").html(transaction);
+                }
+                else {
+                    $.each(data, function(key, value){
+                        let follow = ``;
+                        if (value) {
+                            follow = `
+                                <span class="badge badge-blurt font-weight-light">
+                                    Following</span>`;
+                        }
+                        transaction = `
+                        <li class="list-group-item">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-sm text-sm-left text-truncate">
+                                        <img src="${IMGBASE}/u/${key}/avatar/small"
+                                                onerror="this.onerror=null;
+                                                this.src='/static/images/blurt_profile.png';"
+                                                alt="profile_image"
+                                                class="img-thumbnail rounded-circle float-left mr-3"
+                                                width="auto">
+                                        <a class="text-blurt font-weight-bold mr-3"
+                                            href="${BLURTBLOCK}/${key}"
+                                            target="_blank" rel="noopener noreferrer">${key}
+                                        </a><br>
+                                        ${follow}
+                                    </div>
+                                </div>
+                            </div>
+                        </li>`
+                        $("#historyResult").append(transaction);
+                    });
+                }
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                $("#historySpinners").addClass('invisible');
+                $("#historyResult").html('Oops! ' + errorMessage + ' Please try again later');
+            }
+        });
+    });
+
+    $("#followingHistory").click(function(){
+        // following history
+        $.ajax(document.followingApi,
+        {
+            // type of response data
+            dataType: 'json',
+            // 30 sec timeout in milliseconds
+            timeout: 30000,
+            success: function (data, status, xhr) {
+                let transaction = ``
+                // clear out the result html
+                $("#historyResult").html(transaction);
+
+                $("#historySpinners").addClass('invisible');
+                if (jQuery.isEmptyObject(data)) {
+                    transaction = `<li class="list-group-item">No Following Data</li>`;
+                    $("#historyResult").html(transaction);
+                }
+                else {
+                    $.each(data, function(key, value){
+                        let follow = ``;
+                        if (value) {
+                            follow = `
+                                <span class="badge badge-blurt font-weight-light">
+                                    Following you</span>`;
+                        }
+                        transaction = `
+                        <li class="list-group-item">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-sm text-sm-left text-truncate">
+                                        <img src="${IMGBASE}/u/${key}/avatar/small"
+                                                onerror="this.onerror=null;
+                                                this.src='/static/images/blurt_profile.png';"
+                                                alt="profile_image"
+                                                class="img-thumbnail rounded-circle float-left mr-3"
+                                                width="auto">
+                                        <a class="text-blurt font-weight-bold mr-3"
+                                            href="${BLURTBLOCK}/${key}"
+                                            target="_blank" rel="noopener noreferrer">${key}
+                                        </a><br>
+                                        ${follow}
+                                    </div>
+                                </div>
+                            </div>
+                        </li>`
+                        $("#historyResult").append(transaction);
+                    });
+                }
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                $("#historySpinners").addClass('invisible');
+                $("#historyResult").html('Oops! ' + errorMessage + ' Please try again later');
+            }
+        });
+    });
+
+    $("#muteHistory").click(function(){
+        // mute history
+        $.ajax(document.muteApi,
+        {
+            // type of response data
+            dataType: 'json', // type of response data
+            // 30 sec timeout in milliseconds
+            timeout: 30000,
+            success: function (data, status, xhr) {
+                let transaction = `<li class="list-group-item text-blurt h3">
+                    Muted by Users</li>`;
+                $("#historyResult").html(transaction);
+
+                $("#historySpinners").addClass('invisible');
+                if (jQuery.isEmptyObject(data['muter'])) {
+                    transaction = `<li class="list-group-item">No Mute Data</li>`;
+                    $("#historyResult").append(transaction);
+                }
+                else {
+                    $.each(data['muter'], function(key, value){
+                        transaction = `
+                        <li class="list-group-item">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-sm text-sm-left text-truncate">
+                                        <img src="${IMGBASE}/u/${value}/avatar/small"
+                                                onerror="this.onerror=null;
+                                                this.src='/static/images/blurt_profile.png';"
+                                                alt="profile_image"
+                                                class="img-thumbnail rounded-circle float-left mr-3"
+                                                width="auto">
+                                        <a class="text-blurt font-weight-bold mr-3"
+                                            href="${BLURTBLOCK}/${value}"
+                                            target="_blank" rel="noopener noreferrer">${value}
+                                        </a><br>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>`
+                        $("#historyResult").append(transaction);
+                    });
+                }
+                transaction = `<li class="list-group-item text-blurt h3">
+                    Muted Users</li>`;
+                $("#historyResult").append(transaction);
+                if (jQuery.isEmptyObject(data['muting'])) {
+                    transaction = `<li class="list-group-item">No Muting Data</li>`;
+                    $("#historyResult").append(transaction);
+                }
+                else {
+                    $.each(data['muting'], function(key, value){
+                        transaction = `
+                        <li class="list-group-item">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-sm text-sm-left text-truncate">
+                                        <img src="${IMGBASE}/u/${value}/avatar/small"
+                                                onerror="this.onerror=null;
+                                                this.src='/static/images/blurt_profile.png';"
+                                                alt="profile_image"
+                                                class="img-thumbnail rounded-circle float-left mr-3"
+                                                width="auto">
+                                        <a class="text-blurt font-weight-bold mr-3"
+                                            href="${BLURTBLOCK}/${value}"
+                                            target="_blank" rel="noopener noreferrer">${value}
+                                        </a><br>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>`
+                        $("#historyResult").append(transaction);
+                    });
+                }
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                $("#historySpinners").addClass('invisible');
+                $("#historyResult").html('Oops! ' + errorMessage + ' Please try again later');
+            }
+        });
+    });
+
     // $("#postHistory").click(function(){
     //     // post history
     //     $.ajax(document.postHistoryApi,
@@ -911,6 +749,21 @@ $(document).ready(function(){
     });
 
     $("#commentHistory").click(function(){
+        $("#historySpinners").removeClass('invisible');
+        $("#historySpinners").addClass('visible');
+    });
+
+    $("#followHistory").click(function(){
+        $("#historySpinners").removeClass('invisible');
+        $("#historySpinners").addClass('visible');
+    });
+
+    $("#followingHistory").click(function(){
+        $("#historySpinners").removeClass('invisible');
+        $("#historySpinners").addClass('visible');
+    });
+
+    $("#muteHistory").click(function(){
         $("#historySpinners").removeClass('invisible');
         $("#historySpinners").addClass('visible');
     });

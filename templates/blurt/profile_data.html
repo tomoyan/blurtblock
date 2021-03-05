@@ -122,56 +122,23 @@
 
                     <!-- API calls to backend-->
                     <script type="text/javascript">
-                       // 1, 7, 30 day rewards api
-                       // document.rewardOne_api = '/api/blurt/reward/{{ username }}/1';
-                       // document.rewardSeven_api = '/api/blurt/reward/{{ username }}/7';
-                       // document.rewardThirtyApi = '/api/blurt/reward/{{ username }}/30';
-
-                       document.follower_api = '/api/blurt/follower/{{ username }}';
-                       document.following_api = '/api/blurt/following/{{ username }}';
-                       document.mute_api = '/api/blurt/mute/{{ username }}';
-                       document.delegationApiIn = '/api/blurt/delegation/{{ username }}/in';
+                       // document.delegationApiIn = '/api/blurt/delegation/{{ username }}/in';
                        document.delegationApiOut = '/api/blurt/delegation/{{ username }}/out';
                        document.delegationApiExp = '/api/blurt/delegation/{{ username }}/exp';
                     </script>
                     <script type="text/javascript" src="{{ url_for('static', filename='js/blurt.js') }}">
                     </script>
 
-                    <!-- new reward nav -->
-<!--                     <a class="nav-item nav-link" id="rewards-tab" data-toggle="tab" href="#rewards"
-                        role="tab" aria-controls="rewards" aria-selected="false">
-                        Rewards
-                        <span id="reward1Size"></span>
-                    </a> -->
-
-                    <!-- follower nav -->
-                    <a class="nav-item nav-link" id="nav-follower-tab" data-toggle="tab" href="#nav-follower"
-                        role="tab" aria-controls="nav-follower" aria-selected="false">
-                        Follower <span id="followerSize" class="badge badge-secondary"></span>
-                    </a>
-
-                    <!-- following nav -->
-                    <a class="nav-item nav-link" id="nav-following-tab" data-toggle="tab" href="#nav-following"
-                        role="tab" aria-controls="nav-following" aria-selected="false">
-                        Following <span id="followingSize" class="badge badge-secondary"></span>
-                    </a>
-
-                    <!-- mute nav -->
-                    <a class="nav-item nav-link" id="nav-mute-tab" data-toggle="tab" href="#nav-mute"
-                        role="tab" aria-controls="nav-mute" aria-selected="false">
-                        Mute <span id="muteSize" class="badge badge-secondary"></span>
+                    <!-- account history nav -->
+                    <a class="nav-item nav-link" id="nav-history-tab" data-toggle="tab" href="#nav-history"
+                        role="tab" aria-controls="nav-history" aria-selected="false">
+                        Account <span id="historySize" class="badge badge-secondary"></span>
                     </a>
 
                     <!-- delegation nav -->
                     <a class="nav-item nav-link" id="nav-delegation-tab" data-toggle="tab" href="#nav-delegation"
                         role="tab" aria-controls="nav-delegation" aria-selected="false">
                         Delegation <span id="delegationSize" class="badge badge-secondary"></span>
-                    </a>
-
-                    <!-- account history nav -->
-                    <a class="nav-item nav-link" id="nav-history-tab" data-toggle="tab" href="#nav-history"
-                        role="tab" aria-controls="nav-history" aria-selected="false">
-                        Account <span id="historySize" class="badge badge-secondary"></span>
                     </a>
 
                     <!-- vote chart nav -->
@@ -191,296 +158,6 @@
                 <h1 class="display-4">Wallet Info</h1>
                 {% include 'blurt/profile_data_main.html' %}
 
-                </div>
-
-                <!-- List of Rewards -->
-                <div class="tab-pane fade" id="rewards" role="tabpanel" aria-labelledby="rewards-tab">
-                    <h1 class="display-4">Reward Summary</h1>
-                    <div class="row">
-                        <div class="col">
-                            <div class="card mb-3">
-                                <div class="card-body pt-1 pb-1">
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item" data-field="">
-                                            <div class="container">
-                                              <div class="row">
-                                                <div class="col-sm text-left">
-                                                    <span class="font-weight-bold">
-                                                        Duration
-                                                    </span>
-                                                </div>
-                                                <div class="col-sm text-right">
-                                                    <span class="font-weight-bold">
-                                                        Author BP
-                                                    </span>
-                                                </div>
-                                                <div class="col-sm text-right">
-                                                    <span class="font-weight-bold">
-                                                        Curation BP
-                                                    </span>
-                                                </div>
-                                                <div class="col-sm text-right">
-                                                    <span class="font-weight-bold">
-                                                        Total BP
-                                                    </span>
-                                                </div>
-                                              </div>
-                                            </div>
-                                        </li>
-                                        <!-- 24 hour rewards -->
-                                        <li class="list-group-item" data-field="">
-                                            <div class="container">
-                                              <div class="row">
-                                                <div class="col-sm text-left">
-                                                    <span>
-                                                        Last 24 Hours
-                                                    </span>
-                                                </div>
-                                                <div class="col-sm text-right">
-                                                    <span id="authorOne">
-                                                        <div class="spinner-border spinner-border-sm text-blurt" role="status">
-                                                            <span class="sr-only">Loading...</span>
-                                                        </div>
-                                                    </span>
-                                                </div>
-                                                <div class="col-sm text-right">
-                                                    <span id="curationOne">
-                                                        <div class="spinner-grow spinner-grow-sm text-blurt" role="status">
-                                                            <span class="sr-only">Loading...</span>
-                                                        </div>
-                                                    </span>
-                                                </div>
-                                                <div class="col-sm text-right">
-                                                    <span id="totalOne">
-                                                        <div class="spinner-border spinner-border-sm text-blurt" role="status">
-                                                            <span class="sr-only">Loading...</span>
-                                                        </div>
-                                                    </span>
-                                                </div>
-                                              </div>
-                                            </div>
-                                        </li>
-                                        <!-- 7 days rewards -->
-                                        <li class="list-group-item" data-field="">
-                                            <div class="container">
-                                              <div class="row">
-                                                <div class="col-sm text-left">
-                                                    <span>
-                                                        Last 7 Days
-                                                    </span>
-                                                </div>
-                                                <div class="col-sm text-right">
-                                                    <span id="authorSeven">
-                                                        <div class="spinner-grow spinner-grow-sm text-blurt" role="status">
-                                                            <span class="sr-only">Loading...</span>
-                                                        </div>
-                                                    </span>
-                                                </div>
-                                                <div class="col-sm text-right">
-                                                    <span id="curationSeven">
-                                                        <div class="spinner-border spinner-border-sm text-blurt" role="status">
-                                                            <span class="sr-only">Loading...</span>
-                                                        </div>
-                                                    </span>
-                                                </div>
-                                                <div class="col-sm text-right">
-                                                    <span id="totalSeven">
-                                                        <div class="spinner-grow spinner-grow-sm text-blurt" role="status">
-                                                            <span class="sr-only">Loading...</span>
-                                                        </div>
-                                                    </span>
-                                                </div>
-                                              </div>
-                                            </div>
-                                        </li>
-                                        <!-- 30 days rewards -->
-                                        <li class="list-group-item" data-field="">
-                                            <div class="container">
-                                              <div class="row">
-                                                <div class="col-sm text-left">
-                                                    <span>
-                                                        Last 30 Days
-                                                    </span>
-                                                </div>
-                                                <div class="col-sm text-right">
-                                                    <span id="authorThirty">
-                                                        <div class="spinner-border spinner-border-sm text-blurt" role="status">
-                                                            <span class="sr-only">Loading...</span>
-                                                        </div>
-                                                    </span>
-                                                </div>
-                                                <div class="col-sm text-right">
-                                                    <span id="curationThirty">
-                                                        <div class="spinner-grow spinner-grow-sm text-blurt" role="status">
-                                                            <span class="sr-only">Loading...</span>
-                                                        </div>
-                                                    </span>
-                                                </div>
-<!--                                                 <div class="col-sm text-right">
-                                                    <span id="producerThirty">
-                                                        <div class="spinner-border spinner-border-sm text-blurt" role="status">
-                                                            <span class="sr-only">Loading...</span>
-                                                        </div>
-                                                    </span>
-                                                </div> -->
-                                                <div class="col-sm text-right">
-                                                    <span id="totalThirty">
-                                                        <div class="spinner-border spinner-border-sm text-blurt" role="status">
-                                                            <span class="sr-only">Loading...</span>
-                                                        </div>
-                                                    </span>
-                                                </div>
-                                              </div>
-                                              <span id="loadingImage">
-                                                  <div class="text-center">
-                                                    Loading data...
-                                                    <br>
-                                                    <img
-                                                        src="{{ url_for('static', filename='images/loading.gif') }}"
-                                                        class="rounded"
-                                                        alt="loading">
-                                                  </div>
-                                              </span>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- List of Follower -->
-                <div class="tab-pane fade" id="nav-follower" role="tabpanel" aria-labelledby="nav-follower-tab">
-                    <h1 class="display-4">Follower</h1>
-                    <div class="row">
-                        <div class="col">
-                            <div class="card mb-3">
-                                <div class="card-body pt-1 pb-1">
-                                    <ul id="followerResult"class="list-group list-group-flush">
-                                        <!-- loading spinner -->
-                                        <div id="mdb-preloader" class="text-center">
-                                            <div class="spinner-grow text-blurt m-3" role="status">
-                                                <span class="sr-only">Loading...</span>
-                                            </div>
-                                            <div class="spinner-border text-blurt m-3" role="status">
-                                                <span class="sr-only">Loading...</span>
-                                            </div>
-                                            <div class="spinner-grow text-blurt m-3" role="status">
-                                                <span class="sr-only">Loading...</span>
-                                            </div>
-                                            <div class="spinner-border text-blurt m-3" role="status">
-                                                <span class="sr-only">Loading...</span>
-                                            </div>
-                                            <div class="spinner-grow text-blurt m-3" role="status">
-                                                <span class="sr-only">Loading...</span>
-                                            </div>
-                                        </div>
-                                        <!-- follower list goes in here -->
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- List of Following -->
-                <div class="tab-pane fade" id="nav-following" role="tabpanel" aria-labelledby="nav-following-tab">
-                    <h1 class="display-4">Following</h1>
-                    <div class="row">
-                        <div class="col">
-                            <div class="card mb-3">
-                                <div class="card-body pt-1 pb-1">
-                                    <ul id="followingResult"class="list-group list-group-flush">
-                                        <!-- loading spinner -->
-                                        <div id="mdb-preloader" class="text-center">
-                                            <div class="spinner-grow text-blurt m-3" role="status">
-                                                <span class="sr-only">Loading...</span>
-                                            </div>
-                                            <div class="spinner-border text-blurt m-3" role="status">
-                                                <span class="sr-only">Loading...</span>
-                                            </div>
-                                            <div class="spinner-grow text-blurt m-3" role="status">
-                                                <span class="sr-only">Loading...</span>
-                                            </div>
-                                            <div class="spinner-border text-blurt m-3" role="status">
-                                                <span class="sr-only">Loading...</span>
-                                            </div>
-                                            <div class="spinner-grow text-blurt m-3" role="status">
-                                                <span class="sr-only">Loading...</span>
-                                            </div>
-                                        </div>
-                                        <!-- following list goes in here -->
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- list of mute -->
-                <div class="tab-pane fade" id="nav-mute" role="tabpanel" aria-labelledby="nav-mute-tab">
-                    <h1 class="display-4">Muted Users</h1>
-                    <div class="row">
-                        <div class="col">
-                            <div class="card mb-3">
-                                <div class="card-body pt-1 pb-1">
-                                    <ul id="mutingResult"class="list-group list-group-flush">
-                                        <!-- loading spinner -->
-                                        <div id="mdb-preloader" class="text-center">
-                                            <div class="spinner-grow text-blurt m-3" role="status">
-                                                <span class="sr-only">Loading...</span>
-                                            </div>
-                                            <div class="spinner-border text-blurt m-3" role="status">
-                                                <span class="sr-only">Loading...</span>
-                                            </div>
-                                            <div class="spinner-grow text-blurt m-3" role="status">
-                                                <span class="sr-only">Loading...</span>
-                                            </div>
-                                            <div class="spinner-border text-blurt m-3" role="status">
-                                                <span class="sr-only">Loading...</span>
-                                            </div>
-                                            <div class="spinner-grow text-blurt m-3" role="status">
-                                                <span class="sr-only">Loading...</span>
-                                            </div>
-                                        </div>
-                                        <!-- muting list goes in here -->
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <h1 class="display-4">Muted by Users</h1>
-                    <div class="row">
-                        <div class="col">
-                            <div class="card mb-3">
-                                <div class="card-body pt-1 pb-1">
-                                    <ul id="muteResult"class="list-group list-group-flush">
-                                        <!-- loading spinner -->
-                                        <div id="mdb-preloader" class="text-center">
-                                            <div class="spinner-grow text-blurt m-3" role="status">
-                                                <span class="sr-only">Loading...</span>
-                                            </div>
-                                            <div class="spinner-border text-blurt m-3" role="status">
-                                                <span class="sr-only">Loading...</span>
-                                            </div>
-                                            <div class="spinner-grow text-blurt m-3" role="status">
-                                                <span class="sr-only">Loading...</span>
-                                            </div>
-                                            <div class="spinner-border text-blurt m-3" role="status">
-                                                <span class="sr-only">Loading...</span>
-                                            </div>
-                                            <div class="spinner-grow text-blurt m-3" role="status">
-                                                <span class="sr-only">Loading...</span>
-                                            </div>
-                                        </div>
-                                        <!-- mute list goes in here -->
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
                 <!-- list of delegation -->
@@ -580,11 +257,11 @@
                     </div>
                 </div>
 
-                <!-- list of history -->
+                <!-- list of account history -->
                 <div class="tab-pane fade" id="nav-history"
                     role="tabpanel" aria-labelledby="nav-history-tab">
                     <!-- history content -->
-                    <h1 class="display-4">Account History</h1>
+                    <h1 class="display-4">Account Info</h1>
                     {% include 'blurt/profile_data_history.html' %}
                 </div>
 

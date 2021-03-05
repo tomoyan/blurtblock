@@ -60,11 +60,11 @@ class BlurtChain:
             self.account = None
 
         # Witness check
-        try:
-            Witness(self.username)
-            self.witness = 1
-        except Exception:
-            self.witness = 0
+        # try:
+        #     Witness(self.username)
+        #     self.witness = 1
+        # except Exception:
+        #     self.witness = 0
             # print(f'WitnessDoesNotExistsException : {e}')
 
     @lru_cache(maxsize=32)
@@ -271,7 +271,7 @@ class BlurtChain:
 
         # find incoming delegaton
         if option == "in":
-            node_list = ['https://rpc.blurt.buzz']
+            node_list = ['https://rpc.blurt.world']
             blurt = Blurt(node_list)
             blurt_account = Account(self.username, blockchain_instance=blurt)
 
