@@ -226,63 +226,6 @@ def blurt_reward(username=None, duration=1, option=None):
     return jsonify(data)
 
 
-@app.route('/api/blurt/author_reward/<username>/<int:duration>')
-@app.route('/api/blurt/author_reward/<username>/<int:duration>/')
-def blurt_author(username=None, duration=1):
-    data = None
-    if username:
-        blurt = BC.BlurtChain(username)
-
-        # check session reward_data
-        reward_data = username + '_author_reward_' + str(duration)
-        if session.get(reward_data):
-            data = session[reward_data]
-        else:
-            data = blurt.get_author_reward(duration)
-            if data != "0.0":
-                session[reward_data] = data
-
-    return jsonify(data)
-
-
-@app.route('/api/blurt/curation_reward/<username>/<int:duration>')
-@app.route('/api/blurt/curation_reward/<username>/<int:duration>/')
-def blurt_curation(username=None, duration=1):
-    data = None
-    if username:
-        blurt = BC.BlurtChain(username)
-
-        # check session reward_data
-        reward_data = username + '_curation_reward_' + str(duration)
-        if session.get(reward_data):
-            data = session[reward_data]
-        else:
-            data = blurt.get_curation_reward(duration)
-            if data != "0.0":
-                session[reward_data] = data
-
-    return jsonify(data)
-
-
-@app.route('/api/blurt/producer_reward/<username>/<int:duration>')
-@app.route('/api/blurt/producer_reward/<username>/<int:duration>/')
-def blurt_producer(username=None, duration=1):
-    data = None
-    if username:
-        blurt = BC.BlurtChain(username)
-
-        # check session reward_data
-        reward_data = username + '_producer_reward_' + str(duration)
-        if session.get(reward_data):
-            data = session[reward_data]
-        else:
-            data = blurt.get_producer_reward(duration)
-            if data != "0.0":
-                session[reward_data] = data
-
-    return jsonify(data)
-
-
 @app.route('/api/blurt/leaderboard')
 @app.route('/api/blurt/leaderboard/')
 def blurt_leaderboard(username=None):
