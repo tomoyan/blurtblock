@@ -222,7 +222,8 @@ def blurt_reward(username=None, duration=1, option=None):
                 # data = blurt.get_rewards(duration)
                 session[reward_data] = data
 
-        blurt.remove_reward_summary_fb(reward_data)
+        blurt.remove_reward_summary_fb(username + '_reward_1')
+        blurt.remove_reward_summary_fb(username + '_reward_7')
     return jsonify(data)
 
 

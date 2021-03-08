@@ -421,6 +421,10 @@ $(document).ready(function(){
                     $("#oneDayResult").html(transactions);
                 }
                 else {
+                    let producer = ``
+                    if ( parseFloat(data['producer']) ) {
+                        producer = `(${data['producer']} BP)`;
+                    }
                     transactions = `
                         <div class="container">
                             <div class="row">
@@ -434,7 +438,8 @@ $(document).ready(function(){
                                     ${data['curation']} BP
                                 </div>
                                 <div class="col-sm text-sm-left text-truncate">
-                                    ${data['total']} BP
+                                    ${data['total']} BP <br>
+                                    ${producer}
                                 </div>
                             </div>
                         </div>`;
@@ -459,6 +464,10 @@ $(document).ready(function(){
                     $("#sevenDayResult").html(transactions);
                 }
                 else {
+                    let producer = ``
+                    if ( parseFloat(data['producer']) ) {
+                        producer = `(${data['producer']} BP)`;
+                    }
                     transactions = `
                         <div class="container">
                             <div class="row">
@@ -472,7 +481,8 @@ $(document).ready(function(){
                                     ${data['curation']} BP
                                 </div>
                                 <div class="col-sm text-sm-left text-truncate">
-                                    ${data['total']} BP
+                                    ${data['total']} BP <br>
+                                    ${producer}
                                 </div>
                             </div>
                         </div>`;
@@ -497,6 +507,10 @@ $(document).ready(function(){
                     $("#thirtyDayResult").html(transactions);
                 }
                 else {
+                    let producer = ``
+                    if ( parseFloat(data['producer']) ) {
+                        producer = `(${data['producer']} BP)`;
+                    }
                     transactions = `
                         <div class="container">
                             <div class="row">
@@ -510,7 +524,8 @@ $(document).ready(function(){
                                     ${data['curation']} BP
                                 </div>
                                 <div class="col-sm text-sm-left text-truncate">
-                                    ${data['total']} BP
+                                    ${data['total']} BP <br>
+                                    ${producer}
                                 </div>
                             </div>
                         </div>`;
