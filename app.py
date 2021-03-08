@@ -36,19 +36,19 @@ def blurt():
     return render_template('blurt/profile.html', form=form)
 
 
-def _process_rewards(username=None, duration=1):
-    data = {}
-    if username:
-        # check session reward_data
-        reward_data = username + '_reward_' + str(duration)
-        if session.get(reward_data):
-            data = session[reward_data]
-        else:
-            blurt = BC.BlurtChain(username)
-            data = blurt.get_reward_summary(duration,)
-            session[reward_data] = data
+# def _process_rewards(username=None, duration=1):
+#     data = {}
+#     if username:
+#         # check session reward_data
+#         reward_data = username + '_reward_' + str(duration)
+#         if session.get(reward_data):
+#             data = session[reward_data]
+#         else:
+#             blurt = BC.BlurtChain(username)
+#             data = blurt.get_reward_summary(duration)
+#             session[reward_data] = data
 
-    return data
+#     return data
 
 
 @app.route('/<username>')
@@ -71,14 +71,15 @@ def blurt_profile_data(username=None):
         data['stars'] = 0
 
         # process 30 day reward summary in the background
-        p1 = Process(target=_process_rewards, args=[username, 30])
+        # p1 = Process(target=_process_rewards, args=[username, 30])
+        p1 = Process(target=blurt.get_rewards, args=[30])
         p1.start()
 
         # process rewards summary in the background
         # with concurrent.futures.ProcessPoolExecutor() as run:
-            # f1 = run.submit(_process_rewards, username, 30)
-            # f2 = run.submit(_process_rewards, username, 1)
-            # f3 = run.submit(_process_rewards, username, 7)
+        # f1 = run.submit(_process_rewards, username, 30)
+        # f2 = run.submit(_process_rewards, username, 1)
+        # f3 = run.submit(_process_rewards, username, 7)
 
     return render_template('blurt/profile_data.html',
                            username=blurt.username, data=data)
@@ -210,16 +211,18 @@ def blurt_reward(username=None, duration=1, option=None):
         reward_data = username + '_reward_' + str(duration)
         if session.get(reward_data):
             data = session[reward_data]
-            blurt.remove_reward_summary_fb(reward_data)
+            # blurt.remove_reward_summary_fb(reward_data)
         else:
             data = blurt.get_reward_summary_fb(reward_data)
             session[reward_data] = data
             # blurt.remove_reward_summary_fb(reward_data)
 
             if not data:
-                data = blurt.get_reward_summary(duration, option=option)
+                # data = blurt.get_reward_summary(duration, option=option)
+                data = blurt.get_rewards(duration)
                 session[reward_data] = data
 
+        blurt.remove_reward_summary_fb(reward_data)
     return jsonify(data)
 
 

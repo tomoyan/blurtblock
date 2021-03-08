@@ -2,7 +2,7 @@ from beem.instance import set_shared_blockchain_instance
 from beem.account import Account
 from beem.amount import Amount
 from beem.comment import Comment
-from beem.witness import Witness
+# from beem.witness import Witness
 from beemapi.noderpc import NodeRPC
 from beem import Blurt
 from config import Config
@@ -15,7 +15,7 @@ import pyrebase
 import base64
 import json
 from markdown import markdown
-
+import concurrent.futures
 
 # Firebase configuration
 serviceAccountCredentials = json.loads(
@@ -29,6 +29,49 @@ firebase_config = {
 }
 # Firebase initialization
 firebase = pyrebase.initialize_app(firebase_config)
+
+BLURT_NODES = ['https://rpc.blurt.world']
+
+
+def _process_rewards(data):
+    bp = {
+        'author_bp': 0,
+        'curation_bp': 0,
+        'producer_bp': 0,
+    }
+
+    username = data['username']
+    blurt_nodes = BLURT_NODES
+    blurt = Blurt(blurt_nodes)
+    account = Account(username, blockchain_instance=blurt)
+    ops = ['author_reward', 'curation_reward', 'producer_reward']
+    history = account.history_reverse(
+        start=data['start'], stop=data['stop'],
+        only_ops=ops)
+
+    author_reward_vests = Amount("0 VESTS")
+    curation_reward_vests = Amount("0 VESTS")
+    producer_reward_vests = Amount("0 VESTS")
+    for h in history:
+        if h['type'] == 'author_reward':
+            vesting_payout = h['vesting_payout']
+            author_reward_vests += Amount(vesting_payout)
+        elif h['type'] == 'curation_reward':
+            reward = h['reward']
+            curation_reward_vests += Amount(reward)
+        elif h['type'] == 'producer_reward':
+            vesting_shares = h['vesting_shares']
+            producer_reward_vests += Amount(vesting_shares)
+        else:
+            return 0
+
+    bp = {
+        'author_bp': blurt.vests_to_bp(author_reward_vests),
+        'curation_bp': blurt.vests_to_bp(curation_reward_vests),
+        'producer_bp': blurt.vests_to_bp(producer_reward_vests),
+    }
+
+    return bp
 
 
 class BlurtChain:
@@ -981,3 +1024,52 @@ class BlurtChain:
             chart_data['voteWeight'].append(weight)
 
         return chart_data
+
+    def get_rewards(self, duration):
+        author_bp = 0
+        curation_bp = 0
+        producer_bp = 0
+        total_bp = 0
+        processes = []
+        now = datetime.utcnow()
+
+        # each process is divided into 7 days(or less)
+        for i in range(0, duration, 7):
+            start = now - timedelta(days=i)
+            delta = i + 7
+            if delta > duration:
+                delta = duration
+            stop = now - timedelta(days=delta)
+
+            processes.append({
+                'username': self.username,
+                'start': start,
+                'stop': stop,
+            })
+
+        # run _process_rewards() concurrently
+        with concurrent.futures.ProcessPoolExecutor() as executor:
+            results = executor.map(_process_rewards, processes)
+
+        for result in results:
+            author_bp += result['author_bp']
+            curation_bp += result['curation_bp']
+            producer_bp += result['producer_bp']
+
+        total_bp = f'{author_bp + curation_bp + producer_bp:,.3f}'
+        author_bp = f'{author_bp:,.3f}'
+        curation_bp = f'{curation_bp:,.3f}'
+        producer_bp = f'{producer_bp:,.3f}'
+
+        data = {
+            'author': author_bp,
+            'curation': curation_bp,
+            'producer': producer_bp,
+            'total': total_bp,
+        }
+
+        # save data into firebase
+        key = f'{self.username}_reward_{duration}'
+        self.update_data_fb('reward_summary', key, data)
+
+        return data
