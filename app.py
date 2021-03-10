@@ -8,7 +8,6 @@ from forms import postUrlForm
 from markupsafe import escape
 import BlurtChain as BC
 from multiprocessing import Process
-# import concurrent.futures
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -65,8 +64,6 @@ def blurt_profile_data(username=None):
         # process rewards summary in the background
         # with concurrent.futures.ProcessPoolExecutor() as run:
         # f1 = run.submit(_process_rewards, username, 30)
-        # f2 = run.submit(_process_rewards, username, 1)
-        # f3 = run.submit(_process_rewards, username, 7)
 
     return render_template('blurt/profile_data.html',
                            username=blurt.username, data=data)
@@ -210,7 +207,6 @@ def blurt_reward(username=None, duration=1, option=None):
                 session[reward_data] = data
 
         blurt.remove_reward_summary_fb(username + '_reward_1')
-        blurt.remove_reward_summary_fb(username + '_reward_7')
     return jsonify(data)
 
 
