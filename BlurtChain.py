@@ -33,47 +33,6 @@ firebase = pyrebase.initialize_app(firebase_config)
 BLURT_NODES = ['https://rpc.blurt.world']
 
 
-# def _process_rewards(data):
-#     bp = {
-#         'author_bp': 0,
-#         'curation_bp': 0,
-#         'producer_bp': 0,
-#     }
-
-#     username = data['username']
-#     blurt_nodes = BLURT_NODES
-#     blurt = Blurt(blurt_nodes)
-#     account = Account(username, blockchain_instance=blurt)
-#     ops = ['author_reward', 'curation_reward', 'producer_reward']
-#     history = account.history_reverse(
-#         start=data['start'], stop=data['stop'],
-#         only_ops=ops)
-
-#     author_reward_vests = Amount("0 VESTS")
-#     curation_reward_vests = Amount("0 VESTS")
-#     producer_reward_vests = Amount("0 VESTS")
-#     for h in history:
-#         if h['type'] == 'author_reward':
-#             vesting_payout = h['vesting_payout']
-#             author_reward_vests += Amount(vesting_payout)
-#         elif h['type'] == 'curation_reward':
-#             reward = h['reward']
-#             curation_reward_vests += Amount(reward)
-#         elif h['type'] == 'producer_reward':
-#             vesting_shares = h['vesting_shares']
-#             producer_reward_vests += Amount(vesting_shares)
-#         else:
-#             return 0
-
-#     bp = {
-#         'author_bp': blurt.vests_to_bp(author_reward_vests),
-#         'curation_bp': blurt.vests_to_bp(curation_reward_vests),
-#         'producer_bp': blurt.vests_to_bp(producer_reward_vests),
-#     }
-
-#     return bp
-
-
 class BlurtChain:
     """docstring for Chain"""
     # Setup node list for Blurt
@@ -83,13 +42,9 @@ class BlurtChain:
         self.username = username
         self.account = None
         self.witness = 0
-        self.nodes = [
-            'https://rpc.blurt.world',
-            # 'https://rpc.blurt.buzz',
-        ]
-        random.shuffle(self.nodes)
+        self.nodes = BLURT_NODES
 
-        self.blurt = Blurt(node=self.nodes)
+        self.blurt = Blurt(node=self.nodes, num_retries=100)
         self.blockchain = set_shared_blockchain_instance(self.blurt)
 
         # Get a reference to the database service
@@ -101,14 +56,6 @@ class BlurtChain:
         except Exception:
             self.username = None
             self.account = None
-
-        # Witness check
-        # try:
-        #     Witness(self.username)
-        #     self.witness = 1
-        # except Exception:
-        #     self.witness = 0
-            # print(f'WitnessDoesNotExistsException : {e}')
 
     @lru_cache(maxsize=32)
     def get_account_info(self):
@@ -368,53 +315,6 @@ class BlurtChain:
         return bp
 
     @lru_cache(maxsize=32)
-    def get_author_reward(self, duration):
-        if duration < 1 or duration > 30:
-            duration = 1
-        author_reward = f"{0.0:.3f}"
-
-        if self.username:
-            stop = datetime.utcnow() - timedelta(days=duration)
-
-            # get author_reward history
-            reward_history = self.account.history_reverse(
-                stop=stop, only_ops=['author_reward'])
-
-            # convert reward vest to blurt power
-            reward = self.rewards(reward_history)
-            author_reward = f"{float(reward['author']):.3f}"
-
-        return author_reward
-
-    @lru_cache(maxsize=32)
-    def get_curation_reward(self, duration):
-        if duration < 1 or duration > 30:
-            duration = 1
-        curation_reward = f"{0.0:.3f}"
-        curation_reward = self.account.get_curation_reward(days=duration)
-
-        return f"{curation_reward:.3f}"
-
-    @lru_cache(maxsize=32)
-    def get_producer_reward(self, duration):
-        if duration < 1 or duration > 30:
-            duration = 1
-        producer_reward = f"{0.0:.3f}"
-
-        if self.username and self.witness:
-            stop = datetime.utcnow() - timedelta(days=duration)
-
-            # get author_reward history
-            reward_history = self.account.history_reverse(
-                stop=stop, only_ops=['producer_reward'])
-
-            # convert reward vest to blurt power
-            reward = self.rewards(reward_history)
-            producer_reward = f"{float(reward['producer']):.3f}"
-
-        return producer_reward
-
-    @lru_cache(maxsize=32)
     def get_reward_summary(self, duration, **kwargs):
         data = {
             'author': f'{0.0:.3f}',
@@ -472,7 +372,7 @@ class BlurtChain:
             elif reward['type'] == 'curation_reward':
                 curation_reward_vests += Amount(reward['reward'])
 
-            elif self.witness and reward['type'] == 'producer_reward':
+            elif reward['type'] == 'producer_reward':
                 producer_reward_vests += Amount(reward['vesting_shares'])
 
         author_bp = self.blurt.vests_to_bp(author_reward_vests.amount)
@@ -496,47 +396,6 @@ class BlurtChain:
 
         if count_type in data:
             result = data[count_type]
-
-        return result
-
-    def check_witness(self, username):
-        witness_list = []
-        result = {
-            'status': False,
-            'message': 'Error: Post URL'
-        }
-
-        endpoint = self.nodes[0]
-        post_data = {
-            'id': '0',
-            'jsonrpc': '2.0',
-            'method': 'call',
-            'params': ['condenser_api', 'get_accounts', [[username]]]
-        }
-
-        try:
-            response = requests.post(endpoint, json=post_data, timeout=3)
-
-            # If the response was successful,
-            # no Exception will be raised
-            response.raise_for_status()
-        except Exception as err:
-            # print(f'Error has occurred: {err}')
-            result['message'] = f'Error has occurred: {err}'
-            return result
-
-        if response:
-            json_response = response.json()
-            if json_response['result']:
-                witness_list = json_response['result'][0]['witness_votes']
-            else:
-                return result
-
-        if 'tomoyan' in witness_list:
-            result['status'] = True
-            result['message'] = 'Thank you for your support.'
-        else:
-            result['message'] = 'Error: Please vote for my witness ☝️'
 
         return result
 
@@ -1024,52 +883,3 @@ class BlurtChain:
             chart_data['voteWeight'].append(weight)
 
         return chart_data
-
-    # def get_rewards(self, duration):
-    #     author_bp = 0
-    #     curation_bp = 0
-    #     producer_bp = 0
-    #     total_bp = 0
-    #     processes = []
-    #     now = datetime.utcnow()
-
-    #     # each process is divided into 7 days(or less)
-    #     for i in range(0, duration, 7):
-    #         start = now - timedelta(days=i)
-    #         delta = i + 7
-    #         if delta > duration:
-    #             delta = duration
-    #         stop = now - timedelta(days=delta)
-
-    #         processes.append({
-    #             'username': self.username,
-    #             'start': start,
-    #             'stop': stop,
-    #         })
-
-    #     # run _process_rewards() concurrently
-    #     with concurrent.futures.ProcessPoolExecutor() as executor:
-    #         results = executor.map(_process_rewards, processes)
-
-    #     for result in results:
-    #         author_bp += result['author_bp']
-    #         curation_bp += result['curation_bp']
-    #         producer_bp += result['producer_bp']
-
-    #     total_bp = f'{author_bp + curation_bp + producer_bp:,.3f}'
-    #     author_bp = f'{author_bp:,.3f}'
-    #     curation_bp = f'{curation_bp:,.3f}'
-    #     producer_bp = f'{producer_bp:,.3f}'
-
-    #     data = {
-    #         'author': author_bp,
-    #         'curation': curation_bp,
-    #         'producer': producer_bp,
-    #         'total': total_bp,
-    #     }
-
-    #     # save data into firebase
-    #     key = f'{self.username}_reward_{duration}'
-    #     self.update_data_fb('reward_summary', key, data)
-
-    #     return data
