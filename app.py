@@ -36,19 +36,22 @@ def blurt():
     return render_template('blurt/profile.html', form=form)
 
 
-def _process_rewards(username=None, duration=1):
-    data = {}
-    if username:
-        # check session reward_data
-        reward_data = username + '_reward_' + str(duration)
-        if session.get(reward_data):
-            data = session[reward_data]
-        else:
-            blurt = BC.BlurtChain(username)
-            data = blurt.get_reward_summary(duration)
-            session[reward_data] = data
+# def _process_rewards(username=None, duration=1):
+#     data = {}
+#     if username:
+#         # check session reward_data
+#         reward_data = username + '_reward_' + str(duration)
+#         print('REWARD_DATA', reward_data)
+#         if session.get(reward_data):
+#             print('GET session data', data)
+#             data = session[reward_data]
+#         else:
+#             blurt = BC.BlurtChain(username)
+#             data = blurt.get_reward_summary(duration)
+#             session[reward_data] = data
+#             print('STORE session data', data)
 
-    return data
+#     return data
 
 
 @app.route('/<username>')
@@ -71,8 +74,7 @@ def blurt_profile_data(username=None):
         data['stars'] = 0
 
         # process 30 day reward summary in the background
-        # p1 = Process(target=_process_rewards, args=[username, 30])
-        p1 = Process(target=blurt.get_rewards, args=[30])
+        p1 = Process(target=blurt.get_reward_summary, args=[30])
         p1.start()
 
         # process rewards summary in the background
