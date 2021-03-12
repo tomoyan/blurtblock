@@ -131,6 +131,8 @@ def send_rewards(rewards):
     b = Blurt(blurt_nodes, keys=[active_key])
     a = Account(username, blockchain_instance=b)
 
+    db_name = 'failed_transfer'
+
     # Transfer rewards to users
     for key in rewards:
         amount = f'{rewards[key]:.2f}'
@@ -140,8 +142,18 @@ def send_rewards(rewards):
     @tomoyan
         """
 
-        # Transfer BLURT
-        a.transfer(key, amount, 'BLURT', memo)
+        try:
+            # Transfer BLURT
+            a.transfer(key, amount, 'BLURT', memo)
+        except Exception as err:
+            # save failed transaction into fb
+            error_data = {
+                'date': datetime.now().strftime("%Y-%m-%d"),
+                'username': key,
+                'amount': amount,
+                'error': err,
+            }
+            db_prd.child(db_name).push(error_data)
 
 
 def publish_post(rewards):
