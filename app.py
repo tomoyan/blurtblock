@@ -52,18 +52,14 @@ def blurt_profile_data(username=None):
             data = blurt.get_account_info()
             session[profile_data] = data
 
+            # process 30 day reward summary in the background
+            p1 = Process(target=blurt.get_reward_summary, args=[30])
+            p1.start()
+            # process 7 day reward summary in the background
+            p2 = Process(target=blurt.get_reward_summary, args=[7])
+            p2.start()
+
         data['stars'] = 0
-
-        # process 30 day reward summary in the background
-        p1 = Process(target=blurt.get_reward_summary, args=[30])
-        p1.start()
-        # process 7 day reward summary in the background
-        p2 = Process(target=blurt.get_reward_summary, args=[7])
-        p2.start()
-
-        # process rewards summary in the background
-        # with concurrent.futures.ProcessPoolExecutor() as run:
-        # f1 = run.submit(_process_rewards, username, 30)
 
     return render_template('blurt/profile_data.html',
                            username=blurt.username, data=data)
