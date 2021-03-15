@@ -14,7 +14,7 @@ username = os.environ.get('USERNAME')
 blurt = Blurt(blurt_nodes)
 account = Account(username, blockchain_instance=blurt)
 # 35 % of reward gets distributed
-PERCENT = 40
+PERCENT = 35
 
 # Firebase configuration
 serviceAccountCredentials = json.loads(
@@ -132,6 +132,7 @@ def send_rewards(rewards):
     a = Account(username, blockchain_instance=b)
 
     db_name = 'failed_transfer'
+    today = datetime.now().strftime("%Y-%m-%d")
 
     # Transfer rewards to users
     for key in rewards:
@@ -148,7 +149,7 @@ def send_rewards(rewards):
         except Exception as err:
             # save failed transaction into fb
             error_data = {
-                'date': datetime.now().strftime("%Y-%m-%d"),
+                'date': today,
                 'username': key,
                 'amount': amount,
                 'error': err,
