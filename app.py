@@ -52,12 +52,14 @@ def blurt_profile_data(username=None):
             data = blurt.get_account_info()
             session[profile_data] = data
 
-            # process 30 day reward summary in the background
-            p1 = Process(target=blurt.get_reward_summary, args=[30])
-            p1.start()
             # process 7 day reward summary in the background
             p2 = Process(target=blurt.get_reward_summary, args=[7])
             p2.start()
+            p2.join()
+
+            # process 30 day reward summary in the background
+            p1 = Process(target=blurt.get_reward_summary, args=[30])
+            p1.start()
 
         data['stars'] = 0
 
