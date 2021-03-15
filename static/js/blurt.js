@@ -336,12 +336,12 @@ $(document).ready(function(){
 
     // call 1 day and 7 day rewards when Account is clicked
     $("#nav-history-tab").click(function(){
-        $.ajax(document.rewardSeven_api,
+        $.ajax(document.updateSevenApi,
         {
             dataType: 'json', // type of response data
             timeout: 30000, // 30 sec timeout in milliseconds
         });
-        $.ajax(document.rewardOne_api,
+        $.ajax(document.updateOneApi,
         {
             dataType: 'json', // type of response data
             timeout: 30000, // 30 sec timeout in milliseconds
@@ -422,7 +422,7 @@ $(document).ready(function(){
         $("#historyResult").html(heading);
 
         // 1 day reward
-        $.ajax(document.rewardOne_api,
+        $.ajax(document.rewardOneApi,
         {
             dataType: 'json', // type of response data
             timeout: 30000, // 30 sec timeout in milliseconds
@@ -465,7 +465,7 @@ $(document).ready(function(){
             }
         });
         // 7 day reward
-        $.ajax(document.rewardSeven_api,
+        $.ajax(document.rewardSevenApi,
         {
             dataType: 'json', // type of response data
             timeout: 30000, // 30 sec timeout in milliseconds

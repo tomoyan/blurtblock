@@ -184,6 +184,7 @@ def blurt_reward(username=None, duration=1, option=None):
     data = {}
     if username:
         blurt = BC.BlurtChain(username)
+
         # check session reward_data
         reward_data = username + '_reward_' + str(duration)
         if session.get(reward_data):
@@ -192,11 +193,10 @@ def blurt_reward(username=None, duration=1, option=None):
             data = blurt.get_reward_summary_fb(reward_data)
             session[reward_data] = data
 
-            if not data:
-                data = blurt.get_reward_summary(duration, option=option)
+            if option or not data:
+                data = blurt.get_reward_summary(duration)
                 session[reward_data] = data
 
-        blurt.remove_reward_summary_fb(username + '_reward_1')
     return jsonify(data)
 
 
