@@ -8,6 +8,7 @@ from forms import postUrlForm
 from markupsafe import escape
 import BlurtChain as BC
 from multiprocessing import Process
+import threading
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -267,15 +268,17 @@ def blurt_get_rewards(username=None, duration=1):
     if username is None:
         return jsonify(data)
 
-    # check session data
-    reward_data = username + '_reward_' + str(duration)
+    blurt = BC.BlurtChain(username)
+    # data = blurt.get_rewards(duration)
+    # with concurrent.futures.ThreadPoolExecutor() as executor:
+    #     f = executor.submit(blurt.get_rewards, duration)
+    #     print('F RESULT:', f.result())
 
-    if session.get(reward_data):
-        data = session[reward_data]
-    else:
-        blurt = BC.BlurtChain(username)
-        data = blurt.get_rewards(duration)
-        session[reward_data] = data
+    # this thread runs in the background
+    # result is saved in db
+    t = threading.Thread(
+        target=blurt.get_rewards, args=[duration])
+    t.start()
 
     return jsonify(data)
 
