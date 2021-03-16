@@ -15,7 +15,7 @@ import pyrebase
 import base64
 import json
 from markdown import markdown
-# import concurrent.futures
+import concurrent.futures
 
 # Firebase configuration
 serviceAccountCredentials = json.loads(
@@ -883,3 +883,89 @@ class BlurtChain:
             chart_data['voteWeight'].append(weight)
 
         return chart_data
+
+    def process_rewards(self, data):
+        # get reward history data
+        # and sums up each reward in vests
+        vests = {
+            'author_reward_vests': Amount("0 VESTS"),
+            'curation_reward_vests': Amount("0 VESTS"),
+            'producer_reward_vests': Amount("0 VESTS"),
+        }
+
+        ops = ['author_reward', 'curation_reward', 'producer_reward']
+        transactions = self.account.history_reverse(
+            start=data['start'], stop=data['stop'], only_ops=ops)
+
+        for tx in transactions:
+            if tx['type'] == 'author_reward':
+                vesting_payout = tx['vesting_payout']
+                vests['author_reward_vests'] += Amount(vesting_payout)
+            elif tx['type'] == 'curation_reward':
+                reward = tx['reward']
+                vests['curation_reward_vests'] += Amount(reward)
+            elif tx['type'] == 'producer_reward':
+                vesting_shares = tx['vesting_shares']
+                vests['producer_reward_vests'] += Amount(vesting_shares)
+
+        return vests
+
+    def get_rewards(self, duration=1):
+        # get author, curation, producer rewards
+        # using threads
+        dates = []
+
+        # reward BPs
+        data = {
+            'author': f'{0.0:,.3f}',
+            'curation': f'{0.0:,.3f}',
+            'producer': f'{0.0:,.3f}',
+            'total': f'{0.0:,.3f}',
+        }
+
+        if self.username is None:
+            return data
+
+        if duration < 1 or duration > 30:
+            duration = 1
+
+        now = datetime.utcnow()
+
+        # duration is divided into 7days or less
+        # and stored in dates for history_reverse()
+        for i in range(0, duration, 7):
+            start = now - timedelta(days=i)
+            delta = i + 7
+            if delta > duration:
+                delta = duration
+            stop = now - timedelta(days=delta)
+            dates.append({'start': start, 'stop': stop})
+
+        # calling process_rewards() and get BPs
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            results = executor.map(self.process_rewards, dates)
+
+        author_total_vests = Amount("0 VESTS")
+        curation_total_vests = Amount("0 VESTS")
+        producer_total_vests = Amount("0 VESTS")
+        for result in results:
+            author_total_vests += Amount(result['author_reward_vests'])
+            curation_total_vests += Amount(result['curation_reward_vests'])
+            producer_total_vests += Amount(result['producer_reward_vests'])
+
+        author = self.blurt.vests_to_bp(author_total_vests)
+        curation = self.blurt.vests_to_bp(curation_total_vests)
+        producer = self.blurt.vests_to_bp(producer_total_vests)
+        total = author + curation + producer
+
+        data['total'] = f"{total:,.3f}"
+        data['author'] = f"{author:,.3f}"
+        data['curation'] = f"{curation:,.3f}"
+        data['producer'] = f"{producer:,.3f}"
+
+        # save reward data into firebase
+        db_name = 'reward_summary'
+        db_key = f'{self.username}_reward_{duration}'
+        self.update_data_fb(db_name, db_key, data)
+
+        return data

@@ -260,5 +260,25 @@ def blurt_votedata(username=None):
     return jsonify(data)
 
 
+@app.route('/api/blurt/rewards/<username>/<int:duration>')
+@app.route('/api/blurt/rewards/<username>/<int:duration>/')
+def blurt_get_rewards(username=None, duration=1):
+    data = {}
+    if username is None:
+        return jsonify(data)
+
+    # check session data
+    reward_data = username + '_reward_' + str(duration)
+
+    if session.get(reward_data):
+        data = session[reward_data]
+    else:
+        blurt = BC.BlurtChain(username)
+        data = blurt.get_rewards(duration)
+        session[reward_data] = data
+
+    return jsonify(data)
+
+
 if __name__ == "__main__":
     app.run()
