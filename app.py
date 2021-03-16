@@ -7,7 +7,6 @@ from forms import UserNameForm
 from forms import postUrlForm
 from markupsafe import escape
 import BlurtChain as BC
-from multiprocessing import Process
 import threading
 
 app = Flask(__name__)
@@ -53,9 +52,10 @@ def blurt_profile_data(username=None):
             data = blurt.get_account_info()
             session[profile_data] = data
 
-            # process 30 day reward summary in the background
-            p1 = Process(target=blurt.get_reward_summary, args=[30])
-            p1.start()
+            # process reward summary in the background
+            blurt_get_rewards(username, 1)
+            blurt_get_rewards(username, 7)
+            blurt_get_rewards(username, 30)
 
         data['stars'] = 0
 
@@ -192,11 +192,12 @@ def blurt_reward(username=None, duration=1, option=None):
             data = session[reward_data]
         else:
             data = blurt.get_reward_summary_fb(reward_data)
-            session[reward_data] = data
 
-            if option or not data:
-                data = blurt.get_reward_summary(duration)
-                session[reward_data] = data
+            if not data:
+                # data = blurt.get_reward_summary(duration)
+                data = blurt.get_rewards(duration)
+
+            session[reward_data] = data
 
     return jsonify(data)
 
@@ -269,16 +270,13 @@ def blurt_get_rewards(username=None, duration=1):
         return jsonify(data)
 
     blurt = BC.BlurtChain(username)
-    # data = blurt.get_rewards(duration)
-    # with concurrent.futures.ThreadPoolExecutor() as executor:
-    #     f = executor.submit(blurt.get_rewards, duration)
-    #     print('F RESULT:', f.result())
 
     # this thread runs in the background
     # result is saved in db
     t = threading.Thread(
         target=blurt.get_rewards, args=[duration])
     t.start()
+    data['status'] = True
 
     return jsonify(data)
 

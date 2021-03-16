@@ -334,20 +334,6 @@ $(document).ready(function(){
         });
     });
 
-    // call 1 day and 7 day rewards when Account is clicked
-    $("#nav-history-tab").click(function(){
-        $.ajax(document.updateSevenApi,
-        {
-            dataType: 'json', // type of response data
-            timeout: 30000, // 30 sec timeout in milliseconds
-        });
-        $.ajax(document.updateOneApi,
-        {
-            dataType: 'json', // type of response data
-            timeout: 30000, // 30 sec timeout in milliseconds
-        });
-    });
-
     $("#rewardHistory").click(function(){
         let heading = `
         <li class="list-group-item">
