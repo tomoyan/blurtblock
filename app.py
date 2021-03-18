@@ -57,6 +57,11 @@ def blurt_profile_data(username=None):
             blurt_get_rewards(username, 7)
             blurt_get_rewards(username, 30)
 
+        # process account history in the background
+        blurt_get_history(username, 'transfer')
+        blurt_get_history(username, 'upvote')
+        blurt_get_history(username, 'comment')
+
         data['stars'] = 0
 
     return render_template('blurt/profile_data.html',
@@ -112,6 +117,34 @@ def delegators(username=None):
 
     return render_template('blurt/delegators.html',
                            data=data)
+
+
+def blurt_get_rewards(username=None, duration=1):
+    data = {}
+    if username is None:
+        return jsonify(data)
+
+    blurt = BC.BlurtChain(username)
+
+    # this thread runs in the background
+    # result is saved in db
+    t = threading.Thread(
+        target=blurt.get_rewards, args=[duration])
+    t.start()
+
+
+def blurt_get_history(username=None, option=None):
+    data = {}
+    if username is None:
+        return jsonify(data)
+
+    blurt = BC.BlurtChain(username)
+
+    # this thread runs in the background
+    # result is saved in db
+    t = threading.Thread(
+        target=blurt.get_history, args=[username, option])
+    t.start()
 
 
 # BLURT API
@@ -236,8 +269,12 @@ def blurt_history(username=None, option=None):
         if session.get(history_data):
             data = session[history_data]
         else:
-            data = blurt.get_history(username, option)
+            data = blurt.get_account_history_fb(history_data)
+            if not data:
+                data = blurt.get_history(username, option)
             session[history_data] = data
+
+        blurt.remove_account_history_fb(history_data)
 
     return jsonify(data)
 
@@ -257,25 +294,6 @@ def blurt_votedata(username=None):
         else:
             data = blurt.get_upvote_data(username)
             session[vote_data] = data
-
-    return jsonify(data)
-
-
-@app.route('/api/blurt/rewards/<username>/<int:duration>')
-@app.route('/api/blurt/rewards/<username>/<int:duration>/')
-def blurt_get_rewards(username=None, duration=1):
-    data = {}
-    if username is None:
-        return jsonify(data)
-
-    blurt = BC.BlurtChain(username)
-
-    # this thread runs in the background
-    # result is saved in db
-    t = threading.Thread(
-        target=blurt.get_rewards, args=[duration])
-    t.start()
-    data['status'] = True
 
     return jsonify(data)
 

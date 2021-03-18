@@ -478,6 +478,23 @@ class BlurtChain:
         db_name = 'reward_summary'
         self.firebase.child(db_name).child(key).remove()
 
+    def get_account_history_fb(self, key):
+        # get account history data and then remove from fb
+        result = dict()
+        db_name = 'account_history'
+        data = self.firebase.child(db_name).child(key).get()
+
+        if data.each():
+            for d in data.each():
+                result[d.key()] = d.val()
+
+        return result
+
+    def remove_account_history_fb(self, key):
+        # remove account history from fb
+        db_name = 'account_history'
+        self.firebase.child(db_name).child(key).remove()
+
     def process_upvote(self, url):
         username = None
         identifier = None
@@ -761,6 +778,11 @@ class BlurtChain:
 
         result['history'] = sorted(
             history_data, key=itemgetter('timestamp'), reverse=True)
+
+        # save account history data into firebase
+        db_name = 'account_history'
+        db_key = f'{self.username}_history_{option}'
+        self.update_data_fb(db_name, db_key, result)
 
         return result
 
