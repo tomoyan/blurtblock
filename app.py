@@ -194,7 +194,6 @@ def blurt_reward(username=None, duration=1, option=None):
             data = blurt.get_reward_summary_fb(reward_data)
 
             if not data:
-                # data = blurt.get_reward_summary(duration)
                 data = blurt.get_rewards(duration)
 
             session[reward_data] = data

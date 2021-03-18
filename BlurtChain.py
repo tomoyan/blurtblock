@@ -15,6 +15,7 @@ import pyrebase
 import base64
 import json
 from markdown import markdown
+from operator import itemgetter
 import concurrent.futures
 
 # Firebase configuration
@@ -313,83 +314,6 @@ class BlurtChain:
         bp = f'{bp:.3f}'
 
         return bp
-
-    @lru_cache(maxsize=32)
-    def get_reward_summary(self, duration, **kwargs):
-        data = {
-            'author': f'{0.0:.3f}',
-            'curation': f'{0.0:.3f}',
-            'producer': f'{0.0:.3f}',
-            'total': f'{0.0:.3f}',
-        }
-        # option = kwargs.get('option', None)
-
-        if self.username:
-            if duration < 1 or duration > 30:
-                duration = 1
-
-            # get account history
-            ops = ['author_reward', 'curation_reward', 'producer_reward']
-            # ops = ['author_reward', 'curation_reward']
-            reward_history = {}
-
-            stop = datetime.utcnow() - timedelta(days=duration)
-            reward_history = self.account.history_reverse(
-                stop=stop, only_ops=ops)
-
-            # convert reward vest to blurt power
-            rewards = self.rewards(reward_history)
-
-            # rewards total
-            data['total'] = float(rewards['author']) + \
-                float(rewards['curation']) + \
-                float(rewards['producer'])
-            data['total'] = f"{data['total']:,.3f}"
-            data['author'] = f"{float(rewards['author']):,.3f}"
-            data['curation'] = f"{float(rewards['curation']):,.3f}"
-            data['producer'] = f"{float(rewards['producer']):,.3f}"
-
-            key = f'{self.username}_reward_{duration}'
-            self.update_data_fb('reward_summary', key, data)
-
-        return data
-
-    @lru_cache(maxsize=32)
-    def rewards(self, history):
-        data = {}
-        author_bp = 0.0
-        curation_bp = 0.0
-        producer_bp = 0.0
-
-        author_reward_vests = Amount("0 VESTS")
-        curation_reward_vests = Amount("0 VESTS")
-        producer_reward_vests = Amount("0 VESTS")
-
-        for reward in history:
-            if reward['type'] == 'author_reward':
-                author_reward_vests += Amount(reward['vesting_payout'])
-
-            elif reward['type'] == 'curation_reward':
-                curation_reward_vests += Amount(reward['reward'])
-
-            elif reward['type'] == 'producer_reward':
-                producer_reward_vests += Amount(reward['vesting_shares'])
-
-        author_bp = self.blurt.vests_to_bp(author_reward_vests.amount)
-        curation_bp = self.blurt.vests_to_bp(curation_reward_vests.amount)
-        producer_bp = self.blurt.vests_to_bp(producer_reward_vests.amount)
-
-        author_bp = f'{author_bp:.3f}'
-        curation_bp = f'{curation_bp:.3f}'
-        producer_bp = f'{producer_bp:.3f}'
-
-        data = {
-            'author': author_bp,
-            'curation': curation_bp,
-            'producer': producer_bp,
-        }
-
-        return data
 
     def process_data(self, count_type, data):
         result = 0
@@ -761,63 +685,44 @@ class BlurtChain:
 
         return rank
 
-    def process_transfers(self, transactions):
-        # process transfer transactions
-        result = []
+    def process_transfers(self, data):
+        amount = Amount(data['amount'])
 
-        for tx in transactions:
-            amount = Amount(tx['amount'])
-            bp = f'{self.blurt.vests_to_bp(amount):,.3f}'
-
-            data = {
-                'timestamp': tx['timestamp'],
-                'from': tx['from'],
-                'to': tx['to'],
-                'memo': tx['memo'],
-                'amount': bp
-            }
-            result.append(data)
+        result = {
+            'timestamp': data['timestamp'],
+            'from': data['from'],
+            'to': data['to'],
+            'memo': data['memo'],
+            'amount': f'{amount}',
+        }
 
         return result
 
-    def process_votes(self, transactions):
-        # process upvote transactions
-        result = []
-
-        for tx in transactions:
-            weight = int(tx['weight'] / 100)
-
-            data = {
-                'timestamp': tx['timestamp'],
-                'voter': tx['voter'],
-                'author': tx['author'],
-                'permlink': tx['permlink'],
-                'weight': weight
-            }
-            result.append(data)
+    def process_votes(self, data):
+        result = {
+            'timestamp': data['timestamp'],
+            'voter': data['voter'],
+            'author': data['author'],
+            'permlink': data['permlink'],
+            'weight': int(data['weight'] / 100)
+        }
 
         return result
 
-    def process_comments(self, transactions):
-        # process comment transactions
-        result = []
+    def process_comments(self, data):
+        if data['author'] == self.username:
+            return None
 
-        for tx in transactions:
-            if tx['author'] == self.username:
-                continue
-
-            body = markdown(tx['body'])
-            data = {
-                'timestamp': tx['timestamp'],
-                'author': tx['author'],
-                'body': body,
-                'permlink': tx['permlink'],
-            }
-            result.append(data)
+        result = {
+            'timestamp': data['timestamp'],
+            'author': data['author'],
+            'permlink': data['permlink'],
+            'body': markdown(data['body']),
+        }
 
         return result
 
-    def get_history(self, username, option, duration=3):
+    def get_history(self, username, option, duration=7):
         result = dict(
             username=username,
             option=option,
@@ -836,14 +741,26 @@ class BlurtChain:
         transactions = self.account.history_reverse(
             stop=stop, only_ops=ops)
 
-        if option == 'transfer':
-            result['history'] = self.process_transfers(transactions)
-        elif option == 'upvote':
-            result['history'] = self.process_votes(transactions)
-        elif option == 'comment':
-            result['history'] = self.process_comments(transactions)
-        else:
-            pass
+        history_data = []
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            if option == 'transfer':
+                transfers = executor.map(self.process_transfers, transactions)
+                for transfer in transfers:
+                    history_data.append(transfer)
+            elif option == 'upvote':
+                upvotes = executor.map(self.process_votes, transactions)
+                for upvote in upvotes:
+                    history_data.append(upvote)
+            elif option == 'comment':
+                comments = executor.map(self.process_comments, transactions)
+                for comment in comments:
+                    if comment:
+                        history_data.append(comment)
+            else:
+                pass
+
+        result['history'] = sorted(
+            history_data, key=itemgetter('timestamp'), reverse=True)
 
         return result
 

@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    let BLURTURL = 'https://blurtter.com'
     let BLURTBLOCK = 'https://blurtblock.herokuapp.com';
     let IMGBASE = 'https://cdn.steemitimages.com';
     // let IMGBASE = 'https://images.blurt.blog';
@@ -172,7 +173,9 @@ $(document).ready(function(){
         $.ajax(document.transferHistoryApi,
         {
             dataType: 'json', // type of response data
-            timeout: 60000, // 30 sec timeout in milliseconds
+            timeout: 30000, // 30 sec timeout in milliseconds
+            tryCount : 0,
+            retryLimit : 3, // retry times
             success: function (data, status, xhr) {
                 let transactions = ``
 
@@ -192,7 +195,7 @@ $(document).ready(function(){
                                         ${value['timestamp']}
                                     </div>
                                     <div class="col-sm-auto text-sm-left text-truncate">
-                                        ${value['amount']} BLURT
+                                        ${value['amount']}
                                         <a class="text-blurt"
                                             href="${BLURTBLOCK}/${value['from']}"
                                             target="_blank" rel="noopener noreferrer">${value['from']}
@@ -215,6 +218,14 @@ $(document).ready(function(){
                 }
             },
             error: function (jqXhr, textStatus, errorMessage) {
+                if (textStatus == 'timeout') {
+                    this.tryCount++;
+                    if (this.tryCount < this.retryLimit) {
+                        //retry
+                        $.ajax(this);
+                        return;
+                    }
+                }
                 $("#historySpinners").addClass('invisible');
                 $("#historyResult").html('Oops! ' + errorMessage + ' Please reload');
             }
@@ -226,10 +237,11 @@ $(document).ready(function(){
         $.ajax(document.upvoteHistoryApi,
         {
             dataType: 'json', // type of response data
-            timeout: 60000, // 60 sec timeout in milliseconds
+            timeout: 30000, // 30 sec timeout in milliseconds
+            tryCount : 0,
+            retryLimit : 3, // retry times
             success: function (data, status, xhr) {
                 let transactions = ``
-                let BLURT = 'https://blurt.world'
 
                 $("#historySpinners").addClass('invisible');
                 if (jQuery.isEmptyObject(data['history'])) {
@@ -261,7 +273,7 @@ $(document).ready(function(){
                                     <div class="col-sm-auto text-sm-left text-truncate"
                                         style="max-width: 500px;">
                                         <a class="text-blurt"
-                                            href="${BLURT}/@${value['author']}/${value['permlink']}"
+                                            href="${BLURTURL}/@${value['author']}/${value['permlink']}"
                                             target="_blank" rel="noopener noreferrer">${value['permlink']}
                                         </a>
                                     </div>
@@ -273,6 +285,14 @@ $(document).ready(function(){
                 }
             },
             error: function (jqXhr, textStatus, errorMessage) {
+                if (textStatus == 'timeout') {
+                    this.tryCount++;
+                    if (this.tryCount < this.retryLimit) {
+                        //retry
+                        $.ajax(this);
+                        return;
+                    }
+                }
                 $("#historySpinners").addClass('invisible');
                 $("#historyResult").html('Oops! ' + errorMessage + ' Please reload');
             }
@@ -284,10 +304,11 @@ $(document).ready(function(){
         $.ajax(document.commentHistoryApi,
         {
             dataType: 'json', // type of response data
-            timeout: 60000, // 60 sec timeout in milliseconds
+            timeout: 30000, // 30 sec timeout in milliseconds
+            tryCount : 0,
+            retryLimit : 3, // retry times
             success: function (data, status, xhr) {
                 let transactions = ``
-                let BLURT = 'https://blurt.world'
 
                 $("#historySpinners").addClass('invisible');
                 if (jQuery.isEmptyObject(data['history'])) {
@@ -316,7 +337,7 @@ $(document).ready(function(){
                                     <div class="col-sm-auto text-sm-left text-truncate"
                                         style="max-width: 500px;">
                                         <a class="text-blurt"
-                                            href="${BLURT}/@${value['author']}/${value['permlink']}"
+                                            href="${BLURTURL}/@${value['author']}/${value['permlink']}"
                                             target="_blank" rel="noopener noreferrer">${value['permlink']}
                                         </a>
                                     </div>
@@ -328,6 +349,14 @@ $(document).ready(function(){
                 }
             },
             error: function (jqXhr, textStatus, errorMessage) {
+                if (textStatus == 'timeout') {
+                    this.tryCount++;
+                    if (this.tryCount < this.retryLimit) {
+                        //retry
+                        $.ajax(this);
+                        return;
+                    }
+                }
                 $("#historySpinners").addClass('invisible');
                 $("#historyResult").html('Oops! ' + errorMessage + ' Please reload');
             }
