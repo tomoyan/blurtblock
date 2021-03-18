@@ -739,7 +739,7 @@ class BlurtChain:
 
         return result
 
-    def get_history(self, username, option, duration=7):
+    def get_history(self, username, option, duration=5):
         result = dict(
             username=username,
             option=option,
