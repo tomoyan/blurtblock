@@ -358,7 +358,7 @@ class BlurtChain:
         blurt = Blurt(node=self.nodes)
         account = Account(username, blockchain_instance=blurt)
 
-        # check delegation_bonus (bonus_weight 0 - 30%)
+        # check delegation_bonus (bonus_weight 10 - 70%)
         vesting_delegations = account.get_vesting_delegations()
         for delegation in vesting_delegations:
             if delegation["delegatee"] == "tomoyan":
@@ -368,9 +368,9 @@ class BlurtChain:
                 if 1.0 <= delegation_bp < 1000.0:
                     bonus_weight = round(random.uniform(10, 15), 2)
                 elif 1000.0 <= delegation_bp < 5000.0:
-                    bonus_weight = round(random.uniform(20, 25), 2)
+                    bonus_weight = round(random.uniform(15, 20), 2)
                 elif 5000.0 <= delegation_bp < 10000.0:
-                    bonus_weight = round(random.uniform(30, 20), 2)
+                    bonus_weight = round(random.uniform(20, 25), 2)
                 elif delegation_bp > 10000.0:
                     bonus_weight = 70.0
 
