@@ -178,7 +178,7 @@ def publish_post(rewards):
         table += row
 
     body = f"""
-![0.png](https://images.blurt.buzz/DQmR5RgHVSuMkD7LYGV8U6n65c9uFbdkTxUnJ4VJuZPM37i/0.png)
+![0.png](https://cdn.steemitimages.com/DQmR5RgHVSuMkD7LYGV8U6n65c9uFbdkTxUnJ4VJuZPM37i/0.png)
 ## Everyday is a BLURT day if you delegate your BP
 
 If you delegate your BP to @tomoyan, you will receive daily rewards.
