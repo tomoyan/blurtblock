@@ -740,10 +740,13 @@ class BlurtChain:
         return result
 
     def get_history(self, username, option, duration=5):
+        now = datetime.utcnow()
+        created = now.strftime("%m/%d/%Y %H:%M:%S")
         result = dict(
             username=username,
             option=option,
-            history=[]
+            history=[],
+            created=created
         )
 
         options = {
@@ -753,7 +756,7 @@ class BlurtChain:
         }
 
         ops = options[option]
-        stop = datetime.utcnow() - timedelta(days=duration)
+        stop = now - timedelta(days=duration)
 
         transactions = self.account.history_reverse(
             stop=stop, only_ops=ops)
