@@ -44,6 +44,9 @@ def main():
     # Clean up upvote_log (days: 2)
     fb_data_cleanup("upvote_log", 2)
 
+    # Clean up account_history (days: 1)
+    fb_data_cleanup("account_history", 1)
+
 
 def update_delegation_list():
     delegations = {}
@@ -78,7 +81,7 @@ def fb_data_cleanup(db_name, duration):
     # Get log data
     logs = db_prd.child(db_name).get()
 
-    datetime_old = datetime.now() - timedelta(days=duration)
+    datetime_old = datetime.utcnow() - timedelta(days=duration)
 
     # Remove old data
     for log in logs.each():
