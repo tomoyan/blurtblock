@@ -95,7 +95,9 @@
                                         target="_blank"
                                         rel="noopener noreferrer"><u>{{user['username']}}</u>
                                         {% if user['is_delegator'] %}
-                                            <i class="fas fa-fire"></i>
+                                            <i class="fas fa-fire"
+                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                title="BP Delegator"></i>
                                         {% endif %}
                                     </a>
                                 <br>
@@ -127,7 +129,9 @@
                                         target="_blank"
                                         rel="noopener noreferrer"><u>{{user['username']}}</u>
                                         {% if user['is_delegator'] %}
-                                            <i class="fas fa-fire"></i>
+                                            <i class="fas fa-fire"
+                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                title="BP Delegator"></i>
                                         {% endif %}
                                     </a>
                                 {{user['points']}} points
@@ -158,7 +162,9 @@
                                         target="_blank"
                                         rel="noopener noreferrer"><u>{{user['username']}}</u>
                                         {% if user['is_delegator'] %}
-                                            <i class="fas fa-fire"></i>
+                                            <i class="fas fa-fire"
+                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                title="BP Delegator"></i>
                                         {% endif %}
                                     </a>
                                 {{user['points']}} points

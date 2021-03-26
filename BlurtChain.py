@@ -669,6 +669,7 @@ class BlurtChain:
                             key=lambda item: item[1]))
 
         delegators = self.get_delegators()
+        delegators = list(map(itemgetter('username'), delegators))
 
         max_value = 0.0
         for count, user in enumerate(users):
