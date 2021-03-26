@@ -36,7 +36,9 @@
                     width="150" alt="blurt logo" class="img-thumbnail">
                 <h1 class="display-4">Upvote Leaderboard</h1>
                 <p class="lead">
-                    More Points, Better Rewards.
+                    More Points, Better Rewards. Top 3 members will receive UPVOTE bonus
+                    <br>
+                    #1 member will receive 100% UPVOTE
                 </p>
                 <hr class="my-4">
                 Delegate BP to
@@ -50,7 +52,7 @@
 
             <div class="card">
                 <div class="card-body">
-                    <h1 class="display-4">Top 100</h1>
+                    <h1 class="display-4">Top Members (50)</h1>
                         <ul class="list-group text-blurt">
                             {% for user in data %}
                             {% if loop.index <= 10 %}
@@ -65,8 +67,9 @@
                             </li>
                             {% endif %}
                             <li class="list-group-item">
+                                <!-- src="https://images.blurt.blog/u/{{user['username']}}/avatar/small" -->
                                 <img
-                                    src="https://images.blurt.blog/u/{{user['username']}}/avatar/small"
+                                    src="https://images.steemitimages.com/u/{{user['username']}}/avatar/small"
                                         onerror="this.onerror=null;
                                         this.src='/static/images/blurt_profile.png';"
                                     alt="profile_image"
@@ -111,7 +114,7 @@
                             {% elif loop.index > 10 and loop.index <= 50 %}
                             <li class="list-group-item">
                                 <img
-                                    src="https://images.blurt.blog/u/{{user['username']}}/avatar/small"
+                                    src="https://images.steemitimages.com/u/{{user['username']}}/avatar/small"
                                         onerror="this.onerror=null;
                                         this.src='/static/images/blurt_profile.png';"
                                     alt="profile_image"
@@ -142,7 +145,7 @@
                             {% else %}
                             <li class="list-group-item">
                                 <img
-                                    src="https://images.blurt.blog/u/{{user['username']}}/avatar/small"
+                                    src="https://images.steemitimages.com/u/{{user['username']}}/avatar/small"
                                         onerror="this.onerror=null;
                                         this.src='/static/images/blurt_profile.png';"
                                     alt="profile_image"
