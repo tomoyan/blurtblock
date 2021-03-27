@@ -790,13 +790,14 @@ class BlurtChain:
             else:
                 pass
 
-        result['history'] = sorted(
-            history_data, key=itemgetter('timestamp'), reverse=True)
+        if history_data:
+            result['history'] = sorted(
+                history_data, key=itemgetter('timestamp'), reverse=True)
 
-        # save account history data into firebase
-        db_name = 'account_history'
-        db_key = f'{self.username}_history_{option}'
-        self.update_data_fb(db_name, db_key, result)
+            # save account history data into firebase
+            db_name = 'account_history'
+            db_key = f'{self.username}_history_{option}'
+            self.update_data_fb(db_name, db_key, result)
 
         return result
 

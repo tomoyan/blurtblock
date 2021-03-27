@@ -53,14 +53,11 @@ def blurt_profile_data(username=None):
             session[profile_data] = data
 
             # process reward summary in the background
-            blurt_get_rewards(username, 1)
-            blurt_get_rewards(username, 7)
-            blurt_get_rewards(username, 30)
+            blurt_get_rewards(username)
 
-        # process account history in the background
-        blurt_get_history(username, 'transfer')
-        blurt_get_history(username, 'upvote')
-        blurt_get_history(username, 'comment')
+            # process account history in the background
+            # ['transfer', 'upvote', 'comment']
+            blurt_get_history(username)
 
         data['stars'] = 0
 
@@ -119,32 +116,36 @@ def delegators(username=None):
                            data=data)
 
 
-def blurt_get_rewards(username=None, duration=1):
+def blurt_get_rewards(username=None):
     data = {}
     if username is None:
         return jsonify(data)
 
     blurt = BC.BlurtChain(username)
 
-    # this thread runs in the background
-    # result is saved in db
-    t = threading.Thread(
-        target=blurt.get_rewards, args=[duration])
-    t.start()
+    durations = [1, 7, 30]
+    for duration in durations:
+        # this thread runs in the background
+        # result is saved in db
+        t = threading.Thread(
+            target=blurt.get_rewards, args=[duration])
+        t.start()
 
 
-def blurt_get_history(username=None, option=None):
+def blurt_get_history(username=None):
     data = {}
     if username is None:
         return jsonify(data)
 
     blurt = BC.BlurtChain(username)
 
-    # this thread runs in the background
-    # result is saved in db
-    t = threading.Thread(
-        target=blurt.get_history, args=[username, option])
-    t.start()
+    options = ['transfer', 'upvote', 'comment']
+    for option in options:
+        # this thread runs in the background
+        # result is saved in db
+        t = threading.Thread(
+            target=blurt.get_history, args=[username, option])
+        t.start()
 
 
 # BLURT API
