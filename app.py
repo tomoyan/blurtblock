@@ -52,12 +52,10 @@ def blurt_profile_data(username=None):
             data = blurt.get_account_info()
             session[profile_data] = data
 
-            # process reward summary in the background
-            blurt_get_rewards(username)
-
-            # process account history in the background
-            # ['transfer', 'upvote', 'comment']
-            blurt_get_history(username)
+            # threading processes in the background
+            # 1, 7, 30 day rewards
+            # transfer, upvote, comment history
+            threading_processes(username)
 
         data['stars'] = 0
 
@@ -116,33 +114,23 @@ def delegators(username=None):
                            data=data)
 
 
-def blurt_get_rewards(username=None):
-    data = {}
+def threading_processes(username=None):
     if username is None:
-        return jsonify(data)
+        return
 
     blurt = BC.BlurtChain(username)
 
+    # this thread runs in the background
+    # result is saved in db
     durations = [1, 7, 30]
     for duration in durations:
-        # this thread runs in the background
-        # result is saved in db
+
         t = threading.Thread(
             target=blurt.get_rewards, args=[duration])
         t.start()
 
-
-def blurt_get_history(username=None):
-    data = {}
-    if username is None:
-        return jsonify(data)
-
-    blurt = BC.BlurtChain(username)
-
     options = ['transfer', 'upvote', 'comment']
     for option in options:
-        # this thread runs in the background
-        # result is saved in db
         t = threading.Thread(
             target=blurt.get_history, args=[username, option])
         t.start()

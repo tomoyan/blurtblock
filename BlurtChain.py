@@ -899,23 +899,23 @@ class BlurtChain:
         with concurrent.futures.ThreadPoolExecutor() as executor:
             results = executor.map(self.process_rewards, dates)
 
-        author_total_vests = Amount("0 VESTS")
-        curation_total_vests = Amount("0 VESTS")
-        producer_total_vests = Amount("0 VESTS")
-        for result in results:
-            author_total_vests += Amount(result['author_reward_vests'])
-            curation_total_vests += Amount(result['curation_reward_vests'])
-            producer_total_vests += Amount(result['producer_reward_vests'])
+            author_total_vests = Amount("0 VESTS")
+            curation_total_vests = Amount("0 VESTS")
+            producer_total_vests = Amount("0 VESTS")
+            for result in results:
+                author_total_vests += Amount(result['author_reward_vests'])
+                curation_total_vests += Amount(result['curation_reward_vests'])
+                producer_total_vests += Amount(result['producer_reward_vests'])
 
-        author = self.blurt.vests_to_bp(author_total_vests)
-        curation = self.blurt.vests_to_bp(curation_total_vests)
-        producer = self.blurt.vests_to_bp(producer_total_vests)
-        total = author + curation + producer
+            author = self.blurt.vests_to_bp(author_total_vests)
+            curation = self.blurt.vests_to_bp(curation_total_vests)
+            producer = self.blurt.vests_to_bp(producer_total_vests)
+            total = author + curation + producer
 
-        data['total'] = f"{total:,.3f}"
-        data['author'] = f"{author:,.3f}"
-        data['curation'] = f"{curation:,.3f}"
-        data['producer'] = f"{producer:,.3f}"
+            data['total'] = f"{total:,.3f}"
+            data['author'] = f"{author:,.3f}"
+            data['curation'] = f"{curation:,.3f}"
+            data['producer'] = f"{producer:,.3f}"
 
         # save reward data into firebase
         db_name = 'reward_summary'
