@@ -907,9 +907,21 @@ class BlurtChain:
                 curation_total_vests += Amount(result['curation_reward_vests'])
                 producer_total_vests += Amount(result['producer_reward_vests'])
 
-            author = self.blurt.vests_to_bp(author_total_vests)
-            curation = self.blurt.vests_to_bp(curation_total_vests)
-            producer = self.blurt.vests_to_bp(producer_total_vests)
+            try:
+                author = self.blurt.vests_to_bp(author_total_vests)
+            except TypeError:
+                author = 0
+
+            try:
+                curation = self.blurt.vests_to_bp(curation_total_vests)
+            except TypeError:
+                curation = 0
+
+            try:
+                producer = self.blurt.vests_to_bp(producer_total_vests)
+            except TypeError:
+                producer = 0
+
             total = author + curation + producer
 
             data['total'] = f"{total:,.3f}"

@@ -15,8 +15,8 @@ BLURT = Blurt(BLURT_NODES, keys=[PKEY, AKEY])
 
 USERNAME = os.environ.get('USERNAME')
 ACCOUNT = Account(USERNAME, blockchain_instance=BLURT)
-# 30 % of curation reward is distributed
-PERCENT = 30
+# 35% of curation reward is distributed
+PERCENT = 35
 
 # Firebase configuration
 serviceAccountCredentials = json.loads(

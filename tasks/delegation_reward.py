@@ -13,8 +13,8 @@ username = os.environ.get('USERNAME')
 
 blurt = Blurt(blurt_nodes)
 account = Account(username, blockchain_instance=blurt)
-# 30 % of reward gets distributed
-PERCENT = 30
+# 35% of reward gets distributed
+PERCENT = 35
 
 # Firebase configuration
 serviceAccountCredentials = json.loads(
