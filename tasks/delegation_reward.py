@@ -5,6 +5,7 @@ import pyrebase
 import base64
 import json
 import os
+import random
 
 # Setup blurt nodes and account
 blurt_nodes = ['https://rpc.blurt.world']
@@ -167,6 +168,28 @@ def publish_post(rewards):
     base_url = 'https://blurtter.com'
     permalink = '@tomoyan/how-to-blurt-passive-income-daily-payout-report'
     post_url = f'{base_url}/{permalink}'
+    leaderboard = 'https://blurtblock.herokuapp.com/blurt/leaderboard'
+    main_images = [
+        'https://i.imgur.com/HxC5git.png',
+        'https://i.imgur.com/7CPR2cY.jpg',
+        'https://i.imgur.com/jGD8bHf.jpg',
+        'https://i.imgur.com/xxMp09Z.jpg',
+        'https://i.imgur.com/7ugZMN5.jpg',
+        'https://i.imgur.com/SS2v5ag.jpg',
+        'https://i.imgur.com/gvWGvLY.jpg',
+        'https://i.imgur.com/xv2nitI.jpg',
+        'https://i.imgur.com/DClQRLP.jpg',
+        'https://i.imgur.com/MABed6f.jpg',
+        'https://i.imgur.com/LSUzP36.jpg',
+        'https://i.imgur.com/ygK7jw0.jpg',
+        'https://i.imgur.com/viM3Utt.jpg',
+        'https://i.imgur.com/PNnWGBv.jpg',
+        'https://i.imgur.com/wLT9MyB.jpg',
+        'https://i.imgur.com/ccn9EGT.jpg',
+        'https://i.imgur.com/IvvDS81.jpg',
+        'https://i.imgur.com/p3QeamK.jpg'
+    ]
+    main_img = random.choice(main_images)
 
     table = """
 | Delegator | Reward |
@@ -178,10 +201,10 @@ def publish_post(rewards):
         table += row
 
     body = f"""
-![0.png](https://i.imgur.com/HxC5git.png)
+![0.png]({main_img})
 ## Everyday is a BLURT day if you delegate your BP
 
-Top 3 [**Leaderboard**](https://blurtblock.herokuapp.com/blurt/leaderboard/) members will receive bonus **UPVOTE**
+Top 3 [**Leaderboard**]({leaderboard}) members will receive bonus **UPVOTE**
 * Top 1 will receive **100%** UPVOTE
 * Top 2 will receive regular vote + **50%** (+ delegation bonus)
 * Top 3 will receive regular vote + **25%** (+ delegation bonus)
@@ -204,8 +227,8 @@ Thank you for your support!
 Have a Blurt day :)
 <center>
 
-**BLURT for You**:rocket:
-![qrcode_blurtblock.herokuapp.com.png](https://i.imgur.com/yqTWBfI.png)
+**BLURT for You**
+![qrcode_blurtblock.herokuapp.com.png](https://i.imgur.com/Z2AXZle.png)
 
 </center>
 
