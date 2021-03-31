@@ -112,9 +112,15 @@ def publish_post(rewards):
         table += row
 
     body = f"""
-![0.png](https://cdn.steemitimages.com/DQmR5RgHVSuMkD7LYGV8U6n65c9uFbdkTxUnJ4VJuZPM37i/0.png)
+![0.png](https://i.imgur.com/HxC5git.png)
 ## Everyday is a BLURT day if you delegate your BP
 
+Top 3 [**Leaderboard**](https://blurtblock.herokuapp.com/blurt/leaderboard/) members will receive bonus **UPVOTE**
+* Top 1 will receive **100%** UPVOTE
+* Top 2 will receive regular vote + **50%** (+ delegation bonus)
+* Top 3 will receive regular vote + **25%** (+ delegation bonus)
+
+Delegation Bonus 👇
 If you delegate your BP to @tomoyan, you will receive daily rewards.
 Also, delegators will get a **BONUS** upvote.
 Just use [**Free UPVOTE**](https://blurtblock.herokuapp.com/blurt/upvote/).
@@ -130,12 +136,13 @@ Give it a try! Anybody can use it even if you don't delegate.
 
 Thank you for your support!
 Have a Blurt day :)
-<a href="https://www.presearch.org/signup?rid=1684719" target="_blank">
-  <strong>Get PRE Tokens for Internet Search</strong>
-  <img
-    src="https://presearch.org/images/rf/ban-4.jpg"
-    title="Presearch" alt="presearch" />
-</a>
+<center>
+
+**BLURT for You**:rocket:
+![qrcode_blurtblock.herokuapp.com.png](https://i.imgur.com/yqTWBfI.png)
+
+</center>
+
     """
 
     BLURT.post(
