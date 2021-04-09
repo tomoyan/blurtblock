@@ -328,6 +328,7 @@ class BlurtChain:
         # 12 hour = 43200 sec
         wait_time = 43200.0
         result = False
+        self.wait_time = None
 
         # get the last upvote record
         record = self.firebase.child("upvote_log").order_by_child(
@@ -341,7 +342,7 @@ class BlurtChain:
         for data in record.each():
             val = data.val()
 
-            current_time = datetime.now()
+            current_time = datetime.utcnow()
             last_vote = val['created']
             last_vote = datetime.strptime(last_vote, "%m/%d/%Y %H:%M:%S")
 
@@ -349,6 +350,12 @@ class BlurtChain:
 
             if time_diff.total_seconds() >= wait_time:
                 result = True
+            else:
+                seconds = wait_time - time_diff.total_seconds()
+                wait = timedelta(seconds=seconds)
+                # convert wait time: WAIT_TIME 11:58:20
+                self.wait_time = str(wait).split('.')[0]
+                print("WAIT_TIME", self.wait_time)
 
         return result
 
@@ -508,7 +515,7 @@ class BlurtChain:
     def process_upvote(self, url):
         username = None
         identifier = None
-        now = datetime.now()
+        now = datetime.utcnow()
         current_time = now.strftime("%m/%d/%Y %H:%M:%S")
 
         data = {
@@ -538,7 +545,8 @@ class BlurtChain:
         # check last upvote
         can_vote = self.check_last_upvote(username)
         if can_vote is False:
-            data['message'] = 'Error: Please come back later (every 12h)'
+            wait_message = 'Please come back later'
+            data['message'] = f'Error: {wait_message} ({self.wait_time})'
             return data
 
         # check post is active
