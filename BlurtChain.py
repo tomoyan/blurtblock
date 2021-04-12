@@ -375,9 +375,9 @@ class BlurtChain:
                 if 1.0 <= delegation_bp < 1000.0:
                     bonus_weight = round(random.uniform(15, 20), 2)
                 elif 1000.0 <= delegation_bp < 5000.0:
-                    bonus_weight = round(random.uniform(20, 25), 2)
+                    bonus_weight = round(random.uniform(20, 30), 2)
                 elif 5000.0 <= delegation_bp < 10000.0:
-                    bonus_weight = round(random.uniform(30, 35), 2)
+                    bonus_weight = round(random.uniform(35, 40), 2)
                 elif delegation_bp > 10000.0:
                     bonus_weight = 70.0
 
@@ -424,8 +424,8 @@ class BlurtChain:
         blurt = Blurt(node=self.nodes, keys=[upvote_key])
         account = Account(upvote_account, blockchain_instance=blurt)
 
-        # random vote_weight (5-6%)
-        vote_weight = round(random.uniform(5, 6), 2)
+        # random vote_weight (3-5%)
+        vote_weight = round(random.uniform(3, 5), 2)
 
         # add bonus weights
         weight = vote_weight + delegation_bonus + member_bonus
@@ -809,6 +809,49 @@ class BlurtChain:
 
         return result
 
+    # def get_upvote_data(self, username):
+    #     vote_data = {}
+    #     chart_data = {
+    #         'label': [],
+    #         'voteCount': [],
+    #         'voteWeight': [],
+    #         'totalVote': 0
+    #     }
+
+    #     # get user's upvote history and save label, counts and weights
+    #     duration = 7
+    #     stop = datetime.utcnow() - timedelta(days=duration)
+    #     ops = ['vote']
+    #     transactions = self.account.history_reverse(
+    #         stop=stop, only_ops=ops)
+
+    #     for tx in transactions:
+    #         if tx['voter'] != username:
+    #             continue
+
+    #         if tx['author'] in vote_data:
+    #             vote_data[tx['author']].append(tx['weight'])
+    #         else:
+    #             vote_data[tx['author']] = [tx['weight']]
+
+    #         chart_data['totalVote'] += 1
+
+    #     # calculate vote weight average
+    #     for key, value in vote_data.items():
+    #         count = len(value)
+    #         weight = (sum(value) / count) // 100
+    #         chart_data['label'].append(key)
+    #         chart_data['voteCount'].append(count)
+    #         chart_data['voteWeight'].append(weight)
+
+    #     return chart_data
+
+    def _process_vote(self, data):
+        if data['voter'] != self.username:
+            return None
+        else:
+            return data
+
     def get_upvote_data(self, username):
         vote_data = {}
         chart_data = {
@@ -825,24 +868,28 @@ class BlurtChain:
         transactions = self.account.history_reverse(
             stop=stop, only_ops=ops)
 
-        for tx in transactions:
-            if tx['voter'] != username:
-                continue
+        # go through vote transactions and get voting data
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            results = executor.map(self._process_vote, transactions)
 
-            if tx['author'] in vote_data:
-                vote_data[tx['author']].append(tx['weight'])
-            else:
-                vote_data[tx['author']] = [tx['weight']]
+            # filter out None from results
+            results = list(filter(None, results))
 
-            chart_data['totalVote'] += 1
+            for tx in results:
+                if tx['author'] in vote_data:
+                    vote_data[tx['author']].append(tx['weight'])
+                else:
+                    vote_data[tx['author']] = [tx['weight']]
 
-        # calculate vote weight average
-        for key, value in vote_data.items():
-            count = len(value)
-            weight = (sum(value) / count) // 100
-            chart_data['label'].append(key)
-            chart_data['voteCount'].append(count)
-            chart_data['voteWeight'].append(weight)
+                chart_data['totalVote'] += 1
+
+            # calculate vote weight average
+            for key, value in vote_data.items():
+                count = len(value)
+                weight = (sum(value) / count) // 100
+                chart_data['label'].append(key)
+                chart_data['voteCount'].append(count)
+                chart_data['voteWeight'].append(weight)
 
         return chart_data
 
