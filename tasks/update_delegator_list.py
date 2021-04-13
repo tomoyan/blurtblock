@@ -52,15 +52,18 @@ def update_delegation_list():
     delegations = {}
 
     # Get delegation history
+    start = datetime(2020, 12, 30)
+    ops = ['delegate_vesting_shares']
     delegate_vesting_shares = account.history(
-        only_ops=["delegate_vesting_shares"])
+        start=start, only_ops=ops)
 
     for operation in delegate_vesting_shares:
         if operation['delegator'] == username:
             continue
 
         if operation['vesting_shares']['amount'] == '0':
-            delegations.pop(operation['delegator'])
+            if operation['delegator'] in delegations:
+                delegations.pop(operation['delegator'])
         else:
             amount = Amount(operation['vesting_shares'])
             bp = blurt.vests_to_bp(amount)

@@ -375,9 +375,9 @@ class BlurtChain:
                 if 1.0 <= delegation_bp < 1000.0:
                     bonus_weight = round(random.uniform(15, 20), 2)
                 elif 1000.0 <= delegation_bp < 5000.0:
-                    bonus_weight = round(random.uniform(20, 30), 2)
+                    bonus_weight = round(random.uniform(20, 35), 2)
                 elif 5000.0 <= delegation_bp < 10000.0:
-                    bonus_weight = round(random.uniform(35, 40), 2)
+                    bonus_weight = round(random.uniform(40, 50), 2)
                 elif delegation_bp > 10000.0:
                     bonus_weight = 70.0
 
