@@ -14,8 +14,8 @@ username = os.environ.get('USERNAME')
 
 blurt = Blurt(blurt_nodes)
 account = Account(username, blockchain_instance=blurt)
-# 35% of reward gets distributed
-PERCENT = 35
+# 40% of reward gets distributed
+PERCENT = 40
 
 # Firebase configuration
 serviceAccountCredentials = json.loads(
@@ -102,16 +102,19 @@ def get_rewards(budget, delegations):
     rewards = dict()
     total_bp = sum(delegations.values())
 
-    top_members = get_top_leaderboard()
+    # top_members = get_top_leaderboard()
 
     # Rewards get divided by delegation %
     for key in delegations:
         # Base amount
         amount = (delegations[key] / total_bp) * budget
 
+        if amount < 0.01:
+            continue
+
         # top_leaderboard will get 30% bonus
-        if key in top_members:
-            amount += amount * 0.3
+        # if key in top_members:
+        #     amount += amount * 0.3
 
         rewards[key] = amount
 

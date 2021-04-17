@@ -51,7 +51,9 @@
                 $.ajax(document.voteChartApi,
                 {
                     dataType: 'json', // type of response data
-                    timeout: 60000, // 60 sec timeout in milliseconds
+                    timeout: 30000, // 30 sec timeout in milliseconds
+                    tryCount : 0,
+                    retryLimit : 3, // retry times
                     success: function (data, status, xhr) {
                         voteTotal = data['totalVote'];
                         voteLabel = data['label'];
@@ -107,6 +109,14 @@
                         $("#chartPreloader").remove();
                     },
                     error: function (jqXhr, textStatus, errorMessage) {
+                        if (textStatus == 'timeout') {
+                            this.tryCount++;
+                            if (this.tryCount < this.retryLimit) {
+                                //retry
+                                $.ajax(this);
+                                return;
+                            }
+                        }
                         $("#voteTitle").append(voteTitle);
                         $("#chartPreloader").remove();
                         $("#chartResult").html('Oops! ' + errorMessage + ' Please reload');

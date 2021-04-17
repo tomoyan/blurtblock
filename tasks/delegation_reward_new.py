@@ -67,6 +67,10 @@ def get_rewards(budget, delegations):
     # each delegator will receive their cut
     for key in delegations:
         amount = (delegations[key] / total_bp) * budget
+
+        if amount < 0.01:
+            continue
+
         # rewards[key] = amount
         rewards.append({'username': key, 'amount': amount})
 
