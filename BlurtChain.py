@@ -587,6 +587,26 @@ class BlurtChain:
             'message': 'Thank You. Your post has been upvoted.'
         }
 
+        # UPVOTE REWARD COUNTS
+        # increment upvote count if username exists in fb
+        # if not, set the count to 1
+        db_name = 'upvote_count'
+        count_data = {'timestamp': current_time}
+        upvote_data = self.firebase.child(db_name).child(username).get()
+
+        if upvote_data.each():
+            for user_data in upvote_data.each():
+                key = user_data.key()
+                value = user_data.val()
+
+                if key == 'count':
+                    count_data['count'] = value + 1
+        else:
+            count_data['count'] = 1
+
+        # save upvote count
+        self.firebase.child(db_name).child(username).set(count_data)
+
         return data
 
     def get_request(self, endpoint, **kwargs):
