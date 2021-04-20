@@ -596,7 +596,7 @@ class BlurtChain:
         # increment upvote count if username exists in fb
         # if not, set the count to 1
         db_name = 'upvote_count'
-        count_data = {'timestamp': current_time}
+        count_data = {'created': current_time}
         upvote_data = self.firebase.child(db_name).child(username).get()
 
         if upvote_data.each():
