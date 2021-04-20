@@ -57,8 +57,6 @@ def blurt_profile_data(username=None):
             # transfer, upvote, comment history
             threading_processes(username)
 
-        data['stars'] = 0
-
     return render_template('blurt/profile_data.html',
                            username=blurt.username, data=data)
 

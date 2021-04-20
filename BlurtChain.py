@@ -126,6 +126,11 @@ class BlurtChain:
             ranking = self.get_ranking(self.username)
             self.account_info['ranking'] = ranking
 
+            # get upvote count and convert into stars
+            # 1 to 5 ⭐⭐⭐⭐⭐ ratings
+            stars = self.get_star_rating(self.username)
+            self.account_info['stars'] = stars
+
         return self.account_info
 
     @lru_cache(maxsize=32)
@@ -755,6 +760,35 @@ class BlurtChain:
         }
 
         return result
+
+    def get_star_rating(self, username):
+        # get upvote counts from firebase
+        # and then convert it to star rating
+        db_name = 'upvote_count'
+        upvote_data = self.firebase.child(db_name).child(username).get()
+
+        full = 30  # 100% vote weight
+        half = 15  # 25%+ vote weight
+        stars = 0.0
+        count = 0
+
+        if upvote_data.each():
+            for user_data in upvote_data.each():
+                key = user_data.key()
+                value = user_data.val()
+
+                if key == 'count':
+                    count = value
+
+        if count > 0:
+            if (count % full) == 0:
+                stars = 100.0 / 20
+            elif (count % half) == 0:
+                stars = 50.0 / 20
+            else:
+                stars = (count % full) / full * 5
+
+        return float(f'{stars:.2f}')
 
     def process_votes(self, data):
         result = {

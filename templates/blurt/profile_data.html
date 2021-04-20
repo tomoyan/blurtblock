@@ -73,8 +73,8 @@
                             <u>
                                 <a href="/blurt/leaderboard/"
                                 class="bg-blurt text-white"
-                                target="_blank" rel="noopener noreferrer">Ranking</a>
-                            </u>:
+                                target="_blank" rel="noopener noreferrer">Leaderboard Rank: </a>
+                            </u>
                             <!-- ranking -->
                             <b>
                             {% if data['ranking'] %}
@@ -84,13 +84,53 @@
                             {% endif %}
                             </b><br>
                             <!-- star ratings -->
-<!--                             {% for n in range(5) %}
-                                {% if n < data['stars'] %}
-                                <i class="fa fa-star"></i>
-                                {% else %}
-                                <i class="far fa-star"></i>
-                                {% endif %}
-                            {% endfor %} -->
+                            {% if data['stars'] >= 0 and data['stars'] < 0.5 %}
+                                <i class="bi bi-star"></i>
+                            {% elif data['stars'] >= 0.5 and data['stars'] < 1 %}
+                                <i class="bi bi-star-half"></i>
+                            {% elif data['stars'] >= 1 and data['stars'] < 1.5 %}
+                                <i class="bi bi-star-fill"></i>
+                            {% elif data['stars'] >= 1.5 and data['stars'] < 2 %}
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-half"></i>
+                            {% elif data['stars'] >= 2 and data['stars'] < 2.5 %}
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                            {% elif data['stars'] >= 2.5 and data['stars'] < 3 %}
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-half"></i>
+                            {% elif data['stars'] >= 3 and data['stars'] < 3.5 %}
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                            {% elif data['stars'] >= 3.5 and data['stars'] < 4 %}
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-half"></i>
+                            {% elif data['stars'] >= 4 and data['stars'] < 4.5 %}
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                            {% elif data['stars'] >= 4.5 and data['stars'] < 5 %}
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-half"></i>
+                            {% elif data['stars'] >= 5%}
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                            {% endif %}
+                            <!-- bonus star icon -->
+                            {% if data['stars'] == 2.5 or data['stars'] == 5 %}
+                            <i class="bi bi-stars"></i>
+                            {% endif %}
                         </p>
                     </div>
                 </div>
