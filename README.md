@@ -1,5 +1,5 @@
 # blurtblock  
-https://blurtblock.herokuapp.com/  
+URL Here
 
 Clone command (https) to local directory  
 git clone https://github.com/tomoyan/blurtblock.git  
