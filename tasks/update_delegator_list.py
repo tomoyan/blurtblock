@@ -47,6 +47,9 @@ def main():
     # Clean up account_history (days: 1)
     fb_data_cleanup("account_history", 1)
 
+    # Clean up upvote_count (days: 7)
+    fb_data_cleanup("upvote_count", 7)
+
 
 def update_delegation_list():
     delegations = {}

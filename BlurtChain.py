@@ -360,7 +360,6 @@ class BlurtChain:
                 wait = timedelta(seconds=seconds)
                 # convert wait time: WAIT_TIME 11:58:20
                 self.wait_time = str(wait).split('.')[0]
-                print("WAIT_TIME", self.wait_time)
 
         return result
 
@@ -568,7 +567,19 @@ class BlurtChain:
         # check member level bonus
         member_bonus = self.member_bonus(username)
 
-        bonus_weight = delegation_bonus + member_bonus
+        # check star bonus
+        # 2.5 stars -> 25%
+        # 5 stars -> 100%
+        star_bonus = 0.0
+        stars = self.get_star_rating(username)
+        if stars == 2.5:
+            star_bonus = 25.0
+        elif stars == 5.0:
+            star_bonus = 100.0
+
+        bonus_weight = delegation_bonus + member_bonus + star_bonus
+
+        return data
 
         # upvote
         is_upvoted = self.upvote_post(
