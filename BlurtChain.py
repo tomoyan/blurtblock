@@ -580,8 +580,6 @@ class BlurtChain:
 
         bonus_weight = delegation_bonus + member_bonus + star_bonus
 
-        return data
-
         # upvote
         is_upvoted = self.upvote_post(
             identifier, delegation_bonus, member_bonus)
