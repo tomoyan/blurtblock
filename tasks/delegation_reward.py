@@ -207,6 +207,12 @@ def publish_post(rewards):
 ![0.png]({main_img})
 ## Everyday is a BLURT day if you delegate your BP
 
+**Star Bonus**: You will receive stars for using upvote.
+5 Stars - guarantee 100%
+2.5 Starts - 25% + regular vote%
+![](https://i.imgur.com/IHZYaWx.png)
+The ore you use, the more you earn!
+
 Top 3 [**Leaderboard**]({leaderboard}) members will receive bonus **UPVOTE**
 * Top 1 will receive **100%** UPVOTE
 * Top 2 will receive regular vote + **50%** (+ delegation bonus)

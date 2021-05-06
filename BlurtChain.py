@@ -331,7 +331,8 @@ class BlurtChain:
     def check_last_upvote(self, username):
         # 24 hour = 86400 sec
         # 12 hour = 43200 sec
-        wait_time = 43200.0
+        # 20 hour = 72000 sec
+        wait_time = 72000.0
         result = False
         self.wait_time = None
 
