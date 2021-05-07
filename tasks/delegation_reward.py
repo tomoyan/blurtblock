@@ -211,7 +211,7 @@ def publish_post(rewards):
 5 Stars - guarantee 100%
 2.5 Starts - 25% + regular vote%
 ![](https://i.imgur.com/IHZYaWx.png)
-The ore you use, the more you earn!
+The more you use, the more you earn!
 
 Top 3 [**Leaderboard**]({leaderboard}) members will receive bonus **UPVOTE**
 * Top 1 will receive **100%** UPVOTE
