@@ -14,7 +14,10 @@ username = os.environ.get('USERNAME')
 
 blurt = Blurt(blurt_nodes)
 account = Account(username, blockchain_instance=blurt)
-# 40% of reward gets distributed
+token_power = account.get_token_power()
+token_power = f'{token_power:,.2f} BP'
+
+# 40% of curation reward distributed
 PERCENT = 40
 
 # Firebase configuration
@@ -205,6 +208,7 @@ def publish_post(rewards):
 
     body = f"""
 ![0.png]({main_img})
+## Effective Blurt Power: {token_power}
 ## Everyday is a BLURT day if you delegate your BP
 
 **Star Bonus**: You will receive stars for using upvote.
@@ -212,6 +216,7 @@ def publish_post(rewards):
 2.5 Starts - 25% + regular vote%
 ![](https://i.imgur.com/IHZYaWx.png)
 The more you use, the more you earn!
+https://blurtblock.herokuapp.com
 
 Top 3 [**Leaderboard**]({leaderboard}) members will receive bonus **UPVOTE**
 * Top 1 will receive **100%** UPVOTE
@@ -222,7 +227,7 @@ Delegation Bonus 👇
 If you delegate your BP to @tomoyan, you will receive daily rewards.
 Also, delegators will get a **BONUS** upvote.
 Just use [**Free UPVOTE**](https://blurtblock.herokuapp.com/blurt/upvote/).
-https://blurtblock.herokuapp.com/blurt/upvote/
+https://blurtblock.herokuapp.com/blurt/upvote
 Give it a try! Anybody can use it even if you don't delegate.
 
 ## Daily Rewards Today
@@ -233,7 +238,7 @@ Give it a try! Anybody can use it even if you don't delegate.
 {post_url}
 
 Thank you for your support!
-Have a Blurt day :)
+Have a Blurt Day :)
 <center>
 
 **BLURT for You**
