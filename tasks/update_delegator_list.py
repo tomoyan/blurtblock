@@ -76,7 +76,7 @@ def update_delegation_list():
     for key in delegations:
         delegation_list.append({
             'username': key,
-            'bp': delegations[key],
+            'bp': delegations[key]['bp'],
             'timestamp': delegations[key]['timestamp'],
         })
 
