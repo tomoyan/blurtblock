@@ -81,7 +81,7 @@ def update_delegation_list():
         })
 
     db_name = 'delegation_list'
-    db_prd.child(db_name).child('list').set(delegation_list)
+    # db_prd.child(db_name).child('list').set(delegation_list)
     db_prd.child(db_name).child('delegators').set(delegation_list)
 
 

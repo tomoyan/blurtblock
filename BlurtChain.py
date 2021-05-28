@@ -664,13 +664,13 @@ class BlurtChain:
         # get delegators from firebase
         # and return list of usernames and BPs
         db_name = 'delegation_list'
-        data = self.firebase.child(db_name).child('list').get()
+        data = self.firebase.child(db_name).child('delegators').get()
 
         for d in data.each():
             delegation_data = {
                 'username': d.val()['username'],
                 'bp': f'{d.val()["bp"]:,.3f}',
-                # 'timestamp': d.val()['timestamp'],
+                'timestamp': d.val()['timestamp'],
             }
             delegators.append(delegation_data)
 
