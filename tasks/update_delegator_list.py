@@ -70,12 +70,17 @@ def update_delegation_list():
         else:
             amount = Amount(operation['vesting_shares'])
             bp = blurt.vests_to_bp(amount)
-            delegations[operation['delegator']] = bp
+            # delegations[operation['delegator']] = bp
+            delegations[operation['delegator']] = {
+                'bp': bp,
+                'timestamp': operation['timestamp']
+            }
 
     delegation_list = []
     for key in delegations:
         delegation_list.append({
             'username': key,
+            # 'bp': delegations[key],
             'bp': delegations[key]['bp'],
             'timestamp': delegations[key]['timestamp'],
         })
