@@ -77,6 +77,7 @@ def update_delegation_list():
         delegation_list.append({
             'username': key,
             'bp': delegations[key],
+            'timestamp': delegations[key]['timestamp'],
         })
 
     db_name = 'delegation_list'

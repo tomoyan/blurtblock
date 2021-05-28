@@ -667,11 +667,12 @@ class BlurtChain:
         data = self.firebase.child(db_name).child('list').get()
 
         for d in data.each():
-            insert_data = {
+            delegation_data = {
                 'username': d.val()['username'],
                 'bp': f'{d.val()["bp"]:,.3f}',
+                'timestamp': d.val()['timestamp'],
             }
-            delegators.append(insert_data)
+            delegators.append(delegation_data)
 
         return delegators
 
