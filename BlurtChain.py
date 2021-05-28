@@ -670,7 +670,7 @@ class BlurtChain:
             delegation_data = {
                 'username': d.val()['username'],
                 'bp': f'{d.val()["bp"]:,.3f}',
-                'timestamp': d.val()['timestamp'],
+                # 'timestamp': d.val()['timestamp'],
             }
             delegators.append(delegation_data)
 
