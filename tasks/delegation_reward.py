@@ -45,7 +45,7 @@ def main():
     rewards = get_rewards(budget, delegations)
 
     send_rewards(rewards)
-    # publish_post(rewards)
+    publish_post(rewards)
 
 
 def get_reward_budget():
@@ -143,8 +143,6 @@ def send_rewards(rewards):
 
     # Transfer rewards to users
     for key in rewards:
-        if key not in ['wdougwatson', 'olivia08']:
-            continue
         amount = f'{rewards[key]:.2f}'
         memo = f"""Hi @{key}!
     Here is your delegation reward {amount} BLURT.
