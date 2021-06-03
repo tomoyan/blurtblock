@@ -45,7 +45,7 @@ def main():
     rewards = get_rewards(budget, delegations)
 
     send_rewards(rewards)
-    publish_post(rewards)
+    # publish_post(rewards)
 
 
 def get_reward_budget():
@@ -61,7 +61,7 @@ def get_reward_budget():
 def get_delegation_list():
     delegations = dict()
     db_name = 'delegation_list'
-    data = db_prd.child(db_name).child('list').get()
+    data = db_prd.child(db_name).child('delegators').get()
 
     for d in data.each():
         username = d.val()['username']
@@ -143,6 +143,8 @@ def send_rewards(rewards):
 
     # Transfer rewards to users
     for key in rewards:
+        if key not in ['wdougwatson', 'olivia08']:
+            continue
         amount = f'{rewards[key]:.2f}'
         memo = f"""Hi @{key}!
     Here is your delegation reward {amount} BLURT.
