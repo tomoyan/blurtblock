@@ -22,7 +22,7 @@ future==0.18.2
 gcloud==0.18.3
 googleapis-common-protos==1.52.0
 gunicorn==20.0.4
-httplib2==0.19.0
+httplib2==0.18.1
 idna==2.10
 itsdangerous==1.1.0
 Jinja2==2.11.3
@@ -45,15 +45,15 @@ python-dotenv==0.15.0
 python-jwt==2.0.1
 pytz==2020.1
 PyYAML==5.4.1
-requests==2.24.0
+requests==2.25.1
 requests-toolbelt==0.9.1
-rsa==4.7
+rsa==4.6
 ruamel.yaml==0.16.13
 ruamel.yaml.clib==0.2.2
 s3transfer==0.3.3
 scrypt==0.8.15
 six==1.15.0
-urllib3==1.26.5
+urllib3==1.25.9
 websocket-client==0.57.0
 Werkzeug==1.0.1
 WTForms==2.3.1
