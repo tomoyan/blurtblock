@@ -89,10 +89,16 @@ class BlurtChain:
             savings_balance = float(account_data['savings_balance'].split()[0])
             self.account_info['savings'] = f'{savings_balance:,.3f}'
 
-            # CURRENT REWARD
-            current_reward = float(
+            # CURRENT REWARDS in BLURT and BLURT POWER
+            # BLURT REWARD
+            reward_blurt = float(
+                account_data['reward_blurt_balance'].split()[0])
+            self.account_info['reward_blurt'] = f'{reward_blurt:,.3f}'
+
+            # BP REWARD
+            reward_bp = float(
                 account_data['reward_vesting_blurt'].split()[0])
-            self.account_info['current_reward'] = f'{current_reward:,.3f}'
+            self.account_info['reward_bp'] = f'{reward_bp:,.3f}'
 
             # DELEGATED BP
             delegated_bp = account_data['delegated_vesting_shares']
