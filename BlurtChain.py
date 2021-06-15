@@ -74,6 +74,7 @@ class BlurtChain:
             # GET ACCOUNT DETAILS
             noderpc = NodeRPC('https://rpc.blurt.world')
             account_data = noderpc.get_account(self.username)[0]
+            self.account_info['username'] = account_data['name']
 
             # BLURT BALANCE
             balance = float(account_data['balance'].split()[0])

@@ -7,7 +7,15 @@
                                       <b>UNCLAIMED REWARD BLURT</b>
                                     </div>
                                     <div class="col text-truncate">
-                                      {{ data['reward_blurt'] }} BLURT
+                                        <a href="https://blurtwallet.com/@{{ data['username'] }}"
+                                            target="_blank" rel="noopener noreferrer">
+                                            <button type="button" class="btn btn-blurt"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title="Claim REWARDS">
+                                                {{ data['reward_blurt'] }} BLURT
+                                            </button>
+                                      </a>
                                     </div>
                                 </div>
                             </li>
@@ -17,8 +25,17 @@
                                       <b>UNCLAIMED REWARD BP</b>
                                     </div>
                                     <div class="col text-truncate">
-                                      {{ data['reward_bp'] }} BP
+                                        <a href="https://blurtwallet.com/@{{ data['username'] }}"
+                                            target="_blank" rel="noopener noreferrer">
+                                            <button type="button" class="btn btn-blurt"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title="Claim REWARDS">
+                                                {{ data['reward_bp'] }} BP
+                                            </button>
+                                        </a>
                                     </div>
+
                                 </div>
                             </li>
                             <li class="list-group-item">
