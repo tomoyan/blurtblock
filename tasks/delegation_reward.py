@@ -164,6 +164,21 @@ def send_rewards(rewards):
             db_prd.child(db_name).push(error_data)
 
 
+def fb_get_main_image():
+    # Get images from fb post_images
+    # and pick and return one random image
+
+    main_images = []
+    db_name = "post_images"
+    all_images = db_prd.child(db_name).get()
+
+    for image in all_images.each():
+        main_images.append(image.val())
+
+    main_image = random.choice(main_images)
+    return main_image
+
+
 def publish_post(rewards):
     post_key = os.environ.get('POST_KEY')
     b = Blurt(blurt_nodes, keys=[post_key])
@@ -175,27 +190,31 @@ def publish_post(rewards):
     permalink = '@tomoyan/how-to-blurt-passive-income-daily-payout-report'
     post_url = f'{base_url}/{permalink}'
     leaderboard = 'https://blurtblock.herokuapp.com/blurt/leaderboard'
-    main_images = [
-        'https://i.imgur.com/HxC5git.png',
-        'https://i.imgur.com/7CPR2cY.jpg',
-        'https://i.imgur.com/jGD8bHf.jpg',
-        'https://i.imgur.com/xxMp09Z.jpg',
-        'https://i.imgur.com/7ugZMN5.jpg',
-        'https://i.imgur.com/SS2v5ag.jpg',
-        'https://i.imgur.com/gvWGvLY.jpg',
-        'https://i.imgur.com/xv2nitI.jpg',
-        'https://i.imgur.com/DClQRLP.jpg',
-        'https://i.imgur.com/MABed6f.jpg',
-        'https://i.imgur.com/LSUzP36.jpg',
-        'https://i.imgur.com/ygK7jw0.jpg',
-        'https://i.imgur.com/viM3Utt.jpg',
-        'https://i.imgur.com/PNnWGBv.jpg',
-        'https://i.imgur.com/wLT9MyB.jpg',
-        'https://i.imgur.com/ccn9EGT.jpg',
-        'https://i.imgur.com/IvvDS81.jpg',
-        'https://i.imgur.com/p3QeamK.jpg'
-    ]
-    main_img = random.choice(main_images)
+    # main_images = [
+    #     'https://i.imgur.com/HxC5git.png',
+    #     'https://i.imgur.com/7CPR2cY.jpg',
+    #     'https://i.imgur.com/jGD8bHf.jpg',
+    #     'https://i.imgur.com/xxMp09Z.jpg',
+    #     'https://i.imgur.com/7ugZMN5.jpg',
+    #     'https://i.imgur.com/SS2v5ag.jpg',
+    #     'https://i.imgur.com/gvWGvLY.jpg',
+    #     'https://i.imgur.com/xv2nitI.jpg',
+    #     'https://i.imgur.com/DClQRLP.jpg',
+    #     'https://i.imgur.com/MABed6f.jpg',
+    #     'https://i.imgur.com/LSUzP36.jpg',
+    #     'https://i.imgur.com/ygK7jw0.jpg',
+    #     'https://i.imgur.com/viM3Utt.jpg',
+    #     'https://i.imgur.com/PNnWGBv.jpg',
+    #     'https://i.imgur.com/wLT9MyB.jpg',
+    #     'https://i.imgur.com/ccn9EGT.jpg',
+    #     'https://i.imgur.com/IvvDS81.jpg',
+    #     'https://i.imgur.com/p3QeamK.jpg'
+    # ]
+    # main_img = random.choice(main_images)
+
+    # Default image
+    main_img = 'https://i.imgur.com/HxC5git.png'
+    main_img = fb_get_main_image()
 
     table = """
 | Delegator | Reward |
