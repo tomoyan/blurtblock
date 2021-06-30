@@ -68,14 +68,11 @@
                             </li>
                             {% endif %}
                             <li class="list-group-item">
-                                <!-- src="https://images.blurt.blog/u/{{user['username']}}/avatar/small" -->
                                 <img
-                                    src="https://images.steemitimages.com/u/{{user['username']}}/avatar/small"
-                                        onerror="this.onerror=null;
-                                        this.src='/static/images/blurt_profile.png';"
+                                    src="https://imgp.blurt.world/profileimage/{{user['username']}}"
                                     alt="profile_image"
                                     class="img-thumbnail rounded-circle float-left mr-3"
-                                >
+                                    width="64" height="64">
                                 {% if loop.index == 1 %}
                                     <img
                                         src="https://www.flaticon.com/svg/static/icons/svg/1021/1021116.svg"
@@ -117,13 +114,10 @@
                             {% elif loop.index > 10 and loop.index <= 50 %}
                             <li class="list-group-item">
                                 <img
-                                    src="https://images.steemitimages.com/u/{{user['username']}}/avatar/small"
-                                        onerror="this.onerror=null;
-                                        this.src='/static/images/blurt_profile.png';"
+                                    src="https://imgp.blurt.world/profileimage/{{user['username']}}"
                                     alt="profile_image"
                                     class="img-thumbnail rounded-circle float-left mr-3"
-                                    width="50" height="50"
-                                >
+                                    width="64" height="64">
                                 {{loop.index}}.
                                     <a class="text-blurt font-weight-bold mr-3"
                                         href="https://blurtblock.herokuapp.com/{{user['username']}}"
@@ -150,13 +144,10 @@
                             {% else %}
                             <li class="list-group-item">
                                 <img
-                                    src="https://images.steemitimages.com/u/{{user['username']}}/avatar/small"
-                                        onerror="this.onerror=null;
-                                        this.src='/static/images/blurt_profile.png';"
+                                    src="https://imgp.blurt.world/profileimage/{{user['username']}}"
                                     alt="profile_image"
                                     class="img-thumbnail rounded-circle float-left mr-3"
-                                    width="45" height="45"
-                                >
+                                    width="64" height="64">
                                 {{loop.index}}.
                                     <a class="text-blurt font-weight-bold mr-3"
                                         href="https://blurtblock.herokuapp.com/{{user['username']}}"

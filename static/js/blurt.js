@@ -1,7 +1,8 @@
 $(document).ready(function(){
     let BLURTURL = 'https://blurtter.com'
     let BLURTBLOCK = 'https://blurtblock.herokuapp.com';
-    let IMGBASE = 'https://cdn.steemitimages.com';
+    let IMGBASE = 'https://imgp.blurt.world/profileimage';
+    // let IMGBASE = 'https://cdn.steemitimages.com';
     // let IMGBASE = 'https://images.blurt.blog';
 
     $("#nav-delegation-tab").click(function(){
@@ -97,12 +98,10 @@ $(document).ready(function(){
                             <div class="container">
                               <div class="row">
                                 <div class="col-sm">
-                                    <span><img src="https://images.blurt.blog/u/${value.delegatee}/avatar/small"
-                                            onerror="this.onerror=null;
-                                            this.src='/static/images/blurt_profile.png';"
+                                    <span><img src=""${IMGBASE}/${value.delegatee}"
                                             alt="profile_image"
                                             class="img-thumbnail rounded-circle float-left mr-3"
-                                            width="auto">
+                                            width="64">
                                     </span>
                                     <span>
                                         <a class="text-blurt font-weight-bold mr-3"
@@ -598,12 +597,10 @@ $(document).ready(function(){
                             <div class="container">
                                 <div class="row">
                                     <div class="col-sm text-sm-left text-truncate">
-                                        <img src="${IMGBASE}/u/${key}/avatar/small"
-                                                onerror="this.onerror=null;
-                                                this.src='/static/images/blurt_profile.png';"
+                                        <img src="${IMGBASE}/${key}"
                                                 alt="profile_image"
                                                 class="img-thumbnail rounded-circle float-left mr-3"
-                                                width="auto">
+                                                width="64">
                                         <a class="text-blurt font-weight-bold mr-3"
                                             href="${BLURTBLOCK}/${key}"
                                             target="_blank" rel="noopener noreferrer">${key}
@@ -655,12 +652,10 @@ $(document).ready(function(){
                             <div class="container">
                                 <div class="row">
                                     <div class="col-sm text-sm-left text-truncate">
-                                        <img src="${IMGBASE}/u/${key}/avatar/small"
-                                                onerror="this.onerror=null;
-                                                this.src='/static/images/blurt_profile.png';"
+                                        <img src="${IMGBASE}/${key}"
                                                 alt="profile_image"
                                                 class="img-thumbnail rounded-circle float-left mr-3"
-                                                width="auto">
+                                                width="64">
                                         <a class="text-blurt font-weight-bold mr-3"
                                             href="${BLURTBLOCK}/${key}"
                                             target="_blank" rel="noopener noreferrer">${key}
@@ -706,12 +701,10 @@ $(document).ready(function(){
                             <div class="container">
                                 <div class="row">
                                     <div class="col-sm text-sm-left text-truncate">
-                                        <img src="${IMGBASE}/u/${value}/avatar/small"
-                                                onerror="this.onerror=null;
-                                                this.src='/static/images/blurt_profile.png';"
+                                        <img src="${IMGBASE}/${value}"
                                                 alt="profile_image"
                                                 class="img-thumbnail rounded-circle float-left mr-3"
-                                                width="auto">
+                                                width="64">
                                         <a class="text-blurt font-weight-bold mr-3"
                                             href="${BLURTBLOCK}/${value}"
                                             target="_blank" rel="noopener noreferrer">${value}
@@ -737,12 +730,10 @@ $(document).ready(function(){
                             <div class="container">
                                 <div class="row">
                                     <div class="col-sm text-sm-left text-truncate">
-                                        <img src="${IMGBASE}/u/${value}/avatar/small"
-                                                onerror="this.onerror=null;
-                                                this.src='/static/images/blurt_profile.png';"
+                                        <img src="${IMGBASE}/${value}"
                                                 alt="profile_image"
                                                 class="img-thumbnail rounded-circle float-left mr-3"
-                                                width="auto">
+                                                width="64">
                                         <a class="text-blurt font-weight-bold mr-3"
                                             href="${BLURTBLOCK}/${value}"
                                             target="_blank" rel="noopener noreferrer">${value}
