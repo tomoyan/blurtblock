@@ -168,7 +168,7 @@ def fb_get_main_image():
     # Get images from fb post_images
     # and return one random image
     # Default image
-    main_image = 'https://i.imgur.com/HxC5git.png'
+    main_image = 'https://i.imgur.com/4VuswjQ.png'
     main_images = []
     db_name = "post_images"
     all_images = db_prd.child(db_name).get()
@@ -187,7 +187,7 @@ def publish_post(rewards):
     today = datetime.now().strftime("%Y-%m-%d")
     title = f'Daily Delegation Payout - {today}'
     tags = ['blurtblock', 'delegation', 'rewards', 'blurt']
-    base_url = 'https://blurtter.com'
+    base_url = 'https://blurt.blog'
     permalink = '@tomoyan/how-to-blurt-passive-income-daily-payout-report'
     post_url = f'{base_url}/{permalink}'
     leaderboard = 'https://blurtblock.herokuapp.com/blurt/leaderboard'
