@@ -11,17 +11,17 @@ ACCOUNT = Account(USERNAME, blockchain_instance=BLURT)
 
 
 def main():
+    # Upvote my own posts automatically
+    # Script runs after daily delegation report
     upvote_blog_entries()
 
 
 def upvote_blog_entries():
-    # Get the last 7 blog posts
+    # Get my last 7 blog posts
     # Upvote them if they are not voted
-    posts = ACCOUNT.blog_history(limit=1, reblogs=False)
+    posts = ACCOUNT.blog_history(limit=7, reblogs=False)
 
     for post in posts:
-        # print('POST', dir(post))
-        print(post.authorperm)
         voted = ACCOUNT.has_voted(post)
 
         # 100% Upvote if post hasn't been voted
