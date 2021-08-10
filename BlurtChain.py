@@ -482,7 +482,7 @@ class BlurtChain:
         comment_body = f"""
 Thank you for using my upvote tool 🙂
 {giphy_url}
-Delegate more BP for better support 😉
+Delegate more BP for better support and daily BLURT reward 😉
 @tomoyan
 https://blurtblock.herokuapp.com
         """
