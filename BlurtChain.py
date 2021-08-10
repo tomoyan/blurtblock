@@ -451,11 +451,49 @@ class BlurtChain:
             vote_result["status"] = True
             vote_result["message"] = f"Upvoted: {result}"
             vote_result["vote_weight"] = vote_weight + delegation_bonus
+            vote_result["identifier"] = identifier
         except Exception as err:
             print(err)
             vote_result["message"] = f"Error: Please check your URL {err}"
 
         return vote_result
+
+    def comment_post(self, identifier):
+        print('COMMENT_POST', identifier)
+        post_key = Config.UPVOTE_KEY
+        username = Config.UPVOTE_ACCOUNT
+        B = Blurt(node=self.nodes, keys=[post_key])
+
+        # Get thank you image from giphy
+        url = (
+            'http://api.giphy.com/v1/gifs/search?'
+            'q=thank you&'
+            'api_key=b2w5nCHfqrGt6tbXBD7BCcfw11plV5b1&'
+            'limit=10000'
+        )
+        response = requests.get(url)
+        json_data = response.json()
+
+        # Pick a random image data from json_data
+        image_data = random.choice(json_data['data'])
+        giphy_url = image_data['images']['original_still']['url'] \
+            or 'https://i.imgur.com/6qvr7sJ.jpg'
+
+        comment_body = f"""
+Thank you for using my upvote tool 🙂
+{giphy_url}
+Delegate more BP for better support 😉
+@tomoyan
+https://blurtblock.herokuapp.com
+        """
+
+        # Post a reply comment
+        result = B.post(
+            author=username,
+            title='comment title',
+            body=comment_body,
+            reply_identifier=identifier)
+        print(result)
 
     def check_active_post(self, post_str):
         active_posts = []
@@ -593,6 +631,9 @@ class BlurtChain:
         if is_upvoted["status"] is False:
             data['message'] = is_upvoted["message"]
             return data
+
+        # Leave a comment after upvote
+        self.comment_post(is_upvoted["identifier"])
 
         # save upvote_data
         upvote_data = {
