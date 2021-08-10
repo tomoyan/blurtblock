@@ -488,12 +488,11 @@ https://blurtblock.herokuapp.com
         """
 
         # Post a reply comment
-        result = B.post(
+        B.post(
             author=username,
             title='comment title',
             body=comment_body,
             reply_identifier=identifier)
-        print(result)
 
     def check_active_post(self, post_str):
         active_posts = []
