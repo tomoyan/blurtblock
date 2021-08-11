@@ -45,7 +45,7 @@ class BlurtChain:
         self.witness = 0
         self.nodes = BLURT_NODES
 
-        self.blurt = Blurt(node=self.nodes, num_retries=100)
+        self.blurt = Blurt(node=self.nodes, num_retries=10)
         self.blockchain = set_shared_blockchain_instance(self.blurt)
 
         # Get a reference to the database service
@@ -459,7 +459,7 @@ class BlurtChain:
         return vote_result
 
     def comment_post(self, vote_data):
-        vote_data['vote_weight'] = f"{vote_data['vote_weight']:.2f}"
+        vote_weight = f"{vote_data['vote_weight']:.2f}"
         post_key = Config.UPVOTE_KEY
         username = Config.UPVOTE_ACCOUNT
         B = Blurt(node=self.nodes, keys=[post_key])
@@ -481,7 +481,7 @@ class BlurtChain:
 
         comment_body = f"""
 Thank you for using my upvote tool 🙂
-Your post has been upvoted ({vote_data['vote_weight']} %)
+Your post has been upvoted ({vote_weight} %)
 {giphy_url}
 Delegate more BP for better support and daily BLURT reward 😉
 @tomoyan
@@ -783,7 +783,7 @@ https://blurtblock.herokuapp.com
         return leaderboard
 
     def get_ranking(self, user):
-        rank = None
+        rank = 0
         users = {}
         db_name = 'upvote_log'
 
