@@ -459,7 +459,7 @@ class BlurtChain:
         return vote_result
 
     def comment_post(self, vote_data):
-        print('COMMENT_POST', vote_data['identifier'])
+        vote_data['vote_weight'] = f"{vote_data['vote_weight']:.2f}"
         post_key = Config.UPVOTE_KEY
         username = Config.UPVOTE_ACCOUNT
         B = Blurt(node=self.nodes, keys=[post_key])
@@ -481,7 +481,7 @@ class BlurtChain:
 
         comment_body = f"""
 Thank you for using my upvote tool 🙂
-Your post has been upvoted ({vote_data['vote_weight']}%)
+Your post has been upvoted ({vote_data['vote_weight']} %)
 {giphy_url}
 Delegate more BP for better support and daily BLURT reward 😉
 @tomoyan
