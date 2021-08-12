@@ -467,22 +467,24 @@ class BlurtChain:
         # Get thank you image from giphy
         url = (
             'http://api.giphy.com/v1/gifs/search?'
-            'q=thank you&'
+            'q=arigato thanks japan&'
             'api_key=b2w5nCHfqrGt6tbXBD7BCcfw11plV5b1&'
-            'limit=10000'
+            'limit=100'
         )
         response = requests.get(url)
         json_data = response.json()
 
         # Pick a random image data from json_data
+        default_img = 'https://i.imgur.com/6qvr7sJ.jpg'
         image_data = random.choice(json_data['data'])
-        giphy_url = image_data['images']['original_still']['url'] \
-            or 'https://i.imgur.com/6qvr7sJ.jpg'
+        gif_img = image_data['images']['original']['url']
+        gif_img = gif_img.split('?', 1)[0]
+        img_url = gif_img or default_img
 
         comment_body = f"""
 Thank you for using my upvote tool 🙂
 Your post has been upvoted ({vote_weight} %)
-{giphy_url}
+{img_url}
 Delegate more BP for better support and daily BLURT reward 😉
 @tomoyan
 https://blurtblock.herokuapp.com
