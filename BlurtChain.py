@@ -418,11 +418,11 @@ class BlurtChain:
             # check leaderboard rank
             ranking = self.get_ranking(username)
             if ranking == 1:
-                bonus_weight = 100.0
-            elif ranking == 2:
                 bonus_weight = 50.0
+            elif ranking == 2:
+                bonus_weight = 30.0
             elif ranking == 3:
-                bonus_weight = 25.0
+                bonus_weight = 15.0
 
         return bonus_weight
 
@@ -438,8 +438,8 @@ class BlurtChain:
         blurt = Blurt(node=self.nodes, keys=[upvote_key])
         account = Account(upvote_account, blockchain_instance=blurt)
 
-        # random vote_weight (3-5%)
-        vote_weight = round(random.uniform(3, 5), 2)
+        # random vote_weight (1-5%)
+        vote_weight = round(random.uniform(1, 5), 2)
 
         # add bonus weights
         weight = vote_weight + delegation_bonus + member_bonus
@@ -487,7 +487,7 @@ Your post has been upvoted ({vote_weight} %)
 {img_url}
 Delegate more BP for better support and daily BLURT reward 😉
 @tomoyan
-https://blurtblock.herokuapp.com
+https://blurtblock.herokuapp.com/blurt/upvote
         """
 
         # Post a reply comment
@@ -624,8 +624,9 @@ https://blurtblock.herokuapp.com
             star_bonus = 25.0
         elif stars == 5.0:
             star_bonus = 100.0
+        member_bonus += star_bonus
 
-        bonus_weight = delegation_bonus + member_bonus + star_bonus
+        bonus_weight = delegation_bonus + member_bonus
 
         # upvote
         is_upvoted = self.upvote_post(
