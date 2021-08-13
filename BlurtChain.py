@@ -387,11 +387,11 @@ class BlurtChain:
                 if 1.0 <= delegation_bp < 1000.0:
                     bonus_weight = round(random.uniform(10, 20), 2)
                 elif 1000.0 <= delegation_bp < 5000.0:
-                    bonus_weight = round(random.uniform(20, 35), 2)
+                    bonus_weight = round(random.uniform(20, 30), 2)
                 elif 5000.0 <= delegation_bp < 10000.0:
-                    bonus_weight = round(random.uniform(40, 50), 2)
+                    bonus_weight = round(random.uniform(30, 40), 2)
                 elif 10000.0 <= delegation_bp < 50000.0:
-                    bonus_weight = round(random.uniform(50, 60), 2)
+                    bonus_weight = round(random.uniform(40, 60), 2)
                 elif delegation_bp > 50000.0:
                     bonus_weight = 70.0
 
@@ -438,7 +438,7 @@ class BlurtChain:
         blurt = Blurt(node=self.nodes, keys=[upvote_key])
         account = Account(upvote_account, blockchain_instance=blurt)
 
-        # random vote_weight (1-5%)
+        # Base vote_weight (random 1-5%)
         vote_weight = round(random.uniform(1, 5), 2)
 
         # add bonus weights
@@ -450,7 +450,8 @@ class BlurtChain:
             result = blurt.vote(weight, identifier, account=account)
             vote_result["status"] = True
             vote_result["message"] = f"Upvoted: {result}"
-            vote_result["vote_weight"] = vote_weight + delegation_bonus
+            # vote_result["vote_weight"] = vote_weight + delegation_bonus
+            vote_result["vote_weight"] = weight
             vote_result["identifier"] = identifier
         except Exception as err:
             print(err)
