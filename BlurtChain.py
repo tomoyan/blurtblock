@@ -468,7 +468,7 @@ class BlurtChain:
         # Get thank you image from giphy
         url = (
             'http://api.giphy.com/v1/gifs/search?'
-            'q=arigato thanks japan&'
+            'q=arigato thanks heart&'
             'api_key=b2w5nCHfqrGt6tbXBD7BCcfw11plV5b1&'
             'limit=100'
         )
