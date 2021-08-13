@@ -830,8 +830,9 @@ https://blurtblock.herokuapp.com/blurt/upvote
         db_name = 'upvote_count'
         upvote_data = self.firebase.child(db_name).child(username).get()
 
-        full = 30  # 100% vote weight
-        half = 15  # 25%+ vote weight
+        # Full and Half star counts
+        full = 50  # 100% vote weight
+        half = 25  # 25%+ vote weight
         stars = 0.0
         count = 0
 
