@@ -498,30 +498,46 @@ https://blurtblock.herokuapp.com/blurt/upvote
             body=comment_body,
             reply_identifier=vote_data['identifier'])
 
-    def check_active_post(self, post_str):
-        active_posts = []
-        cashout_time = "1969-12-31T23:59:59"
+    def check_post_age(self, identifier):
+        # if post age is younger than 5 minutes (300 secs)
+        # or older than 5 days (432000 secs)
+        # return False
+        duration_early = 300  # 5 minutes
+        duration_late = 432000  # 5 days
         result = False
 
-        strings = post_str.split('/')
-        username = strings[0]
-        post_id = strings[1]
-        blurt = Blurt(node=self.nodes)
-        blurt_account = Account(username, blockchain_instance=blurt)
-        posts = blurt_account.get_blog(raw_data=True)
+        COMMENT = Comment(identifier, api='condenser')
+        post_age = COMMENT.time_elapsed().total_seconds()
 
-        for post in posts:
-            # post has been paid out
-            if post["comment"]["cashout_time"] == cashout_time:
-                continue
-
-            if post["blog"]:
-                active_posts.append(post["comment"]["permlink"])
-
-        if post_id in active_posts:
+        if duration_early < post_age < duration_late:
             result = True
 
         return result
+
+    # def check_active_post(self, post_str):
+    #     active_posts = []
+    #     cashout_time = "1969-12-31T23:59:59"
+    #     result = False
+
+    #     strings = post_str.split('/')
+    #     username = strings[0]
+    #     post_id = strings[1]
+    #     blurt = Blurt(node=self.nodes)
+    #     blurt_account = Account(username, blockchain_instance=blurt)
+    #     posts = blurt_account.get_blog(raw_data=True)
+
+    #     for post in posts:
+    #         # post has been paid out
+    #         if post["comment"]["cashout_time"] == cashout_time:
+    #             continue
+
+    #         if post["blog"]:
+    #             active_posts.append(post["comment"]["permlink"])
+
+    #     if post_id in active_posts:
+    #         result = True
+
+    #     return result
 
     def save_data_fb(self, db_name, data):
         # save data into firebase database
@@ -604,11 +620,18 @@ https://blurtblock.herokuapp.com/blurt/upvote
             data['message'] = f'Error: {wait_message} ({self.wait_time})'
             return data
 
-        # check post is active
-        active_post = self.check_active_post(strings[1])
-        if active_post is False:
-            data['message'] = 'Error: This post is too old to upvote'
+        # check post age
+        post_age = self.check_post_age(identifier)
+        if post_age is False:
+            data['message'] = 'Error: Post has to be 5 minutes old or \
+                less than 5 days old'
             return data
+
+        # check post is active
+        # active_post = self.check_active_post(strings[1])
+        # if active_post is False:
+        #     data['message'] = 'Error: This post is too old to upvote'
+        #     return data
 
         # check delegation bonus
         delegation_bonus = self.delegation_bonus(username)
