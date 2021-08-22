@@ -335,6 +335,21 @@ class BlurtChain:
 
         return result
 
+    def is_ignored(self, username):
+        # check to see if user is in ignore_list
+        # ignored user won't be upvoted
+        result = False
+        db_name = 'ignore_list'
+        ignored_users = self.firebase.child(db_name).get()
+
+        for user in ignored_users.each():
+            value = user.val()
+            if value['username'] == username:
+                result = True
+                break
+
+        return result
+
     def check_last_upvote(self, username):
         # 24 hour = 86400 sec
         # 12 hour = 43200 sec
@@ -611,6 +626,12 @@ https://blurtblock.herokuapp.com/blurt/upvote
         identifier = f'@{strings[1]}'
         username = strings[1].split('/')[0]
         if not username:
+            return data
+
+        # check ignore_list
+        is_ignored = self.is_ignored(username)
+        if is_ignored:
+            data['message'] = f'Error: username @{username}'
             return data
 
         # check last upvote
