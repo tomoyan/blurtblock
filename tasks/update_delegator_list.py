@@ -34,7 +34,7 @@ db_prd = firebase.database()
 
 
 def main():
-    # Update delegator list once a day
+    # Update delegator list every hour
     # And store data into delegation_list
     update_delegation_list()
 
@@ -49,6 +49,9 @@ def main():
 
     # Clean up upvote_count (days: 7)
     fb_data_cleanup("upvote_count", 7)
+
+    # Clean up daily_rewards log
+    daily_rewards_log_cleanup()
 
 
 def update_delegation_list():
@@ -102,6 +105,30 @@ def fb_data_cleanup(db_name, duration):
             data["created"], "%m/%d/%Y %H:%M:%S")
 
         if datetime_obj < datetime_old:
+            db_prd.child(db_name).child(key).remove()
+
+
+def daily_rewards_log_cleanup():
+    one_month = datetime.now() - timedelta(days=30)
+    one_year = datetime.now() - timedelta(days=365)
+
+    db_name = "daily_rewards"
+
+    # Get daily_rewards log data
+    logs = db_prd.child(db_name).get()
+    for log in logs.each():
+        key = log.key()
+
+        datetime_obj = datetime.strptime(key, "%Y-%m-%d")
+
+        # Delete 1 year old data
+        if datetime_obj < one_year:
+            db_prd.child(db_name).child(key).remove()
+            continue
+
+        # Delete 1 month old data
+        # But keep 1st of the month data
+        if datetime_obj < one_month and datetime_obj.day != 1:
             db_prd.child(db_name).child(key).remove()
 
 
