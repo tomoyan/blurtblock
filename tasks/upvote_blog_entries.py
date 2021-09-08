@@ -18,7 +18,6 @@ def main():
     # 100% Upvote for special blogs
     users = ['ecosynthesizer', 'maxinpower']
     for user in users:
-        print('USER', user)
         upvote_blog_entries_username(user)
 
 
@@ -39,19 +38,17 @@ def upvote_blog_entries():
 
 
 def upvote_blog_entries_username(name):
-    print('UPVOTE_BLOG_ENTRIES_USERNAME')
     ACCT = Account(name, blockchain_instance=BLURT)
     posts = ACCT.blog_history(limit=1, reblogs=False)
 
     for post in posts:
         voted = ACCOUNT.has_voted(post)
-        print('VOTED?', voted, post)
 
         if not voted:
             weight = 100.0
             identifier = post.authorperm
             # Upvote a post
-            print(BLURT.vote(weight, identifier, account=ACCOUNT))
+            BLURT.vote(weight, identifier, account=ACCOUNT)
 
 
 if __name__ == '__main__':
