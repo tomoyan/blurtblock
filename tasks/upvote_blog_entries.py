@@ -44,14 +44,14 @@ def upvote_blog_entries_username(name):
     posts = ACCT.blog_history(limit=1, reblogs=False)
 
     for post in posts:
-        voted = ACCT.has_voted(post)
+        voted = ACCOUNT.has_voted(post)
         print('VOTED?', voted, post)
 
         if not voted:
             weight = 100.0
             identifier = post.authorperm
             # Upvote a post
-            print(BLURT.vote(weight, identifier, account=ACCT))
+            print(BLURT.vote(weight, identifier, account=ACCOUNT))
 
 
 if __name__ == '__main__':
