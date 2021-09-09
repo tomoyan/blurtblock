@@ -43,12 +43,13 @@ def upvote_blog_entries_username(name):
 
     for post in posts:
         voted = ACCOUNT.has_voted(post)
+        print(name, post, voted)
 
         if not voted:
             weight = 100.0
             identifier = post.authorperm
             # Upvote a post
-            BLURT.vote(weight, identifier, account=ACCOUNT)
+            print(BLURT.vote(weight, identifier, account=ACCOUNT))
 
 
 if __name__ == '__main__':
