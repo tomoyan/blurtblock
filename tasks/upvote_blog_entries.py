@@ -39,7 +39,7 @@ def upvote_blog_entries():
 
 def upvote_blog_entries_username(name):
     ACCT = Account(name, blockchain_instance=BLURT)
-    posts = ACCT.blog_history(limit=1, reblogs=False)
+    posts = ACCT.blog_history(limit=3, reblogs=False)
 
     for post in posts:
         voted = ACCOUNT.has_voted(post)
