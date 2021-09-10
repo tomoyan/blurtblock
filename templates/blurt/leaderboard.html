@@ -74,12 +74,15 @@
                                     width="64" height="64">
                                 {% if loop.index == 1 %}
                                     <img src="{{ url_for('static', filename='images/medal-1.png') }}"
+                                        alt="medal-1 icon"
                                         width="50" height="50">
                                 {% elif loop.index == 2 %}
                                     <img src="{{ url_for('static', filename='images/medal-2.png') }}"
+                                        alt="medal-2 icon"
                                         width="50" height="50">
                                 {% elif loop.index == 3 %}
                                     <img src="{{ url_for('static', filename='images/medal-3.png') }}"
+                                        alt="medal-3 icon"
                                         width="50" height="50">
                                 {% else %}
                                     {{loop.index}}.
