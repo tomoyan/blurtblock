@@ -73,16 +73,13 @@
                                     class="img-thumbnail rounded-circle float-left mr-3"
                                     width="64" height="64">
                                 {% if loop.index == 1 %}
-                                    <img
-                                        src="https://www.flaticon.com/svg/static/icons/svg/1021/1021116.svg"
+                                    <img src="{{ url_for('static', filename='images/medal-1.png') }}"
                                         width="50" height="50">
                                 {% elif loop.index == 2 %}
-                                    <img
-                                        src="https://www.flaticon.com/svg/static/icons/svg/1021/1021085.svg"
+                                    <img src="{{ url_for('static', filename='images/medal-2.png') }}"
                                         width="50" height="50">
                                 {% elif loop.index == 3 %}
-                                    <img
-                                        src="https://www.flaticon.com/svg/static/icons/svg/1021/1021077.svg"
+                                    <img src="{{ url_for('static', filename='images/medal-3.png') }}"
                                         width="50" height="50">
                                 {% else %}
                                     {{loop.index}}.
