@@ -513,6 +513,21 @@ https://blurtblock.herokuapp.com/blurt/upvote
             body=comment_body,
             reply_identifier=vote_data['identifier'])
 
+    def check_post_vote(self, identifier):
+        # check identifier (@username/permalink)
+        # if it is already upvoted or not(True/False)
+        result = False
+
+        upvote_account = Config.UPVOTE_ACCOUNT
+        blurt = Blurt(node=self.nodes)
+        account = Account(upvote_account, blockchain_instance=blurt)
+        COMMENT = Comment(identifier, api='condenser',
+                          blockchain_instance=blurt)
+
+        result = account.has_voted(COMMENT)
+
+        return result
+
     def check_post_age(self, identifier):
         # if post age is younger than 5 minutes (300 secs)
         # or older than 5 days (432000 secs)
@@ -639,6 +654,12 @@ https://blurtblock.herokuapp.com/blurt/upvote
         if can_vote is False:
             wait_message = 'Please come back later'
             data['message'] = f'Error: {wait_message} ({self.wait_time})'
+            return data
+
+        # check if post is voted already
+        is_voted = self.check_post_vote(identifier)
+        if is_voted:
+            data['message'] = 'Error: This post has been upvoted already'
             return data
 
         # check post age
