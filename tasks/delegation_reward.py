@@ -206,6 +206,9 @@ def publish_post(rewards):
     body = f"""
 ![0.png]({main_img})
 ## Effective Blurt Power: {token_power}
+<center>
+[![](https://i.imgur.com/f7PG7OO.png)](https://twitter.com/tomoyanTweet)
+</center>
 ## Everyday is a BLURT day if you delegate your BP
 
 **Star Bonus**: You will receive stars for using upvote.
