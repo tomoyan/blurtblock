@@ -13,7 +13,7 @@ ACCOUNT = Account(USERNAME, blockchain_instance=BLURT)
 def main():
     # Upvote my own posts automatically
     # Script runs after daily delegation report
-    upvote_blog_entries()
+    # upvote_blog_entries()
 
     # 100% Upvote for special blogs
     users = ['ecosynthesizer', 'maxinpower']
@@ -21,20 +21,20 @@ def main():
         upvote_blog_entries_username(user)
 
 
-def upvote_blog_entries():
-    # Get my last 7 blog posts
-    # Upvote them if they are not voted
-    posts = ACCOUNT.blog_history(limit=7, reblogs=False)
+# def upvote_blog_entries():
+#     # Get my last 7 blog posts
+#     # Upvote them if they are not voted
+#     posts = ACCOUNT.blog_history(limit=7, reblogs=False)
 
-    for post in posts:
-        voted = ACCOUNT.has_voted(post)
+#     for post in posts:
+#         voted = ACCOUNT.has_voted(post)
 
-        # 100% Upvote if post hasn't been voted
-        if not voted:
-            weight = 100.0
-            identifier = post.authorperm
-            # Upvote a post
-            BLURT.vote(weight, identifier, account=ACCOUNT)
+#         # 100% Upvote if post hasn't been voted
+#         if not voted:
+#             weight = 100.0
+#             identifier = post.authorperm
+#             # Upvote a post
+#             BLURT.vote(weight, identifier, account=ACCOUNT)
 
 
 def upvote_blog_entries_username(name):
