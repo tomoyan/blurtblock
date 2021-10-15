@@ -206,7 +206,6 @@ class BlurtChain:
 
     @ lru_cache(maxsize=128)
     def get_vote_history(self, username):
-        votes = {}
         result = {}
         labels = []
         permlinks = []
@@ -392,7 +391,7 @@ class BlurtChain:
         blurt = Blurt(node=self.nodes)
         account = Account(username, blockchain_instance=blurt)
 
-        # check delegation_bonus (bonus_weight 10 - 70%)
+        # check delegation_bonus (bonus_weight 10 - 50%)
         vesting_delegations = account.get_vesting_delegations()
         for delegation in vesting_delegations:
             if delegation["delegatee"] == "tomoyan":
@@ -400,15 +399,15 @@ class BlurtChain:
                 delegation_bp = self.blurt.vests_to_bp(vesting_shares.amount)
 
                 if 1.0 <= delegation_bp < 1000.0:
-                    bonus_weight = round(random.uniform(10, 20), 2)
+                    bonus_weight = round(random.uniform(5, 15), 2)
                 elif 1000.0 <= delegation_bp < 5000.0:
-                    bonus_weight = round(random.uniform(20, 30), 2)
+                    bonus_weight = round(random.uniform(20, 25), 2)
                 elif 5000.0 <= delegation_bp < 10000.0:
-                    bonus_weight = round(random.uniform(30, 40), 2)
+                    bonus_weight = round(random.uniform(30, 35), 2)
                 elif 10000.0 <= delegation_bp < 50000.0:
-                    bonus_weight = round(random.uniform(40, 60), 2)
+                    bonus_weight = round(random.uniform(40, 45), 2)
                 elif delegation_bp > 50000.0:
-                    bonus_weight = 70.0
+                    bonus_weight = 50.0
 
                 break
 
@@ -433,11 +432,11 @@ class BlurtChain:
             # check leaderboard rank
             ranking = self.get_ranking(username)
             if ranking == 1:
-                bonus_weight = 50.0
-            elif ranking == 2:
                 bonus_weight = 30.0
+            elif ranking == 2:
+                bonus_weight = 20.0
             elif ranking == 3:
-                bonus_weight = 15.0
+                bonus_weight = 10.0
 
         return bonus_weight
 
