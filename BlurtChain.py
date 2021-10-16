@@ -399,13 +399,13 @@ class BlurtChain:
                 delegation_bp = self.blurt.vests_to_bp(vesting_shares.amount)
 
                 if 1.0 <= delegation_bp < 1000.0:
-                    bonus_weight = round(random.uniform(5, 15), 2)
+                    bonus_weight = round(random.uniform(5, 10), 2)
                 elif 1000.0 <= delegation_bp < 5000.0:
-                    bonus_weight = round(random.uniform(20, 25), 2)
+                    bonus_weight = round(random.uniform(15, 25), 2)
                 elif 5000.0 <= delegation_bp < 10000.0:
-                    bonus_weight = round(random.uniform(30, 35), 2)
+                    bonus_weight = round(random.uniform(25, 35), 2)
                 elif 10000.0 <= delegation_bp < 50000.0:
-                    bonus_weight = round(random.uniform(40, 45), 2)
+                    bonus_weight = round(random.uniform(35, 45), 2)
                 elif delegation_bp > 50000.0:
                     bonus_weight = 50.0
 
@@ -432,9 +432,9 @@ class BlurtChain:
             # check leaderboard rank
             ranking = self.get_ranking(username)
             if ranking == 1:
-                bonus_weight = 30.0
+                bonus_weight = 25.0
             elif ranking == 2:
-                bonus_weight = 20.0
+                bonus_weight = 15.0
             elif ranking == 3:
                 bonus_weight = 10.0
 
@@ -452,11 +452,11 @@ class BlurtChain:
         blurt = Blurt(node=self.nodes, keys=[upvote_key])
         account = Account(upvote_account, blockchain_instance=blurt)
 
-        # Base vote_weight (random 1-5%)
-        vote_weight = round(random.uniform(1, 5), 2)
+        # Base vote weight (random 1-3%)
+        base_weight = round(random.uniform(1, 3), 2)
 
         # add bonus weights
-        weight = vote_weight + delegation_bonus + member_bonus
+        weight = base_weight + delegation_bonus + member_bonus
         if weight > 100.0:
             weight = 100.0
 
