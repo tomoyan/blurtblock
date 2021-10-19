@@ -98,7 +98,7 @@ $(document).ready(function(){
                             <div class="container">
                               <div class="row">
                                 <div class="col-sm">
-                                    <span><img src=""${IMGBASE}/${value.delegatee}"
+                                    <span><img src="${IMGBASE}/${value.delegatee}"
                                             alt="profile_image"
                                             class="img-thumbnail rounded-circle float-left mr-3"
                                             width="64">
