@@ -398,15 +398,25 @@ class BlurtChain:
                 vesting_shares = Amount(delegation["vesting_shares"])
                 delegation_bp = self.blurt.vests_to_bp(vesting_shares.amount)
 
-                if 1.0 <= delegation_bp < 1000.0:
+                if 1.0 <= delegation_bp < 100.0:
+                    bonus_weight = round(random.uniform(1, 5), 2)
+                elif 100.0 <= delegation_bp < 500.0:
                     bonus_weight = round(random.uniform(5, 10), 2)
-                elif 1000.0 <= delegation_bp < 5000.0:
-                    bonus_weight = round(random.uniform(15, 25), 2)
+                elif 500.0 <= delegation_bp < 1000.0:
+                    bonus_weight = round(random.uniform(10, 15), 2)
+                elif 1000.0 <= delegation_bp < 3000.0:
+                    bonus_weight = round(random.uniform(15, 20), 2)
+                elif 3000.0 <= delegation_bp < 5000.0:
+                    bonus_weight = round(random.uniform(20, 25), 2)
                 elif 5000.0 <= delegation_bp < 10000.0:
-                    bonus_weight = round(random.uniform(25, 35), 2)
-                elif 10000.0 <= delegation_bp < 50000.0:
-                    bonus_weight = round(random.uniform(35, 45), 2)
-                elif delegation_bp > 50000.0:
+                    bonus_weight = round(random.uniform(25, 30), 2)
+                elif 10000.0 <= delegation_bp < 30000.0:
+                    bonus_weight = round(random.uniform(30, 35), 2)
+                elif 30000.0 <= delegation_bp < 50000.0:
+                    bonus_weight = round(random.uniform(35, 40), 2)
+                elif 50000.0 <= delegation_bp < 100000.0:
+                    bonus_weight = round(random.uniform(40, 45), 2)
+                elif delegation_bp >= 100000.0:
                     bonus_weight = 50.0
 
                 break
@@ -432,11 +442,11 @@ class BlurtChain:
             # check leaderboard rank
             ranking = self.get_ranking(username)
             if ranking == 1:
-                bonus_weight = 25.0
+                bonus_weight = 20.0
             elif ranking == 2:
-                bonus_weight = 15.0
-            elif ranking == 3:
                 bonus_weight = 10.0
+            elif ranking == 3:
+                bonus_weight = 5.0
 
         return bonus_weight
 
@@ -682,13 +692,13 @@ https://blurtblock.herokuapp.com/blurt/upvote
 
         # check star bonus
         # 2.5 stars -> 25%
-        # 5 stars -> 100%
+        # 5 stars -> 50%
         star_bonus = 0.0
         stars = self.get_star_rating(username)
         if stars == 2.5:
             star_bonus = 25.0
         elif stars == 5.0:
-            star_bonus = 100.0
+            star_bonus = 50.0
         member_bonus += star_bonus
 
         bonus_weight = delegation_bonus + member_bonus
@@ -792,6 +802,7 @@ https://blurtblock.herokuapp.com/blurt/upvote
 
         return delegators
 
+    # OLD delegation list not in use
     def get_delegations(self):
         delegators = []
 
