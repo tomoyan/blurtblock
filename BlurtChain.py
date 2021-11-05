@@ -467,8 +467,12 @@ class BlurtChain:
 
         # add bonus weights
         weight = base_weight + delegation_bonus + member_bonus
+
         if weight > 100.0:
             weight = 100.0
+
+        # TEMP WEIGHT ADJUSTMENT
+        weight *= 0.8
 
         try:
             result = blurt.vote(weight, identifier, account=account)
