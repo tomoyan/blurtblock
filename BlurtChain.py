@@ -724,6 +724,7 @@ https://blurtblock.herokuapp.com/blurt/upvote
             'created': current_time,
             'vote_weight': is_upvoted["vote_weight"],
             'bonus_weight': bonus_weight,
+            'client_ip': self.client_ip,
         }
         self.save_data_fb("upvote_log", upvote_data)
 
