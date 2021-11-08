@@ -472,7 +472,7 @@ class BlurtChain:
             weight = 100.0
 
         # TEMP WEIGHT ADJUSTMENT
-        weight *= 0.8
+        weight *= 0.7
 
         try:
             result = blurt.vote(weight, identifier, account=account)
@@ -696,13 +696,13 @@ https://blurtblock.herokuapp.com/blurt/upvote
 
         # check star bonus
         # 2.5 stars -> 25%
-        # 5 stars -> 50%
+        # 5 stars -> 100%
         star_bonus = 0.0
         stars = self.get_star_rating(username)
         if stars == 2.5:
             star_bonus = 25.0
         elif stars == 5.0:
-            star_bonus = 50.0
+            star_bonus = 100.0
         member_bonus += star_bonus
 
         bonus_weight = delegation_bonus + member_bonus
@@ -911,8 +911,8 @@ https://blurtblock.herokuapp.com/blurt/upvote
         upvote_data = self.firebase.child(db_name).child(username).get()
 
         # Full and Half star counts
-        full = 50  # 100% vote weight
-        half = 25  # 25%+ vote weight
+        full_count = 200  # 100% vote weight
+        half_count = 100  # 25%+ vote weight
         stars = 0.0
         count = 0
 
@@ -925,12 +925,12 @@ https://blurtblock.herokuapp.com/blurt/upvote
                     count = value
 
         if count > 0:
-            if (count % full) == 0:
+            if (count % full_count) == 0:
                 stars = 100.0 / 20
-            elif (count % half) == 0:
+            elif (count % half_count) == 0:
                 stars = 50.0 / 20
             else:
-                stars = (count % full) / full * 5
+                stars = (count % full_count) / full_count * 5
 
         return float(f'{stars:.2f}')
 
