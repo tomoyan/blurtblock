@@ -26,7 +26,7 @@ def upvote_blog_entries_username(name):
         voted = ACCOUNT.has_voted(post)
 
         if not voted:
-            weight = 100.0
+            weight = 85.0
             identifier = post.authorperm
             # Upvote a post
             BLURT.vote(weight, identifier, account=ACCOUNT)

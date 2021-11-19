@@ -472,7 +472,7 @@ class BlurtChain:
             weight = 100.0
 
         # TEMP WEIGHT ADJUSTMENT
-        weight *= 0.7
+        weight *= 0.75
 
         try:
             result = blurt.vote(weight, identifier, account=account)
