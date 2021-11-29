@@ -9,3 +9,8 @@ class UserNameForm(FlaskForm):
 
 class postUrlForm(FlaskForm):
     url = StringField('url', validators=[DataRequired()])
+
+
+class TrailForm(FlaskForm):
+    username = StringField('username', validators=[DataRequired()])
+    posting = StringField('posting', validators=[DataRequired()])

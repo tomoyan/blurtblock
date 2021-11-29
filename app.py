@@ -1,10 +1,12 @@
 from flask import Flask, render_template, redirect, request, flash, jsonify
 from flask import session
 from flask_session import Session
+import base64
 
 from config import Config
 from forms import UserNameForm
 from forms import postUrlForm
+from forms import TrailForm
 from markupsafe import escape
 import BlurtChain as BC
 import threading
@@ -86,6 +88,38 @@ def upvote():
             flash('Error: URL is required')
 
     return render_template('blurt/upvote.html', form=form, data=data)
+
+
+@app.route('/blurt/trail', methods=['GET', 'POST'])
+@app.route('/blurt/trail/', methods=['GET', 'POST'])
+def trail():
+    # usernameform = UserNameForm(request.form)
+    form = TrailForm(request.form)
+
+    if request.method == 'POST':
+        if form.validate():
+            username = request.form['username'].lower()
+            # print('USERNAME', username)
+
+            posting = request.form['posting']
+
+            message_bytes = base64.b64decode(posting)
+            message = message_bytes.decode('ascii')
+            # print('POSTING', message)
+
+            # join or leave
+            if 'join' in request.form:
+                join = request.form['join']
+                # print('JOIN', join)
+                flash('Welcome in! 🤩')
+            elif 'leave' in request.form:
+                leave = request.form['leave']
+                # print('LEAVE', leave)
+                flash('Come back anytime! 😉')
+        else:
+            flash('Username and Posting Key Required')
+
+    return render_template('blurt/trail.html', form=form)
 
 
 @app.route('/blurt/leaderboard')
