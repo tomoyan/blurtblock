@@ -11,6 +11,7 @@ import random
 blurt_nodes = ['https://rpc.blurt.world']
 
 username = os.environ.get('USERNAME')
+INVESTOR = os.environ.get('INVESTOR')
 
 blurt = Blurt(blurt_nodes)
 account = Account(username, blockchain_instance=blurt)
@@ -48,10 +49,36 @@ def main():
     publish_post(rewards)
 
 
+def inv_tx(reward_bp):
+    db_name = 'inv_transaction'
+    today = datetime.now().strftime("%Y-%m-%d")
+    ratio = os.environ.get('INV_RATIO')
+    active_key = os.environ.get('ACTIVE_KEY')
+    blt = Blurt(blurt_nodes, keys=[active_key])
+    acc = Account(username, blockchain_instance=blt)
+
+    investor_bp = int(reward_bp * ratio / 100)
+
+    # TX BLURT
+    try:
+        acc.transfer(INVESTOR, investor_bp, 'BLURT', 'Thank You')
+    except Exception as err:
+        print('INV_TX_ERROR', err)
+    finally:
+        tx_data = {
+            'date': today,
+            'reward_bp': reward_bp,
+            'investor_bp': investor_bp,
+            'investor': INVESTOR,
+        }
+        db_prd.child(db_name).push(tx_data)
+
+
 def get_reward_budget():
     budget_bp = 0
     # Get 1 day curation reward in BP
     reward_bp = account.get_curation_reward(days=1)
+    inv_tx(reward_bp)
 
     budget_bp = int(reward_bp * PERCENT / 100)
 
@@ -109,6 +136,9 @@ def get_rewards(budget, delegations):
 
     # Rewards get divided by delegation %
     for key in delegations:
+        if key == INVESTOR:
+            continue
+
         # Base amount
         amount = (delegations[key] / total_bp) * budget
 
