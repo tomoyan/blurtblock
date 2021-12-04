@@ -349,6 +349,44 @@ class BlurtChain:
 
         return result
 
+    def check_last_ip(self, client_ip):
+        print('CHECK_LAST_IP', client_ip)
+        # 1 hour = 3600 sec
+        wait_time = 3600.0
+        last_vote = None
+        result = False
+
+        # get the last upvote data
+        db_name = 'upvote_log'
+        logs = self.firebase.child(db_name).get()
+
+        for log in logs.each():
+            value = log.val()
+            if value['client_ip'] == client_ip:
+                last_vote = value['created']
+                print(value['client_ip'])
+                print(value['username'])
+                print(value['created'])
+                print(value['vote_weight'])
+                print()
+
+        if last_vote is None:
+            result = True
+            return result
+
+        # check if last voted ip is more than wait_time
+        current_time = datetime.utcnow()
+        last_vote = datetime.strptime(last_vote, "%m/%d/%Y %H:%M:%S")
+        print('CURRENT_TIME', current_time)
+        print('LAST_VOTED', last_vote)
+
+        time_diff = current_time - last_vote
+
+        if time_diff.total_seconds() >= wait_time:
+            result = True
+
+        return result
+
     def check_last_upvote(self, username):
         # 24 hour = 86400 sec
         # 20 hour = 72000 sec
@@ -660,6 +698,14 @@ https://blurtblock.herokuapp.com/blurt/upvote
             data['message'] = f'Error: username @{username}'
             return data
 
+        # check last ip
+        print('SELF_CLIENT_IP', self.client_ip)
+        used_ip = self.check_last_ip(self.client_ip)
+        print('USED_IP?', used_ip)
+        if used_ip is False:
+            data['message'] = 'Error: Slow Mode ON. Please slow down'
+            return data
+
         # check last upvote
         can_vote = self.check_last_upvote(username)
         if can_vote is False:
@@ -728,7 +774,7 @@ https://blurtblock.herokuapp.com/blurt/upvote
 
         data = {
             'status': True,
-            'message': 'Thank You. Your post has been upvoted.'
+            'message': 'Thank You. This post has been upvoted.'
         }
 
         # UPVOTE REWARD COUNTS
