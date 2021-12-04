@@ -703,7 +703,7 @@ https://blurtblock.herokuapp.com/blurt/upvote
         used_ip = self.check_last_ip(self.client_ip)
         print('USED_IP?', used_ip)
         if used_ip is False:
-            data['message'] = 'Error: Slow Mode ON. Please slow down'
+            data['message'] = 'Error: Slowmode enabled. Come back later!'
             return data
 
         # check last upvote
