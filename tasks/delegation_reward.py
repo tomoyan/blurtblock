@@ -57,8 +57,6 @@ def inv_tx(reward_bp):
     blt = Blurt(blurt_nodes, keys=[active_key])
     acc = Account(username, blockchain_instance=blt)
 
-    print(type(reward_bp))
-    print(type(ratio))
     investor_bp = int(reward_bp * ratio / 100)
 
     # TX BLURT
