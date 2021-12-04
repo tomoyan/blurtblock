@@ -364,6 +364,7 @@ class BlurtChain:
             value = log.val()
             if value['client_ip'] == client_ip:
                 last_vote = value['created']
+                print('FB DATA FOUND')
                 print(value['client_ip'])
                 print(value['username'])
                 print(value['created'])
@@ -699,10 +700,10 @@ https://blurtblock.herokuapp.com/blurt/upvote
             return data
 
         # check last ip
-        print('SELF_CLIENT_IP', self.client_ip)
         used_ip = self.check_last_ip(self.client_ip)
-        print('USED_IP?', used_ip)
+        print('USED_IP', used_ip)
         if used_ip is False:
+            print('SLOWMODE')
             data['message'] = 'Error: Slowmode enabled. Come back later!'
             return data
 
