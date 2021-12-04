@@ -52,11 +52,13 @@ def main():
 def inv_tx(reward_bp):
     db_name = 'inv_transaction'
     today = datetime.now().strftime("%Y-%m-%d")
-    ratio = os.environ.get('INV_RATIO')
+    ratio = int(os.environ.get('INV_RATIO'))
     active_key = os.environ.get('ACTIVE_KEY')
     blt = Blurt(blurt_nodes, keys=[active_key])
     acc = Account(username, blockchain_instance=blt)
 
+    print(type(reward_bp))
+    print(type(ratio))
     investor_bp = int(reward_bp * ratio / 100)
 
     # TX BLURT
