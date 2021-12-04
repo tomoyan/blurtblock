@@ -511,11 +511,10 @@ class BlurtChain:
         img_url = gif_img or default_img
 
         comment_body = f"""
-Thank you for using my upvote tool 🙂
-Your post has been upvoted ({vote_weight} %)
+### Your post has been upvoted ({vote_weight} %)
 {img_url}
 Delegate more BP for better support and daily BLURT reward 😉
-@tomoyan
+Thank you 🙂 @tomoyan
 https://blurtblock.herokuapp.com/blurt/upvote
         """
 
