@@ -510,8 +510,7 @@ class BlurtChain:
         gif_img = gif_img.split('?', 1)[0]
         img_url = gif_img or default_img
 
-        comment_body = f"""
-### Your post has been upvoted ({vote_weight} %)
+        comment_body = f"""### Your post has been upvoted ({vote_weight} %)
 {img_url}
 Delegate more BP for better support and daily BLURT reward 😉
 Thank you 🙂 @tomoyan
