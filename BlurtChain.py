@@ -696,7 +696,7 @@ https://blurtblock.herokuapp.com/blurt/upvote
         # check ignore_list
         is_ignored = self.is_ignored(username)
         if is_ignored:
-            data['message'] = f'Error: username @{username}'
+            data['message'] = f'Error: Oops, something went wrong {username}'
             return data
 
         # check last ip
