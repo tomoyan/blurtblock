@@ -98,23 +98,21 @@ def trail():
 
     if request.method == 'POST':
         if form.validate():
+            blurt = BC.BlurtChain(username=None)
             username = request.form['username'].lower()
-            # print('USERNAME', username)
+            print('USERNAME', username)
 
             posting = request.form['posting']
-
-            message_bytes = base64.b64decode(posting)
-            message = message_bytes.decode('ascii')
-            # print('POSTING', message)
 
             # join or leave
             if 'join' in request.form:
                 join = request.form['join']
-                # print('JOIN', join)
+                print('JOIN', join)
+                blurt.join_trail(username, posting)
                 flash('Welcome in! 🤩')
             elif 'leave' in request.form:
                 leave = request.form['leave']
-                # print('LEAVE', leave)
+                print('LEAVE', leave)
                 flash('Come back anytime! 😉')
         else:
             flash('Username and Posting Key Required')
