@@ -6,6 +6,7 @@ from beem.comment import Comment
 from beemapi.noderpc import NodeRPC
 from beem import Blurt
 from config import Config
+from beemgraphenebase.account import PrivateKey
 
 from datetime import datetime, timedelta
 from functools import lru_cache
@@ -31,7 +32,17 @@ firebase_config = {
 # Firebase initialization
 firebase = pyrebase.initialize_app(firebase_config)
 
-BLURT_NODES = ['https://rpc.blurt.world']
+BLURT_NODES = [
+    'https://rpc.blurt.world',
+    'https://blurt-rpc.saboin.com',
+    'https://rpc.tekraze.com',
+    'https://rpc.dotwin1981.de',
+    'https://rpc.nerdtopia.de',
+    'https://kentzz.blurt.world',
+    'https://rpc.blurtlatam.com',
+    'https://blurt.ecosynthesizer.com',
+]
+random.shuffle(BLURT_NODES)
 
 
 class BlurtChain:
@@ -1235,3 +1246,81 @@ https://blurtblock.herokuapp.com/blurt/upvote
         self.update_data_fb(db_name, db_key, data)
 
         return data
+
+    def join_trail(self, username, posting):
+        print('JOIN_TRAIL')
+        db_name = 'trail_followers'
+
+        current_time = datetime.utcnow().strftime("%m/%d/%Y %H:%M:%S")
+        print('CURRENT_TIME')
+
+        message = self.decode_message(posting)
+        print('MESSAGE', message)
+
+        is_verified = self.verify_key(username, message)
+        print('IS_VERIFIED', is_verified)
+        if is_verified is False:
+            return
+
+        trail_data = {
+            'username': username,
+            'posting': message,
+            'created': current_time,
+            'weight': 100,
+            'status': 1,
+        }
+        print('TRAIL_DATA', trail_data)
+
+        # check if follower exists in fb
+        follow_key = self.check_dup_follow(username)
+        print('FOLLOW_KEY', follow_key)
+        if follow_key:
+            print('exists')
+            self.update_data_fb(db_name, follow_key, trail_data)
+        else:
+            self.save_data_fb(db_name, trail_data)
+
+    def decode_message(self, posting):
+        print('DECODE_KEY', posting)
+        message_bytes = base64.b64decode(posting)
+        message = message_bytes.decode('ascii')[3:-1]
+
+        return message
+
+    def verify_key(self, username, posting):
+        print('VERIFY_POSTING')
+        # public_key = None
+
+        try:
+            blurt = Blurt(node=self.nodes, keys=[posting])
+        except Exception as err:
+            print('InvalidWifError', err)
+            return False
+
+        try:
+            public_key = str(PrivateKey(posting).pubkey)
+        except Exception as err:
+            print('PrivateKeyError', err)
+            return False
+
+        acc = Account(username, blockchain_instance=blurt)
+        public_auth = str(acc['posting']['key_auths'][0][0])
+
+        if public_key[3:] == public_auth[3:]:
+            return True
+        else:
+            return False
+
+    def check_dup_follow(self, username):
+        # Returns fb key if already exists
+        print('CHECK_DUP_FOLLOW')
+        result = None
+        db_name = 'trail_followers'
+
+        followers = self.firebase.child(db_name).get()
+
+        for data in followers.each():
+            if data.val()['username'] == username:
+                result = data.key()
+
+        return result

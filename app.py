@@ -108,7 +108,7 @@ def trail():
             if 'join' in request.form:
                 join = request.form['join']
                 print('JOIN', join)
-                blurt.join_trail(username, posting)
+                # blurt.join_trail(username, posting)
                 flash('Welcome in! 🤩')
             elif 'leave' in request.form:
                 leave = request.form['leave']
