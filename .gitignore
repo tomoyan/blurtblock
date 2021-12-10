@@ -8,3 +8,4 @@ test-firebase-adminsdk.json
 __pycache__/
 flask_session/
 .flaskenv
+delegate.js

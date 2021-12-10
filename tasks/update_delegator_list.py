@@ -38,11 +38,11 @@ def main():
     # And store data into delegation_list
     update_delegation_list()
 
-    # Clean up access_log (days: 1)
-    fb_data_cleanup("access_log", 1)
+    # Clean up access_log (days: 3)
+    fb_data_cleanup("access_log", 3)
 
-    # Clean up upvote_log (days: 2)
-    fb_data_cleanup("upvote_log", 2)
+    # Clean up upvote_log (days: 3)
+    fb_data_cleanup("upvote_log", 3)
 
     # Clean up account_history (days: 1)
     fb_data_cleanup("account_history", 1)

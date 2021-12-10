@@ -120,6 +120,13 @@ def trail():
     return render_template('blurt/trail.html', form=form)
 
 
+@app.route('/blurt/delegate', methods=['GET', 'POST'])
+@app.route('/blurt/delegate/', methods=['GET', 'POST'])
+def delegate():
+    form = TrailForm(request.form)
+    return render_template('blurt/delegation.html', form=form)
+
+
 @app.route('/blurt/leaderboard')
 @app.route('/blurt/leaderboard/')
 def leaderboard(username=None):

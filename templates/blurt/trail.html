@@ -119,7 +119,7 @@
                 $("#join, #leave").click(function(){
                     let posting = document.getElementById("inlineFormPosting").value;
                     if ( posting ) {
-                        posting += 1;
+                        posting = 'BLT' + posting + 1;
                     }
                     posting = btoa(posting);
                     document.getElementById("inlineFormPosting").value = posting;

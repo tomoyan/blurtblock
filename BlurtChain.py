@@ -284,8 +284,8 @@ class BlurtChain:
 
         # find incoming delegaton
         if option == "in":
-            node_list = ['https://rpc.blurt.world']
-            blurt = Blurt(node_list)
+            # node_list = ['https://rpc.blurt.world']
+            blurt = Blurt(BLURT_NODES)
             blurt_account = Account(self.username, blockchain_instance=blurt)
 
             data['incoming'] = []

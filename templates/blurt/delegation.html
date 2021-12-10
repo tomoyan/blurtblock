@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- favicon -->
+        {% include 'favicon.html' %}
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}"> -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/blurt_style.css') }}">
+
+        <!-- fontawesome kit -->
+        <script src="{{ url_for('static', filename='js/fontawesome.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/blurt.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/ob.js') }}"></script>
+        <!-- <script src="{{ url_for('static', filename='js/delegate.js') }}"></script> -->
+
+        <!-- Primary Meta Tags -->
+        {% include 'metatags.html' %}
+        <!-- Google Analytics -->
+        {% include 'gatag.html' %}
+
+    </head>
+    <body>
+
+        <div class="container">
+
+            <!-- top navigation menu -->
+            {% include 'navbar.html' %}
+
+            <div class="jumbotron bg-blurt text-white">
+                <img src="{{ url_for('static', filename='images/logo.png') }}"
+                    width="150" alt="blurt logo" class="img-thumbnail">
+                <h1 class="display-4">BP Delegation Tool (beta)</h1>
+                <p class="lead">Delegate BP to @tomoyan</p>
+                <hr class="my-4">
+                <p>Private active key is required to sign transactions but never stored anywhere</p>
+            </div>
+
+            <!-- flash alert -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for message in messages %}
+                <!-- Join Trail -->
+                {% if "Welcome" in message[1]: %}
+                <div class="alert alert-info" role="alert">
+                    {{ message[1] }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endif %}
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+            <!-- Delegation Input Form -->
+            <!-- used to protect the form against csrf attacks -->
+            {{ form.hidden_tag() }}
+
+            <div class="form-row align-items-center">
+                <div class="col-auto">
+                    <label for="inlineFormUsername">Username</label>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">@</div>
+                        </div>
+                        <input type="text" class="form-control" id="inlineFormUsername"
+                        name="username" placeholder="Username" required>
+                    </div>
+                </div>
+
+                <div class="col-auto">
+                    <label for="inlineFormVests">Amount (Vests)</label>
+                    <div class="input-group mb-2">
+                        <input type="text" class="form-control" id="inlineFormVests"
+                        name="amount" placeholder="1000" value="1000" required>
+                    </div>
+                </div>
+
+                <div class="col-auto">
+                    <label for="inlineFormActive">Private Active Key</label>
+                    <div class="input-group mb-2">
+                        <input type="password" class="form-control" id="inlineFormWif"
+                        name="wif" placeholder="Private Active Key" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row align-items-center">
+                <div class="col-auto">
+                    <button name="delegate" id="delegate" type="submit"
+                        class="btn btn-blurt mb-2" onclick="delegateBP()">
+                        Delegate
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <script src="{{ url_for('static', filename='js/jquery-3.5.1.min.js') }}"></script>
+        <!-- show spinner when join button is clicked -->
+<!--         <script>
+            $(document).ready(function(){
+                $("#join, #leave").click(function(){
+                    let posting = document.getElementById("inlineFormActive").value;
+                    if ( posting ) {
+                        posting = 'BLT' + posting + 1;
+                    }
+                    posting = btoa(posting);
+                    document.getElementById("inlineFormActive").value = posting;
+                    // console.log(document.getElementById("inlineFormActive").value);
+                    $("#submitSpinners").removeClass('invisible');
+                    $("#submitSpinners").addClass('visible');
+                });
+            });
+        </script> -->
+
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        {% include 'bootstrap_js.html' %}
+      </body>
+
+    <!-- Footer -->
+    {% include 'footer.html' %}
+
+</html>
