@@ -264,8 +264,7 @@ Give it a try! Anybody can use it even if you don't delegate.
 {table}
 
 ## How to delegate BLURT POWER(BP)? Here 👇
-[Blurt Passive Income: Delegation]({post_url})
-{post_url}
+[Delegate BP](https://blurtblock.herokuapp.com/blurt/delegate/)
 
 Thank you for your support!
 Have a Blurt Day :)
