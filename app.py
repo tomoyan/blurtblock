@@ -7,6 +7,7 @@ from config import Config
 from forms import UserNameForm
 from forms import postUrlForm
 from forms import TrailForm
+from forms import DelegateForm
 from markupsafe import escape
 import BlurtChain as BC
 import threading
@@ -123,8 +124,24 @@ def trail():
 @app.route('/blurt/delegate', methods=['GET', 'POST'])
 @app.route('/blurt/delegate/', methods=['GET', 'POST'])
 def delegate():
-    form = TrailForm(request.form)
-    return render_template('blurt/delegation.html', form=form)
+    data = {}
+    form = DelegateForm(request.form)
+
+    if request.method == 'POST':
+        if form.validate():
+            BLT = BC.BlurtChain(username=None)
+            data['username'] = request.form['username']
+            data['amount'] = int(request.form['amount'])
+            data['wif'] = request.form['wif']
+
+            message_bytes = base64.b64decode(data['wif'])
+            message = message_bytes.decode('ascii')
+            data['wif'] = message
+
+            bp = BLT.blurt.bp_to_vests(data['amount'])
+            bp = f'{bp:.6f}'
+
+    return render_template('blurt/delegation.html', form=form, data=data)
 
 
 @app.route('/blurt/leaderboard')

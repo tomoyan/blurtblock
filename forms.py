@@ -14,3 +14,9 @@ class postUrlForm(FlaskForm):
 class TrailForm(FlaskForm):
     username = StringField('username', validators=[DataRequired()])
     posting = StringField('posting', validators=[DataRequired()])
+
+
+class DelegateForm(FlaskForm):
+    username = StringField('username', validators=[DataRequired()])
+    amount = StringField('amount', validators=[DataRequired()])
+    wif = StringField('wif', validators=[DataRequired()])
