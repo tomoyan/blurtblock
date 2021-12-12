@@ -39,7 +39,12 @@
                 <h1 class="display-4">BP Delegation Tool (beta)</h1>
                 <p class="lead">Delegate BP to @tomoyan</p>
                 <hr class="my-4">
-                <p>Private active key is required to sign transactions but never stored anywhere</p>
+                <p>
+                    This amount will replace the existing delegation (if you have).<br>
+                    If you like to increase BP delegation, enter the total BP you like to delegate.<br>
+                    (For example, if you delegated 1000 BP and want to increase 500 BP, type in 1500 BP)<br>
+                    Private active key is required to sign transactions but never stored anywhere
+                </p>
             </div>
 
             <!-- flash alert -->
@@ -128,7 +133,7 @@
 
     <div class="col-md-4 mb-3">
       <label for="inlineFormVests">Amount (BP)</label>
-      <input type="text" class="form-control" id="inlineFormVests" name="amount" placeholder="1000" required>
+      <input type="text" class="form-control" id="inlineFormVests" name="amount" placeholder="10000" required>
       <div class="invalid-feedback">
         Amount is required.
       </div>
