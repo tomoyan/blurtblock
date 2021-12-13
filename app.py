@@ -131,11 +131,17 @@ def delegate():
         if form.validate():
             BLT = BC.BlurtChain(username=None)
             data['username'] = request.form['username']
-            data['amount'] = int(request.form['amount'])
             data['wif'] = request.form['wif']
 
-            bp = BLT.blurt.bp_to_vests(data['amount'])
-            bp = f'{bp:.6f}'
+            # Convert BP string into vests
+            try:
+                data['amount'] = int(request.form['amount'])
+                vests = BLT.blurt.bp_to_vests(data['amount'])
+                vests = f'{vests:.6f}'
+                data['amount'] = vests
+            except Exception as err:
+                print('Exception', err)
+                data['amount'] = '0.000000'
 
     return render_template('blurt/delegation.html', form=form, data=data)
 

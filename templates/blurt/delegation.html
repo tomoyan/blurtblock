@@ -36,7 +36,7 @@
             <div class="jumbotron bg-blurt text-white">
                 <img src="{{ url_for('static', filename='images/logo.png') }}"
                     width="150" alt="blurt logo" class="img-thumbnail">
-                <h1 class="display-4">BP Delegation Tool (beta)</h1>
+                <h1 class="display-4">BP Delegation Tool</h1>
                 <p class="lead">Delegate BP to @tomoyan</p>
                 <hr class="my-4">
                 <p>
@@ -113,6 +113,9 @@
                 </script>
                 {% endblock %}
             {% endif %}
+
+            <!-- Show delegation result alert -->
+            <div id="delegationResult"></div>
 
             <form action="{{ url_for('delegate') }}" method="post" class="needs-validation" novalidate>
               {{ form.hidden_tag() }}
