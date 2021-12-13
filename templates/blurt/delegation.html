@@ -40,10 +40,9 @@
                 <p class="lead">Delegate BP to @tomoyan</p>
                 <hr class="my-4">
                 <p>
-                    This amount will replace the existing delegation (if you have).<br>
+                    The amount will replace existing delegation (if you have).<br>
                     If you like to increase BP delegation, enter the total BP you like to delegate.<br>
-                    (For example, if you delegated 1000 BP and want to increase 500 BP, type in 1500 BP)<br>
-                    Private active key is required to sign transactions but never stored anywhere
+                    (For example, if you delegated 1000 BP and want to increase by 500 BP, type in 1500)<br>
                 </p>
             </div>
 
@@ -132,7 +131,8 @@
     </div>
 
     <div class="col-md-4 mb-3">
-      <label for="inlineFormVests">Amount (BP)</label>
+      <label for="inlineFormVests" data-toggle="tooltip"
+        title="The amount will replace existing delegation"><u>Amount (BP)</u> ℹ️</label>
       <input type="text" class="form-control" id="inlineFormVests" name="amount" placeholder="10000" required>
       <div class="invalid-feedback">
         Amount is required.
@@ -140,7 +140,9 @@
     </div>
 
     <div class="col-md-4 mb-3">
-      <label for="inlineFormWif">Private Active Key</label>
+      <label for="inlineFormWif" data-toggle="tooltip"
+        title="Active key is required to sign transactions, your data will never be stored">
+        <u>Private Active Key</u></label>
       <input type="password" class="form-control" id="inlineFormWif" name="wif" placeholder="Private Active Key" required>
       <div class="invalid-feedback">
         Private active key is required.
