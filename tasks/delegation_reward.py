@@ -217,10 +217,8 @@ def publish_post(rewards):
     today = datetime.now().strftime("%Y-%m-%d")
     title = f'Daily Delegation Payout - {today}'
     tags = ['blurtblock', 'delegation', 'rewards', 'blurt']
-    base_url = 'https://blurt.blog'
-    permalink = '@tomoyan/how-to-blurt-passive-income-daily-payout-report'
-    post_url = f'{base_url}/{permalink}'
     leaderboard = 'https://blurtblock.herokuapp.com/blurt/leaderboard'
+    delegate_url = 'https://blurtblock.herokuapp.com/blurt/delegate'
 
     main_img = fb_get_main_image()
 
@@ -237,9 +235,9 @@ def publish_post(rewards):
 ![0.png]({main_img})
 ## Effective Blurt Power: {token_power}
 <center>
-[![](https://i.imgur.com/f7PG7OO.png)](https://twitter.com/tomoyanTweet)
+[![](https://i.imgur.com/AmarQ5N.png)](https://tinyurl.com/twitter-tomoyan)
 </center>
-## Everyday is a BLURT day if you delegate your BP
+## Everyday is a BLURT day if you [delegate your BP]({delegate_url})
 
 **Star Bonus**: You will receive stars for using upvote.
 5 Stars - guarantee 100%
