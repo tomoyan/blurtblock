@@ -40,9 +40,9 @@
                 <p class="lead">Delegate BP to @tomoyan</p>
                 <hr class="my-4">
                 <p>
-                    The amount will replace existing delegation (if you have).<br>
-                    If you like to increase BP delegation, enter the total BP you like to delegate.<br>
-                    (For example, if you delegated 1000 BP and want to increase by 500 BP, type in 1500)<br>
+                    Entered amount will replace existing delegation.<br>
+                    If you like to increase BP delegation, enter total BP you want to delegate.<br>
+                    (For example, if you delegated 1000 BP before and want to increase by 500 BP, type in 1500)<br>
                 </p>
             </div>
 
@@ -114,87 +114,56 @@
                 {% endblock %}
             {% endif %}
 
-<form action="{{ url_for('delegate') }}" method="post" class="needs-validation" novalidate>
-  {{ form.hidden_tag() }}
-  <div class="form-row">
-    <div class="col-md-4 mb-3">
-      <label for="inlineFormUsername">Username</label>
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text" id="inputGroupPrepend">@</span>
-        </div>
-        <input type="text" class="form-control" id="inlineFormUsername" name="username" placeholder="Username" aria-describedby="inputGroupPrepend" required>
-        <div class="invalid-feedback">
-          Username is required.
-        </div>
-      </div>
-    </div>
+            <form action="{{ url_for('delegate') }}" method="post" class="needs-validation" novalidate>
+              {{ form.hidden_tag() }}
+              <div class="form-row">
+                <div class="col-md-4 mb-3">
+                  <label class="font-weight-light" for="inlineFormUsername">Username</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="inputGroupPrepend">@</span>
+                    </div>
+                    <input type="text" class="form-control" id="inlineFormUsername" name="username"
+                        placeholder="Username" aria-describedby="inputGroupPrepend" required>
+                    <div class="invalid-feedback">
+                      Username is required.
+                    </div>
+                  </div>
+                </div>
 
-    <div class="col-md-4 mb-3">
-      <label for="inlineFormVests" data-toggle="tooltip"
-        title="The amount will replace existing delegation"><u>Amount (BP)</u> ℹ️</label>
-      <input type="text" class="form-control" id="inlineFormVests" name="amount" placeholder="10000" required>
-      <div class="invalid-feedback">
-        Amount is required.
-      </div>
-    </div>
+                <div class="col-md-4 mb-3">
+                  <label class="font-weight-light" for="inlineFormVests" data-toggle="tooltip"
+                    title="This amount will replace current delegation"><u>Amount (BP)</u>
+                    <i class="fas fa-exclamation-circle"></i>
+                  </label>
+                  <input type="text" class="form-control" id="inlineFormVests" name="amount"
+                    placeholder="10000" required>
+                  <div class="invalid-feedback">
+                    Amount is required to replace current delegation.
+                  </div>
+                </div>
 
-    <div class="col-md-4 mb-3">
-      <label for="inlineFormWif" data-toggle="tooltip"
-        title="Active key is required to sign transactions, your data will never be stored">
-        <u>Private Active Key</u></label>
-      <input type="password" class="form-control" id="inlineFormWif" name="wif" placeholder="Private Active Key" required>
-      <div class="invalid-feedback">
-        Private active key is required.
-      </div>
-    </div>
+                <div class="col-md-4 mb-3">
+                  <label class="font-weight-light" for="inlineFormWif" data-toggle="tooltip"
+                    title="Active key is required to sign transaction, data will never be stored">
+                    <u>Private Active Key</u>
+                    <i class="fas fa-exclamation-circle"></i>
+                  </label>
+                  <input type="password" class="form-control" id="inlineFormWif" name="wif"
+                    placeholder="Private Active Key" required>
+                  <div class="invalid-feedback">
+                    Private active key is required to sign transaction.
+                  </div>
+                </div>
 
-  </div>
+              </div>
 
-  <button class="btn btn-blurt" type="submit">Delegate</button>
-</form>
-
-<!-- <script>
-// Example starter JavaScript for disabling form submissions if there are invalid fields
-(function() {
-  'use strict';
-  window.addEventListener('load', function() {
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    var forms = document.getElementsByClassName('needs-validation');
-    // Loop over them and prevent submission
-    var validation = Array.prototype.filter.call(forms, function(form) {
-      form.addEventListener('submit', function(event) {
-        if (form.checkValidity() === false) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-        form.classList.add('was-validated');
-      }, false);
-    });
-  }, false);
-})();
-</script> -->
+              <button class="btn btn-blurt float-right" type="submit">Delegate</button>
+            </form>
 
         </div>
 
         <script src="{{ url_for('static', filename='js/jquery-3.5.1.min.js') }}"></script>
-        <!-- show spinner when join button is clicked -->
-<!--         <script>
-            $(document).ready(function(){
-                $("#join, #leave").click(function(){
-                    let posting = document.getElementById("inlineFormActive").value;
-                    if ( posting ) {
-                        posting = 'BLT' + posting + 1;
-                    }
-                    posting = btoa(posting);
-                    document.getElementById("inlineFormActive").value = posting;
-                    // console.log(document.getElementById("inlineFormActive").value);
-                    $("#submitSpinners").removeClass('invisible');
-                    $("#submitSpinners").addClass('visible');
-                });
-            });
-        </script> -->
-
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
         {% include 'bootstrap_js.html' %}
       </body>

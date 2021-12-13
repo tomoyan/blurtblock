@@ -134,10 +134,6 @@ def delegate():
             data['amount'] = int(request.form['amount'])
             data['wif'] = request.form['wif']
 
-            message_bytes = base64.b64decode(data['wif'])
-            message = message_bytes.decode('ascii')
-            data['wif'] = message
-
             bp = BLT.blurt.bp_to_vests(data['amount'])
             bp = f'{bp:.6f}'
 
