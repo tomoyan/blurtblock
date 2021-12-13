@@ -135,7 +135,8 @@ def delegate():
 
             # Convert BP string into vests
             try:
-                data['amount'] = int(request.form['amount'])
+                data['BP'] = int(request.form['amount'])
+                data['amount'] = data['BP']
                 vests = BLT.blurt.bp_to_vests(data['amount'])
                 vests = f'{vests:.6f}'
                 data['amount'] = vests
