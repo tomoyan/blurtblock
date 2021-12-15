@@ -563,7 +563,7 @@ class BlurtChain:
         comment_body = f"""Your post has been upvoted ({vote_weight} %)
 {img_url}
 Delegate more BP for better support and daily BLURT reward 😉
-[Delegate Here](https://blurtblock.herokuapp.com/blurt/delegate/)
+[Delegate BP Here](https://blurtblock.herokuapp.com/blurt/delegate/)
 Thank you 🙂 @tomoyan
 https://blurtblock.herokuapp.com/blurt/upvote
         """
