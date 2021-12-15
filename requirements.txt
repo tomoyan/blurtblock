@@ -9,6 +9,7 @@ cffi==1.14.5
 chardet==3.0.4
 click==7.1.2
 click-shell==2.0
+cryptocode==0.1
 cryptography==3.4.6
 diff-match-patch==20200713
 Dumper==1.2.0
@@ -39,6 +40,7 @@ pycparser==2.20
 pycryptodome==3.9.9
 pycryptodomex==3.9.8
 pylibscrypt==1.8.0
+pyparsing==2.4.7
 Pyrebase4==4.4.1
 python-dateutil==2.8.1
 python-dotenv==0.15.0

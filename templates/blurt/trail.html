@@ -72,7 +72,7 @@
                 {{ form.hidden_tag() }}
 
                 <div class="form-row align-items-center">
-                    <div class="col-auto">
+                    <div class="col-md-4 mb-3">
                         <label class="sr-only" for="inlineFormUsername">Username</label>
                         <div class="input-group mb-2">
                             <div class="input-group-prepend">
@@ -82,7 +82,7 @@
                             name="username" placeholder="Username">
                         </div>
                     </div>
-                    <div class="col-auto">
+                    <div class="col-md-4 mb-3">
                         <label class="sr-only" for="inlineFormPosting">Private Posting Key</label>
                         <div class="input-group mb-2">
                             <input type="password" class="form-control" id="inlineFormPosting"
@@ -90,18 +90,17 @@
                         </div>
                     </div>
 
-                    <div class="col-auto">
+                    <div class="col-md-4 mb-3">
                         <button name="join" id="join" type="submit"
                             class="btn btn-blurt mb-2" disabled>
                             Join
                         </button>
-                    </div>
-                    <div class="col-auto">
                         <button name="leave" id="leave" type="submit"
                             class="btn btn-outline-warning mb-2" disabled>
                             Leave
                         </button>
                     </div>
+
                     <div class="col-auto mb-2 invisible" id="submitSpinners">
                         <div class="spinner-border spinner-border-sm text-blurt" role="status">
                             <span class="sr-only align-middle">Loading...</span>
