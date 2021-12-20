@@ -1,7 +1,6 @@
 from flask import Flask, render_template, redirect, request, flash, jsonify
 from flask import session
 from flask_session import Session
-import base64
 
 from config import Config
 from forms import UserNameForm
@@ -83,6 +82,13 @@ def upvote():
                 blurt.client_ip = forwarded_for[0]
 
             result = blurt.process_upvote(url)
+
+            # Curation trail_upvote threading
+            # if result['status']:
+            #     threading.Thread(
+            #         target=blurt.trail_upvote,
+            #         args=[result['identifier']]).start()
+
             flash(result['message'])
         else:
             # check empty url
@@ -99,22 +105,18 @@ def trail():
 
     if request.method == 'POST':
         if form.validate():
-            blurt = BC.BlurtChain(username=None)
             username = request.form['username'].lower()
-            print('USERNAME', username)
+            blurt = BC.BlurtChain(username=username)
 
             posting = request.form['posting']
 
             # join or leave
             if 'join' in request.form:
-                join = request.form['join']
-                print('JOIN', join)
-                # blurt.join_trail(username, posting)
-                flash('Welcome in! 🤩')
+                result = blurt.join_trail(username, posting)
+                flash(result)
             elif 'leave' in request.form:
-                leave = request.form['leave']
-                print('LEAVE', leave)
-                flash('Come back anytime! 😉')
+                result = blurt.leave_trail(username)
+                flash(result)
         else:
             flash('Username and Posting Key Required')
 

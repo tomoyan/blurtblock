@@ -18,6 +18,7 @@ import json
 from markdown import markdown
 from operator import itemgetter
 import concurrent.futures
+import cryptocode
 
 # Firebase configuration
 serviceAccountCredentials = json.loads(
@@ -787,7 +788,8 @@ https://blurtblock.herokuapp.com/blurt/upvote
 
         data = {
             'status': True,
-            'message': 'Thank You. This post has been upvoted.'
+            'message': 'Thank You. This post has been upvoted.',
+            'identifier': identifier
         }
 
         # UPVOTE REWARD COUNTS
@@ -1248,73 +1250,127 @@ https://blurtblock.herokuapp.com/blurt/upvote
 
         return data
 
-    def join_trail(self, username, posting):
-        print('JOIN_TRAIL')
+    def leave_trail(self, username):
         db_name = 'trail_followers'
+        result = {
+            'status': 0,
+            'heading': 'Oops! Something went wrong.',
+            'message': 'Error: ',
+        }
+
+        if self.username is None:
+            result['message'] += 'Account not found'
+            return result
 
         current_time = datetime.utcnow().strftime("%m/%d/%Y %H:%M:%S")
-        print('CURRENT_TIME')
+
+        follow_key = self.get_follow_key(username)
+        if follow_key:
+            trail_data = {
+                'username': username,
+                'created': current_time,
+                'status': 0,
+            }
+            self.update_data_fb(db_name, follow_key, trail_data)
+
+            result['status'] = 1
+            result['heading'] = 'Successfully removed from the trail'
+            result['message'] = 'Come back anytime! 😉'
+        else:
+            result['message'] += 'Account not found'
+
+        return result
+
+    def join_trail(self, username, posting):
+        db_name = 'trail_followers'
+        result = {
+            'status': 0,
+            'heading': 'Oops! Something went wrong.',
+            'message': 'Error: '
+        }
+
+        if self.username is None:
+            result['message'] += 'Account not found'
+            return result
+
+        current_time = datetime.utcnow().strftime("%m/%d/%Y %H:%M:%S")
 
         message = self.decode_message(posting)
-        print('MESSAGE', message)
 
         is_verified = self.verify_key(username, message)
-        print('IS_VERIFIED', is_verified)
-        if is_verified is False:
-            return
+        if is_verified['status'] is False:
+            result = is_verified
+            return result
 
         trail_data = {
             'username': username,
-            'posting': message,
+            'posting': self.encrypt_message(message),
             'created': current_time,
             'weight': 100,
             'status': 1,
         }
-        print('TRAIL_DATA', trail_data)
 
         # check if follower exists in fb
-        follow_key = self.check_dup_follow(username)
-        print('FOLLOW_KEY', follow_key)
+        follow_key = self.get_follow_key(username)
         if follow_key:
-            print('exists')
             self.update_data_fb(db_name, follow_key, trail_data)
         else:
             self.save_data_fb(db_name, trail_data)
 
+        result['status'] = 1
+        result['heading'] = 'Successfully join the trail'
+        result['message'] = 'Welcome in! 🤩'
+
+        return result
+
     def decode_message(self, posting):
-        print('DECODE_KEY', posting)
         message_bytes = base64.b64decode(posting)
         message = message_bytes.decode('ascii')[3:-1]
 
         return message
 
+    def encrypt_message(self, posting):
+        message = cryptocode.encrypt(posting, Config.FB_SERVICEACCOUNT)
+
+        return message
+
+    def decrypt_message(self, posting):
+        message = cryptocode.decrypt(posting, Config.FB_SERVICEACCOUNT)
+
+        return message
+
     def verify_key(self, username, posting):
-        print('VERIFY_POSTING')
-        # public_key = None
+        result = {
+            'status': False,
+            'message': 'Error: '
+        }
 
         try:
             blurt = Blurt(node=self.nodes, keys=[posting])
         except Exception as err:
-            print('InvalidWifError', err)
-            return False
+            result['message'] += f'Invalid wif {str(err)}'
+            return result
 
         try:
             public_key = str(PrivateKey(posting).pubkey)
         except Exception as err:
-            print('PrivateKeyError', err)
-            return False
+            result['message'] += f'Private key error {str(err)}'
+            return result
 
         acc = Account(username, blockchain_instance=blurt)
         public_auth = str(acc['posting']['key_auths'][0][0])
 
+        # Compare public and private post keys
         if public_key[3:] == public_auth[3:]:
-            return True
+            result['status'] = True
+            result['message'] = 'OK'
         else:
-            return False
+            result['message'] += 'Wrong Private Key'
 
-    def check_dup_follow(self, username):
+        return result
+
+    def get_follow_key(self, username):
         # Returns fb key if already exists
-        print('CHECK_DUP_FOLLOW')
         result = None
         db_name = 'trail_followers'
 
@@ -1325,3 +1381,26 @@ https://blurtblock.herokuapp.com/blurt/upvote
                 result = data.key()
 
         return result
+
+    def trail_upvote(self, identifier=None):
+        weight = 100.0
+        voting_power = 80.0
+        db_name = 'trail_followers'
+
+        followers = self.firebase.child(db_name).get()
+        for follower in followers.each():
+            if not follower.val()['status']:
+                continue
+
+            username = follower.val()['username']
+            posting = self.decrypt_message(follower.val()['posting'])
+
+            try:
+                BLT = Blurt(self.nodes, keys=[posting])
+                ACC = Account(username, blockchain_instance=BLT)
+                if ACC.get_voting_power() < voting_power:
+                    continue
+
+                BLT.vote(weight, identifier, account=ACC)
+            except Exception as err:
+                print('TRAIL_VOTE_ERR', username, err)

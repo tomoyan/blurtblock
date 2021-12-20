@@ -9,3 +9,4 @@ __pycache__/
 flask_session/
 .flaskenv
 delegate.js
+trail.js
