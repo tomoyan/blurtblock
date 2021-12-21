@@ -78,33 +78,43 @@
             {% endwith %}
 
             <!-- Username Input Form -->
-            <form action="{{ url_for('trail') }}" method="post">
+            <form action="{{ url_for('trail') }}" method="post" class="needs-validation" novalidate>
                 <!-- used to protect the form against csrf attacks -->
                 {{ form.hidden_tag() }}
-                <div class="form-row align-items-center">
+                <div class="form-row align-items-center m-3">
                     <div class="col-md-4 mb-3">
-                        <label class="sr-only" for="inlineFormUsername">Username</label>
-                        <div class="input-group mb-2">
+                        <label class="font-weight-light" for="inlineFormUsername">Username</label>
+                        <div class="input-group">
                             <div class="input-group-prepend">
                                 <div class="input-group-text">@</div>
                             </div>
                             <input type="text" class="form-control" id="inlineFormUsername"
-                            name="username" placeholder="Username">
+                            name="username" placeholder="Username" required>
+                            <div class="invalid-feedback">
+                              Username is required.
+                            </div>
                         </div>
                     </div>
 
                     <div class="col-md-4 mb-3">
-                        <label class="sr-only" for="inlineFormPosting">Private Posting Key</label>
-                        <div class="input-group mb-2">
+                        <label class="font-weight-light" for="inlineFormPosting" data-toggle="tooltip"
+                            title="Posting key is required to sign transaction">
+                         <u>Private Posting Key</u>
+                         <i class="fas fa-exclamation-circle"></i>
+                        </label>
+                        <div class="input-group">
                             <input type="password" class="form-control" id="inlineFormPosting"
-                            name="posting" placeholder="Private Posting Key">
+                            name="posting" placeholder="Private Posting Key" required>
+                            <div class="invalid-feedback">
+                                Private posting key is required to sign transaction.
+                            </div>
                         </div>
                     </div>
 
-                    <div class="col-md-4 mb-3">
-                        <div class="btn btn-outline-blurt mb-2 invisible" id="submitSpinners">
+                    <div class="col-md-4 mt-3">
+                        <div class="btn btn-outline-blurt invisible" id="submitSpinners">
                             <div class="spinner-border spinner-border-sm text-blurt" role="status">
-                                <span class="sr-only align-middle">Loading...</span>
+                                <span class="sr-only ">Loading...</span>
                             </div>
                         </div>
                     </div>

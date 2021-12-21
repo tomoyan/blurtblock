@@ -158,10 +158,21 @@
                     Private active key is required to sign transaction.
                   </div>
                 </div>
-
               </div>
 
-              <button class="btn btn-blurt float-right" type="submit">Delegate</button>
+              <div class="row justify-content-end mb-1">
+<!--                 <div class="col-4">
+                </div> -->
+                <div class="col text-right">
+                  <!-- <button class="btn btn-blurt" type="submit">Delegate</button> -->
+                    <div class="btn btn-outline-blurt invisible" id="submitSpinners">
+                      <div class="spinner-border spinner-border-sm text-blurt" role="status">
+                          <span class="sr-only ">Loading...</span>
+                      </div>
+                    </div>
+                    <button class="btn btn-blurt" type="submit">Delegate</button>
+                </div>
+              </div>
             </form>
 
         </div>
