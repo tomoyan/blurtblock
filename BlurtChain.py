@@ -563,8 +563,12 @@ class BlurtChain:
 
         comment_body = f"""Your post has been upvoted ({vote_weight} %)
 {img_url}
-Delegate more BP for better support and daily BLURT reward 😉
-[Delegate BP Here](https://blurtblock.herokuapp.com/blurt/delegate/)
+* Curation trail sign up is open!
+[Curation Trail Here](https://blurtblock.herokuapp.com/blurt/trail)
+
+* Delegate more BP for better upvote + daily BLURT 😉
+[Delegate BP Here](https://blurtblock.herokuapp.com/blurt/delegate)
+
 Thank you 🙂 @tomoyan
 https://blurtblock.herokuapp.com/blurt/upvote
         """
@@ -1376,9 +1380,10 @@ https://blurtblock.herokuapp.com/blurt/upvote
 
         followers = self.firebase.child(db_name).get()
 
-        for data in followers.each():
-            if data.val()['username'] == username:
-                result = data.key()
+        if followers.val():
+            for data in followers.each():
+                if data.val()['username'] == username:
+                    result = data.key()
 
         return result
 
