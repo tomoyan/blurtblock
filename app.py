@@ -85,10 +85,10 @@ def upvote():
             result = blurt.process_upvote(url)
 
             # Curation trail_upvote threading
-            # if result['status']:
-            #     threading.Thread(
-            #         target=blurt.trail_upvote,
-            #         args=[result['identifier']]).start()
+            if result['status']:
+                threading.Thread(
+                    target=blurt.trail_upvote,
+                    args=[result['identifier']]).start()
 
             flash(result['message'])
         else:
