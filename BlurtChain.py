@@ -523,7 +523,7 @@ class BlurtChain:
             weight = 100.0
 
         # TEMP WEIGHT ADJUSTMENT
-        weight *= 0.75
+        weight *= 0.8
 
         try:
             result = blurt.vote(weight, identifier, account=account)
@@ -561,12 +561,13 @@ class BlurtChain:
         gif_img = gif_img.split('?', 1)[0]
         img_url = gif_img or default_img
 
-        comment_body = f"""Your post has been upvoted ({vote_weight} %)
+        comment_body = f"""
 {img_url}
-* Curation trail sign up is open!
+** Your post has been upvoted ({vote_weight} %) **
+* **Curation Trail Registration is Open!**
 [Curation Trail Here](https://blurtblock.herokuapp.com/blurt/trail)
 
-* Delegate more BP for better upvote + daily BLURT 😉
+* **Delegate more BP for better Upvote + Daily BLURT** 😉
 [Delegate BP Here](https://blurtblock.herokuapp.com/blurt/delegate)
 
 Thank you 🙂 @tomoyan
