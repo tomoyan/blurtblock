@@ -46,18 +46,19 @@ def blurt_profile_data(username=None):
         username = escape(username).lower()
         blurt = BC.BlurtChain(username)
 
-        # check session profile_data
-        profile_data = username + '_profile_data'
-        if session.get(profile_data):
-            data = session[profile_data]
-        else:
-            data = blurt.get_account_info()
-            session[profile_data] = data
+        if blurt.account:
+            # check session profile_data
+            profile_data = username + '_profile_data'
+            if session.get(profile_data):
+                data = session[profile_data]
+            else:
+                data = blurt.get_account_info()
+                session[profile_data] = data
 
-            # threading processes in the background
-            # 1, 7, 30 day rewards
-            # transfer, upvote, comment history
-            threading_processes(username)
+                # threading processes in the background
+                # 1, 7, 30 day rewards
+                # transfer, upvote, comment history
+                threading_processes(username)
 
     return render_template('blurt/profile_data.html',
                            username=blurt.username, data=data)
@@ -342,6 +343,16 @@ def blurt_votedata(username=None):
         else:
             data = blurt.get_upvote_data(username)
             session[vote_data] = data
+
+    return jsonify(data)
+
+
+@app.route('/api/blurt/trail-count')
+@app.route('/api/blurt/trail-count/')
+def curation_trail_count(username=None):
+    data = {'count': 0}
+    blurt = BC.BlurtChain(username)
+    data['count'] = blurt.get_trail_count()
 
     return jsonify(data)
 

@@ -1410,3 +1410,12 @@ https://blurtblock.herokuapp.com/blurt/upvote
                 BLT.vote(weight, identifier, account=ACC)
             except Exception as err:
                 print('TRAIL_VOTE_ERR', username, err)
+
+    def get_trail_count(self):
+        db_name = 'trail_followers'
+        follow_count = 0
+
+        followers = self.firebase.child(db_name).get().val()
+        follow_count = len(followers)
+
+        return follow_count
