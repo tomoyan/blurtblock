@@ -21,7 +21,7 @@
         <!-- <script src="{{ url_for('static', filename='js/trail.js') }}"></script> -->
 
         <!-- Primary Meta Tags -->
-        {% include 'metatags.html' %}
+        {% include 'trailmetatags.html' %}
         <!-- Google Analytics -->
         {% include 'gatag.html' %}
 
@@ -36,8 +36,10 @@
             <div class="jumbotron bg-blurt text-white">
                 <img src="{{ url_for('static', filename='images/logo.png') }}"
                     width="150" alt="blurt logo" class="img-thumbnail">
-                <h1 class="display-4">Blurt Curation Trail (beta)</h1>
-                <p class="lead">Come follow the curation trail and get upvote bonus %.</p>
+                <h1 class="display-4" id="trail-count">
+                    Blurt Curation Trail (beta)
+                </h1>
+                <p class="lead" >Come follow the curation trail and get upvote bonus %</p>
                 <hr class="my-4">
                 <p>
                     Sign up is now open! Curation trail will start once we have enough followers.

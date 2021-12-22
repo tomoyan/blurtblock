@@ -350,9 +350,9 @@ def blurt_votedata(username=None):
 @app.route('/api/blurt/trail-count')
 @app.route('/api/blurt/trail-count/')
 def curation_trail_count(username=None):
-    data = {'count': 0}
+    data = {}
     blurt = BC.BlurtChain(username)
-    data['count'] = blurt.get_trail_count()
+    data = blurt.get_trail_count()
 
     return jsonify(data)
 

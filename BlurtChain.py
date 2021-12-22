@@ -530,7 +530,7 @@ class BlurtChain:
             vote_result["status"] = True
             vote_result["message"] = f"Upvoted: {result}"
             # vote_result["vote_weight"] = vote_weight + delegation_bonus
-            vote_result["vote_weight"] = weight
+            vote_result["vote_weight"] = weight - member_bonus
             vote_result["identifier"] = identifier
         except Exception as err:
             print(err)
@@ -1413,9 +1413,11 @@ https://blurtblock.herokuapp.com/blurt/upvote
 
     def get_trail_count(self):
         db_name = 'trail_followers'
-        follow_count = 0
+        data = {'count': 0}
 
-        followers = self.firebase.child(db_name).get().val()
-        follow_count = len(followers)
+        followers = self.firebase.child(
+            db_name).order_by_child("status").equal_to(1).get()
 
-        return follow_count
+        data['count'] = len(followers.val())
+
+        return data
