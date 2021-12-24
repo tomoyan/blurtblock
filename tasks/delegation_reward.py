@@ -280,7 +280,7 @@ Have a Blurt Day :)
         title=title,
         body=body,
         tags=tags,
-        self_vote=True)
+        self_vote=False)
 
 
 if __name__ == '__main__':
