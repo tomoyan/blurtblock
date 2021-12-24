@@ -1407,6 +1407,12 @@ https://blurtblock.herokuapp.com/blurt/upvote
                 if ACC.get_voting_power() < voting_power:
                     continue
 
+                COMMENT = Comment(
+                    identifier, api='condenser', blockchain_instance=BLT)
+                if ACC.has_voted(COMMENT):
+                    print('ALREADY VOTED', ACC, identifier)
+                    continue
+
                 BLT.vote(weight, identifier, account=ACC)
             except Exception as err:
                 print('TRAIL_VOTE_ERR', username, err)
