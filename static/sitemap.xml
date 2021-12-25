@@ -1,0 +1,20 @@
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url>
+<loc>https://blurtblock.herokuapp.com</loc>
+</url>
+<url>
+<loc>https://blurtblock.herokuapp.com/blurt/upvote</loc>
+</url>
+<url>
+<loc>https://blurtblock.herokuapp.com/blurt/leaderboard</loc>
+</url>
+<url>
+<loc>https://blurtblock.herokuapp.com/blurt/delegators</loc>
+</url>
+<url>
+<loc>https://blurtblock.herokuapp.com/blurt/trail</loc>
+</url>
+<url>
+<loc>https://blurtblock.herokuapp.com/blurt/delegate</loc>
+</url>
+</urlset>

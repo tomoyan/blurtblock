@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, request, flash, jsonify
-from flask import session
+from flask import session, send_from_directory
 from flask_session import Session
 
 from config import Config
@@ -20,6 +20,16 @@ Session(app)
 # This handles 404 error
 def page_not_found(e):
     return render_template('404.html')
+
+
+@app.route('/robots.txt/')
+def robots():
+    return send_from_directory('static', 'robots.txt')
+
+
+@app.route('/sitemap.xml/')
+def sitemap():
+    return send_from_directory('static', 'sitemap.xml')
 
 
 @app.route('/', methods=['GET', 'POST'])
