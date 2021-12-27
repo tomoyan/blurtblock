@@ -81,7 +81,8 @@
             <form action="{{ url_for('trail') }}" method="post" class="needs-validation" novalidate>
                 <!-- used to protect the form against csrf attacks -->
                 {{ form.hidden_tag() }}
-                <div class="form-row align-items-center m-3">
+                <!-- <div class="form-row align-items-center m-3"> -->
+                <div class="form-row">
                     <div class="col-md-4 mb-3">
                         <label class="font-weight-light" for="inlineFormUsername">Username</label>
                         <div class="input-group">
@@ -111,16 +112,29 @@
                         </div>
                     </div>
 
-                    <div class="col-md-4 mt-3">
-                        <div class="btn btn-outline-blurt invisible" id="submitSpinners">
-                            <div class="spinner-border spinner-border-sm text-blurt" role="status">
-                                <span class="sr-only ">Loading...</span>
+                    <div class="col-md-4 mb-3">
+                        <label class="font-weight-light" for="inlineFormWeight"
+                            data-toggle="tooltip" title="Vote weight is set to 100% by default">
+                            <u>Vote Weight %</u>
+                            <i class="fas fa-exclamation-circle"></i>
+                        </label>
+                        <div class="input-group">
+                            <input type="text" readonly class="form-control" id="inlineFormWeight"
+                            name="weight" placeholder="100" value="100" required>
+                            <div class="invalid-feedback">
+                              Vote weight is required (50 - 100).
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="text-center">
+                <div class="text-right">
+                    <div class="btn btn-outline-blurt invisible" id="submitSpinners">
+                        <div class="spinner-border spinner-border-sm text-blurt" role="status">
+                            <span class="sr-only ">Loading...</span>
+                        </div>
+                    </div>
+
                     <button name="join" id="join" type="submit"
                         class="btn btn-blurt m-1">
                         Join
