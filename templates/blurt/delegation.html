@@ -63,48 +63,6 @@
             {% endif %}
             {% endwith %}
 
-            <!-- Delegation Input Form -->
-            <!-- used to protect the form against csrf attacks -->
-            <!-- {{ form.hidden_tag() }} -->
-
-<!--             <div class="form-row align-items-center">
-                <div class="col-auto">
-                    <label for="inlineFormUsername">Username</label>
-                    <div class="input-group mb-2">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">@</div>
-                        </div>
-                        <input type="text" class="form-control" id="inlineFormUsername"
-                        name="username" placeholder="Username" required>
-                    </div>
-                </div>
-
-                <div class="col-auto">
-                    <label for="inlineFormVests">Amount (Vests)</label>
-                    <div class="input-group mb-2">
-                        <input type="text" class="form-control" id="inlineFormVests"
-                        name="amount" placeholder="1000" value="1000" required>
-                    </div>
-                </div>
-
-                <div class="col-auto">
-                    <label for="inlineFormActive">Private Active Key</label>
-                    <div class="input-group mb-2">
-                        <input type="password" class="form-control" id="inlineFormWif"
-                        name="wif" placeholder="Private Active Key" required>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-row align-items-center">
-                <div class="col-auto">
-                    <button name="delegate" id="delegate" type="submit"
-                        class="btn btn-blurt mb-2" onclick="delegateBP()">
-                        Delegate
-                    </button>
-                </div>
-            </div> -->
-
             {% if data['username'] %}
                 {% block javascript %}
                 <script>
@@ -117,7 +75,9 @@
             <!-- Show delegation result alert -->
             <div id="delegationResult"></div>
 
+            <!-- Delegation Input Form -->
             <form action="{{ url_for('delegate') }}" method="post" class="needs-validation" novalidate>
+              <!-- used to protect the form against csrf attacks -->
               {{ form.hidden_tag() }}
               <div class="form-row">
                 <div class="col-md-4 mb-3">
