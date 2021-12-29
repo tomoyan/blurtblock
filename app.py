@@ -120,16 +120,17 @@ def trail():
             blurt = BC.BlurtChain(username=username)
 
             posting = request.form['posting']
+            weight = request.form['weight']
 
             # join or leave
             if 'join' in request.form:
-                result = blurt.join_trail(username, posting)
+                result = blurt.join_trail(username, posting, weight)
                 flash(result)
             elif 'leave' in request.form:
                 result = blurt.leave_trail(username)
                 flash(result)
         else:
-            flash('Username and Posting Key Required')
+            flash('Username, Posting Key, Weight Required')
 
     return render_template('blurt/trail.html', form=form)
 

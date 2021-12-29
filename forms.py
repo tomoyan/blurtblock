@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField
-from wtforms.validators import DataRequired
+from wtforms import StringField, IntegerField
+from wtforms.validators import DataRequired, NumberRange
 
 
 class UserNameForm(FlaskForm):
@@ -14,6 +14,9 @@ class postUrlForm(FlaskForm):
 class TrailForm(FlaskForm):
     username = StringField('username', validators=[DataRequired()])
     posting = StringField('posting', validators=[DataRequired()])
+    # weight = IntegerField('weight', validators=[DataRequired()])
+    weight = IntegerField('weight', validators=[
+        DataRequired(), NumberRange(min=10, max=100)])
 
 
 class DelegateForm(FlaskForm):

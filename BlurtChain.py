@@ -1286,7 +1286,7 @@ https://blurtblock.herokuapp.com/blurt/upvote
 
         return result
 
-    def join_trail(self, username, posting):
+    def join_trail(self, username, posting, weight):
         db_name = 'trail_followers'
         result = {
             'status': 0,
@@ -1311,7 +1311,7 @@ https://blurtblock.herokuapp.com/blurt/upvote
             'username': username,
             'posting': self.encrypt_message(message),
             'created': current_time,
-            'weight': 100,
+            'weight': weight,
             'status': 1,
         }
 
@@ -1400,6 +1400,7 @@ https://blurtblock.herokuapp.com/blurt/upvote
 
             username = follower.val()['username']
             posting = self.decrypt_message(follower.val()['posting'])
+            weight = follower.val()['weight']
 
             try:
                 BLT = Blurt(self.nodes, keys=[posting])
@@ -1412,7 +1413,7 @@ https://blurtblock.herokuapp.com/blurt/upvote
                 if ACC.has_voted(COMMENT):
                     print('ALREADY VOTED', ACC, identifier)
                     continue
-
+                print(username, weight)
                 BLT.vote(weight, identifier, account=ACC)
             except Exception as err:
                 print('TRAIL_VOTE_ERR', username, err)

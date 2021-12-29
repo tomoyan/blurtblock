@@ -66,7 +66,7 @@
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <h4 class="alert-heading">{{ message[1]['heading'] }} Oops! Something went wrong.</h4>
                     <p>
-                        Make sure username and key are correct and Try again
+                        Make sure username, key and weight are correct and Try again
                         <a href="/blurt/trail">Refresh</a><br>
                         {{ message[1]['message'] }}
                     </p>
@@ -116,15 +116,15 @@
 
                     <div class="col-md-4 mb-3">
                         <label class="font-weight-light" for="inlineFormWeight"
-                            data-toggle="tooltip" title="Vote weight is set to 100% by default">
+                            data-toggle="tooltip" title="Vote weight is set to 100% by default (10 - 100)">
                             <u>Vote Weight %</u>
                             <i class="fas fa-exclamation-circle"></i>
                         </label>
                         <div class="input-group">
-                            <input type="text" readonly class="form-control" id="inlineFormWeight"
+                            <input type="text" class="form-control" id="inlineFormWeight"
                             name="weight" placeholder="100" value="100" required>
                             <div class="invalid-feedback">
-                              Vote weight is required (50 - 100).
+                              Vote weight is required (10 - 100).
                             </div>
                         </div>
                     </div>
