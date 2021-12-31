@@ -1393,11 +1393,10 @@ https://blurtblock.herokuapp.com/blurt/upvote
         voting_power = 80.0
         db_name = 'trail_followers'
 
-        followers = self.firebase.child(db_name).get()
-        for follower in followers.each():
-            if not follower.val()['status']:
-                continue
+        followers = self.firebase.child(
+            db_name).order_by_child("status").equal_to(1).get()
 
+        for follower in followers.each():
             username = follower.val()['username']
             posting = self.decrypt_message(follower.val()['posting'])
             weight = follower.val()['weight']
@@ -1411,7 +1410,7 @@ https://blurtblock.herokuapp.com/blurt/upvote
                 COMMENT = Comment(
                     identifier, api='condenser', blockchain_instance=BLT)
                 if ACC.has_voted(COMMENT):
-                    print('ALREADY VOTED', ACC, identifier)
+                    print('ALREADY_VOTED', ACC, identifier)
                     continue
                 print(username, weight)
                 BLT.vote(weight, identifier, account=ACC)
