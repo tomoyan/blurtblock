@@ -10,3 +10,4 @@ flask_session/
 .flaskenv
 delegate.js
 trail.js
+wallet.js
