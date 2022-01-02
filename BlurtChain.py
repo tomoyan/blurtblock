@@ -8,6 +8,7 @@ from beem import Blurt
 from config import Config
 from beemgraphenebase.account import PrivateKey
 
+from flask import Markup
 from datetime import datetime, timedelta
 from functools import lru_cache
 import random
@@ -343,6 +344,20 @@ class BlurtChain:
 
         if count_type in data:
             result = data[count_type]
+
+        return result
+
+    def is_coal(self, username):
+        # check if user is in coal_list
+        # coal user won't be upvoted
+        result = False
+        db_name = 'coal_list'
+
+        is_coal = self.firebase.child(
+            db_name).order_by_child("username").equal_to(username).get().val()
+
+        if len(is_coal):
+            result = True
 
         return result
 
@@ -709,6 +724,18 @@ https://blurtblock.herokuapp.com/blurt/upvote
         identifier = f'@{strings[1]}'
         username = strings[1].split('/')[0]
         if not username:
+            return data
+
+        # check coal_list
+        is_coal = self.is_coal(username)
+        if is_coal:
+            discord_channel = 'https://discord.gg/PPpZe4eXzf'
+            data['message'] = f"""
+            Error: This account is coal listed.
+            Check out <a href="{discord_channel}">Official Blurt Discord</a>
+            for further assistance.
+            """
+            data['message'] = Markup(data['message'])
             return data
 
         # check ignore_list
