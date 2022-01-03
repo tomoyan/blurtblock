@@ -185,6 +185,12 @@ def delegators(username=None):
                            data=data)
 
 
+@app.route('/blurt/exchange')
+@app.route('/blurt/exchange/')
+def exchange():
+    return render_template('blurt/exchange.html')
+
+
 def threading_processes(username=None):
     if username is None:
         return
