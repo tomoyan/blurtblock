@@ -695,31 +695,6 @@ https://blurtblock.herokuapp.com/blurt/upvote
 
         return result
 
-    # def check_active_post(self, post_str):
-    #     active_posts = []
-    #     cashout_time = "1969-12-31T23:59:59"
-    #     result = False
-
-    #     strings = post_str.split('/')
-    #     username = strings[0]
-    #     post_id = strings[1]
-    #     blurt = Blurt(node=self.nodes)
-    #     blurt_account = Account(username, blockchain_instance=blurt)
-    #     posts = blurt_account.get_blog(raw_data=True)
-
-    #     for post in posts:
-    #         # post has been paid out
-    #         if post["comment"]["cashout_time"] == cashout_time:
-    #             continue
-
-    #         if post["blog"]:
-    #             active_posts.append(post["comment"]["permlink"])
-
-    #     if post_id in active_posts:
-    #         result = True
-
-    #     return result
-
     def save_data_fb(self, db_name, data):
         # save data into firebase database
         result = self.firebase.child(db_name).push(data)
@@ -1167,43 +1142,6 @@ https://blurtblock.herokuapp.com/blurt/upvote
             self.update_data_fb(db_name, db_key, result)
 
         return result
-
-    # def get_upvote_data(self, username):
-    #     vote_data = {}
-    #     chart_data = {
-    #         'label': [],
-    #         'voteCount': [],
-    #         'voteWeight': [],
-    #         'totalVote': 0
-    #     }
-
-    #     # get user's upvote history and save label, counts and weights
-    #     duration = 7
-    #     stop = datetime.utcnow() - timedelta(days=duration)
-    #     ops = ['vote']
-    #     transactions = self.account.history_reverse(
-    #         stop=stop, only_ops=ops)
-
-    #     for tx in transactions:
-    #         if tx['voter'] != username:
-    #             continue
-
-    #         if tx['author'] in vote_data:
-    #             vote_data[tx['author']].append(tx['weight'])
-    #         else:
-    #             vote_data[tx['author']] = [tx['weight']]
-
-    #         chart_data['totalVote'] += 1
-
-    #     # calculate vote weight average
-    #     for key, value in vote_data.items():
-    #         count = len(value)
-    #         weight = (sum(value) / count) // 100
-    #         chart_data['label'].append(key)
-    #         chart_data['voteCount'].append(count)
-    #         chart_data['voteWeight'].append(weight)
-
-    #     return chart_data
 
     def _process_vote(self, data):
         if data['voter'] != self.username:
