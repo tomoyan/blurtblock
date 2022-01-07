@@ -68,6 +68,7 @@ def blurt_profile_data(username=None):
                 # threading processes in the background
                 # 1, 7, 30 day rewards
                 # transfer, upvote, comment history
+                # incoming delegation
                 threading_processes(username)
 
     return render_template('blurt/profile_data.html',
@@ -211,6 +212,11 @@ def threading_processes(username=None):
         t = threading.Thread(
             target=blurt.get_history, args=[username, option])
         t.start()
+
+    # Check incoming delegations and store in fb
+    threading.Thread(
+        target=blurt.get_incoming_delegation,
+        args=[username]).start()
 
 
 # BLURT API

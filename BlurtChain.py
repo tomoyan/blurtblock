@@ -276,6 +276,67 @@ class BlurtChain:
 
         return data
 
+    def get_incoming_delegation(self, username):
+        current_time = datetime.utcnow().strftime("%m/%d/%Y %H:%M:%S")
+        db_name = 'incoming_delegation'
+        account = Account(username, blockchain_instance=self.blurt)
+
+        fb_key = None
+        fb_data = None
+        fb_block_num = 0
+
+        # Check user data in fb
+        user_record = self.firebase.child(db_name).order_by_child(
+            "username").equal_to(str(username)).get().val()
+
+        if user_record:
+            record = next(iter(user_record.items()))
+            fb_key = record[0]
+            fb_data = record[1]
+            fb_block_num = fb_data['block_num']
+        else:
+            save_data = {
+                'username': username,
+                'block_num': 0,
+                'created': current_time,
+            }
+            save_result = self.firebase.child(db_name).push(save_data)
+            fb_key = save_result['name']
+
+        delegate_vesting_shares = account.history(
+            start=fb_block_num,
+            use_block_num=True,
+            only_ops=["delegate_vesting_shares"])
+
+        for op in delegate_vesting_shares:
+            if op['delegator'] == username:
+                continue
+
+            amount_vests = Amount(op['vesting_shares'])
+            amount = self.blurt.vests_to_bp(amount_vests)
+
+            # replace "." sign in username with "+"
+            delegator = op['delegator'].replace(".", "+")
+            delegation_data = {
+                'timestamp': op['timestamp'],
+                'amount': amount,
+            }
+
+            # Save/Update delegation data
+            if amount:
+                self.firebase.child(db_name).child(fb_key).child(
+                    'delegators').child(delegator).update(delegation_data)
+            else:
+                self.firebase.child(db_name).child(fb_key).child(
+                    'delegators').child(delegator).remove()
+
+            # Update block_num
+            if op['block']:
+                self.firebase.child(db_name).child(fb_key).update({
+                    'block_num': op['block'],
+                    'created': current_time
+                })
+
     @ lru_cache(maxsize=32)
     def get_delegation_new(self, option):
         # find delegation for username
