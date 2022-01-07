@@ -337,6 +337,13 @@ class BlurtChain:
                     'created': current_time
                 })
 
+        # Remove record if no incoming delegation
+        delegation_record = self.firebase.child(db_name).child(
+            fb_key).child('delegators').get().val()
+
+        if delegation_record is None:
+            self.firebase.child(db_name).child(fb_key).remove()
+
     @ lru_cache(maxsize=32)
     def get_delegation_new(self, option):
         # find delegation for username
