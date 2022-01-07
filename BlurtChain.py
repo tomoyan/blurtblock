@@ -354,33 +354,26 @@ class BlurtChain:
 
         # find incoming delegaton
         if option == "in":
-            # node_list = ['https://rpc.blurt.world']
-            blurt = Blurt(BLURT_NODES)
-            blurt_account = Account(self.username, blockchain_instance=blurt)
-
+            db_name = 'incoming_delegation'
             data['incoming'] = []
-            incoming_temp = dict()
 
-            delegate_vesting_shares = blurt_account.history(
-                only_ops=["delegate_vesting_shares"])
+            # Get delegation data from db
+            user_record = self.firebase.child(db_name).order_by_child(
+                "username").equal_to(self.username).get().val()
 
-            # find delegators
-            for operation in delegate_vesting_shares:
-                if self.username == operation["delegator"]:
-                    continue
-                incoming_temp[operation["delegator"]] = operation
+            if user_record:
+                delegators = {}
+                record = next(iter(user_record.items()))
+                fb_data = record[1]
+                if 'delegators' in fb_data:
+                    delegators = fb_data["delegators"]
 
-            for key in incoming_temp:
-                info = incoming_temp[key]
-
-                if info['vesting_shares'] == '0.000000 VESTS':
-                    # skip 0 VESTS
-                    continue
-                else:
-                    # convert VESTS to BP
-                    info['bp'] = self.vests_to_bp(info['vesting_shares'])
-                    info['bp'] = f"{float(info['bp']):,.3f}"
-                    data['incoming'].append(info)
+                for username in delegators:
+                    data['incoming'].append({
+                        'delegator': username.replace("+", "."),
+                        'bp': f'{delegators[username]["amount"]:,.3f}',
+                        'timestamp': delegators[username]['timestamp'],
+                    })
         # find outgoing delegaton
         elif option == "out":
             data['outgoing'] = self.account.get_vesting_delegations()

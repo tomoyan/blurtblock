@@ -6,9 +6,57 @@ $(document).ready(function(){
     // let IMGBASE = 'https://images.blurt.blog';
 
     $("#nav-delegation-tab").click(function(){
-        let incomingmessage = `
-        <li class="list-group-item" data-field=><span>Not Implemented</span></li>`;
-        $("#incomingResult").html(incomingmessage);
+        // incoming delegation
+        $.ajax(document.delegationApiIn,
+        {
+            dataType: 'json', // type of response data
+            timeout: 60000,     // timeout milliseconds
+            success: function (data, status, xhr) {
+                var liStr = ``;
+                if (jQuery.isEmptyObject(data['incoming'])) {
+                    liStr = `
+                    <li class="list-group-item" data-field=><span>No Incoming Delegation</span></li>`;
+                    $("#incomingResult").html(liStr);
+                }
+                else {
+                   $("#incomingResult").empty();
+                   $.each(data['incoming'], function(index, value){
+                        liStr = `
+                            <li class="list-group-item" data-field=>
+
+                            <div class="container">
+                              <div class="row">
+                                <div class="col-sm">
+                                    <span><img src="${IMGBASE}/${value.delegator}"
+                                            alt="profile_image"
+                                            class="img-thumbnail rounded-circle float-left mr-3"
+                                            width="64">
+                                    </span>
+                                    <span>
+                                        <a class="text-blurt font-weight-bold mr-3"
+                                            href="https://blurt.blog/@${value.delegator}"
+                                            target="_blank" rel="noopener noreferrer">
+                                            ${value.delegator}</a>
+                                        <br>
+                                        <a class="text-blurt font-weight-bold mr-3"
+                                            href="https://blurtblock.herokuapp.com/${value.delegator}"
+                                            target="_blank" rel="noopener noreferrer">
+                                            Profile</a>
+                                    </span>
+                                </div>
+                                <div class="col-sm">
+                                    <span class="font-weight-bold">${value.bp} BP</span>
+                                </div>
+                              </div>
+                            </div>
+
+                            </li>`;
+
+                        $("#incomingResult").append(liStr);
+                    });
+               }
+            },
+        });
 
         // outgoing elegation
         $.ajax(document.delegationApiOut,
