@@ -606,7 +606,7 @@ class BlurtChain:
             vote_result["status"] = True
             vote_result["message"] = f"Upvoted: {result}"
             # vote_result["vote_weight"] = vote_weight + delegation_bonus
-            vote_result["vote_weight"] = weight - member_bonus
+            vote_result["vote_weight"] = weight
             vote_result["identifier"] = identifier
         except Exception as err:
             print(err)
