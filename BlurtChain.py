@@ -935,19 +935,19 @@ https://blurtblock.herokuapp.com/blurt/upvote
         return delegators
 
     # OLD delegation list not in use
-    def get_delegations(self):
-        delegators = []
+    # def get_delegations(self):
+    #     delegators = []
 
         # get delegators from firebase
         # and return list of usernames
-        db_name = 'delegation_list'
-        data = self.firebase.child(db_name).child('list').get()
+    #     db_name = 'delegation_list'
+    #     data = self.firebase.child(db_name).child('list').get()
 
-        for d in data.each():
-            username = d.val()['username']
-            delegators.append(username)
+    #     for d in data.each():
+    #         username = d.val()['username']
+    #         delegators.append(username)
 
-        return delegators
+    #     return delegators
 
     def get_leaderboard(self):
         db_name = 'upvote_log'
