@@ -18,8 +18,8 @@ account = Account(username, blockchain_instance=blurt)
 token_power = account.get_token_power()
 token_power = f'{token_power:,.2f} BP'
 
-# 35% of curation reward distributed
-PERCENT = 35
+# 40% of curation reward distributed
+PERCENT = 40
 
 # Firebase configuration
 serviceAccountCredentials = json.loads(
@@ -129,6 +129,7 @@ def get_top_leaderboard():
 
 
 def get_rewards(budget, delegations):
+    reward_min = 1.0
     rewards = dict()
     total_bp = sum(delegations.values())
 
@@ -142,7 +143,7 @@ def get_rewards(budget, delegations):
         # Base amount
         amount = (delegations[key] / total_bp) * budget
 
-        if amount < 0.01:
+        if amount < reward_min:
             continue
 
         # top_leaderboard will get 30% bonus
