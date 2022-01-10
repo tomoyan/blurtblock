@@ -1,6 +1,7 @@
 from beem import Blurt
 from beem.account import Account
 import os
+import requests
 
 # Setup blurt nodes and account
 BLURT_NODES = ['https://rpc.blurt.world']
@@ -35,6 +36,16 @@ def upvote_blog_entries_username(name):
             identifier = post.authorperm
             # Upvote a post
             BLURT.vote(weight, identifier, account=ACCOUNT)
+
+            # Trail vote API
+            # https://blurtblock.herokuapp.com/api/blurt/trail-vote/?id=@user/id
+            base_url = 'https://blurtblock.herokuapp.com'
+            url = (
+                f'{base_url}'
+                '/api/blurt/trail-vote/?'
+                f'id={identifier}'
+            )
+            requests.get(url)
 
 
 if __name__ == '__main__':
