@@ -380,5 +380,25 @@ def curation_trail_count(username=None):
     return jsonify(data)
 
 
+@app.route('/api/blurt/trail-vote', methods=['GET'])
+@app.route('/api/blurt/trail-vote/', methods=['GET'])
+def curation_trail_vote():
+    # /api/blurt/trail-vote/?id=identifier
+    data = {
+        'status': False,
+        'message': 'Error: No identifier'
+    }
+
+    if 'id' in request.args:
+        identifier = request.args['id']
+        if identifier and '@' in identifier:
+            blurt = BC.BlurtChain(username=None)
+            blurt.trail_upvote(identifier)
+            data['status'] = True
+            data['message'] = f'trail_vote {identifier}'
+
+    return jsonify(data)
+
+
 if __name__ == "__main__":
     app.run()
