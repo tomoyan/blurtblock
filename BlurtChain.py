@@ -10,7 +10,6 @@ from beemgraphenebase.account import PrivateKey
 
 from flask import Markup
 from datetime import datetime, timedelta
-from functools import lru_cache
 import random
 import requests
 import pyrebase
@@ -38,11 +37,11 @@ BLURT_NODES = [
     'https://rpc.blurt.world',
     'https://blurt-rpc.saboin.com',
     'https://rpc.tekraze.com',
-    # 'https://rpc.dotwin1981.de',
+    'https://rpc.dotwin1981.de',
     'https://rpc.nerdtopia.de',
     'https://kentzz.blurt.world',
     'https://rpc.blurtlatam.com',
-    # 'https://blurt.ecosynthesizer.com',
+    'https://blurt.ecosynthesizer.com',
 ]
 random.shuffle(BLURT_NODES)
 
@@ -71,7 +70,6 @@ class BlurtChain:
             self.username = None
             self.account = None
 
-    @lru_cache(maxsize=32)
     def get_account_info(self):
         self.account_info = {}
 
@@ -153,7 +151,6 @@ class BlurtChain:
 
         return self.account_info
 
-    @lru_cache(maxsize=32)
     def get_follower(self):
         self.follower_data = {}
         follower = []
@@ -173,7 +170,6 @@ class BlurtChain:
 
         return self.follower_data
 
-    @lru_cache(maxsize=32)
     def get_following(self):
         self.following_data = {}
         follower = []
@@ -193,7 +189,6 @@ class BlurtChain:
 
         return self.following_data
 
-    @lru_cache(maxsize=128)
     def get_pending_posts(self):
         active_posts = []
         posts = self.account.blog_history(limit=50)
@@ -217,7 +212,6 @@ class BlurtChain:
 
         return active_posts
 
-    @ lru_cache(maxsize=128)
     def get_vote_history(self, username):
         result = {}
         labels = []
@@ -266,7 +260,6 @@ class BlurtChain:
 
         return result
 
-    @ lru_cache(maxsize=32)
     def get_mute(self):
         data = {}
 
@@ -344,7 +337,6 @@ class BlurtChain:
         if delegation_record is None:
             self.firebase.child(db_name).child(fb_key).remove()
 
-    @ lru_cache(maxsize=32)
     def get_delegation_new(self, option):
         # find delegation for username
         data = {}
@@ -619,7 +611,6 @@ class BlurtChain:
             result = blurt.vote(weight, identifier, account=account)
             vote_result["status"] = True
             vote_result["message"] = f"Upvoted: {result}"
-            # vote_result["vote_weight"] = vote_weight + delegation_bonus
             vote_result["vote_weight"] = weight
             vote_result["identifier"] = identifier
         except Exception as err:
@@ -853,12 +844,6 @@ https://blurtblock.herokuapp.com/blurt/upvote
                 less than 5 days old'
             return data
 
-        # check post is active
-        # active_post = self.check_active_post(strings[1])
-        # if active_post is False:
-        #     data['message'] = 'Error: This post is too old to upvote'
-        #     return data
-
         # check delegation bonus
         delegation_bonus = self.delegation_bonus(username)
 
@@ -978,21 +963,6 @@ https://blurtblock.herokuapp.com/blurt/upvote
             delegators.append(delegation_data)
 
         return delegators
-
-    # OLD delegation list not in use
-    # def get_delegations(self):
-    #     delegators = []
-
-        # get delegators from firebase
-        # and return list of usernames
-    #     db_name = 'delegation_list'
-    #     data = self.firebase.child(db_name).child('list').get()
-
-    #     for d in data.each():
-    #         username = d.val()['username']
-    #         delegators.append(username)
-
-    #     return delegators
 
     def get_leaderboard(self):
         db_name = 'upvote_log'
