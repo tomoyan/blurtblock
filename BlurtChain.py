@@ -437,6 +437,20 @@ class BlurtChain:
 
         return result
 
+    def is_curation_trail(self, username):
+        # check if user is following trail
+        # return True if not a follower
+        result = False
+
+        # check if username exists in trail_followers
+        follow_key = self.get_follow_key(username)
+
+        if follow_key is None:
+            # Not following trail
+            result = True
+
+        return result
+
     def check_last_ip(self, client_ip):
         print('CHECK_LAST_IP', client_ip)
         # 1 hour = 3600 sec
@@ -774,6 +788,17 @@ https://blurtblock.herokuapp.com/blurt/upvote
         identifier = f'@{strings[1]}'
         username = strings[1].split('/')[0]
         if not username:
+            return data
+
+        # check curation trail
+        is_curation_trail = self.is_curation_trail(username)
+        if is_curation_trail:
+            data['message'] = f"""
+            Error: Please join our <a href="/blurt/trail">
+            <u>Curation Trail</u></a> before using this tool.
+            Thank you.
+            """
+            data['message'] = Markup(data['message'])
             return data
 
         # check coal_list
