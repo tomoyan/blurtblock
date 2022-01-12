@@ -11,7 +11,10 @@ BLURT = Blurt(BLURT_NODES, keys=[UPVOTE_KEY])
 ACCOUNT = Account(USERNAME, blockchain_instance=BLURT)
 
 # 100% Upvote for special users
-USERS = ['ecosynthesizer', 'maxinpower', 'the-gorilla', 'tomoyan']
+USERS = [
+    'ecosynthesizer', 'maxinpower', 'the-gorilla', 'tomoyan',
+    'kahkashanrkploy', 'kamranrkploy'
+]
 
 
 def main():
@@ -32,6 +35,10 @@ def upvote_blog_entries_username(name):
                 weight = 35.0
             elif name == 'tomoyan':
                 weight = 100.0
+            elif name == 'kahkashanrkploy':
+                weight = 50.0
+            elif name == 'kamranrkploy':
+                weight = 50.0
 
             identifier = post.authorperm
             # Upvote a post

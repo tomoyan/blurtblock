@@ -657,6 +657,20 @@ https://blurtblock.herokuapp.com/blurt/upvote
             body=comment_body,
             reply_identifier=vote_data['identifier'])
 
+    def is_power_down(self, username):
+        # If user is powering down, return True
+        result = False
+
+        noderpc = NodeRPC(self.nodes)
+        account_data = noderpc.get_account(username)[0]
+        vesting_withdraw_rate = account_data['vesting_withdraw_rate']
+        vesting_withdraw_rate = float(vesting_withdraw_rate.split()[0])
+
+        if vesting_withdraw_rate > 0.0:
+            result = True
+
+        return result
+
     def check_post_vote(self, identifier):
         # check identifier (@username/permalink)
         # if it is already upvoted or not(True/False)
@@ -778,6 +792,12 @@ https://blurtblock.herokuapp.com/blurt/upvote
         is_ignored = self.is_ignored(username)
         if is_ignored:
             data['message'] = f'Error: Oops, something went wrong {username}'
+            return data
+
+        # check power_down
+        is_power_down = self.is_power_down(username)
+        if is_power_down:
+            data['message'] = f'Error: This account is powering down'
             return data
 
         # check last ip
