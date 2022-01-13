@@ -38,7 +38,7 @@ def blurt():
 
     if request.method == 'POST':
         if form.validate():
-            username = request.form['username'].lower()
+            username = request.form['username'].strip().lower()
 
             return redirect(f'/{username}')
         else:
@@ -117,7 +117,7 @@ def trail():
 
     if request.method == 'POST':
         if form.validate():
-            username = request.form['username'].lower()
+            username = request.form['username'].strip().lower()
             blurt = BC.BlurtChain(username=username)
 
             posting = request.form['posting']

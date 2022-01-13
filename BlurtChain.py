@@ -813,7 +813,14 @@ https://blurtblock.herokuapp.com/blurt/upvote
         # check power_down
         is_power_down = self.is_power_down(username)
         if is_power_down:
-            data['message'] = f'Error: This account is powering down'
+            wallet_url = f'https://blurtwallet.com/@{username}'
+            data['message'] = f"""
+            Error: This account is powering down.
+            Please check your <a href="{wallet_url}">Wallet</a>
+            and cancel power down before using this tool.
+            Thank you.
+            """
+            data['message'] = Markup(data['message'])
             return data
 
         # check last ip
@@ -1420,12 +1427,12 @@ https://blurtblock.herokuapp.com/blurt/upvote
         result = None
         db_name = 'trail_followers'
 
-        followers = self.firebase.child(db_name).get()
-
-        if followers.val():
-            for data in followers.each():
-                if data.val()['username'] == username:
-                    result = data.key()
+        follower = self.firebase.child(db_name).order_by_child(
+            "username").equal_to(username).get().val()
+        if follower:
+            item = next(iter(follower.items()))
+            # fb_key: item[0]
+            result = item[0]
 
         return result
 
