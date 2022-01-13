@@ -663,16 +663,28 @@ https://blurtblock.herokuapp.com/blurt/upvote
             reply_identifier=vote_data['identifier'])
 
     def is_power_down(self, username):
-        # If user is powering down, return True
+        # If user is powering down 10%~, return True
+        percentage = 0.1  # 0.1 - 10% power down
         result = False
 
         noderpc = NodeRPC(self.nodes)
         account_data = noderpc.get_account(username)[0]
-        vesting_withdraw_rate = account_data['vesting_withdraw_rate']
-        vesting_withdraw_rate = float(vesting_withdraw_rate.split()[0])
+        # Total BP
+        vesting_shares = Amount(account_data['vesting_shares'])
 
-        if vesting_withdraw_rate > 0.0:
+        # Total BP withdraw (4 weeks power down)
+        vesting_withdraw_rate = Amount(account_data['vesting_withdraw_rate'])
+        vesting_withdraw_total = vesting_withdraw_rate.amount * 4
+
+        # check power down percentage
+        if (vesting_withdraw_total / vesting_shares.amount) >= percentage:
             result = True
+
+        # vesting_withdraw_rate = account_data['vesting_withdraw_rate']
+        # vesting_withdraw_rate = float(vesting_withdraw_rate.split()[0])
+
+        # if vesting_withdraw_rate > 0.0:
+        #     result = True
 
         return result
 
@@ -815,7 +827,7 @@ https://blurtblock.herokuapp.com/blurt/upvote
         if is_power_down:
             wallet_url = f'https://blurtwallet.com/@{username}'
             data['message'] = f"""
-            Error: This account is powering down.
+            Error: This account is powering down more than 10%.
             Please check your <a href="{wallet_url}">Wallet</a>
             and cancel power down before using this tool.
             Thank you.
