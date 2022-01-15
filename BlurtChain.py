@@ -729,6 +729,11 @@ https://blurtblock.herokuapp.com/blurt/upvote
         result = self.firebase.child(db_name).child(key).update(data)
         return result
 
+    def remove_data_fb(self, db_name, key):
+        # remove data from firebase
+        result = self.firebase.child(db_name).child(key).remove()
+        return result
+
     def get_reward_summary_fb(self, key):
         # get reward summary data and then remove from fb
         result = dict()
@@ -1315,6 +1320,29 @@ https://blurtblock.herokuapp.com/blurt/upvote
 
         return data
 
+    def remove_trail(self, username):
+        db_name = 'trail_followers'
+        result = {
+            'status': 0,
+            'heading': 'Oops! Something went wrong.',
+            'message': 'Error: ',
+        }
+
+        if self.username is None:
+            result['message'] += 'Account not found'
+            return result
+
+        follow_key = self.get_follow_key(username)
+        if follow_key:
+            self.remove_data_fb(db_name, follow_key)
+            result['status'] = 1
+            result['heading'] = 'Successfully removed from the trail'
+            result['message'] = 'Come back anytime! 😉'
+        else:
+            result['message'] += 'Account not found'
+
+        return result
+
     def leave_trail(self, username):
         db_name = 'trail_followers'
         result = {
@@ -1476,6 +1504,7 @@ https://blurtblock.herokuapp.com/blurt/upvote
                 BLT.vote(weight, identifier, account=ACC)
             except Exception as err:
                 print('TRAIL_VOTE_ERR', username, err)
+                print(self.remove_trail(username))
 
     def get_trail_count(self):
         db_name = 'trail_followers'
