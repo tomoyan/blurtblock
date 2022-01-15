@@ -1328,10 +1328,6 @@ https://blurtblock.herokuapp.com/blurt/upvote
             'message': 'Error: ',
         }
 
-        if self.username is None:
-            result['message'] += 'Account not found'
-            return result
-
         follow_key = self.get_follow_key(username)
         if follow_key:
             self.remove_data_fb(db_name, follow_key)
