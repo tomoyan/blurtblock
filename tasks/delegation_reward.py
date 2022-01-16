@@ -129,7 +129,7 @@ def get_top_leaderboard():
 
 
 def get_rewards(budget, delegations):
-    reward_min = 1.0
+    reward_min = 0.5
     rewards = dict()
     total_bp = sum(delegations.values())
 
