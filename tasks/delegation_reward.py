@@ -240,6 +240,16 @@ def publish_post(rewards):
 </center>
 ## Everyday is a BLURT day if you [delegate your BP]({delegate_url})
 
+## Upvote tool updated
+* COAL (do not vote) list has been added
+* Powering down account will not be upvoted
+* Trail follow is mandatory to use free upvote
+
+Blurt transaction fee has been increased so that some people are not receiving daily reward.
+I have increased the daily reward % to help affected members by this change.
+Also working on improving Leaderboard reward.
+---
+
 **Star Bonus**: You will receive stars for using upvote.
 5 Stars - guarantee 100%
 2.5 Starts - 25% + regular vote%
