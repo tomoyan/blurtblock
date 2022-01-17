@@ -919,7 +919,11 @@ https://blurtblock.herokuapp.com/blurt/upvote
         # if not, set the count to 1
         db_name = 'upvote_count'
         count_data = {'created': current_time}
-        upvote_data = self.firebase.child(db_name).child(username).get()
+        # replace "." sign in username with "+"
+        replaced_username = username.replace(".", "+")
+
+        upvote_data = self.firebase.child(
+            db_name).child(replaced_username).get()
 
         if upvote_data.each():
             for user_data in upvote_data.each():
@@ -932,7 +936,7 @@ https://blurtblock.herokuapp.com/blurt/upvote
             count_data['count'] = 1
 
         # save upvote count
-        self.firebase.child(db_name).child(username).set(count_data)
+        self.firebase.child(db_name).child(replaced_username).set(count_data)
 
         return data
 
@@ -1074,11 +1078,15 @@ https://blurtblock.herokuapp.com/blurt/upvote
         # get upvote counts from firebase
         # and then convert it to star rating
         db_name = 'upvote_count'
-        upvote_data = self.firebase.child(db_name).child(username).get()
+
+        # replace "." sign in username with "+"
+        replaced_username = username.replace(".", "+")
+        upvote_data = self.firebase.child(
+            db_name).child(replaced_username).get()
 
         # Full and Half star counts
-        full_count = 200  # 100% vote weight
-        half_count = 100  # 25%+ vote weight
+        full_count = 100  # 100% vote weight
+        half_count = 50  # 25%+ vote weight
         stars = 0.0
         count = 0
 
