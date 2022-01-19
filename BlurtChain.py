@@ -57,7 +57,7 @@ class BlurtChain:
         self.witness = 0
         self.nodes = BLURT_NODES
 
-        self.blurt = Blurt(node=self.nodes, num_retries=10)
+        self.blurt = Blurt(node=self.nodes, num_retries=-1)
         self.blockchain = set_shared_blockchain_instance(self.blurt)
 
         # Get a reference to the database service
