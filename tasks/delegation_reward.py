@@ -245,8 +245,9 @@ def publish_post(rewards):
 * Powering down account will not be upvoted
 * Trail follow is mandatory to use free upvote
 
-Blurt transaction fee has been increased so that some people are not receiving daily reward.
-I have increased the daily reward % to help affected members by this change.
+Blurt transaction fee has been increased because of that
+some people are not receiving daily reward.
+I have increased the reward % to help affected members.
 Also working on improving Leaderboard reward.
 ---
 
@@ -257,10 +258,7 @@ Also working on improving Leaderboard reward.
 The more you use, the more you earn!
 https://blurtblock.herokuapp.com
 
-Top 3 [**Leaderboard**]({leaderboard}) members will receive bonus **UPVOTE**
-* Top 1 will receive **100%** UPVOTE
-* Top 2 will receive regular vote + **50%** (+ delegation bonus)
-* Top 3 will receive regular vote + **25%** (+ delegation bonus)
+Top 10 [**Leaderboard**]({leaderboard}) bonus upvote **SOON**
 
 Delegation Bonus 👇
 If you delegate your BP to @tomoyan, you will receive daily rewards.
