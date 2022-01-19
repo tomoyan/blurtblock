@@ -90,47 +90,78 @@
                             </b><br>
                             <!-- star ratings -->
                             {% if data['stars'] >= 0 and data['stars'] < 0.5 %}
-                                <i class="bi bi-star"></i>
+                                <i class="bi bi-star" data-toggle="tooltip"
+                                    data-placement="top" title="{{ data['stars'] }}"></i>
                             {% elif data['stars'] >= 0.5 and data['stars'] < 1 %}
-                                <i class="bi bi-star-half"></i>
+                                <i class="bi bi-star-half" data-toggle="tooltip"
+                                    data-placement="top" title="{{ data['stars'] }}"></i>
                             {% elif data['stars'] >= 1 and data['stars'] < 1.5 %}
-                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill" data-toggle="tooltip"
+                                    data-placement="top" title="{{ data['stars'] }}"></i>
                             {% elif data['stars'] >= 1.5 and data['stars'] < 2 %}
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-half"></i>
+                                <i class="bi bi-star-fill" data-toggle="tooltip"
+                                    data-placement="top" title="{{ data['stars'] }}"></i>
+                                <i class="bi bi-star-half" data-toggle="tooltip"
+                                    data-placement="top" title="{{ data['stars'] }}"></i>
                             {% elif data['stars'] >= 2 and data['stars'] < 2.5 %}
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill" data-toggle="tooltip"
+                                    data-placement="top" title="{{ data['stars'] }}"></i>
+                                <i class="bi bi-star-fill" data-toggle="tooltip"
+                                    data-placement="top" title="{{ data['stars'] }}"></i>
                             {% elif data['stars'] >= 2.5 and data['stars'] < 3 %}
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-half"></i>
+                                <i class="bi bi-star-fill" data-toggle="tooltip"
+                                    data-placement="top" title="{{ data['stars'] }}"></i>
+                                <i class="bi bi-star-fill" data-toggle="tooltip"
+                                    data-placement="top" title="{{ data['stars'] }}"></i>
+                                <i class="bi bi-star-half" data-toggle="tooltip"
+                                    data-placement="top" title="{{ data['stars'] }}"></i>
                             {% elif data['stars'] >= 3 and data['stars'] < 3.5 %}
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill" data-toggle="tooltip"
+                                    data-placement="top" title="{{ data['stars'] }}"></i>
+                                <i class="bi bi-star-fill" data-toggle="tooltip"
+                                    data-placement="top" title="{{ data['stars'] }}"></i>
+                                <i class="bi bi-star-fill" data-toggle="tooltip"
+                                    data-placement="top" title="{{ data['stars'] }}"></i>
                             {% elif data['stars'] >= 3.5 and data['stars'] < 4 %}
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-half"></i>
+                                <i class="bi bi-star-fill" data-toggle="tooltip"
+                                    data-placement="top" title="{{ data['stars'] }}"></i>
+                                <i class="bi bi-star-fill" data-toggle="tooltip"
+                                    data-placement="top" title="{{ data['stars'] }}"></i>
+                                <i class="bi bi-star-fill" data-toggle="tooltip"
+                                    data-placement="top" title="{{ data['stars'] }}"></i>
+                                <i class="bi bi-star-half" data-toggle="tooltip"
+                                    data-placement="top" title="{{ data['stars'] }}"></i>
                             {% elif data['stars'] >= 4 and data['stars'] < 4.5 %}
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill" data-toggle="tooltip"
+                                    data-placement="top" title="{{ data['stars'] }}"></i>
+                                <i class="bi bi-star-fill" data-toggle="tooltip"
+                                    data-placement="top" title="{{ data['stars'] }}"></i>
+                                <i class="bi bi-star-fill" data-toggle="tooltip"
+                                    data-placement="top" title="{{ data['stars'] }}"></i>
+                                <i class="bi bi-star-fill" data-toggle="tooltip"
+                                    data-placement="top" title="{{ data['stars'] }}"></i>
                             {% elif data['stars'] >= 4.5 and data['stars'] < 5 %}
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-half"></i>
+                                <i class="bi bi-star-fill" data-toggle="tooltip"
+                                    data-placement="top" title="{{ data['stars'] }}"></i>
+                                <i class="bi bi-star-fill" data-toggle="tooltip"
+                                    data-placement="top" title="{{ data['stars'] }}"></i>
+                                <i class="bi bi-star-fill" data-toggle="tooltip"
+                                    data-placement="top" title="{{ data['stars'] }}"></i>
+                                <i class="bi bi-star-fill" data-toggle="tooltip"
+                                    data-placement="top" title="{{ data['stars'] }}"></i>
+                                <i class="bi bi-star-half" data-toggle="tooltip"
+                                    data-placement="top" title="{{ data['stars'] }}"></i>
                             {% elif data['stars'] >= 5%}
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill" data-toggle="tooltip"
+                                    data-placement="top" title="{{ data['stars'] }}"></i>
+                                <i class="bi bi-star-fill" data-toggle="tooltip"
+                                    data-placement="top" title="{{ data['stars'] }}"></i>
+                                <i class="bi bi-star-fill" data-toggle="tooltip"
+                                    data-placement="top" title="{{ data['stars'] }}"></i>
+                                <i class="bi bi-star-fill" data-toggle="tooltip"
+                                    data-placement="top" title="{{ data['stars'] }}"></i>
+                                <i class="bi bi-star-fill" data-toggle="tooltip"
+                                    data-placement="top" title="{{ data['stars'] }}"></i>
                             {% endif %}
                             <!-- bonus star icon -->
                             {% if data['stars'] == 2.5 or data['stars'] == 5 %}
