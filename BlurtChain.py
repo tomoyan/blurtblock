@@ -583,6 +583,25 @@ class BlurtChain:
 
         return bonus_weight
 
+    def witness_bonus(self, username):
+        bonus_weight = 0.0
+        witness_votes = self.witness_votes
+        recommended_witness = {
+            'kamranrkploy', 'saboin', 'tekraze'
+        }
+
+        match = len(witness_votes.intersection(recommended_witness))
+
+        # bonus depends on number of recommended_witness match
+        if match == 1:
+            bonus_weight = 3.0
+        elif match == 2:
+            bonus_weight = 5.0
+        elif match == 3:
+            bonus_weight = 10.0
+
+        return bonus_weight
+
     def upvote_post(self, identifier, delegation_bonus, member_bonus):
         upvote_account = Config.UPVOTE_ACCOUNT
         upvote_key = Config.UPVOTE_KEY
@@ -665,6 +684,7 @@ https://blurtblock.herokuapp.com/blurt/upvote
     def is_power_down(self, username):
         # If user is powering down 10%~, return True
         percentage = 0.1  # 0.1 - 10% power down
+        witness_votes = {}
         result = False
 
         noderpc = NodeRPC(self.nodes)
@@ -680,11 +700,9 @@ https://blurtblock.herokuapp.com/blurt/upvote
         if (vesting_withdraw_total / vesting_shares.amount) >= percentage:
             result = True
 
-        # vesting_withdraw_rate = account_data['vesting_withdraw_rate']
-        # vesting_withdraw_rate = float(vesting_withdraw_rate.split()[0])
-
-        # if vesting_withdraw_rate > 0.0:
-        #     result = True
+        # set witness_votes data for witness_bonus
+        witness_votes = set(account_data["witness_votes"])
+        self.witness_votes = witness_votes
 
         return result
 
@@ -803,7 +821,7 @@ https://blurtblock.herokuapp.com/blurt/upvote
         if is_curation_trail:
             data['message'] = f"""
             Error: Please join our <a href="/blurt/trail">
-            <u>Curation Trail</u></a> before using this tool.
+            <u>Curation Trail Here</u></a> before using this tool.
             Thank you.
             """
             data['message'] = Markup(data['message'])
@@ -873,6 +891,10 @@ https://blurtblock.herokuapp.com/blurt/upvote
 
         # check member level bonus
         member_bonus = self.member_bonus(username)
+
+        # check recommended witness bonus
+        witness_bonus = self.witness_bonus(username)
+        member_bonus += witness_bonus
 
         # check star bonus
         # 2.5 stars -> 25%

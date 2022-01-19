@@ -75,3 +75,8 @@ body {
 .upvote-progress-bar {
     background: -webkit-linear-gradient(left, #bda79e 0%,#f2652e 100%);
 }
+
+.gradient-carousel {
+    background: rgb(34,51,59);
+    background: radial-gradient(circle, rgba(34,51,59,1) 0%, rgba(10,9,8,1) 100%);
+}

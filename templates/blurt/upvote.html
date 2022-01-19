@@ -54,7 +54,7 @@
                     width="150" alt="blurt logo" class="img-thumbnail">
                 <h1 class="display-4">BLURT For Everyone!</h1>
                 <p class="lead">
-                    Get free UPVOTE every 20 hours
+                    Get free UPVOTE (resets every 20 hours)
                 </p>
                 <hr class="my-4">
                 Delegate BP to
@@ -66,18 +66,89 @@
             </div>
 
             <div class="container-sm">
+            <!-- Witness Carousel -->
+            <div id="witnessCarouselIndicators" class="carousel slide m-2" data-ride="carousel">
+              <ol class="carousel-indicators">
+                <li data-target="#witnessCarouselIndicators" data-slide-to="0" class="active"></li>
+                <li data-target="#witnessCarouselIndicators" data-slide-to="1"></li>
+                <li data-target="#witnessCarouselIndicators" data-slide-to="2"></li>
+              </ol>
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="gradient-carousel row text-white p-2">
+                        <div class="col-sm-1"></div>
+                        <div class="col-sm-4">
+                            <a href="https://blurtwallet.com/~witnesses?highlight=tekraze" target="_blank">
+                            <img src="https://imgp.blurt.world/profileimage/tekraze/256x256" alt="tekraze slide"
+                                class="img-thumbnail">
+                            </a>
+                        </div>
+                        <div class="col-sm-6 font-weight-light">
+                            <a class="text-white" href="https://blurtwallet.com/~witnesses?highlight=tekraze" target="_blank">
+                                <h3><u>Vote for @tekraze</u></h3></a>
+                        </div>
+                        <div class="col-sm-1"></div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="gradient-carousel row text-white p-2">
+                        <div class="col-sm-1"></div>
+                        <div class="col-sm-4">
+                            <a href="https://blurtwallet.com/~witnesses?highlight=saboin" target="_blank">
+                            <img src="https://imgp.blurt.world/profileimage/saboin/256x256" alt="saboin slide"
+                                class="img-thumbnail">
+                            </a>
+                        </div>
+                        <div class="col-sm-6 font-weight-light">
+                            <a class="text-white" href="https://blurtwallet.com/~witnesses?highlight=saboin" target="_blank">
+                                <h3><u>Vote for @saboin</u></h3></a>
+                        </div>
+                        <div class="col-sm-1"></div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="gradient-carousel row text-white p-2">
+                        <div class="col-sm-1"></div>
+                        <div class="col-sm-4">
+                            <a href="https://blurtwallet.com/~witnesses?highlight=kamranrkploy" target="_blank">
+                            <img src="https://imgp.blurt.world/profileimage/kamranrkploy/256x256" alt="kamranrkploy slide"
+                                class="img-thumbnail">
+                            </a>
+                        </div>
+                        <div class="col-sm-6 font-weight-light">
+                            <a class="text-white" href="https://blurtwallet.com/~witnesses?highlight=kamranrkploy" target="_blank">
+                                <h3><u>Vote for @kamranrkploy</u></h3></a>
+                        </div>
+                        <div class="col-sm-1"></div>
+                    </div>
+                </div>
+                <div class="carousel-caption d-none d-md-block">
+                    <h3>Recommended Witness</h3>
+                    <p class="lead">Vote and get up to <u>10% bonus</u> upvote</p>
+                </div>
+              </div>
+              <a class="carousel-control-prev" href="#witnessCarouselIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+              </a>
+              <a class="carousel-control-next" href="#witnessCarouselIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+              </a>
+            </div>
+
                 <!-- <h1 class="display-4">Get Free Upvote</h1> -->
                 <form action="{{ url_for('upvote') }}" method="post">
                     <!-- used to protect the form against csrf attacks -->
                     {{ form.hidden_tag() }}
 
                     <div class="form-group">
-                        <label for="postInputURL">Enter Blurt post URL</label>
+                        <label for="postInputURL">Enter Blurt Post URL</label>
                         <input type="url"
                             name="url"
                             class="form-control" id="postInputURL"
                             aria-describedby="urlHelp"
-                            placeholder="https://blurt.blog/@USERNAME/post-address"
+                            placeholder="https://blurt.blog/@username/permalink"
                             >
                     </div>
 
