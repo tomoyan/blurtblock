@@ -98,6 +98,17 @@ def get_delegation_list():
     return delegations
 
 
+def get_coal_list():
+    coal_list = []
+    db_name = 'coal_list'
+    coal_data = db_prd.child(db_name).get()
+
+    for coal in coal_data:
+        coal_list.append(coal.val()['username'])
+
+    return coal_list
+
+
 def get_top_leaderboard():
     members = {}
     top_ten_members = []
@@ -134,10 +145,14 @@ def get_rewards(budget, delegations):
     total_bp = sum(delegations.values())
 
     # top_members = get_top_leaderboard()
+    coal_list = get_coal_list()
 
     # Rewards get divided by delegation %
     for key in delegations:
         if key == INVESTOR:
+            continue
+
+        if key in coal_list:
             continue
 
         # Base amount
