@@ -1532,7 +1532,7 @@ https://blurtblock.herokuapp.com/blurt/upvote
                 BLT.vote(weight, identifier, account=ACC)
             except Exception as err:
                 print('TRAIL_VOTE_ERR', username, err)
-                print(self.remove_trail(username))
+                # print(self.remove_trail(username))
 
     def get_trail_count(self):
         db_name = 'trail_followers'
