@@ -406,9 +406,12 @@ def blurt_msg_token():
     data = {}
 
     if request.method == 'POST':
-        token = request.form.get('token')
-        api_key = request.form.get('api_key')
-        print('BLURT_MSG_TOKEN', token, api_key)
+        request_data = request.get_json()
+        token = request_data['token']
+        api_key = request_data['api_key']
+        # token = request.form.get('token')
+        # api_key = request.form.get('api_key')
+        print('BLURT_MSG_TOKEN', request_data, token, api_key)
 
         blurt = BC.BlurtChain(username=None)
         data = blurt.get_msg_token(api_key, token)
