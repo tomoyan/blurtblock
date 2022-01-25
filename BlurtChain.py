@@ -1466,7 +1466,7 @@ https://blurtblock.herokuapp.com/blurt/upvote
             'token': ''
         }
 
-        if api_key == Config.MSG_APIKEY:
+        if token and api_key == Config.MSG_APIKEY:
             message = self.decrypt_message(token)
 
         if message:
