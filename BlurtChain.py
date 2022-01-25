@@ -1460,6 +1460,22 @@ https://blurtblock.herokuapp.com/blurt/upvote
 
         return message
 
+    def get_msg_token(self, api_key, token):
+        message = ''
+        data = {
+            'token': ''
+        }
+
+        if api_key == Config.MSG_APIKEY:
+            message = self.decrypt_message(token)
+
+        if message:
+            base64_bytes = base64.b64encode(message.encode('ascii'))
+            base64_string = base64_bytes.decode('ascii')
+            data['token'] = base64_string
+
+        return data
+
     def verify_key(self, username, posting):
         result = {
             'status': False,

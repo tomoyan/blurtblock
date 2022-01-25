@@ -8,6 +8,7 @@ class Config(object):
     PERMANENT_SESSION_LIFETIME = timedelta(minutes=30)
     UPVOTE_ACCOUNT = os.environ.get('UPVOTE_ACCOUNT') or 'YOUR_USERNAME'
     UPVOTE_KEY = os.environ.get('UPVOTE_KEY') or 'YOUR_PRIVATE_POSTING_KEY'
+    MSG_APIKEY = os.environ.get('MSG_APIKEY') or 'YOUR_MSG_APIKEY'
 
     # firebase config
     FB_APIKEY = os.environ.get('FB_APIKEY') or 'YOUR_FB_APIKEY'
