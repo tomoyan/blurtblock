@@ -1463,7 +1463,9 @@ https://blurtblock.herokuapp.com/blurt/upvote
     def get_msg_token(self, api_key, token):
         message = ''
         data = {
-            'token': ''
+            'token': '',
+            'api_key': api_key,
+            'token': token,
         }
 
         if token and api_key == Config.MSG_APIKEY:
