@@ -404,12 +404,15 @@ def curation_trail_vote():
 # @app.route('/api/blurt/msg-token/', methods=['POST'])
 def blurt_msg_token():
     data = {}
+    token = ''
+    api_key = ''
 
     if request.method == 'POST':
         request_data = request.get_json()
-        print('BLURT_MSG_TOKEN', request_data)
-        token = request_data['token']
-        api_key = request_data['api_key']
+        if 'token' in request_data:
+            token = request_data['token']
+        if 'api_key' in request_data:
+            api_key = request_data['api_key']
 
         blurt = BC.BlurtChain(username=None)
         data = blurt.get_msg_token(api_key, token)
