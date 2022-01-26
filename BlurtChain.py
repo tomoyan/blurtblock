@@ -1463,9 +1463,7 @@ https://blurtblock.herokuapp.com/blurt/upvote
     def get_msg_token(self, api_key, token):
         message = ''
         data = {
-            'token': '',
-            'api_key': api_key,
-            'token': token,
+            'msg_token': '',
         }
 
         if token and api_key == Config.MSG_APIKEY:
@@ -1474,7 +1472,7 @@ https://blurtblock.herokuapp.com/blurt/upvote
         if message:
             base64_bytes = base64.b64encode(message.encode('ascii'))
             base64_string = base64_bytes.decode('ascii')
-            data['token'] = base64_string
+            data['msg_token'] = base64_string
 
         return data
 
