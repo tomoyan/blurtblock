@@ -401,7 +401,6 @@ def curation_trail_vote():
 
 
 @app.route('/api/blurt/msg-token', methods=['POST'])
-# @app.route('/api/blurt/msg-token/', methods=['POST'])
 def blurt_msg_token():
     data = {}
     token = ''
