@@ -255,6 +255,11 @@ def publish_post(rewards):
 </center>
 ## Everyday is a BLURT day if you [delegate your BP]({delegate_url})
 
+## Curation trail updated
+* Auto reward claim has been added to trail followers
+* Insufficient fund check has been added
+(accounts that don't have enough BLURT will be removed from the trail)
+
 ## Upvote tool updated
 * COAL (do not vote) list has been added
 * Powering down account will not be upvoted
