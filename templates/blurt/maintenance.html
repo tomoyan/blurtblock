@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- favicon -->
+        {% include 'favicon.html' %}
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/blurt_style.css') }}">
+
+        <!-- fontawesome kit -->
+        <script src="{{ url_for('static', filename='js/fontawesome.js') }}"></script>
+
+        <!-- Maintenance Meta Tags -->
+        {% include 'maintenancemetatags.html' %}
+        <!-- Google Analytics -->
+        {% include 'gatag.html' %}
+        <!-- AdSense -->
+        {% include 'adsense.html' %}
+    </head>
+    <body>
+
+        <div class="container">
+            <!-- top navigation menu -->
+            {% include 'navbar.html' %}
+
+            <div class="jumbotron bg-blurt text-white">
+                <img src="{{ url_for('static', filename='images/logo.png') }}"
+                    width="150" alt="blurt logo" class="img-thumbnail">
+                <h1 class="display-4">Maintenance Mode</h1>
+                <p class="lead">Will be right back...</p>
+            </div>
+
+            <img src="{{ url_for('static', filename='images/maintenance.png') }}"
+            class="img-fluid mx-auto d-block" alt="Maintenance image">
+
+        </div>
+
+        <script src="{{ url_for('static', filename='js/jquery-3.5.1.min.js') }}"></script>
+
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        {% include 'bootstrap_js.html' %}
+      </body>
+
+    <!-- Footer -->
+    {% include 'footer.html' %}
+
+</html>

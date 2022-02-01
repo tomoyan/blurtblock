@@ -193,6 +193,12 @@ def exchange():
     return render_template('blurt/exchange.html')
 
 
+@app.route('/blurt/maintenance')
+@app.route('/blurt/maintenance/')
+def maintenance():
+    return render_template('blurt/maintenance.html')
+
+
 def threading_processes(username=None):
     if username is None:
         return
