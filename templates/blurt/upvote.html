@@ -202,9 +202,46 @@
                     {% endif %}
                     {% endwith %}
 
-                    <span class="d-flex justify-content-center" tabindex="0">
+                        <div class="accordion text-center p-3" id="boosterAccordion">
+                          <div class="card">
+                            <div class="card-header" id="headingOne">
+                              <h2 class="mb-0">
+                                <button class="btn btn-link btn-block" type="button" data-toggle="collapse"
+                                    data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                  <h5>What is Upvote Booster <i class="fas fa-rocket"></i></h5>
+                                </button>
+                              </h2>
+                            </div>
+
+                            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#boosterAccordion">
+                              <div class="card-body">
+                                Booster rocket will convert your star points into upvote % and give you a booster bonus up to 50%<br>
+                                (bonus % depends on the points and will reset to 0)<br>
+                                You can check your star points in your profile page.
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="row align-items-center">
+                            <div class="col"></div>
+                            <div class="col text-right" data-toggle="tooltip"
+                                data-placement="top" title="Rocket boost will convert points and added upvote bonus">
+                                <input type="checkbox" name="boost" id="boost">
+                                <label class="form-check-label" for="boost">
+                                    <img src="{{ url_for('static', filename='images/rocket.png') }}"
+                                        alt="Boost Rocket" height="32">
+                                </label>
+                            </div>
+                            <div class="col text-left">
+                                <button type="submit" class="btn btn-blurt">Submit</button>
+                            </div>
+                            <div class="col"></div>
+                        </div>
+
+<!--                     <span class="d-flex justify-content-center" tabindex="0">
                         <button type="submit" class="btn btn-blurt">Submit</button>
-                    </span>
+                    </span> -->
                 </form>
                 <script type="text/javascript">
                     // disable submit button after submit

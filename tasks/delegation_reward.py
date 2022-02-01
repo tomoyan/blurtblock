@@ -18,8 +18,8 @@ account = Account(username, blockchain_instance=blurt)
 token_power = account.get_token_power()
 token_power = f'{token_power:,.2f} BP'
 
-# 40% of curation reward distributed
-PERCENT = 40
+# 35% of curation reward distributed
+PERCENT = 35
 
 # Firebase configuration
 serviceAccountCredentials = json.loads(

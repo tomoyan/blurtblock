@@ -788,7 +788,7 @@ https://blurtblock.herokuapp.com/blurt/upvote
         db_name = 'account_history'
         self.firebase.child(db_name).child(key).remove()
 
-    def process_upvote(self, url):
+    def process_upvote(self, url, boost):
         username = None
         identifier = None
         now = datetime.utcnow()
@@ -909,6 +909,12 @@ https://blurtblock.herokuapp.com/blurt/upvote
             star_bonus = 100.0
         member_bonus += star_bonus
 
+        # check boost bonus
+        if boost:
+            boost_bonus = (stars * 10)
+            print(f'{boost_bonus=}')
+            member_bonus += boost_bonus
+
         bonus_weight = delegation_bonus + member_bonus
 
         # upvote
@@ -946,18 +952,22 @@ https://blurtblock.herokuapp.com/blurt/upvote
         # replace "." sign in username with "+"
         replaced_username = username.replace(".", "+")
 
-        upvote_data = self.firebase.child(
-            db_name).child(replaced_username).get()
-
-        if upvote_data.each():
-            for user_data in upvote_data.each():
-                key = user_data.key()
-                value = user_data.val()
-
-                if key == 'count':
-                    count_data['count'] = value + 1
+        # If boost bonus was used, reset the count to 0
+        if boost:
+            count_data['count'] = 0
         else:
-            count_data['count'] = 1
+            upvote_data = self.firebase.child(
+                db_name).child(replaced_username).get()
+
+            if upvote_data.each():
+                for user_data in upvote_data.each():
+                    key = user_data.key()
+                    value = user_data.val()
+
+                    if key == 'count':
+                        count_data['count'] = value + 1
+            else:
+                count_data['count'] = 1
 
         # save upvote count
         self.firebase.child(db_name).child(replaced_username).set(count_data)
