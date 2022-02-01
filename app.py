@@ -86,7 +86,7 @@ def upvote():
     if request.method == 'POST':
         if form.validate():
             url = request.form['url'].strip().lower()
-            # boost = 'boost' in request.form
+            boost = 'boost' in request.form
             blurt = BC.BlurtChain(username=None)
 
             forwarded_for = request.headers.getlist("X-Forwarded-For")
@@ -94,8 +94,7 @@ def upvote():
             if forwarded_for:
                 blurt.client_ip = forwarded_for[0]
 
-            # result = blurt.process_upvote(url, boost)
-            result = blurt.process_upvote(url)
+            result = blurt.process_upvote(url, boost)
 
             # Curation trail_upvote threading
             if result['status']:
