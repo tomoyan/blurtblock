@@ -41,7 +41,7 @@ BLURT_NODES = [
     'https://rpc.nerdtopia.de',
     'https://kentzz.blurt.world',
     'https://rpc.blurtlatam.com',
-    'https://blurt.ecosynthesizer.com',
+    # 'https://blurt.ecosynthesizer.com',
 ]
 random.shuffle(BLURT_NODES)
 
