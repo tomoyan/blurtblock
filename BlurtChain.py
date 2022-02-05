@@ -941,7 +941,8 @@ https://blurtblock.herokuapp.com/blurt/upvote
         data = {
             'status': True,
             'message': 'Thank You. This post has been upvoted.',
-            'identifier': identifier
+            'identifier': identifier,
+            'vote_weight': is_upvoted["vote_weight"]
         }
 
         # UPVOTE REWARD COUNTS
@@ -1530,7 +1531,7 @@ https://blurtblock.herokuapp.com/blurt/upvote
 
         return result
 
-    def trail_upvote(self, identifier=None):
+    def trail_upvote(self, identifier, vote_weight):
         weight = 100.0
         voting_power = 80.0
         db_name = 'trail_followers'
@@ -1541,7 +1542,13 @@ https://blurtblock.herokuapp.com/blurt/upvote
         for follower in followers.each():
             username = follower.val()['username']
             posting = self.decrypt_message(follower.val()['posting'])
-            weight = follower.val()['weight']
+            weight = vote_weight
+
+            # Dynamic scaling vote weight
+            # if vote_weight <= follower.val()['weight']:
+            #     weight = vote_weight
+            # else:
+            #     weight = follower.val()['weight']
 
             try:
                 BLT = Blurt(self.nodes, keys=[posting])
