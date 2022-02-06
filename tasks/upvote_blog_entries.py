@@ -12,7 +12,8 @@ ACCOUNT = Account(USERNAME, blockchain_instance=BLURT)
 
 # 100% Upvote for special users
 USERS = [
-    'ecosynthesizer', 'maxinpower', 'the-gorilla', 'tomoyan',
+    'ecosynthesizer', 'maxinpower',
+    'the-gorilla', 'tomoyan',
     'kahkashanrkploy', 'kamranrkploy'
 ]
 
@@ -33,8 +34,6 @@ def upvote_blog_entries_username(name):
             weight = 85.0
             if name == 'ecosynthesizer':
                 weight = 35.0
-            elif name == 'tomoyan':
-                weight = 100.0
             elif name == 'kahkashanrkploy':
                 weight = 50.0
             elif name == 'kamranrkploy':
@@ -45,12 +44,13 @@ def upvote_blog_entries_username(name):
             BLURT.vote(weight, identifier, account=ACCOUNT)
 
             # Trail vote API
-            # https://blurtblock.herokuapp.com/api/blurt/trail-vote/?id=@user/id
+            # /api/blurt/trail-vote/?id="@user/id&weight=1"
             base_url = 'https://blurtblock.herokuapp.com'
             url = (
                 f'{base_url}'
                 '/api/blurt/trail-vote/?'
                 f'id={identifier}'
+                f'weight={weight}'
             )
             requests.get(url)
 
