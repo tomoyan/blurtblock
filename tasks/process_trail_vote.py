@@ -70,7 +70,6 @@ def decrypt_message(posting):
 
 
 def trail_upvote(identifier, vote_weight):
-    print('trail_upvote', identifier)
     weight = 100.0
     voting_power = 80.0
     db_name = 'trail_followers'
@@ -81,7 +80,8 @@ def trail_upvote(identifier, vote_weight):
     for follower in followers.each():
         username = follower.val()['username']
         posting = decrypt_message(follower.val()['posting'])
-        weight = vote_weight
+        # weight = vote_weight
+        weight = follower.val()['weight']
 
         try:
             BLT = Blurt(blurt_nodes, keys=[posting])
