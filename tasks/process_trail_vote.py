@@ -70,6 +70,7 @@ def decrypt_message(posting):
 
 
 def trail_upvote(identifier, vote_weight):
+    print('trail_upvote', identifier)
     weight = 100.0
     voting_power = 80.0
     db_name = 'trail_followers'
