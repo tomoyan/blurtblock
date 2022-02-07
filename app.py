@@ -100,7 +100,9 @@ def upvote():
             # if result['status']:
             #     threading.Thread(
             #         target=blurt.trail_upvote,
-            #         args=[result['identifier'], result['vote_weight']]).start()
+            #         args=[
+            #             result['identifier'],
+            #             result['vote_weight']]).start()
 
             flash(result['message'])
         else:

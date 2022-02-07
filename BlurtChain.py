@@ -524,7 +524,7 @@ class BlurtChain:
         blurt = Blurt(node=self.nodes)
         account = Account(username, blockchain_instance=blurt)
 
-        # check delegation_bonus (bonus_weight 10 - 50%)
+        # check delegation_bonus (bonus_weight 10 - 40%)
         vesting_delegations = account.get_vesting_delegations()
         for delegation in vesting_delegations:
             if delegation["delegatee"] == "tomoyan":
@@ -532,25 +532,25 @@ class BlurtChain:
                 delegation_bp = self.blurt.vests_to_bp(vesting_shares.amount)
 
                 if 1.0 <= delegation_bp < 100.0:
-                    bonus_weight = round(random.uniform(1, 5), 2)
+                    bonus_weight = round(random.uniform(1, 2), 2)
                 elif 100.0 <= delegation_bp < 500.0:
-                    bonus_weight = round(random.uniform(5, 10), 2)
+                    bonus_weight = round(random.uniform(2, 5), 2)
                 elif 500.0 <= delegation_bp < 1000.0:
-                    bonus_weight = round(random.uniform(10, 15), 2)
+                    bonus_weight = round(random.uniform(5, 10), 2)
                 elif 1000.0 <= delegation_bp < 3000.0:
-                    bonus_weight = round(random.uniform(15, 20), 2)
+                    bonus_weight = round(random.uniform(10, 15), 2)
                 elif 3000.0 <= delegation_bp < 5000.0:
-                    bonus_weight = round(random.uniform(20, 25), 2)
+                    bonus_weight = round(random.uniform(15, 20), 2)
                 elif 5000.0 <= delegation_bp < 10000.0:
-                    bonus_weight = round(random.uniform(25, 30), 2)
+                    bonus_weight = round(random.uniform(20, 25), 2)
                 elif 10000.0 <= delegation_bp < 30000.0:
-                    bonus_weight = round(random.uniform(30, 35), 2)
+                    bonus_weight = round(random.uniform(25, 30), 2)
                 elif 30000.0 <= delegation_bp < 50000.0:
-                    bonus_weight = round(random.uniform(35, 40), 2)
+                    bonus_weight = round(random.uniform(30, 35), 2)
                 elif 50000.0 <= delegation_bp < 100000.0:
-                    bonus_weight = round(random.uniform(40, 45), 2)
+                    bonus_weight = round(random.uniform(35, 40), 2)
                 elif delegation_bp >= 100000.0:
-                    bonus_weight = 50.0
+                    bonus_weight = 40.0
 
                 break
 
@@ -927,6 +927,13 @@ https://blurtblock.herokuapp.com/blurt/upvote
         # Leave a comment after upvote
         self.comment_post(is_upvoted)
 
+        # Only delegators will get trail votes (trail_vote = False)
+        # True means no trail votes (default)
+        trail_vote = True
+        if delegation_bonus > 0:
+            # False means this gets trail votes
+            trail_vote = False
+
         # save upvote_data
         upvote_data = {
             'username': username,
@@ -935,7 +942,7 @@ https://blurtblock.herokuapp.com/blurt/upvote
             'vote_weight': is_upvoted["vote_weight"],
             'bonus_weight': bonus_weight,
             'client_ip': self.client_ip,
-            'trail_vote': False
+            'trail_vote': trail_vote
         }
         self.save_data_fb("upvote_log", upvote_data)
 
