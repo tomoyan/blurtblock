@@ -52,7 +52,7 @@ def upvote_blog_entries_username(name):
                 f'id={identifier}'
                 f'weight={weight}'
             )
-            requests.get(url)
+            # requests.get(url)
 
 
 if __name__ == '__main__':
