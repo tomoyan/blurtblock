@@ -50,7 +50,7 @@ def upvote_blog_entries_username(name):
                 f'{base_url}'
                 '/api/blurt/trail-vote/?'
                 f'id={identifier}'
-                f'weight={weight}'
+                f'&weight={weight}'
             )
             requests.get(url)
 
