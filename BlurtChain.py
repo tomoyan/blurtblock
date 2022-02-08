@@ -735,11 +735,11 @@ https://blurtblock.herokuapp.com/blurt/upvote
         duration_late = 432000  # 5 days
         result = False
 
-        COMMENT = Comment(identifier, api='condenser')
-        post_age = COMMENT.time_elapsed().total_seconds()
+        # COMMENT = Comment(identifier, api='condenser')
+        # post_age = COMMENT.time_elapsed().total_seconds()
 
-        if duration_early < post_age < duration_late:
-            result = True
+        # if duration_early < post_age < duration_late:
+        #     result = True
 
         return result
 
