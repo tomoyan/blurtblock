@@ -714,17 +714,16 @@ https://blurtblock.herokuapp.com/blurt/upvote
         # if it is already upvoted or not(True/False)
         result = False
 
-        upvote_account = Config.UPVOTE_ACCOUNT
-        blurt = Blurt(node=self.nodes)
-        account = Account(upvote_account, blockchain_instance=blurt)
+        # upvote_account = Config.UPVOTE_ACCOUNT
+        # blurt = Blurt(node=self.nodes)
+        # account = Account(upvote_account, blockchain_instance=blurt)
 
-        try:
-            COMMENT = Comment(identifier, api='condenser',
-                              blockchain_instance=blurt)
-            result = account.has_voted(COMMENT)
-        except Exception as err:
-            print('CHECK_POST_VOTE:', err)
-            result = False
+        # try:
+        #     COMMENT = Comment(identifier, api='condenser',
+        #                       blockchain_instance=blurt)
+        #     result = account.has_voted(COMMENT)
+        # except Exception as err:
+        #     print('CHECK_POST_VOTE:', err)
 
         return result
 
