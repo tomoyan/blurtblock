@@ -731,9 +731,9 @@ https://blurtblock.herokuapp.com/blurt/upvote
         # if post age is younger than 5 minutes (300 secs)
         # or older than 5 days (432000 secs)
         # return False
-        duration_early = 300  # 5 minutes
-        duration_late = 432000  # 5 days
-        result = False
+        # duration_early = 300  # 5 minutes
+        # duration_late = 432000  # 5 days
+        # result = False
 
         # COMMENT = Comment(identifier, api='condenser')
         # post_age = COMMENT.time_elapsed().total_seconds()
@@ -741,7 +741,8 @@ https://blurtblock.herokuapp.com/blurt/upvote
         # if duration_early < post_age < duration_late:
         #     result = True
 
-        return result
+        # return result
+        return True
 
     def save_data_fb(self, db_name, data):
         # save data into firebase database
