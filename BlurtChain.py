@@ -699,8 +699,9 @@ https://blurtblock.herokuapp.com/blurt/upvote
         vesting_withdraw_total = vesting_withdraw_rate.amount * 4
 
         # check power down percentage
-        if (vesting_withdraw_total / vesting_shares.amount) >= percentage:
-            result = True
+        if vesting_shares.amount:
+            if (vesting_withdraw_total / vesting_shares.amount) >= percentage:
+                result = True
 
         # set witness_votes data for witness_bonus
         witness_votes = set(account_data["witness_votes"])
