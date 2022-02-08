@@ -14,7 +14,8 @@ ACCOUNT = Account(USERNAME, blockchain_instance=BLURT)
 USERS = [
     'ecosynthesizer', 'maxinpower',
     'the-gorilla', 'tomoyan',
-    'kahkashanrkploy', 'kamranrkploy'
+    'kahkashanrkploy', 'kamranrkploy',
+    'famigliacurione'
 ]
 
 
