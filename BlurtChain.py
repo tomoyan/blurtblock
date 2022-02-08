@@ -724,6 +724,7 @@ https://blurtblock.herokuapp.com/blurt/upvote
             result = account.has_voted(COMMENT)
         except Exception as err:
             print('CHECK_POST_VOTE:', err)
+            result = False
 
         return result
 
