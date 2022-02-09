@@ -1,6 +1,7 @@
 from beem import Blurt
 from beem.account import Account
 import os
+import time
 
 # Setup blurt nodes and account
 BLURT_NODES = ['https://rpc.blurt.world']
@@ -41,7 +42,9 @@ def upvote_blog_entries_username(name):
 
             identifier = post.authorperm
             # Upvote a post
+            print(identifier, weight)
             BLURT.vote(weight, identifier, account=ACCOUNT)
+            time.sleep(3)
 
 
 if __name__ == '__main__':
