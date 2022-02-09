@@ -635,7 +635,7 @@ class BlurtChain:
             vote_result["vote_weight"] = weight
             vote_result["identifier"] = identifier
         except Exception as err:
-            print(err)
+            print('VOTE_ERR', err, account, identifier. weight)
             vote_result["message"] = f"Error: Please check your URL {err}"
 
         return vote_result
@@ -875,7 +875,6 @@ https://blurtblock.herokuapp.com/blurt/upvote
 
         # check last upvote
         can_vote = self.check_last_upvote(username)
-        print('CAN_VOTE', can_vote, username)
         if can_vote is False:
             wait_message = 'Please come back later'
             data['message'] = f'Error: {wait_message} ({self.wait_time})'
@@ -883,14 +882,12 @@ https://blurtblock.herokuapp.com/blurt/upvote
 
         # check if post is voted already
         is_voted = self.check_post_vote(identifier)
-        print('IS_VOTED', is_voted, username)
         if is_voted:
             data['message'] = 'Error: This post has been upvoted already'
             return data
 
         # check post age
         post_age = self.check_post_age(identifier)
-        print('POST_AGE', post_age, username)
         if post_age is False:
             data['message'] = 'Error: Post has to be 5 minutes old or \
                 less than 5 days old'
@@ -928,7 +925,6 @@ https://blurtblock.herokuapp.com/blurt/upvote
         # upvote
         is_upvoted = self.upvote_post(
             identifier, delegation_bonus, member_bonus)
-        print('IS_UPVOTED', is_upvoted, username)
         if is_upvoted["status"] is False:
             data['message'] = is_upvoted["message"]
             return data
