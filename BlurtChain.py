@@ -635,7 +635,7 @@ class BlurtChain:
             vote_result["vote_weight"] = weight
             vote_result["identifier"] = identifier
         except Exception as err:
-            print('VOTE_ERR', err, account, identifier. weight)
+            print('VOTE_ERR', err, account, identifier, weight)
             vote_result["message"] = f"Error: Please check your URL {err}"
 
         return vote_result
