@@ -630,6 +630,7 @@ class BlurtChain:
 
         try:
             result = blurt.vote(weight, identifier, account=account)
+            print('VOTED', result['trx_id'])
             vote_result["status"] = True
             vote_result["message"] = f"Upvoted: {result}"
             vote_result["vote_weight"] = weight
