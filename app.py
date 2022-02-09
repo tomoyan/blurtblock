@@ -389,30 +389,30 @@ def curation_trail_count(username=None):
     return jsonify(data)
 
 
-@app.route('/api/blurt/trail-vote', methods=['GET'])
-@app.route('/api/blurt/trail-vote/', methods=['GET'])
-def curation_trail_vote():
-    # /api/blurt/trail-vote/?id=identifier&weight=1
-    identifier = None
-    weight = None
-    data = {
-        'status': False,
-        'message': f'Error: id {identifier}, weight {weight}'
-    }
+# @app.route('/api/blurt/trail-vote', methods=['GET'])
+# @app.route('/api/blurt/trail-vote/', methods=['GET'])
+# def curation_trail_vote():
+#     # /api/blurt/trail-vote/?id=identifier&weight=1
+#     identifier = None
+#     weight = None
+#     data = {
+#         'status': False,
+#         'message': f'Error: id {identifier}, weight {weight}'
+#     }
 
-    if 'id' in request.args:
-        identifier = request.args['id']
+#     if 'id' in request.args:
+#         identifier = request.args['id']
 
-    if 'weight' in request.args:
-        weight = request.args['weight']
+#     if 'weight' in request.args:
+#         weight = request.args['weight']
 
-    if identifier and '@' in identifier and weight:
-        blurt = BC.BlurtChain(username=None)
-        blurt.trail_upvote(identifier, weight)
-        data['status'] = True
-        data['message'] = f'trail_vote {identifier}'
+#     if identifier and '@' in identifier and weight:
+#         blurt = BC.BlurtChain(username=None)
+#         blurt.trail_upvote(identifier, weight)
+#         data['status'] = True
+#         data['message'] = f'trail_vote {identifier}'
 
-    return jsonify(data)
+#     return jsonify(data)
 
 
 @app.route('/api/blurt/msg-token', methods=['POST'])
