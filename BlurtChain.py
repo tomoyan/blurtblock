@@ -39,7 +39,7 @@ BLURT_NODES = [
     # 'https://rpc.tekraze.com',
     'https://rpc.dotwin1981.de',
     'https://rpc.nerdtopia.de',
-    # 'https://kentzz.blurt.world',
+    'https://kentzz.blurt.world',
     # 'https://rpc.blurtlatam.com',
     # 'https://blurt.ecosynthesizer.com',
 ]
@@ -716,35 +716,34 @@ https://blurtblock.herokuapp.com/blurt/upvote
         # if it is already upvoted or not(True/False)
         result = False
 
-        # upvote_account = Config.UPVOTE_ACCOUNT
-        # blurt = Blurt(node=self.nodes)
-        # account = Account(upvote_account, blockchain_instance=blurt)
+        upvote_account = Config.UPVOTE_ACCOUNT
+        blurt = Blurt(node=self.nodes)
+        account = Account(upvote_account, blockchain_instance=blurt)
 
-        # try:
-        #     COMMENT = Comment(identifier, api='condenser',
-        #                       blockchain_instance=blurt)
-        #     result = account.has_voted(COMMENT)
-        # except Exception as err:
-        #     print('CHECK_POST_VOTE:', err)
+        try:
+            COMMENT = Comment(identifier, api='condenser',
+                              blockchain_instance=blurt)
+            result = account.has_voted(COMMENT)
+        except Exception as err:
+            print('CHECK_POST_VOTE:', err)
 
         return result
 
     def check_post_age(self, identifier):
-        # if post age is younger than 5 minutes (300 secs)
-        # or older than 5 days (432000 secs)
+        # if post age is less than 5 minutes (300 secs)
+        # or more than 5 days (432000 secs)
         # return False
-        # duration_early = 300  # 5 minutes
-        # duration_late = 432000  # 5 days
-        # result = False
+        duration_early = 300  # 5 minutes
+        duration_late = 432000  # 5 days
+        result = False
 
-        # COMMENT = Comment(identifier, api='condenser')
-        # post_age = COMMENT.time_elapsed().total_seconds()
+        COMMENT = Comment(identifier, api='condenser')
+        post_age = COMMENT.time_elapsed().total_seconds()
 
-        # if duration_early < post_age < duration_late:
-        #     result = True
+        if duration_early < post_age < duration_late:
+            result = True
 
-        # return result
-        return True
+        return result
 
     def save_data_fb(self, db_name, data):
         # save data into firebase database
