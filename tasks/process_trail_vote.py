@@ -100,11 +100,11 @@ def trail_upvote(identifier, vote_weight):
             if ACC.get_voting_power() < voting_power:
                 continue
 
-            COMMENT = Comment(
-                identifier, api='condenser', blockchain_instance=BLT)
-            if ACC.has_voted(COMMENT):
-                print('ALREADY_VOTED', ACC, identifier)
-                continue
+            # COMMENT = Comment(
+            #     identifier, api='condenser', blockchain_instance=BLT)
+            # if ACC.has_voted(COMMENT):
+            #     print('ALREADY_VOTED', ACC, identifier)
+            #     continue
             print(username, weight)
             BLT.vote(weight, identifier, account=ACC)
         except Exception as err:
