@@ -35,13 +35,12 @@ firebase = pyrebase.initialize_app(firebase_config)
 
 BLURT_NODES = [
     # 'https://rpc.blurt.world',
-    # 'https://blurt-rpc.saboin.com',
+    'https://blurt-rpc.saboin.com',
     # 'https://rpc.tekraze.com',
     'https://rpc.dotwin1981.de',
     'https://rpc.nerdtopia.de',
     'https://kentzz.blurt.world',
 ]
-random.shuffle(BLURT_NODES)
 
 
 class BlurtChain:
@@ -53,7 +52,8 @@ class BlurtChain:
         self.username = username
         self.account = None
         self.witness = 0
-        self.nodes = BLURT_NODES
+        # self.nodes = BLURT_NODES
+        self.nodes = self.get_node()
 
         self.blurt = Blurt(node=self.nodes, num_retries=-1)
         self.blockchain = set_shared_blockchain_instance(self.blurt)
@@ -67,6 +67,16 @@ class BlurtChain:
         except Exception:
             self.username = None
             self.account = None
+
+    def get_node(self):
+        random.shuffle(BLURT_NODES)
+        for node in BLURT_NODES:
+            try:
+                response = requests.get(node, timeout=1)
+                if response:
+                    return node
+            except requests.exceptions.RequestException as e:
+                print(f'GET_NODE_ERR:{node} {e}')
 
     def get_account_info(self):
         self.account_info = {}
