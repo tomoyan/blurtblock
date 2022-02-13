@@ -6,14 +6,35 @@ import base64
 import json
 import os
 import random
+import requests
 
 # Setup blurt nodes and account
-blurt_nodes = ['https://rpc.blurt.world']
+# blurt_nodes = ['https://rpc.blurt.world']
+BLURT_NODES = [
+    # 'https://rpc.blurt.world',
+    'https://blurt-rpc.saboin.com',
+    # 'https://rpc.tekraze.com',
+    'https://rpc.dotwin1981.de',
+    'https://rpc.nerdtopia.de',
+    'https://kentzz.blurt.world',
+]
+
+
+def get_node():
+    random.shuffle(BLURT_NODES)
+    for node in BLURT_NODES:
+        try:
+            response = requests.get(node, timeout=1)
+            if response:
+                return node
+        except requests.exceptions.RequestException as e:
+            print(f'GET_NODE_ERR:{node} {e}')
+
 
 username = os.environ.get('USERNAME')
 INVESTOR = os.environ.get('INVESTOR')
 
-blurt = Blurt(blurt_nodes)
+blurt = Blurt(get_node())
 account = Account(username, blockchain_instance=blurt)
 token_power = account.get_token_power()
 token_power = f'{token_power:,.2f} BP'
@@ -54,7 +75,7 @@ def inv_tx(reward_bp):
     today = datetime.now().strftime("%Y-%m-%d")
     ratio = int(os.environ.get('INV_RATIO'))
     active_key = os.environ.get('ACTIVE_KEY')
-    blt = Blurt(blurt_nodes, keys=[active_key])
+    blt = Blurt(get_node(), keys=[active_key])
     acc = Account(username, blockchain_instance=blt)
 
     investor_bp = int(reward_bp * ratio / 100)
@@ -181,7 +202,7 @@ def get_rewards(budget, delegations):
 
 def send_rewards(rewards):
     active_key = os.environ.get('ACTIVE_KEY')
-    b = Blurt(blurt_nodes, keys=[active_key])
+    b = Blurt(get_node(), keys=[active_key])
     a = Account(username, blockchain_instance=b)
 
     db_name = 'failed_transfer'
@@ -228,7 +249,7 @@ def fb_get_main_image():
 
 def publish_post(rewards):
     post_key = os.environ.get('POST_KEY')
-    b = Blurt(blurt_nodes, keys=[post_key])
+    b = Blurt(get_node(), keys=[post_key])
 
     today = datetime.now().strftime("%Y-%m-%d")
     title = f'Daily Delegation Payout - {today}'
