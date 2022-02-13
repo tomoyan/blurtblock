@@ -6,13 +6,33 @@ import json
 import os
 import time
 from datetime import datetime
-
+import random
+import requests
 
 # Setup blurt nodes and account
-BLURT_NODES = ['https://blurt-rpc.saboin.com']
+BLURT_NODES = [
+    # 'https://rpc.blurt.world',
+    'https://blurt-rpc.saboin.com',
+    'https://rpc.dotwin1981.de',
+    'https://rpc.nerdtopia.de',
+    'https://kentzz.blurt.world',
+]
+
+
+def get_node():
+    random.shuffle(BLURT_NODES)
+    for node in BLURT_NODES:
+        try:
+            response = requests.get(node, timeout=1)
+            if response:
+                return node
+        except requests.exceptions.RequestException as e:
+            print(f'NODE_ERR:{node} {e}')
+
+
 USERNAME = os.environ.get('USERNAME')
 UPVOTE_KEY = os.environ.get('POST_KEY')
-BLURT = Blurt(BLURT_NODES, keys=[UPVOTE_KEY])
+BLURT = Blurt(get_node(), keys=[UPVOTE_KEY])
 ACCOUNT = Account(USERNAME, blockchain_instance=BLURT)
 
 USERS = [

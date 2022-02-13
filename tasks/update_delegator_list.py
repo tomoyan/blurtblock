@@ -6,12 +6,31 @@ import pyrebase
 import base64
 import json
 import os
+import random
+import requests
 
 # Setup blurt nodes and account
 blurt_nodes = [
+    # 'https://rpc.blurt.world',
     'https://blurt-rpc.saboin.com',
+    'https://rpc.dotwin1981.de',
+    'https://rpc.nerdtopia.de',
+    'https://kentzz.blurt.world',
 ]
-blurt = Blurt(blurt_nodes)
+
+
+def get_node():
+    random.shuffle(blurt_nodes)
+    for node in blurt_nodes:
+        try:
+            response = requests.get(node, timeout=1)
+            if response:
+                return node
+        except requests.exceptions.RequestException as e:
+            print(f'NODE_ERR:{node} {e}')
+
+
+blurt = Blurt(get_node())
 
 username = os.environ.get('USERNAME')
 account = Account(username, blockchain_instance=blurt)

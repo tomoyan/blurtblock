@@ -55,7 +55,7 @@ class BlurtChain:
         # self.nodes = BLURT_NODES
         self.nodes = self.get_node()
 
-        self.blurt = Blurt(node=self.nodes, num_retries=-1)
+        self.blurt = Blurt(node=self.nodes, num_retries=5)
         self.blockchain = set_shared_blockchain_instance(self.blurt)
 
         # Get a reference to the database service
@@ -91,7 +91,7 @@ class BlurtChain:
             self.account_info['recharge_time_str'] = recharge_time
 
             # GET ACCOUNT DETAILS
-            noderpc = NodeRPC('https://rpc.blurt.world')
+            noderpc = NodeRPC(self.get_node())
             account_data = noderpc.get_account(self.username)[0]
             self.account_info['username'] = account_data['name']
 

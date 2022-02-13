@@ -7,6 +7,7 @@ import json
 import os
 import cryptocode
 import random
+import requests
 
 blurt_nodes = [
     # 'https://rpc.blurt.world',
@@ -15,7 +16,18 @@ blurt_nodes = [
     'https://rpc.nerdtopia.de',
     'https://kentzz.blurt.world',
 ]
-random.shuffle(blurt_nodes)
+
+
+def get_node():
+    random.shuffle(blurt_nodes)
+    for node in blurt_nodes:
+        try:
+            response = requests.get(node, timeout=1)
+            if response:
+                return node
+        except requests.exceptions.RequestException as e:
+            print(f'NODE_ERR:{node} {e}')
+
 
 FB_SERVICEACCOUNT = os.environ.get('FB_SERVICEACCOUNT')
 
@@ -92,7 +104,7 @@ def trail_upvote(identifier, vote_weight):
         weight = follower.val()['weight']
 
         try:
-            BLT = Blurt(blurt_nodes, keys=[posting])
+            BLT = Blurt(get_node(), keys=[posting])
             ACC = Account(username, blockchain_instance=BLT)
             if ACC.get_voting_power() < voting_power:
                 continue
