@@ -9,7 +9,7 @@ from datetime import datetime
 
 
 # Setup blurt nodes and account
-BLURT_NODES = ['https://rpc.blurt.world']
+BLURT_NODES = ['https://blurt-rpc.saboin.com']
 USERNAME = os.environ.get('USERNAME')
 UPVOTE_KEY = os.environ.get('POST_KEY')
 BLURT = Blurt(BLURT_NODES, keys=[UPVOTE_KEY])
