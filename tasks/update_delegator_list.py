@@ -9,7 +9,7 @@ import os
 
 # Setup blurt nodes and account
 blurt_nodes = [
-    'https://rpc.blurt.world',
+    'https://blurt-rpc.saboin.com',
 ]
 blurt = Blurt(blurt_nodes)
 
