@@ -529,7 +529,7 @@ class BlurtChain:
     def delegation_bonus(self, username):
         bonus_weight = 0.0
 
-        blurt = Blurt(node=self.nodes)
+        blurt = Blurt(node=self.nodes, num_retries=5)
         account = Account(username, blockchain_instance=blurt)
 
         # check delegation_bonus (bonus_weight 10 - 40%)
@@ -621,7 +621,7 @@ class BlurtChain:
             "message": "Error"
         }
 
-        blurt = Blurt(node=self.nodes, keys=[upvote_key])
+        blurt = Blurt(node=self.nodes, keys=[upvote_key], num_retries=5)
         account = Account(upvote_account, blockchain_instance=blurt)
 
         # Base vote weight (random 1-3%)
@@ -654,7 +654,7 @@ class BlurtChain:
         vote_weight = f"{vote_data['vote_weight']:.2f}"
         post_key = Config.UPVOTE_KEY
         username = Config.UPVOTE_ACCOUNT
-        B = Blurt(node=self.nodes, keys=[post_key])
+        B = Blurt(node=self.nodes, keys=[post_key], num_retries=5)
 
         # Get thank you image from giphy
         url = (
@@ -725,7 +725,7 @@ https://blurtblock.herokuapp.com/blurt/upvote
         result = False
 
         upvote_account = Config.UPVOTE_ACCOUNT
-        blurt = Blurt(node=self.nodes)
+        blurt = Blurt(node=self.nodes, num_retries=5)
         account = Account(upvote_account, blockchain_instance=blurt)
 
         try:
@@ -1516,7 +1516,7 @@ https://blurtblock.herokuapp.com/blurt/upvote
         }
 
         try:
-            blurt = Blurt(node=self.nodes, keys=[posting])
+            blurt = Blurt(node=self.nodes, keys=[posting], num_retries=5)
         except Exception as err:
             result['message'] += f'Invalid wif {str(err)}'
             return result
@@ -1573,7 +1573,7 @@ https://blurtblock.herokuapp.com/blurt/upvote
             #     weight = follower.val()['weight']
 
             try:
-                BLT = Blurt(self.nodes, keys=[posting])
+                BLT = Blurt(self.nodes, keys=[posting], num_retries=5)
                 ACC = Account(username, blockchain_instance=BLT)
                 if ACC.get_voting_power() < voting_power:
                     continue
