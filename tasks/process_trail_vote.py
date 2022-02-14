@@ -8,6 +8,7 @@ import os
 import cryptocode
 import random
 import requests
+import time
 
 blurt_nodes = [
     # 'https://rpc.blurt.world',
@@ -118,6 +119,8 @@ def trail_upvote(identifier, vote_weight):
             BLT.vote(weight, identifier, account=ACC)
         except Exception as err:
             print('TRAIL_VOTE_ERR', username, err)
+
+        time.sleep(1)
 
 
 if __name__ == '__main__':
