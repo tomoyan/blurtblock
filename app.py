@@ -211,15 +211,16 @@ def threading_processes(username=None):
     # result is saved in db
     durations = [1, 7, 30]
     for duration in durations:
-
+        dblurt = BC.BlurtChain(username)
         t = threading.Thread(
-            target=blurt.get_rewards, args=[duration])
+            target=dblurt.get_rewards, args=[duration])
         t.start()
 
     options = ['transfer', 'upvote', 'comment']
     for option in options:
+        oblurt = BC.BlurtChain(username)
         t = threading.Thread(
-            target=blurt.get_history, args=[username, option])
+            target=oblurt.get_history, args=[username, option])
         t.start()
 
     # Check incoming delegations and store in fb
