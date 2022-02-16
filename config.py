@@ -17,3 +17,14 @@ class Config(object):
     FB_STORAGEBUCKET = 'blurtdb.appspot.com'
     FB_SERVICEACCOUNT = os.environ.get(
         'FB_SERVICEACCOUNT') or 'FB_SERVICEACCOUNT'
+
+    # Blurt Node list
+    NODE_LIST = [
+        'https://rpc.blurt.world',
+        'https://blurt-rpc.saboin.com',
+        'https://rpc.tekraze.com',
+        'https://rpc.dotwin1981.de',
+        'https://rpc.nerdtopia.de',
+        'https://kentzz.blurt.world',
+        'https://rpc.blurtlatam.com'
+    ]

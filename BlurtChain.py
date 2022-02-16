@@ -33,14 +33,8 @@ firebase_config = {
 # Firebase initialization
 firebase = pyrebase.initialize_app(firebase_config)
 
-BLURT_NODES = [
-    'https://rpc.blurt.world',
-    'https://blurt-rpc.saboin.com',
-    'https://rpc.tekraze.com',
-    'https://rpc.dotwin1981.de',
-    'https://rpc.nerdtopia.de',
-    'https://kentzz.blurt.world',
-]
+# Blurt Node List
+BLURT_NODES = Config.NODE_LIST
 
 
 class BlurtChain:
@@ -52,7 +46,6 @@ class BlurtChain:
         self.username = username
         self.account = None
         self.witness = 0
-        # self.nodes = BLURT_NODES
         self.nodes = self.get_node()
 
         self.blurt = Blurt(node=self.nodes, num_retries=5)
@@ -540,7 +533,7 @@ class BlurtChain:
                 delegation_bp = self.blurt.vests_to_bp(vesting_shares.amount)
 
                 if 1.0 <= delegation_bp < 100.0:
-                    bonus_weight = round(random.uniform(1, 2), 2)
+                    bonus_weight = round(random.uniform(0, 2), 2)
                 elif 100.0 <= delegation_bp < 500.0:
                     bonus_weight = round(random.uniform(2, 4), 2)
                 elif 500.0 <= delegation_bp < 1000.0:
