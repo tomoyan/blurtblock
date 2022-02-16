@@ -13,7 +13,7 @@ import requests
 BLURT_NODES = [
     'https://rpc.blurt.world',
     'https://blurt-rpc.saboin.com',
-    # 'https://rpc.tekraze.com',
+    'https://rpc.tekraze.com',
     'https://rpc.dotwin1981.de',
     'https://rpc.nerdtopia.de',
     'https://kentzz.blurt.world',
