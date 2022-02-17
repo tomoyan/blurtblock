@@ -752,8 +752,11 @@ https://blurtblock.herokuapp.com/blurt/upvote
         return result
 
     def update_data_fb(self, db_name, key, data):
+        # replace "." sign in username with "+"
+        replaced_key = key.replace(".", "+")
+
         # update data into firebase database
-        result = self.firebase.child(db_name).child(key).update(data)
+        result = self.firebase.child(db_name).child(replaced_key).update(data)
         return result
 
     def remove_data_fb(self, db_name, key):
@@ -762,10 +765,13 @@ https://blurtblock.herokuapp.com/blurt/upvote
         return result
 
     def get_reward_summary_fb(self, key):
+        # replace "." sign in username with "+"
+        replaced_key = key.replace(".", "+")
+
         # get reward summary data and then remove from fb
         result = dict()
         db_name = 'reward_summary'
-        data = self.firebase.child(db_name).child(key).get()
+        data = self.firebase.child(db_name).child(replaced_key).get()
 
         if data.each():
             for d in data.each():
@@ -774,15 +780,21 @@ https://blurtblock.herokuapp.com/blurt/upvote
         return result
 
     def remove_reward_summary_fb(self, key):
+        # replace "." sign in username with "+"
+        replaced_key = key.replace(".", "+")
+
         # remove reward summary from fb
         db_name = 'reward_summary'
-        self.firebase.child(db_name).child(key).remove()
+        self.firebase.child(db_name).child(replaced_key).remove()
 
     def get_account_history_fb(self, key):
+        # replace "." sign in username with "+"
+        replaced_key = key.replace(".", "+")
+
         # get account history data and then remove from fb
         result = dict()
         db_name = 'account_history'
-        data = self.firebase.child(db_name).child(key).get()
+        data = self.firebase.child(db_name).child(replaced_key).get()
 
         if data.each():
             for d in data.each():
@@ -791,9 +803,12 @@ https://blurtblock.herokuapp.com/blurt/upvote
         return result
 
     def remove_account_history_fb(self, key):
+        # replace "." sign in username with "+"
+        replaced_key = key.replace(".", "+")
+
         # remove account history from fb
         db_name = 'account_history'
-        self.firebase.child(db_name).child(key).remove()
+        self.firebase.child(db_name).child(replaced_key).remove()
 
     def process_upvote(self, url, boost):
         username = None
