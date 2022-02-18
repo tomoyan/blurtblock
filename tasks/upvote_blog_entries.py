@@ -33,7 +33,7 @@ def get_node():
 
 USERNAME = os.environ.get('USERNAME')
 UPVOTE_KEY = os.environ.get('POST_KEY')
-BLURT = Blurt(get_node(), keys=[UPVOTE_KEY])
+BLURT = Blurt(get_node(), keys=[UPVOTE_KEY], num_retries=3)
 ACCOUNT = Account(USERNAME, blockchain_instance=BLURT)
 
 USERS = [

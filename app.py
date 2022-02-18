@@ -274,6 +274,17 @@ def blurt_mute(username=None):
     return jsonify(data)
 
 
+@app.route('/api/blurt/operations/<username>')
+@app.route('/api/blurt/operations/<username>/')
+def blurt_operations(username=None):
+    data = {}
+    if username:
+        blurt = BC.BlurtChain(username)
+        data = blurt.get_operations()
+
+    return jsonify(data)
+
+
 @app.route('/api/blurt/delegation/<username>/<option>')
 @app.route('/api/blurt/delegation/<username>/<option>/')
 def blurt_delegation(username=None, option=None):

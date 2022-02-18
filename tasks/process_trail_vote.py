@@ -106,7 +106,7 @@ def trail_upvote(identifier, vote_weight):
         weight = follower.val()['weight']
 
         try:
-            BLT = Blurt(get_node(), keys=[posting])
+            BLT = Blurt(get_node(), keys=[posting], num_retries=3)
             ACC = Account(username, blockchain_instance=BLT)
             if ACC.get_voting_power() < voting_power:
                 continue

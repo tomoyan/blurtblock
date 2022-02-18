@@ -31,7 +31,7 @@ def get_node():
             print(f'NODE_ERR:{node} {e}')
 
 
-blurt = Blurt(get_node())
+blurt = Blurt(get_node(), num_retries=3)
 
 username = os.environ.get('USERNAME')
 account = Account(username, blockchain_instance=blurt)

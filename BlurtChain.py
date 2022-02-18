@@ -48,7 +48,7 @@ class BlurtChain:
         self.witness = 0
         self.nodes = self.get_node()
 
-        self.blurt = Blurt(node=self.nodes, num_retries=5)
+        self.blurt = Blurt(node=self.nodes, num_retries=3)
         self.blockchain = set_shared_blockchain_instance(self.blurt)
 
         # Get a reference to the database service
@@ -212,6 +212,30 @@ class BlurtChain:
                 })
 
         return active_posts
+
+    def get_operations(self):
+        result = []
+        stop = datetime.utcnow() - timedelta(days=1)
+
+        if self.username:
+            operations = self.account.history_reverse(stop=stop)
+
+            for op in operations:
+                datetime_obj = datetime.strptime(
+                    op["timestamp"], '%Y-%m-%dT%H:%M:%S')
+                timestamp = datetime_obj.strftime(
+                    "%Y-%m-%d %H:%M:%S")
+                op_data = {
+                    'timestamp': timestamp,
+                    'type': op['type']
+                }
+
+                if 'weight' in op:
+                    op_data['weight'] = op['weight'] // 100
+
+                result[op['type']].append(op_data)
+
+        return result
 
     def get_vote_history(self, username):
         result = {}

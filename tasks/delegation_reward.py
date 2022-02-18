@@ -34,7 +34,7 @@ def get_node():
 username = os.environ.get('USERNAME')
 INVESTOR = os.environ.get('INVESTOR')
 
-blurt = Blurt(get_node())
+blurt = Blurt(get_node(), num_retries=3)
 account = Account(username, blockchain_instance=blurt)
 token_power = account.get_token_power()
 token_power = f'{token_power:,.2f} BP'
