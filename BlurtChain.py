@@ -459,8 +459,8 @@ class BlurtChain:
         # return True if not a follower
         result = False
 
-        # check if username exists in trail_followers
-        follow_key = self.get_follow_key(username)
+        # check if active username exists in trail_followers
+        follow_key = self.get_active_follow_key(username)
 
         if follow_key is None:
             # Not following trail
@@ -762,11 +762,14 @@ https://blurtblock.herokuapp.com/blurt/upvote
         duration_late = 432000  # 5 days
         result = False
 
-        COMMENT = Comment(identifier, api='condenser')
-        post_age = COMMENT.time_elapsed().total_seconds()
+        try:
+            COMMENT = Comment(identifier, api='condenser')
+            post_age = COMMENT.time_elapsed().total_seconds()
 
-        if duration_early < post_age < duration_late:
-            result = True
+            if duration_early < post_age < duration_late:
+                result = True
+        except Exception as err:
+            print('CHECK_POST_AGE:', err)
 
         return result
 
@@ -1582,6 +1585,23 @@ https://blurtblock.herokuapp.com/blurt/upvote
             item = next(iter(follower.items()))
             # fb_key: item[0]
             result = item[0]
+
+        return result
+
+    def get_active_follow_key(self, username):
+        # Returns fb key if active username already exists
+        # Follow status = 1
+        result = None
+        db_name = 'trail_followers'
+
+        follower = self.firebase.child(db_name).order_by_child(
+            "username").equal_to(username).get().val()
+        if follower:
+            item = next(iter(follower.items()))
+
+            if item[1]["status"]:
+                # fb_key is item[0]
+                result = item[0]
 
         return result
 
