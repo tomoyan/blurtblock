@@ -468,6 +468,21 @@ class BlurtChain:
 
         return result
 
+    def check_content(self, identifier):
+        # Return True if no content
+        # False if content exists
+        result = False
+
+        try:
+            Comment(
+                identifier, api='condenser',
+                blockchain_instance=self.blurt)
+        except Exception as err:
+            result = True
+            print('CHECK_CONTENT_ERR:', err)
+
+        return result
+
     def check_last_ip(self, client_ip):
         print('CHECK_LAST_IP', client_ip)
         # 1 hour = 3600 sec
@@ -867,9 +882,16 @@ https://blurtblock.herokuapp.com/blurt/upvote
         if not username:
             return data
 
+        # check content
+        content = self.check_content(identifier)
+        if content:
+            data['message'] = f'Error: Content dose not exit. Please check URL'
+            return data
+
         # check curation trail
         is_curation_trail = self.is_curation_trail(username)
         if is_curation_trail:
+            print('is_curation_trail_err')
             data['message'] = f"""
             Error: Please join our <a href="/blurt/trail">
             <u>Curation Trail Here</u></a> before using this tool.
@@ -881,6 +903,7 @@ https://blurtblock.herokuapp.com/blurt/upvote
         # check coal_list
         is_coal = self.is_coal(username)
         if is_coal:
+            print('is_coal_err')
             discord_channel = 'https://discord.gg/PPpZe4eXzf'
             data['message'] = f"""
             Error: This account is coal listed.
@@ -893,12 +916,14 @@ https://blurtblock.herokuapp.com/blurt/upvote
         # check ignore_list
         is_ignored = self.is_ignored(username)
         if is_ignored:
+            print('is_ignored_err')
             data['message'] = f'Error: Oops, something went wrong {username}'
             return data
 
         # check power_down
         is_power_down = self.is_power_down(username)
         if is_power_down:
+            print('is_power_down_err')
             wallet_url = f'https://blurtwallet.com/@{username}'
             data['message'] = f"""
             Error: This account is powering down more than 10%.
@@ -920,6 +945,7 @@ https://blurtblock.herokuapp.com/blurt/upvote
         # check last upvote
         can_vote = self.check_last_upvote(username)
         if can_vote is False:
+            print('check_last_upvote_err')
             wait_message = 'Please come back later'
             data['message'] = f'Error: {wait_message} ({self.wait_time})'
             return data
@@ -927,12 +953,14 @@ https://blurtblock.herokuapp.com/blurt/upvote
         # check if post is voted already
         is_voted = self.check_post_vote(identifier)
         if is_voted:
+            print('check_post_voted_err')
             data['message'] = 'Error: This post has been upvoted already'
             return data
 
         # check post age
         post_age = self.check_post_age(identifier)
         if post_age is False:
+            print('check_post_age_err')
             data['message'] = 'Error: Post has to be 5 minutes old or \
                 less than 5 days old'
             return data
