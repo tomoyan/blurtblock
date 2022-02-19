@@ -20,6 +20,7 @@ class Config(object):
 
     # Blurt Node list
     NODE_LIST = [
+        'https://rpc.blurt.one',
         'https://rpc.blurt.world',
         'https://blurt-rpc.saboin.com',
         'https://rpc.tekraze.com',
