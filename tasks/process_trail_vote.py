@@ -122,7 +122,7 @@ def trail_upvote(identifier, vote_weight):
         except Exception as err:
             print('TRAIL_VOTE_ERR', username, err)
 
-        time.sleep(2)
+        time.sleep(3)
 
 
 if __name__ == '__main__':
