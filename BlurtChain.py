@@ -903,7 +903,7 @@ https://blurtblock.herokuapp.com/blurt/upvote
         # check coal_list
         is_coal = self.is_coal(username)
         if is_coal:
-            print('is_coal_err')
+            print('is_coal_err', username)
             discord_channel = 'https://discord.gg/PPpZe4eXzf'
             data['message'] = f"""
             Error: This account is coal listed.
@@ -916,7 +916,7 @@ https://blurtblock.herokuapp.com/blurt/upvote
         # check ignore_list
         is_ignored = self.is_ignored(username)
         if is_ignored:
-            print('is_ignored_err')
+            print('is_ignored_err', username)
             data['message'] = f'Error: Oops, something went wrong {username}'
             return data
 
@@ -945,7 +945,7 @@ https://blurtblock.herokuapp.com/blurt/upvote
         # check last upvote
         can_vote = self.check_last_upvote(username)
         if can_vote is False:
-            print('check_last_upvote_err')
+            print('check_last_upvote_err', username)
             wait_message = 'Please come back later'
             data['message'] = f'Error: {wait_message} ({self.wait_time})'
             return data
@@ -953,14 +953,14 @@ https://blurtblock.herokuapp.com/blurt/upvote
         # check if post is voted already
         is_voted = self.check_post_vote(identifier)
         if is_voted:
-            print('check_post_voted_err')
+            print('check_post_voted_err', identifier)
             data['message'] = 'Error: This post has been upvoted already'
             return data
 
         # check post age
         post_age = self.check_post_age(identifier)
         if post_age is False:
-            print('check_post_age_err')
+            print('check_post_age_err', identifier)
             data['message'] = 'Error: Post has to be 5 minutes old or \
                 less than 5 days old'
             return data
