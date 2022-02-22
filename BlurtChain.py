@@ -891,7 +891,7 @@ https://blurtblock.herokuapp.com/blurt/upvote
         # check curation trail
         is_curation_trail = self.is_curation_trail(username)
         if is_curation_trail:
-            print('is_curation_trail_err')
+            print('is_curation_trail_err', username)
             data['message'] = f"""
             Error: Please join our <a href="/blurt/trail">
             <u>Curation Trail Here</u></a> before using this tool.
@@ -923,7 +923,7 @@ https://blurtblock.herokuapp.com/blurt/upvote
         # check power_down
         is_power_down = self.is_power_down(username)
         if is_power_down:
-            print('is_power_down_err')
+            print('is_power_down_err', username)
             wallet_url = f'https://blurtwallet.com/@{username}'
             data['message'] = f"""
             Error: This account is powering down more than 10%.
