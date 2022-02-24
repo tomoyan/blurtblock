@@ -40,8 +40,8 @@ def blurt():
         if form.validate():
             username = request.form['username'].strip().lower()
 
-            # return redirect(f'/{username}')
-            flash('Under Maintenance')
+            return redirect(f'/{username}')
+            # flash('Under Maintenance')
         else:
             flash('Username is Required')
 
