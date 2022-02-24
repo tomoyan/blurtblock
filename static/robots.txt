@@ -1,9 +1,3 @@
-User-agent: googlebot
-User-agent: google
-User-agent: bingbot
-User-agent: bingt
-Allow: /
-
 User-agent: *
 Disallow: /
 
