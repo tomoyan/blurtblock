@@ -527,7 +527,11 @@ class BlurtChain:
 
         if ('profile' in account.json_metadata
                 and 'location' in account.json_metadata['profile']):
-            result = True
+            location = account.json_metadata['profile']['location']
+
+            if location == 'iduvts':
+                print(location)
+                result = True
 
         return result
 
