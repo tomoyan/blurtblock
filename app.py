@@ -53,8 +53,7 @@ def blurt():
 def blurt_profile_data(username=None):
     data = {}
 
-    # if username:
-    if username:
+    if 3 <= len(username) <= 16:
         username = escape(username).lower()
         blurt = BC.BlurtChain(username)
 
@@ -73,8 +72,13 @@ def blurt_profile_data(username=None):
                 # incoming delegation
                 threading_processes(username)
 
-    return render_template('blurt/profile_data.html',
-                           username=blurt.username, data=data)
+        return render_template(
+            'blurt/profile_data.html',
+            username=blurt.username, data=data)
+    else:
+        return render_template(
+            'blurt/profile_data.html',
+            username=None, data=data)
 
 
 @app.route('/blurt/upvote', methods=['GET', 'POST'])
