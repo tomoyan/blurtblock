@@ -40,7 +40,8 @@ def blurt():
         if form.validate():
             username = request.form['username'].strip().lower()
 
-            return redirect(f'/{username}')
+            # return redirect(f'/{username}')
+            flash('Under Maintenance')
         else:
             flash('Username is Required')
 
@@ -52,6 +53,7 @@ def blurt():
 def blurt_profile_data(username=None):
     data = {}
 
+    # if username:
     if username:
         username = escape(username).lower()
         blurt = BC.BlurtChain(username)

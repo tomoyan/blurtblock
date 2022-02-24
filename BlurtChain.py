@@ -225,15 +225,75 @@ class BlurtChain:
                     op["timestamp"], '%Y-%m-%dT%H:%M:%S')
                 timestamp = datetime_obj.strftime(
                     "%Y-%m-%d %H:%M:%S")
+
                 op_data = {
                     'timestamp': timestamp,
-                    'type': op['type']
+                    'type': op['type'],
+                    'block': op['block'],
+                    'id': op['_id'],
                 }
 
-                if 'weight' in op:
-                    op_data['weight'] = op['weight'] // 100
+                if op['type'] == 'curation_reward':
+                    vests = Amount(op['reward'])
+                    op_data['bp'] = self.vests_to_bp(vests)
+                    op_data['author'] = op["comment_author"]
+                    op_data['permlink'] = op["comment_permlink"]
+                elif op['type'] == 'author_reward':
+                    vests = Amount(op['vesting_payout'])
+                    op_data['bp'] = self.vests_to_bp(vests)
+                    bvests = Amount(op['blurt_payout'])
+                    op_data['blurt'] = self.vests_to_bp(bvests)
+                    op_data['permlink'] = op["permlink"]
+                elif op['type'] == 'producer_reward':
+                    vests = Amount(op['vesting_shares'])
+                    op_data['bp'] = self.vests_to_bp(vests)
+                elif op['type'] == 'comment_benefactor_reward':
+                    vests = Amount(op['vesting_payout'])
+                    op_data['bp'] = self.vests_to_bp(vests)
+                    bvests = Amount(op['blurt_payout'])
+                    op_data['blurt'] = self.vests_to_bp(bvests)
+                    op_data['permlink'] = op["permlink"]
+                    op_data['benefactor'] = op["benefactor"]
+                elif op['type'] == 'transfer':
+                    vests = Amount(op['amount'])
+                    op_data['blurt'] = self.vests_to_bp(vests)
+                    op_data['from'] = op["from"]
+                    op_data['to'] = op["to"]
+                elif op['type'] == 'delegate_vesting_shares':
+                    vests = Amount(op['vesting_shares'])
+                    op_data['bp'] = self.vests_to_bp(vests)
+                    op_data['from'] = op["delegator"]
+                    op_data['to'] = op["delegatee"]
+                elif op['type'] == 'transfer_to_vesting':
+                    vests = Amount(op['amount'])
+                    op_data['bp'] = self.vests_to_bp(vests)
+                    op_data['from'] = op["from"]
+                    op_data['to'] = op["to"]
+                elif op['type'] == 'withdraw_vesting':
+                    vests = Amount(op['vesting_shares'])
+                    op_data['bp'] = self.vests_to_bp(vests)
+                elif op['type'] == 'claim_reward_balance':
+                    vests = Amount(op['reward_vests'])
+                    op_data['bp'] = self.vests_to_bp(vests)
+                elif op['type'] == 'vote':
+                    weight = op["weight"] / 100
+                    op_data['weight'] = float(f'{weight:.2f}')
+                    op_data['from'] = op["voter"]
+                    op_data['to'] = op["author"]
+                    op_data['permlink'] = op["permlink"]
+                elif op['type'] == 'comment':
+                    op_data['from'] = op["author"]
+                    op_data['to'] = op["parent_author"] or op["author"]
+                    op_data['permlink'] = op["permlink"]
+                elif op['type'] == 'delete_comment':
+                    op_data['permlink'] = op["permlink"]
+                elif op['type'] == 'account_witness_vote':
+                    op_data['witness'] = op["witness"]
+                    op_data['approve'] = op["approve"]
+                else:
+                    print(op)
 
-                result[op['type']].append(op_data)
+                result.append(op_data)
 
         return result
 
@@ -412,8 +472,11 @@ class BlurtChain:
         # VESTS to BP conversion
         bp = 0.000
         v = Amount(vests)
-        bp = self.blurt.vests_to_bp(v.amount)
-        bp = f'{bp:.3f}'
+        if v.symbol == 'VESTS':
+            bp = self.blurt.vests_to_bp(v.amount)
+            bp = f'{bp:.3f}'
+        else:
+            bp = f'{v.amount:.3f}'
 
         return bp
 
@@ -451,6 +514,20 @@ class BlurtChain:
             if value['username'] == username:
                 result = True
                 break
+
+        return result
+
+    def is_iduvts(self, username):
+        # check location iduvts in json_metadata
+        # return True if iduvts
+        result = False
+
+        blurt = Blurt(node=self.nodes, num_retries=5)
+        account = Account(username, blockchain_instance=blurt)
+
+        if ('profile' in account.json_metadata
+                and 'location' in account.json_metadata['profile']):
+            result = True
 
         return result
 
@@ -886,6 +963,13 @@ https://blurtblock.herokuapp.com/blurt/upvote
         content = self.check_content(identifier)
         if content:
             data['message'] = f'Error: Content dose not exit. Please check URL'
+            return data
+
+        # check location iduvts
+        is_iduvts = self.is_iduvts(username)
+        if is_iduvts:
+            print('is_iduvts_err', username)
+            data['message'] = f'Error: iduvts'
             return data
 
         # check curation trail
