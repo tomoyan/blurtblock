@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField
 from wtforms.validators import DataRequired, NumberRange, ValidationError
+from wtforms.validators import Length
 import re
 
 
@@ -12,7 +13,7 @@ def username_check(form, field):
 
 class UserNameForm(FlaskForm):
     username = StringField('username', validators=[
-                           DataRequired(), username_check])
+        DataRequired(), Length(min=3, max=16), username_check])
 
 
 class postUrlForm(FlaskForm):
