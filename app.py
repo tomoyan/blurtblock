@@ -76,9 +76,7 @@ def blurt_profile_data(username=None):
             'blurt/profile_data.html',
             username=blurt.username, data=data)
     else:
-        return render_template(
-            'blurt/profile_data.html',
-            username=None, data=data)
+        return render_template('404.html')
 
 
 @app.route('/blurt/upvote', methods=['GET', 'POST'])
@@ -101,14 +99,6 @@ def upvote():
                 blurt.client_ip = forwarded_for[0]
 
             result = blurt.process_upvote(url, boost)
-
-            # Curation trail_upvote threading
-            # if result['status']:
-            #     threading.Thread(
-            #         target=blurt.trail_upvote,
-            #         args=[
-            #             result['identifier'],
-            #             result['vote_weight']]).start()
 
             flash(result['message'])
         else:
