@@ -292,7 +292,8 @@ class BlurtChain:
                     op_data['witness'] = op["witness"]
                     op_data['approve'] = op["approve"]
                 else:
-                    print(op)
+                    pass
+                    # print(op)
 
                 result.append(op_data)
 
