@@ -1,9 +1,7 @@
 $(document).ready(function(){
-    let BLURTURL = 'https://blurtter.com'
+    let BLURTURL = 'https://blurt.blog'
     let BLURTBLOCK = 'https://blurtblock.herokuapp.com';
     let IMGBASE = 'https://imgp.blurt.world/profileimage';
-    // let IMGBASE = 'https://cdn.steemitimages.com';
-    // let IMGBASE = 'https://images.blurt.blog';
 
     $("#nav-delegation-tab").click(function(){
         // incoming delegation
@@ -730,6 +728,61 @@ $(document).ready(function(){
             error: function (jqXhr, textStatus, errorMessage) {
                 $("#historySpinners").addClass('invisible');
                 $("#historyResult").html('Oops! ' + errorMessage + ' Please try again later');
+            }
+        });
+    });
+
+    $("#nav-history-tab, #operationHistory").click(function(){
+        $("#historySpinners").removeClass('invisible');
+        $("#historySpinners").addClass('visible');
+
+        // operation history
+        $.ajax(document.operationHistoryApi,
+        {
+            dataType: 'json', // type of response data
+            timeout: 30000, // 30 sec timeout in milliseconds
+            tryCount : 0,
+            retryLimit : 3, // retry times
+            success: function (data, status, xhr) {
+                let transactions = ``
+
+                $("#historySpinners").addClass('invisible');
+                if (jQuery.isEmptyObject(data)) {
+                    transactions = `<li class="list-group-item">No Operation Data</li>`;
+                    $("#historyResult").html(transactions);
+                }
+                else {
+                    $("#historyResult").html("");
+                    $.each(data, function(index, value){
+                        // console.log(index, value);
+                        tx = `
+                        <li class="list-group-item">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-sm-auto text-sm-left text-truncate">
+                                        ${value['timestamp']}
+                                    </div>
+                                    <div class="col-sm-auto text-sm-left text-truncate">
+                                        ${value['type']}
+                                    </div>
+                                </div>
+                            </div>
+                        </li>`;
+                        $("#historyResult").append(tx);
+                    });
+                }
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                if (textStatus == 'timeout') {
+                    this.tryCount++;
+                    if (this.tryCount < this.retryLimit) {
+                        //retry
+                        $.ajax(this);
+                        return;
+                    }
+                }
+                $("#historySpinners").addClass('invisible');
+                $("#historyResult").html('Oops! ' + errorMessage + ' Please reload');
             }
         });
     });

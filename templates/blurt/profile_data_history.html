@@ -1,14 +1,15 @@
 <!-- history API calls to backend -->
 <script type="text/javascript">
-    document.rewardOneApi = '/api/blurt/reward/{{ username }}/1';
-    document.rewardSevenApi = '/api/blurt/reward/{{ username }}/7';
-    document.rewardThirtyApi = '/api/blurt/reward/{{ username }}/30';
-    document.transferHistoryApi = '/api/blurt/history/{{ username }}/transfer';
-    document.upvoteHistoryApi = '/api/blurt/history/{{ username }}/upvote';
-    document.commentHistoryApi = '/api/blurt/history/{{ username }}/comment';
-    document.followerApi = '/api/blurt/follower/{{ username }}';
-    document.followingApi = '/api/blurt/following/{{ username }}';
-    document.muteApi = '/api/blurt/mute/{{ username }}'
+    document.operationHistoryApi = '/api/blurt/operations/{{ username }}/';
+    document.rewardOneApi = '/api/blurt/reward/{{ username }}/1/';
+    document.rewardSevenApi = '/api/blurt/reward/{{ username }}/7/';
+    document.rewardThirtyApi = '/api/blurt/reward/{{ username }}/30/';
+    document.transferHistoryApi = '/api/blurt/history/{{ username }}/transfer/';
+    document.upvoteHistoryApi = '/api/blurt/history/{{ username }}/upvote/';
+    document.commentHistoryApi = '/api/blurt/history/{{ username }}/comment/';
+    document.followerApi = '/api/blurt/follower/{{ username }}/';
+    document.followingApi = '/api/blurt/following/{{ username }}/';
+    document.muteApi = '/api/blurt/mute/{{ username }}/'
 </script>
 
 <div class="card">
@@ -20,6 +21,13 @@
                         <span class="sr-only">Loading...</span>
                     </div>
                 </div>
+            </li>
+            <li class="nav-item p-1">
+                <button type="button"
+                    id="operationHistory"
+                    class="btn btn-outline-blurt btn-sm">
+                    Operation
+                </button>
             </li>
             <li class="nav-item p-1">
                 <button type="button"

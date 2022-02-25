@@ -19,6 +19,7 @@ from markdown import markdown
 from operator import itemgetter
 import concurrent.futures
 import cryptocode
+import re
 
 # Firebase configuration
 serviceAccountCredentials = json.loads(
@@ -521,6 +522,7 @@ class BlurtChain:
         # check location iduvts in json_metadata
         # return True if iduvts
         result = False
+        pattern = r'\biduvts\b'
 
         blurt = Blurt(node=self.nodes, num_retries=5)
         account = Account(username, blockchain_instance=blurt)
@@ -529,7 +531,8 @@ class BlurtChain:
                 and 'location' in account.json_metadata['profile']):
             location = account.json_metadata['profile']['location']
 
-            if location == 'iduvts':
+            # if location == 'iduvts':
+            if re.findall(pattern, location, re.I):
                 print(location)
                 result = True
 
