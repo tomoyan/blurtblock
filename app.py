@@ -40,7 +40,7 @@ def blurt():
         if form.validate():
             username = request.form['username'].strip().lower()
 
-            return redirect(f'/{username}')
+            return redirect(f'/{username}/')
             # flash('Under Maintenance')
         else:
             flash('Username is Required')
@@ -212,12 +212,12 @@ def threading_processes(username=None):
             target=dblurt.get_rewards, args=[duration])
         t.start()
 
-    options = ['transfer', 'upvote', 'comment']
-    for option in options:
-        oblurt = BC.BlurtChain(username)
-        t = threading.Thread(
-            target=oblurt.get_history, args=[username, option])
-        t.start()
+    # options = ['transfer', 'upvote', 'comment']
+    # for option in options:
+    #     oblurt = BC.BlurtChain(username)
+    #     t = threading.Thread(
+    #         target=oblurt.get_history, args=[username, option])
+    #     t.start()
 
     # Check incoming delegations and store in fb
     threading.Thread(
