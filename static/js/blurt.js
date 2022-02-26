@@ -2,6 +2,7 @@ $(document).ready(function(){
     let BLURTURL = 'https://blurt.blog'
     let BLURTBLOCK = 'https://blurtblock.herokuapp.com';
     let IMGBASE = 'https://imgp.blurt.world/profileimage';
+    let BLURTWALLET = 'https://blocks.blurtwallet.com';
 
     $("#nav-delegation-tab").click(function(){
         // incoming delegation
@@ -755,6 +756,73 @@ $(document).ready(function(){
                     $("#historyResult").html("");
                     $.each(data, function(index, value){
                         // console.log(index, value);
+                        let bp = ``;
+                        if ('bp' in value) {
+                            bp = `
+                                <div class="col-sm-auto text-sm-left text-truncate">
+                                    ${value['bp']} BP
+                                </div>
+                            `;
+                        }
+                        let blurt = ``;
+                        if ('blurt' in value) {
+                            blurt = `
+                                <div class="col-sm-auto text-sm-left text-truncate">
+                                    ${value['blurt']} BLURT
+                                </div>
+                            `;
+                        }
+                        let from = ``;
+                        if ('from' in value) {
+                            from = `
+                                <div class="col-sm-auto text-sm-left text-truncate">
+                                    From
+                                    <a href="${BLURTURL}/@${value['from']}"
+                                        target="_blank">
+                                        ${value['from']}
+                                    </a>
+                                </div>
+                            `;
+                        }
+                        let to = ``;
+                        if ('from' in value) {
+                            to = `
+                                <div class="col-sm-auto text-sm-left text-truncate">
+                                    To
+                                    <a href="${BLURTURL}/@${value['to']}"
+                                        target="_blank">
+                                        ${value['to']}
+                                    </a>
+                                </div>
+                            `;
+                        }
+                        let weight = ``;
+                        if ('weight' in value) {
+                            weight = `
+                                <div class="col-sm-auto text-sm-left text-truncate">
+                                    ${value['weight']} %
+                                </div>
+                            `;
+                        }
+                        let permlink = ``;
+                        if ('permlink' in value) {
+                            permlink = `
+                                <div class="col-sm-2 text-sm-left text-truncate">
+                                    ${value['permlink']}
+                                </div>
+                            `;
+                        }
+                        let id = ``;
+                        if ( Number.isNaN(value['id'] * 1) ) {
+                            id = `
+                                <div class="col-sm-1 text-sm-left text-truncate">
+                                    <a href="${BLURTWALLET}/?#/tx/${value['id']}"
+                                        target="_blank">
+                                        ${value['id']}
+                                    </a>
+                                </div>
+                            `;
+                        }
                         tx = `
                         <li class="list-group-item">
                             <div class="container">
@@ -762,9 +830,17 @@ $(document).ready(function(){
                                     <div class="col-sm-auto text-sm-left text-truncate">
                                         ${value['timestamp']}
                                     </div>
-                                    <div class="col-sm-auto text-sm-left text-truncate">
+                                    <div class="col-sm-auto text-sm-left
+                                        text-truncate font-weight-bolder">
                                         ${value['type']}
                                     </div>
+                                    ${from}
+                                    ${to}
+                                    ${bp}
+                                    ${blurt}
+                                    ${permlink}
+                                    ${weight}
+                                    ${id}
                                 </div>
                             </div>
                         </li>`;

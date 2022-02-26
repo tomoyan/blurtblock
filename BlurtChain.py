@@ -229,9 +229,9 @@ class BlurtChain:
 
                 op_data = {
                     'timestamp': timestamp,
-                    'type': op['type'],
+                    'type': op['type'].replace('_', ' ').title(),
                     'block': op['block'],
-                    'id': op['_id'],
+                    'id': op['trx_id'],
                 }
 
                 if op['type'] == 'curation_reward':
