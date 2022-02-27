@@ -11,10 +11,10 @@ import requests
 import time
 
 blurt_nodes = [
-    'https://rpc.blurt.one',
-    'https://rpc.blurt.world',
+    # 'https://rpc.blurt.one',
+    # 'https://rpc.blurt.world',
     'https://blurt-rpc.saboin.com',
-    'https://rpc.tekraze.com',
+    # 'https://rpc.tekraze.com',
     'https://rpc.dotwin1981.de',
     'https://rpc.nerdtopia.de',
     'https://kentzz.blurt.world',
@@ -107,7 +107,8 @@ def trail_upvote(identifier, vote_weight):
         weight = follower.val()['weight']
 
         try:
-            BLT = Blurt(get_node(), keys=[posting], num_retries=3)
+            node = get_node()
+            BLT = Blurt(node, keys=[posting], num_retries=3)
             ACC = Account(username, blockchain_instance=BLT)
             if ACC.get_voting_power() < voting_power:
                 continue
@@ -120,7 +121,7 @@ def trail_upvote(identifier, vote_weight):
             print(username, weight)
             BLT.vote(weight, identifier, account=ACC)
         except Exception as err:
-            print('TRAIL_VOTE_ERR', username, err)
+            print('TRAIL_VOTE_ERR', username, node, err)
 
         time.sleep(3)
 
