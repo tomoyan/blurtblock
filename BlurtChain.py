@@ -524,18 +524,23 @@ class BlurtChain:
         # return True if iduvts
         result = False
         pattern = r'\biduvts\b'
+        text = ''
 
         blurt = Blurt(node=self.nodes, num_retries=5)
         account = Account(username, blockchain_instance=blurt)
 
         if ('profile' in account.json_metadata
                 and 'location' in account.json_metadata['profile']):
-            location = account.json_metadata['profile']['location']
+            text = account.json_metadata['profile']['location']
 
-            # if location == 'iduvts':
-            if re.findall(pattern, location, re.I):
-                print(location)
-                result = True
+        if ('profile' in account.json_metadata
+                and 'about' in account.json_metadata['profile']):
+            text = account.json_metadata['profile']['about']
+
+        # if text == 'iduvts':
+        if re.findall(pattern, text, re.I):
+            print(text)
+            result = True
 
         return result
 
