@@ -1,7 +1,5 @@
 User-agent: *
-disallow: /
-
-User-agent: googlebot
 allow: /blurt/
+disallow: /
 
 Sitemap: https://blurtblock.herokuapp.com/sitemap.xml
