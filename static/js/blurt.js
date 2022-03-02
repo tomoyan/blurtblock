@@ -804,6 +804,14 @@ $(document).ready(function(){
                                 </div>
                             `;
                         }
+                        let witness = ``;
+                        if ('witness' in value) {
+                            witness = `
+                                <div class="col-sm-auto text-sm-left text-truncate">
+                                    Approve ${value['witness']} ${value['approve']}
+                                </div>
+                            `;
+                        }
                         let permlink = ``;
                         if ('permlink' in value) {
                             permlink = `
@@ -840,6 +848,7 @@ $(document).ready(function(){
                                     ${blurt}
                                     ${permlink}
                                     ${weight}
+                                    ${witness}
                                     ${id}
                                 </div>
                             </div>

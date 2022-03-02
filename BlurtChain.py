@@ -1108,6 +1108,9 @@ https://blurtblock.herokuapp.com/blurt/upvote
             # False means this gets trail votes
             trail_vote = False
 
+        ranking = self.get_ranking(username)
+        print('RANKING', username, ranking)
+
         # save upvote_data
         upvote_data = {
             'username': username,
