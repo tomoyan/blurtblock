@@ -1214,7 +1214,7 @@ https://blurtblock.herokuapp.com/blurt/upvote
         logs = self.firebase.child(db_name).get()
         users = {}
         leaderboard = []
-        max_users = 50
+        max_users = 75
 
         for log in logs.each():
             value = log.val()
