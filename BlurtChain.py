@@ -1110,13 +1110,17 @@ https://blurtblock.herokuapp.com/blurt/upvote
 
         ranking = self.get_ranking(username)
         print('RANKING', username, ranking)
+        voted_weight = is_upvoted["vote_weight"]
+        if ranking == 1:
+            voted_weight *= -1
 
         # save upvote_data
         upvote_data = {
             'username': username,
             'identifier': identifier,
             'created': current_time,
-            'vote_weight': is_upvoted["vote_weight"],
+            # 'vote_weight': is_upvoted["vote_weight"],
+            'vote_weight': voted_weight,
             'bonus_weight': bonus_weight,
             'client_ip': self.client_ip,
             'trail_vote': trail_vote
