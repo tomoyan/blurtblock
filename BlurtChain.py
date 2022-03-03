@@ -706,10 +706,10 @@ class BlurtChain:
             ranking = self.get_ranking(username)
             if ranking == 1:
                 bonus_weight = 20.0
-            elif ranking == 2:
-                bonus_weight = 10.0
-            elif ranking == 3:
-                bonus_weight = 5.0
+            # elif ranking == 2:
+            #     bonus_weight = 10.0
+            # elif ranking == 3:
+            #     bonus_weight = 5.0
 
         return bonus_weight
 
