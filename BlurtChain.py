@@ -229,7 +229,8 @@ class BlurtChain:
 
                 op_data = {
                     'timestamp': timestamp,
-                    'type': op['type'].replace('_', ' ').title(),
+                    'type': op['type'],
+                    'title': op['type'].replace('_', ' ').title(),
                     'block': op['block'],
                     'id': op['trx_id'],
                 }
@@ -237,13 +238,14 @@ class BlurtChain:
                 if op['type'] == 'curation_reward':
                     vests = Amount(op['reward'])
                     op_data['bp'] = self.vests_to_bp(vests)
-                    op_data['author'] = op["comment_author"]
-                    op_data['permlink'] = op["comment_permlink"]
+                    op_data['comment_author'] = op["comment_author"]
+                    op_data['comment_permlink'] = op["comment_permlink"]
                 elif op['type'] == 'author_reward':
                     vests = Amount(op['vesting_payout'])
                     op_data['bp'] = self.vests_to_bp(vests)
                     bvests = Amount(op['blurt_payout'])
                     op_data['blurt'] = self.vests_to_bp(bvests)
+                    op_data['author'] = op["author"]
                     op_data['permlink'] = op["permlink"]
                 elif op['type'] == 'producer_reward':
                     vests = Amount(op['vesting_shares'])
@@ -276,6 +278,8 @@ class BlurtChain:
                 elif op['type'] == 'claim_reward_balance':
                     vests = Amount(op['reward_vests'])
                     op_data['bp'] = self.vests_to_bp(vests)
+                    bvests = Amount(op['reward_blurt'])
+                    op_data['blurt'] = self.vests_to_bp(bvests)
                 elif op['type'] == 'vote':
                     weight = op["weight"] / 100
                     op_data['weight'] = float(f'{weight:.2f}')
@@ -289,6 +293,8 @@ class BlurtChain:
                 elif op['type'] == 'delete_comment':
                     op_data['permlink'] = op["permlink"]
                 elif op['type'] == 'account_witness_vote':
+                    print(op)
+                    op_data['account'] = op["account"]
                     op_data['witness'] = op["witness"]
                     op_data['approve'] = op["approve"]
                 else:

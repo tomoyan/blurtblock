@@ -147,200 +147,200 @@ $(document).ready(function(){
         });
     });
 
-    $("#transferHistory").click(function(){
-        // transfer history
-        $.ajax(document.transferHistoryApi,
-        {
-            dataType: 'json', // type of response data
-            timeout: 30000, // 30 sec timeout in milliseconds
-            tryCount : 0,
-            retryLimit : 3, // retry times
-            success: function (data, status, xhr) {
-                let transactions = ``
+    // $("#transferHistory").click(function(){
+    //     // transfer history
+    //     $.ajax(document.transferHistoryApi,
+    //     {
+    //         dataType: 'json', // type of response data
+    //         timeout: 30000, // 30 sec timeout in milliseconds
+    //         tryCount : 0,
+    //         retryLimit : 3, // retry times
+    //         success: function (data, status, xhr) {
+    //             let transactions = ``
 
-                $("#historySpinners").addClass('invisible');
-                if (jQuery.isEmptyObject(data['history'])) {
-                    transactions = `<li class="list-group-item">No Transfer Data</li>`;
-                    $("#historyResult").html(transactions);
-                }
-                else {
-                    $("#historyResult").html("");
-                    $.each(data['history'], function(index, value){
-                        tx = `
-                        <li class="list-group-item">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-sm-auto text-sm-left text-truncate">
-                                        ${value['timestamp']}
-                                    </div>
-                                    <div class="col-sm-auto text-sm-left text-truncate">
-                                        ${value['amount']}
-                                        <a class="text-blurt"
-                                            href="${BLURTBLOCK}/${value['from']}"
-                                            target="_blank" rel="noopener noreferrer">${value['from']}
-                                        </a>
-                                        to
-                                        <a class="text-blurt"
-                                            href="${BLURTBLOCK}/${value['to']}"
-                                            target="_blank" rel="noopener noreferrer">${value['to']}
-                                        </a>
-                                    </div>
-                                    <div class="col-sm-auto text-sm-left text-truncate"
-                                        style="max-width: 450px;">
-                                        ${value['memo']}
-                                    </div>
-                                </div>
-                            </div>
-                        </li>`;
-                        $("#historyResult").append(tx);
-                    });
-                }
-            },
-            error: function (jqXhr, textStatus, errorMessage) {
-                if (textStatus == 'timeout') {
-                    this.tryCount++;
-                    if (this.tryCount < this.retryLimit) {
-                        //retry
-                        $.ajax(this);
-                        return;
-                    }
-                }
-                $("#historySpinners").addClass('invisible');
-                $("#historyResult").html('Oops! ' + errorMessage + ' Please reload');
-            }
-        });
-    });
+    //             $("#historySpinners").addClass('invisible');
+    //             if (jQuery.isEmptyObject(data['history'])) {
+    //                 transactions = `<li class="list-group-item">No Transfer Data</li>`;
+    //                 $("#historyResult").html(transactions);
+    //             }
+    //             else {
+    //                 $("#historyResult").html("");
+    //                 $.each(data['history'], function(index, value){
+    //                     tx = `
+    //                     <li class="list-group-item">
+    //                         <div class="container">
+    //                             <div class="row">
+    //                                 <div class="col-sm-auto text-sm-left text-truncate">
+    //                                     ${value['timestamp']}
+    //                                 </div>
+    //                                 <div class="col-sm-auto text-sm-left text-truncate">
+    //                                     ${value['amount']}
+    //                                     <a class="text-blurt"
+    //                                         href="${BLURTBLOCK}/${value['from']}"
+    //                                         target="_blank" rel="noopener noreferrer">${value['from']}
+    //                                     </a>
+    //                                     to
+    //                                     <a class="text-blurt"
+    //                                         href="${BLURTBLOCK}/${value['to']}"
+    //                                         target="_blank" rel="noopener noreferrer">${value['to']}
+    //                                     </a>
+    //                                 </div>
+    //                                 <div class="col-sm-auto text-sm-left text-truncate"
+    //                                     style="max-width: 450px;">
+    //                                     ${value['memo']}
+    //                                 </div>
+    //                             </div>
+    //                         </div>
+    //                     </li>`;
+    //                     $("#historyResult").append(tx);
+    //                 });
+    //             }
+    //         },
+    //         error: function (jqXhr, textStatus, errorMessage) {
+    //             if (textStatus == 'timeout') {
+    //                 this.tryCount++;
+    //                 if (this.tryCount < this.retryLimit) {
+    //                     //retry
+    //                     $.ajax(this);
+    //                     return;
+    //                 }
+    //             }
+    //             $("#historySpinners").addClass('invisible');
+    //             $("#historyResult").html('Oops! ' + errorMessage + ' Please reload');
+    //         }
+    //     });
+    // });
 
-    $("#upvoteHistory").click(function(){
-        // upvote history
-        $.ajax(document.upvoteHistoryApi,
-        {
-            dataType: 'json', // type of response data
-            timeout: 30000, // 30 sec timeout in milliseconds
-            tryCount : 0,
-            retryLimit : 3, // retry times
-            success: function (data, status, xhr) {
-                let transactions = ``
+    // $("#upvoteHistory").click(function(){
+    //     // upvote history
+    //     $.ajax(document.upvoteHistoryApi,
+    //     {
+    //         dataType: 'json', // type of response data
+    //         timeout: 30000, // 30 sec timeout in milliseconds
+    //         tryCount : 0,
+    //         retryLimit : 3, // retry times
+    //         success: function (data, status, xhr) {
+    //             let transactions = ``
 
-                $("#historySpinners").addClass('invisible');
-                if (jQuery.isEmptyObject(data['history'])) {
-                    transactions = `<li class="list-group-item">No Upvote Data</li>`;
-                    $("#historyResult").html(transactions);
-                }
-                else {
-                    $("#historyResult").html("");
-                    $.each(data['history'], function(index, value){
-                        tx = `
-                        <li class="list-group-item">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-sm-auto text-sm-left text-truncate">
-                                        ${value['timestamp']}
-                                    </div>
-                                    <div class="col-sm-auto text-sm-left text-truncate">
-                                        <a class="text-blurt"
-                                            href="${BLURTBLOCK}/${value['voter']}"
-                                            target="_blank" rel="noopener noreferrer">${value['voter']}
-                                        </a>
-                                        voted
-                                        <a class="text-blurt"
-                                            href="${BLURTBLOCK}/${value['author']}"
-                                            target="_blank" rel="noopener noreferrer">${value['author']}
-                                        </a>
-                                        (${value['weight']}%)
-                                    </div>
-                                    <div class="col-sm-auto text-sm-left text-truncate"
-                                        style="max-width: 500px;">
-                                        <a class="text-blurt"
-                                            href="${BLURTURL}/@${value['author']}/${value['permlink']}"
-                                            target="_blank" rel="noopener noreferrer">${value['permlink']}
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>`;
-                        $("#historyResult").append(tx);
-                    });
-                }
-            },
-            error: function (jqXhr, textStatus, errorMessage) {
-                if (textStatus == 'timeout') {
-                    this.tryCount++;
-                    if (this.tryCount < this.retryLimit) {
-                        //retry
-                        $.ajax(this);
-                        return;
-                    }
-                }
-                $("#historySpinners").addClass('invisible');
-                $("#historyResult").html('Oops! ' + errorMessage + ' Please reload');
-            }
-        });
-    });
+    //             $("#historySpinners").addClass('invisible');
+    //             if (jQuery.isEmptyObject(data['history'])) {
+    //                 transactions = `<li class="list-group-item">No Upvote Data</li>`;
+    //                 $("#historyResult").html(transactions);
+    //             }
+    //             else {
+    //                 $("#historyResult").html("");
+    //                 $.each(data['history'], function(index, value){
+    //                     tx = `
+    //                     <li class="list-group-item">
+    //                         <div class="container">
+    //                             <div class="row">
+    //                                 <div class="col-sm-auto text-sm-left text-truncate">
+    //                                     ${value['timestamp']}
+    //                                 </div>
+    //                                 <div class="col-sm-auto text-sm-left text-truncate">
+    //                                     <a class="text-blurt"
+    //                                         href="${BLURTBLOCK}/${value['voter']}"
+    //                                         target="_blank" rel="noopener noreferrer">${value['voter']}
+    //                                     </a>
+    //                                     voted
+    //                                     <a class="text-blurt"
+    //                                         href="${BLURTBLOCK}/${value['author']}"
+    //                                         target="_blank" rel="noopener noreferrer">${value['author']}
+    //                                     </a>
+    //                                     (${value['weight']}%)
+    //                                 </div>
+    //                                 <div class="col-sm-auto text-sm-left text-truncate"
+    //                                     style="max-width: 500px;">
+    //                                     <a class="text-blurt"
+    //                                         href="${BLURTURL}/@${value['author']}/${value['permlink']}"
+    //                                         target="_blank" rel="noopener noreferrer">${value['permlink']}
+    //                                     </a>
+    //                                 </div>
+    //                             </div>
+    //                         </div>
+    //                     </li>`;
+    //                     $("#historyResult").append(tx);
+    //                 });
+    //             }
+    //         },
+    //         error: function (jqXhr, textStatus, errorMessage) {
+    //             if (textStatus == 'timeout') {
+    //                 this.tryCount++;
+    //                 if (this.tryCount < this.retryLimit) {
+    //                     //retry
+    //                     $.ajax(this);
+    //                     return;
+    //                 }
+    //             }
+    //             $("#historySpinners").addClass('invisible');
+    //             $("#historyResult").html('Oops! ' + errorMessage + ' Please reload');
+    //         }
+    //     });
+    // });
 
-    $("#commentHistory").click(function(){
-        // comment history
-        $.ajax(document.commentHistoryApi,
-        {
-            dataType: 'json', // type of response data
-            timeout: 30000, // 30 sec timeout in milliseconds
-            tryCount : 0,
-            retryLimit : 3, // retry times
-            success: function (data, status, xhr) {
-                let transactions = ``
+    // $("#commentHistory").click(function(){
+    //     // comment history
+    //     $.ajax(document.commentHistoryApi,
+    //     {
+    //         dataType: 'json', // type of response data
+    //         timeout: 30000, // 30 sec timeout in milliseconds
+    //         tryCount : 0,
+    //         retryLimit : 3, // retry times
+    //         success: function (data, status, xhr) {
+    //             let transactions = ``
 
-                $("#historySpinners").addClass('invisible');
-                if (jQuery.isEmptyObject(data['history'])) {
-                    transactions = `<li class="list-group-item">No Comment Data</li>`;
-                    $("#historyResult").html(transactions);
-                }
-                else {
-                    $("#historyResult").html("");
-                    $.each(data['history'], function(index, value){
-                        tx = `
-                        <li class="list-group-item">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-sm-auto text-sm-left text-truncate">
-                                        ${value['timestamp']}
-                                    </div>
-                                    <div class="col-sm-auto text-sm-left text-truncate">
-                                        <a class="text-blurt"
-                                            href="${BLURTBLOCK}/${value['author']}"
-                                            target="_blank" rel="noopener noreferrer">${value['author']}
-                                        </a>
-                                    </div>
-                                    <div class="col-sm-auto text-sm-left text-truncate">
-                                        ${value['body']}
-                                    </div>
-                                    <div class="col-sm-auto text-sm-left text-truncate"
-                                        style="max-width: 500px;">
-                                        <a class="text-blurt"
-                                            href="${BLURTURL}/@${value['author']}/${value['permlink']}"
-                                            target="_blank" rel="noopener noreferrer">${value['permlink']}
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>`;
-                        $("#historyResult").append(tx);
-                    });
-                }
-            },
-            error: function (jqXhr, textStatus, errorMessage) {
-                if (textStatus == 'timeout') {
-                    this.tryCount++;
-                    if (this.tryCount < this.retryLimit) {
-                        //retry
-                        $.ajax(this);
-                        return;
-                    }
-                }
-                $("#historySpinners").addClass('invisible');
-                $("#historyResult").html('Oops! ' + errorMessage + ' Please reload');
-            }
-        });
-    });
+    //             $("#historySpinners").addClass('invisible');
+    //             if (jQuery.isEmptyObject(data['history'])) {
+    //                 transactions = `<li class="list-group-item">No Comment Data</li>`;
+    //                 $("#historyResult").html(transactions);
+    //             }
+    //             else {
+    //                 $("#historyResult").html("");
+    //                 $.each(data['history'], function(index, value){
+    //                     tx = `
+    //                     <li class="list-group-item">
+    //                         <div class="container">
+    //                             <div class="row">
+    //                                 <div class="col-sm-auto text-sm-left text-truncate">
+    //                                     ${value['timestamp']}
+    //                                 </div>
+    //                                 <div class="col-sm-auto text-sm-left text-truncate">
+    //                                     <a class="text-blurt"
+    //                                         href="${BLURTBLOCK}/${value['author']}"
+    //                                         target="_blank" rel="noopener noreferrer">${value['author']}
+    //                                     </a>
+    //                                 </div>
+    //                                 <div class="col-sm-auto text-sm-left text-truncate">
+    //                                     ${value['body']}
+    //                                 </div>
+    //                                 <div class="col-sm-auto text-sm-left text-truncate"
+    //                                     style="max-width: 500px;">
+    //                                     <a class="text-blurt"
+    //                                         href="${BLURTURL}/@${value['author']}/${value['permlink']}"
+    //                                         target="_blank" rel="noopener noreferrer">${value['permlink']}
+    //                                     </a>
+    //                                 </div>
+    //                             </div>
+    //                         </div>
+    //                     </li>`;
+    //                     $("#historyResult").append(tx);
+    //                 });
+    //             }
+    //         },
+    //         error: function (jqXhr, textStatus, errorMessage) {
+    //             if (textStatus == 'timeout') {
+    //                 this.tryCount++;
+    //                 if (this.tryCount < this.retryLimit) {
+    //                     //retry
+    //                     $.ajax(this);
+    //                     return;
+    //                 }
+    //             }
+    //             $("#historySpinners").addClass('invisible');
+    //             $("#historyResult").html('Oops! ' + errorMessage + ' Please reload');
+    //         }
+    //     });
+    // });
 
     $("#rewardHistory").click(function(){
         let heading = `
@@ -756,39 +756,93 @@ $(document).ready(function(){
                     $("#historyResult").html("");
                     $.each(data, function(index, value){
                         // console.log(index, value);
-                        let bp = ``;
-                        if ('bp' in value) {
-                            bp = `
+                        let curation_reward = ``;
+                        if (value['type'] === 'curation_reward') {
+                            curation_reward = `
+                                <div class="col-sm-auto text-sm-left text-truncate">
+                                    ${value['bp']} BP
+                                </div>
+                                <div class="col-sm-2 text-sm-left text-truncate">
+                                    <a href="${BLURTURL}/@${value['comment_author']}/${value['comment_permlink']}"
+                                        target="_blank">
+                                        ${value['comment_permlink']}
+                                    </a>
+                                </div>
+                            `;
+                        }
+
+                        let author_reward = ``;
+                        if (value['type'] === 'author_reward') {
+                            author_reward = `
+                                <div class="col-sm-auto text-sm-left text-truncate">
+                                    ${value['bp']} BP ${value['blurt']} BLURT
+                                </div>
+                                <div class="col-sm-2 text-sm-left text-truncate">
+                                    <a href="${BLURTURL}/@${value['author']}/${value['permlink']}"
+                                        target="_blank">
+                                        ${value['permlink']}
+                                    </a>
+                                </div>
+                            `;
+                        }
+
+                        let producer_reward = ``;
+                        if (value['type'] === 'producer_reward') {
+                            producer_reward = `
                                 <div class="col-sm-auto text-sm-left text-truncate">
                                     ${value['bp']} BP
                                 </div>
                             `;
                         }
-                        let blurt = ``;
-                        if ('blurt' in value) {
-                            blurt = `
+
+                        let comment_benefactor_reward = ``;
+                        if (value['type'] === 'comment_benefactor_reward') {
+                            comment_benefactor_reward = `
                                 <div class="col-sm-auto text-sm-left text-truncate">
-                                    ${value['blurt']} BLURT
+                                    ${value['bp']} BP ${value['blurt']} BLURT
+                                </div>
+                                <div class="col-sm-2 text-sm-left text-truncate">
+                                    ${value['benefactor']} ${value['permlink']}
                                 </div>
                             `;
                         }
-                        let from = ``;
-                        if ('from' in value) {
-                            from = `
+
+                        let transfer = ``;
+                        if (value['type'] === 'transfer') {
+                            transfer = `
                                 <div class="col-sm-auto text-sm-left text-truncate">
-                                    From
                                     <a href="${BLURTURL}/@${value['from']}"
                                         target="_blank">
                                         ${value['from']}
                                     </a>
+                                    <i class="bi bi-arrow-right"></i>
+                                    <a href="${BLURTURL}/@${value['to']}"
+                                        target="_blank">
+                                        ${value['to']}
+                                    </a>
+                                    ${value['blurt']} BLURT
                                 </div>
                             `;
                         }
-                        let to = ``;
-                        if ('from' in value) {
-                            to = `
+
+                        let delegate_vesting_shares = ``;
+                        if (value['type'] === 'delegate_vesting_shares') {
+                            delegate_vesting_shares = `
                                 <div class="col-sm-auto text-sm-left text-truncate">
-                                    To
+                                    Delegate <a href="${BLURTURL}/@${value['to']}"
+                                        target="_blank">
+                                        ${value['to']}
+                                    </a>
+                                    ${value['bp']} BP
+                                </div>
+                            `;
+                        }
+
+                        let transfer_to_vesting = ``;
+                        if (value['type'] === 'transfer_to_vesting') {
+                            transfer_to_vesting = `
+                                <div class="col-sm-auto text-sm-left text-truncate">
+                                    Power Up ${value['bp']} BP
                                     <a href="${BLURTURL}/@${value['to']}"
                                         target="_blank">
                                         ${value['to']}
@@ -796,30 +850,100 @@ $(document).ready(function(){
                                 </div>
                             `;
                         }
-                        let weight = ``;
-                        if ('weight' in value) {
-                            weight = `
+
+                        let withdraw_vesting = ``;
+                        if (value['type'] === 'withdraw_vesting') {
+                            withdraw_vesting = `
                                 <div class="col-sm-auto text-sm-left text-truncate">
+                                    Power Down ${value['bp']} BP
+                                </div>
+                            `;
+                        }
+
+                        let claim_reward_balance = ``;
+                        if (value['type'] === 'claim_reward_balance') {
+                            claim_reward_balance = `
+                                <div class="col-sm-auto text-sm-left text-truncate">
+                                    ${value['bp']} BP ${value['blurt']} BLURT
+                                </div>
+                            `;
+                        }
+
+                        let vote = ``;
+                        if (value['type'] === 'vote') {
+                            vote = `
+                                <div class="col-sm-auto text-sm-left text-truncate">
+                                    <a href="${BLURTURL}/@${value['from']}"
+                                        target="_blank">
+                                        ${value['from']}
+                                    </a>
+                                    <i class="bi bi-arrow-right"></i>
+                                    <a href="${BLURTURL}/@${value['to']}"
+                                        target="_blank">
+                                        ${value['to']}
+                                    </a>
                                     ${value['weight']} %
                                 </div>
-                            `;
-                        }
-                        let witness = ``;
-                        if ('witness' in value) {
-                            witness = `
-                                <div class="col-sm-auto text-sm-left text-truncate">
-                                    Approve ${value['witness']} ${value['approve']}
+                                <div class="col-sm-2 text-sm-left text-truncate">
+                                    <a href="${BLURTURL}/@${value['to']}/${value['permlink']}"
+                                        target="_blank">
+                                        ${value['permlink']}
+                                    </a>
                                 </div>
                             `;
                         }
-                        let permlink = ``;
-                        if ('permlink' in value) {
-                            permlink = `
+
+                        let comment = ``;
+                        if (value['type'] === 'comment') {
+                            comment = `
+                                <div class="col-sm-auto text-sm-left text-truncate">
+                                    <a href="${BLURTURL}/@${value['from']}"
+                                        target="_blank">
+                                        ${value['from']}
+                                    </a>
+                                    <i class="bi bi-arrow-right"></i>
+                                    <a href="${BLURTURL}/@${value['to']}"
+                                        target="_blank">
+                                        ${value['to']}
+                                    </a>
+                                </div>
                                 <div class="col-sm-2 text-sm-left text-truncate">
+                                    <a href="${BLURTURL}/@${value['from']}/${value['permlink']}"
+                                        target="_blank">
+                                        ${value['permlink']}
+                                    </a>
+                                </div>
+                            `;
+                        }
+
+                        let delete_comment = ``;
+                        if (value['type'] === 'delete_comment') {
+                            delete_comment = `
+                                <div class="col-sm-auto text-sm-left text-truncate">
                                     ${value['permlink']}
                                 </div>
                             `;
                         }
+
+                        let witness = ``;
+                        if (value['type'] === 'account_witness_vote') {
+                            console.log(value);
+                            witness = `
+                                <div class="col-sm-auto text-sm-left text-truncate">
+                                    <a href="${BLURTURL}/@${value['account']}"
+                                        target="_blank">
+                                        ${value['account']}
+                                    </a>
+                                    <i class="bi bi-arrow-right"></i>
+                                    <a href="${BLURTURL}/@${value['witness']}"
+                                        target="_blank">
+                                        ${value['witness']}
+                                    </a>
+                                    ${value['approve']}
+                                </div>
+                            `;
+                        }
+
                         let id = ``;
                         if ( Number.isNaN(value['id'] * 1) ) {
                             id = `
@@ -831,6 +955,7 @@ $(document).ready(function(){
                                 </div>
                             `;
                         }
+
                         tx = `
                         <li class="list-group-item">
                             <div class="container">
@@ -840,14 +965,19 @@ $(document).ready(function(){
                                     </div>
                                     <div class="col-sm-auto text-sm-left
                                         text-truncate font-weight-bolder">
-                                        ${value['type']}
+                                        ${value['title']}
                                     </div>
-                                    ${from}
-                                    ${to}
-                                    ${bp}
-                                    ${blurt}
-                                    ${permlink}
-                                    ${weight}
+                                    ${curation_reward}
+                                    ${author_reward}
+                                    ${producer_reward}
+                                    ${comment_benefactor_reward}
+                                    ${transfer}
+                                    ${delegate_vesting_shares}
+                                    ${withdraw_vesting}
+                                    ${claim_reward_balance}
+                                    ${vote}
+                                    ${comment}
+                                    ${delete_comment}
                                     ${witness}
                                     ${id}
                                 </div>
