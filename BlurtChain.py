@@ -668,13 +668,13 @@ class BlurtChain:
                 delegation_bp = self.blurt.vests_to_bp(vesting_shares.amount)
 
                 if 1.0 <= delegation_bp < 100.0:
-                    bonus_weight = round(random.uniform(0, 2), 2)
+                    bonus_weight = round(random.uniform(0, 1), 2)
                 elif 100.0 <= delegation_bp < 500.0:
-                    bonus_weight = round(random.uniform(2, 4), 2)
+                    bonus_weight = round(random.uniform(1, 3), 2)
                 elif 500.0 <= delegation_bp < 1000.0:
                     bonus_weight = round(random.uniform(4, 8), 2)
                 elif 1000.0 <= delegation_bp < 3000.0:
-                    bonus_weight = round(random.uniform(10, 13), 2)
+                    bonus_weight = round(random.uniform(9, 12), 2)
                 elif 3000.0 <= delegation_bp < 5000.0:
                     bonus_weight = round(random.uniform(13, 15), 2)
                 elif 5000.0 <= delegation_bp < 10000.0:
@@ -1226,8 +1226,9 @@ https://blurtblock.herokuapp.com/blurt/upvote
         db_name = 'upvote_log'
         logs = self.firebase.child(db_name).get()
         users = {}
+        temp_users = {}
         leaderboard = []
-        max_users = 75
+        max_users = 100
 
         for log in logs.each():
             value = log.val()
@@ -1242,8 +1243,13 @@ https://blurtblock.herokuapp.com/blurt/upvote
             else:
                 users[username] = vote_weight
 
+        # check points is larger than 0:
+        for user in users:
+            if users[user] > 0:
+                temp_users[user] = users[user]
+
         # sort users data by total value
-        users = dict(sorted(users.items(), reverse=True,
+        users = dict(sorted(temp_users.items(), reverse=True,
                             key=lambda item: item[1]))
 
         delegators = self.get_delegators()
