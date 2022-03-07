@@ -293,7 +293,6 @@ class BlurtChain:
                 elif op['type'] == 'delete_comment':
                     op_data['permlink'] = op["permlink"]
                 elif op['type'] == 'account_witness_vote':
-                    print(op)
                     op_data['account'] = op["account"]
                     op_data['witness'] = op["witness"]
                     op_data['approve'] = op["approve"]
