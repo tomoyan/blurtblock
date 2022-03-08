@@ -1081,13 +1081,13 @@ https://blurtblock.herokuapp.com/blurt/upvote
 
         # check star bonus
         # 2.5 stars -> 25%
-        # 5 stars -> 100%
+        # 5 stars -> 50%
         star_bonus = 0.0
         stars = self.get_star_rating(username)
         if stars == 2.5:
             star_bonus = 25.0
         elif stars == 5.0:
-            star_bonus = 100.0
+            star_bonus = 50.0
         member_bonus += star_bonus
 
         bonus_weight = delegation_bonus + member_bonus

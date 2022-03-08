@@ -9,11 +9,9 @@ import random
 import requests
 
 # Setup blurt nodes and account
-# blurt_nodes = ['https://rpc.blurt.world']
 BLURT_NODES = [
     'https://rpc.blurt.world',
     'https://blurt-rpc.saboin.com',
-    # 'https://rpc.tekraze.com',
     'https://rpc.dotwin1981.de',
     'https://rpc.nerdtopia.de',
     'https://kentzz.blurt.world',
@@ -60,6 +58,8 @@ db_prd = firebase.database()
 
 
 def main():
+    print('Start')
+
     budget = get_reward_budget()
 
     delegations = get_delegation_list()
@@ -68,6 +68,8 @@ def main():
 
     send_rewards(rewards)
     publish_post(rewards)
+
+    print('Done')
 
 
 def inv_tx(reward_bp):
@@ -99,7 +101,7 @@ def get_reward_budget():
     budget_bp = 0
     # Get 1 day curation reward in BP
     reward_bp = account.get_curation_reward(days=1)
-    inv_tx(reward_bp)
+    # inv_tx(reward_bp)
 
     budget_bp = int(reward_bp * PERCENT / 100)
 
@@ -208,8 +210,14 @@ def send_rewards(rewards):
     db_name = 'failed_transfer'
     today = datetime.now().strftime("%Y-%m-%d")
 
+    skip = ['photocircle', 'dewiasih', 'lifeskills-tv',
+            'beben', 'larasbpn', 'lanzjoseg', 'vimukthi',
+            'd-zero', 'luciannagy']
+
     # Transfer rewards to users
     for key in rewards:
+        if key in skip:
+            continue
         amount = f'{rewards[key]:.2f}'
         memo = f"""Hi @{key}
         Here is your delegation reward {amount} BLURT.
