@@ -10,7 +10,7 @@ import requests
 
 # Setup blurt nodes and account
 BLURT_NODES = [
-    'https://rpc.blurt.world',
+    # 'https://rpc.blurt.world',
     'https://blurt-rpc.saboin.com',
     'https://rpc.dotwin1981.de',
     'https://rpc.nerdtopia.de',
@@ -212,7 +212,13 @@ def send_rewards(rewards):
 
     skip = ['photocircle', 'dewiasih', 'lifeskills-tv',
             'beben', 'larasbpn', 'lanzjoseg', 'vimukthi',
-            'd-zero', 'luciannagy']
+            'd-zero', 'luciannagy', 'petrvl', 'bennywb56',
+            'fotosedjarah', 'josevas217 ', 'kamranrkploy',
+            'kahkashanrkploy', 'pedrobrito2004', 'lunaticpandora',
+            'funnel', 'monirrohan', 'jjprac', 'toofasteddie',
+            'wizardofwhere', 'shabbirahmad', 'bendotri', 'annas58',
+            'tikatarot'
+            ]
 
     # Transfer rewards to users
     for key in rewards:
