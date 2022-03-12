@@ -121,7 +121,10 @@ def trail_upvote(identifier, vote_weight):
             print(username, weight)
             BLT.vote(weight, identifier, account=ACC)
         except Exception as err:
-            print('TRAIL_VOTE_ERR', username, node, err)
+            if str(err).find('Exception:acnt.balance'):
+                print('INSUFFICIENT_FUND', username, err)
+            else:
+                print('TRAIL_VOTE_ERR', username, node, err)
 
         time.sleep(1)
 
