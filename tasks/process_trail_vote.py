@@ -9,6 +9,7 @@ import cryptocode
 import random
 import requests
 import time
+from datetime import datetime
 
 blurt_nodes = [
     'https://rpc.blurt.one',
@@ -123,10 +124,33 @@ def trail_upvote(identifier, vote_weight):
         except Exception as err:
             if str(err).find('Exception:acnt.balance'):
                 print('INSUFFICIENT_FUND', username, err)
+                disable_trail(username)
             else:
                 print('TRAIL_VOTE_ERR', username, node, err)
 
         time.sleep(1)
+
+
+def disable_trail(username):
+    follow_key = None
+
+    trail_data = {
+        'username': username,
+        'created': datetime.utcnow().strftime("%m/%d/%Y %H:%M:%S"),
+        'status': 0,
+    }
+
+    db_name = 'trail_followers'
+
+    follower = db_prd.child(db_name).order_by_child(
+        "username").equal_to(username).get().val()
+
+    if follower:
+        item = next(iter(follower.items()))
+        follow_key = item[0]
+
+    if follow_key:
+        db_prd.child(db_name).child(follow_key).update(trail_data)
 
 
 if __name__ == '__main__':
