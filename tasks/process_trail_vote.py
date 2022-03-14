@@ -124,7 +124,6 @@ def trail_upvote(identifier, vote_weight):
         except Exception as err:
             if str(err).find('Exception:acnt.balance'):
                 print('INSUFFICIENT_FUND', username, err)
-                disable_trail(username)
             else:
                 print('TRAIL_VOTE_ERR', username, node, err)
 
