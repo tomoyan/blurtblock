@@ -151,6 +151,12 @@ class BlurtChain:
             stars = self.get_star_rating(self.username)
             self.account_info['stars'] = stars
 
+            # check if follow trail or not
+            if self.get_active_follow_key(self.username):
+                self.account_info['trail'] = True
+            else:
+                self.account_info['trail'] = False
+
         return self.account_info
 
     def get_follower(self):

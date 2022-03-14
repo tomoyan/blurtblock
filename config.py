@@ -22,10 +22,10 @@ class Config(object):
     NODE_LIST = [
         'https://rpc.blurt.one',
         'https://rpc.blurt.live',
-        # 'https://rpc.blurt.world',
+        'https://rpc.blurt.world',
         'https://blurt-rpc.saboin.com',
-        'https://rpc.dotwin1981.de',
         'https://rpc.nerdtopia.de',
         'https://kentzz.blurt.world',
         'https://rpc.blurtlatam.com'
+        # 'https://rpc.dotwin1981.de',
     ]

@@ -54,7 +54,7 @@ def blurt_profile_data(username=None):
     data = {}
 
     if 3 <= len(username) <= 16:
-        username = escape(username).lower()
+        username = str(escape(username).lower())
         blurt = BC.BlurtChain(username)
 
         if blurt.account:
