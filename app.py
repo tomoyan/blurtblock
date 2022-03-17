@@ -52,6 +52,14 @@ def blurt():
 @app.route('/<username>/')
 def blurt_profile_data(username=None):
     data = {}
+    ips = ['20.25.1.112']
+
+    # get ip address
+    ip_address = request.environ.get(
+        'HTTP_X_FORWARDED_FOR', request.remote_addr)
+    print('IP_ADDRESS:', ip_address)
+    if ip_address in ips:
+        return render_template('404.html')
 
     if 3 <= len(username) <= 16:
         username = str(escape(username).lower())
@@ -97,14 +105,6 @@ def upvote():
             blurt.client_ip = ''
             if forwarded_for:
                 blurt.client_ip = forwarded_for[0]
-                print('FORWARDED_FOR:', forwarded_for[0])
-
-            remote_addr = request.remote_addr
-            print('REMOTE_ADDR:', remote_addr)
-
-            ip_addr = request.environ.get(
-                'HTTP_X_FORWARDED_FOR', request.remote_addr)
-            print('IP_ADDR:', ip_addr)
 
             result = blurt.process_upvote(url)
 
