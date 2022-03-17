@@ -97,6 +97,14 @@ def upvote():
             blurt.client_ip = ''
             if forwarded_for:
                 blurt.client_ip = forwarded_for[0]
+                print('FORWARDED_FOR:', forwarded_for[0])
+
+            remote_addr = request.remote_addr
+            print('REMOTE_ADDR:', remote_addr)
+
+            ip_addr = request.environ.get(
+                'HTTP_X_FORWARDED_FOR', request.remote_addr)
+            print('IP_ADDR:', ip_addr)
 
             result = blurt.process_upvote(url)
 
