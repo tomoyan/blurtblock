@@ -36,6 +36,11 @@ def sitemap():
 def blurt():
     form = UserNameForm(request.form)
 
+    # get ip address
+    ip_address = request.environ.get(
+        'HTTP_X_FORWARDED_FOR', request.remote_addr)
+    print('BLURT IP_ADDRESS:', ip_address)
+
     if request.method == 'POST':
         if form.validate():
             username = request.form['username'].strip().lower()
@@ -57,12 +62,12 @@ def blurt_profile_data(username=None):
     # get ip address
     ip_address = request.environ.get(
         'HTTP_X_FORWARDED_FOR', request.remote_addr)
-    print('IP_ADDRESS:', ip_address)
+    print('PROFILE IP_ADDRESS:', ip_address)
     if ip_address in ips:
         return render_template('404.html')
 
+    username = str(escape(username).lower())
     if 3 <= len(username) <= 16:
-        username = str(escape(username).lower())
         blurt = BC.BlurtChain(username)
 
         if blurt.account:
