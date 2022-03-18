@@ -2,4 +2,7 @@ User-agent: *
 allow: /blurt/
 disallow: /
 
+User-agent: bingbot
+Disallow: /
+
 Sitemap: https://blurtblock.herokuapp.com/sitemap.xml
