@@ -115,7 +115,7 @@ def trail_upvote(identifier, vote_weight):
                 continue
 
             blurt_balance = ACC.get_balance('available', 'BLURT')
-            if blurt_balance.amount < 0.05:
+            if blurt_balance.amount < 0.01:
                 print('INSUFFICIENT_BALANCE', username, blurt_balance.amount)
                 # disable_trail(username)
                 continue
@@ -125,6 +125,7 @@ def trail_upvote(identifier, vote_weight):
             if ACC.has_voted(COMMENT):
                 print('ALREADY_VOTED', ACC, identifier)
                 continue
+
             print(username, weight)
             BLT.vote(weight, identifier, account=ACC)
         except Exception as err:
