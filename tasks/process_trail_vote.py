@@ -114,6 +114,12 @@ def trail_upvote(identifier, vote_weight):
             if ACC.get_voting_power() < voting_power:
                 continue
 
+            blurt_balance = ACC.get_balance('available', 'BLURT')
+            if blurt_balance.amount < 0.05:
+                print('INSUFFICIENT_BALANCE', username, blurt_balance.amount)
+                # disable_trail(username)
+                continue
+
             COMMENT = Comment(
                 identifier, api='condenser', blockchain_instance=BLT)
             if ACC.has_voted(COMMENT):
