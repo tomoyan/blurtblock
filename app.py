@@ -10,6 +10,7 @@ from forms import DelegateForm
 from markupsafe import escape
 import BlurtChain as BC
 import threading
+import re
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -63,7 +64,14 @@ def blurt_profile_data(username=None):
     ip_address = request.environ.get(
         'HTTP_X_FORWARDED_FOR', request.remote_addr)
     print('PROFILE IP_ADDRESS:', ip_address)
+
     if ip_address in ips:
+        print(f'BAD_IP:', ip_address)
+        return render_template('404.html')
+
+    pattern = '^[a-zA-Z]+[a-zA-Z0-9-.]+$'
+    if not bool(re.match(pattern, username)):
+        print(f'INVALID_USERNAME:', username)
         return render_template('404.html')
 
     username = str(escape(username).lower())
