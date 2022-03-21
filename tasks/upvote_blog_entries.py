@@ -40,7 +40,7 @@ USERS = [
     'ecosynthesizer', 'maxinpower',
     'the-gorilla', 'tomoyan',
     'kahkashanrkploy', 'kamranrkploy',
-    'famigliacurione'
+    'famigliacurione', 'offgridlife'
 ]
 
 now = datetime.utcnow()
@@ -79,7 +79,7 @@ def upvote_blog_entries_username(name):
 
         if not voted:
             identifier = post.authorperm
-            weight = 85.0
+            weight = 100.0
             if name == 'ecosynthesizer':
                 weight = 35.0
             elif name == 'kahkashanrkploy':
