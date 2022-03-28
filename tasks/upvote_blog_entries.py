@@ -40,7 +40,7 @@ USERS = [
     'ecosynthesizer', 'maxinpower',
     'the-gorilla', 'tomoyan',
     'kahkashanrkploy', 'kamranrkploy',
-    'famigliacurione', 'offgridlife'
+    'famigliacurione'
 ]
 
 now = datetime.utcnow()
