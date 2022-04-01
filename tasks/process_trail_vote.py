@@ -126,7 +126,7 @@ def trail_upvote(identifier, vote_weight):
                 print('ALREADY_VOTED', ACC, identifier)
                 continue
 
-            print(username, weight)
+            print(username, weight, identifier)
             BLT.vote(weight, identifier, account=ACC)
         except Exception as err:
             print('TRAIL_VOTE_ERR', username, node, err)
