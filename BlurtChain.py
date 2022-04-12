@@ -728,7 +728,7 @@ class BlurtChain:
         bonus_weight = 0.0
         witness_votes = self.witness_votes
         recommended_witness = {
-            'tomoyan', 'kamranrkploy', 'saboin', 'tekraze', 'symbionts'
+            'kamranrkploy', 'saboin', 'tekraze'
         }
 
         match = len(witness_votes.intersection(recommended_witness))
@@ -737,12 +737,8 @@ class BlurtChain:
         if match == 1:
             bonus_weight = 1.0
         elif match == 2:
-            bonus_weight = 2.0
+            bonus_weight = 3.0
         elif match == 3:
-            bonus_weight = 4.0
-        elif match == 4:
-            bonus_weight = 7.0
-        elif match == 5:
             bonus_weight = 10.0
 
         return bonus_weight
