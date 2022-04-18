@@ -11,7 +11,7 @@ import requests
 # Setup blurt nodes and account
 BLURT_NODES = [
     'https://rpc.blurt.one',
-    'https://rpc.blurt.live',
+    # 'https://rpc.blurt.live',
     'https://rpc.blurt.world',
     'https://blurt-rpc.saboin.com',
     'https://rpc.nerdtopia.de',
