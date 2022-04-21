@@ -47,3 +47,36 @@ UPVOTE_KEY=your_key
 
 Run flask app:  
 flask run  
+
+## Check heroku processes
+heroku ps -a blurtblock
+
+## Kill a process
+heroku ps:stop -a blurtblock scheduler.3874
+
+---
+
+## Deploying with Git
+* Clone
+git clone https://github.com/tomoyan/blurtblock.git
+
+* Make changes to codes and commit.
+git add .
+git commit -m "commit everything"
+
+* Check remote -v
+git remote -v
+
+heroku  https://git.heroku.com/blurtblock.git (fetch)
+heroku  https://git.heroku.com/blurtblock.git (push)
+origin  https://github.com/tomoyan/blurtblock.git (fetch)
+origin  https://github.com/tomoyan/blurtblock.git (push)
+
+* Add a remote to local repository (if not added yet)
+heroku git:remote -a blurtblock
+
+* Deploy to heroku
+git push heroku main
+
+* Push code changes to git
+git push
