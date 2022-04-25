@@ -17,6 +17,8 @@ blurt_nodes = [
     'https://blurt-rpc.saboin.com',
     'https://rpc.nerdtopia.de',
     'https://kentzz.blurt.world',
+    'https://rpc.blurtlatam.com',
+    'https://blurtrpc.actifit.io',
 ]
 
 
