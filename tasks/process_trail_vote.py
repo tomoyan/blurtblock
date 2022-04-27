@@ -13,7 +13,7 @@ from datetime import datetime
 
 blurt_nodes = [
     'https://rpc.blurt.world',
-    'https://rpc.blurt.live',
+    # 'https://rpc.blurt.live',
     'https://rpc.blurt.one',
     'https://blurt-rpc.saboin.com',
     'https://rpc.nerdtopia.de',
@@ -24,8 +24,8 @@ blurt_nodes = [
 
 
 def get_node():
-    result = blurt_nodes[0]
     random.shuffle(blurt_nodes)
+    result = blurt_nodes[0]
 
     for node in blurt_nodes:
         try:
