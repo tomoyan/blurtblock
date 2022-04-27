@@ -29,7 +29,7 @@ def get_node():
 
     for node in blurt_nodes:
         try:
-            response = requests.get(node, timeout=0.5)
+            response = requests.get(node, timeout=1)
             if response:
                 result = node
                 break
