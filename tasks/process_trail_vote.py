@@ -12,9 +12,9 @@ import time
 from datetime import datetime
 
 blurt_nodes = [
-    'https://rpc.blurt.one',
-    # 'https://rpc.blurt.live',
     'https://rpc.blurt.world',
+    'https://rpc.blurt.live',
+    'https://rpc.blurt.one',
     'https://blurt-rpc.saboin.com',
     'https://rpc.nerdtopia.de',
     'https://kentzz.blurt.world',
@@ -24,14 +24,19 @@ blurt_nodes = [
 
 
 def get_node():
+    result = blurt_nodes[0]
     random.shuffle(blurt_nodes)
+
     for node in blurt_nodes:
         try:
-            response = requests.get(node, timeout=1)
+            response = requests.get(node, timeout=0.5)
             if response:
-                return node
+                result = node
+                break
         except requests.exceptions.RequestException as e:
             print(f'NODE_ERR:{node} {e}')
+
+    return result
 
 
 FB_SERVICEACCOUNT = os.environ.get('FB_SERVICEACCOUNT')

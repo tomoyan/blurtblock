@@ -63,14 +63,19 @@ class BlurtChain:
             self.account = None
 
     def get_node(self):
+        result = BLURT_NODES[0]
         random.shuffle(BLURT_NODES)
+
         for node in BLURT_NODES:
             try:
-                response = requests.get(node, timeout=1)
+                response = requests.get(node, timeout=0.5)
                 if response:
-                    return node
+                    result = node
+                    break
             except requests.exceptions.RequestException as e:
                 print(f'GET_NODE_ERR:{node} {e}')
+
+        return result
 
     def get_account_info(self):
         self.account_info = {}
