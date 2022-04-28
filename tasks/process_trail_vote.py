@@ -12,9 +12,9 @@ import time
 from datetime import datetime
 
 blurt_nodes = [
-    'https://rpc.blurt.world',
+    # 'https://rpc.blurt.world',
     # 'https://rpc.blurt.live',
-    'https://rpc.blurt.one',
+    # 'https://rpc.blurt.one',
     'https://blurt-rpc.saboin.com',
     'https://rpc.nerdtopia.de',
     'https://kentzz.blurt.world',
