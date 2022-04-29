@@ -123,7 +123,7 @@ def trail_upvote(identifier, vote_weight):
             blurt_balance = ACC.get_balance('available', 'BLURT')
             if blurt_balance.amount < 0.1:
                 print('INSUFFICIENT_BALANCE', username, blurt_balance.amount)
-                # disable_trail(username)
+                disable_trail(username)
                 continue
 
             COMMENT = Comment(
