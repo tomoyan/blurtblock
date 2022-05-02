@@ -77,6 +77,6 @@ body {
 }
 
 .gradient-carousel {
-    background: rgb(34,51,59);
-    background: radial-gradient(circle, rgba(34,51,59,1) 0%, rgba(10,9,8,1) 100%);
+    background: rgb(1,79,134);
+    background: radial-gradient(circle, rgba(1,79,134,0.8561799719887955) 0%, rgba(0,150,199,0.6152836134453781) 100%);
 }

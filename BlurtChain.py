@@ -1022,6 +1022,9 @@ https://blurtblock.herokuapp.com/blurt/upvote
             for further assistance.
             """
             data['message'] = Markup(data['message'])
+
+            # self.remove_trail(username)
+
             return data
 
         # check ignore_list
@@ -1082,9 +1085,11 @@ https://blurtblock.herokuapp.com/blurt/upvote
         # check member level bonus
         member_bonus = self.member_bonus(username)
 
+        # check witness proxcy bonus
+
         # check recommended witness bonus
-        witness_bonus = self.witness_bonus(username)
-        member_bonus += witness_bonus
+        # witness_bonus = self.witness_bonus(username)
+        # member_bonus += witness_bonus
 
         # check star bonus
         # 2.5 stars -> 25%
