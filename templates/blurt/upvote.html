@@ -54,7 +54,9 @@
                     width="150" alt="blurt logo" class="img-thumbnail">
                 <h1 class="display-4">BLURT For Everyone!</h1>
                 <p class="lead">
-                    Get free UPVOTE (resets every 20 hours)
+                    Set witness proxy to @tomoyan and 10% bonus is added to your upvote!
+                    <br>
+                    (free upvote resets every 20 hours)
                 </p>
                 <hr class="my-4">
                 Delegate BP to
@@ -62,7 +64,7 @@
                     class="bg-blurt text-white">
                     <u>@tomoyan</u>
                 </a>
-                And get UPVOTE bonus and daily BLURT rewards!
+                and get more upvote and daily BLURT!
             </div>
 
             <div class="container-sm">
@@ -153,8 +155,9 @@
 
 
             <!-- Witness Proxy Modal -->
-            <div class="modal fade" id="witnessProxyModal" tabindex="-1" aria-labelledby="proxyModalLabel" aria-hidden="true">
-              <div class="modal-dialog">
+            <div class="modal fade" id="witnessProxyModal" tabindex="-1"
+                aria-labelledby="proxyModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                   <div class="modal-header">
                     <h5 class="modal-title" id="proxyModalLabel">10% Bonus Soon...</h5>
@@ -164,9 +167,13 @@
                   </div>
 
                   <div class="modal-body">
-                    Set proxy to tomoyan @ https://blurtwallet.com/~witnesses
-                    <br>
-                    10% bonus will be added to your upvote!
+                    <p class="lead">Set proxy to tomoyan @ https://blurtwallet.com/~witnesses</p>
+                    <p class="lead">10% bonus will be added to your upvote!</p>
+                    <video width="1100" controls>
+                      <source src="{{ url_for('static', filename='images/proxy.mp4') }}" type="video/mp4">
+                      <source src="proxy.ogg" type="video/ogg">
+                      Your browser does not support this video.
+                    </video>
                   </div>
 
                   <div class="modal-footer">
