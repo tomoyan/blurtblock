@@ -307,9 +307,10 @@ class BlurtChain:
                     op_data['account'] = op["account"]
                     op_data['witness'] = op["witness"]
                     op_data['approve'] = op["approve"]
+                elif op['type'] == 'account_witness_proxy':
+                    op_data['proxy'] = op["proxy"]
                 else:
                     pass
-                    # print(op)
 
                 result.append(op_data)
 
@@ -532,6 +533,20 @@ class BlurtChain:
             if value['username'] == username:
                 result = True
                 break
+
+        return result
+
+    def is_proxy(self, username):
+        # check if username set proxy to tomoyan
+        # return True if proxy is set
+        result = False
+
+        blurt = Blurt(node=self.nodes, num_retries=5)
+        account = Account(username, blockchain_instance=blurt)
+        proxy = account.json()['proxy']
+
+        if proxy == 'tomoyan':
+            result = True
 
         return result
 
@@ -1085,7 +1100,12 @@ https://blurtblock.herokuapp.com/blurt/upvote
         # check member level bonus
         member_bonus = self.member_bonus(username)
 
-        # check witness proxcy bonus
+        # check witness proxcy bonus (10%)
+        is_proxy = self.is_proxy(username)
+        print('IS_PROXY', username, is_proxy)
+        if is_proxy:
+            print('+10%')
+            member_bonus += 10.0
 
         # check recommended witness bonus
         # witness_bonus = self.witness_bonus(username)

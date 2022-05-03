@@ -737,7 +737,6 @@ $(document).ready(function(){
 
                         let witness = ``;
                         if (value['type'] === 'account_witness_vote') {
-                            console.log(value);
                             witness = `
                                 <div class="col-sm-auto text-sm-left text-truncate">
                                     <a href="${BLURTURL}/@${value['account']}"
@@ -750,6 +749,20 @@ $(document).ready(function(){
                                         ${value['witness']}
                                     </a>
                                     ${value['approve']}
+                                </div>
+                            `;
+                        }
+
+                        let proxy = ``;
+                        if (value['type'] === 'account_witness_proxy') {
+                            // console.log(value);
+                            proxy = `
+                                <div class="col-sm-auto text-sm-left text-truncate">
+                                    <i class="bi bi-arrow-right"></i>
+                                    <a href="${BLURTURL}/@${value['proxy']}"
+                                        target="_blank">
+                                        ${value['proxy']}
+                                    </a>
                                 </div>
                             `;
                         }
@@ -789,6 +802,7 @@ $(document).ready(function(){
                                     ${comment}
                                     ${delete_comment}
                                     ${witness}
+                                    ${proxy}
                                     ${id}
                                 </div>
                             </div>
