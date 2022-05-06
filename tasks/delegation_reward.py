@@ -46,7 +46,9 @@ token_power = account.get_token_power()
 token_power = f'{token_power:,.2f} BP'
 
 # 35% of curation reward distributed
-PERCENT = 35
+PERCENT = 30
+
+REWARD_MINIMUM = 0.1
 
 # Firebase configuration
 serviceAccountCredentials = json.loads(
@@ -171,7 +173,7 @@ def get_top_leaderboard():
 
 
 def get_rewards(budget, delegations):
-    reward_min = 0.5
+    reward_min = REWARD_MINIMUM
     rewards = dict()
     total_bp = sum(delegations.values())
 
