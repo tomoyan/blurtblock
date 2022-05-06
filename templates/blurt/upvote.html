@@ -26,6 +26,13 @@
         <!-- AdSense -->
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6245186157176682"
              crossorigin="anonymous"></script>
+
+        <!-- witness proxy modal popup -->
+        <script>
+            $(document).ready(function(){
+                $("#proxyModal").modal('show');
+            });
+        </script>
     </head>
     <body>
 
@@ -207,6 +214,29 @@
               </a>
             </div>
 
+            <!-- modal popup start -->
+            <div id="proxyModal" class="modal" tabindex="-1" role="dialog">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">10% Proxy Bonus is LIVE!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <p class="lead">Set your <b>witness proxy setting</b> to tomoyan @
+                        <a href="https://blurtwallet.com/~witnesses" target="_blank">https://blurtwallet.com/~witnesses</a>
+                    </p>
+                    <p class="lead">10% bonus weight will be added to your upvote!</p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-blurt" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- modal popup end -->
 
             <!-- Witness Proxy Modal -->
             <div class="modal fade" id="witnessProxyModal" tabindex="-1"
@@ -214,24 +244,28 @@
               <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="proxyModalLabel">10% Bonus Soon...</h5>
+                    <h5 class="modal-title" id="proxyModalLabel">10% Proxy Bonus is LIVE!</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
 
                   <div class="modal-body">
-                    <p class="lead">Set proxy to tomoyan @ https://blurtwallet.com/~witnesses</p>
-                    <p class="lead">10% bonus will be added to your upvote!</p>
-                    <video width="1100" controls>
-                      <source src="{{ url_for('static', filename='images/proxy.mp4') }}" type="video/mp4">
-                      <source src="proxy.ogg" type="video/ogg">
-                      Your browser does not support this video.
-                    </video>
+                    <p class="lead">Set your <b>witness proxy setting</b> to tomoyan @
+                        <a href="https://blurtwallet.com/~witnesses" target="_blank">https://blurtwallet.com/~witnesses</a>
+                    </p>
+                    <p class="lead">10% bonus weight will be added to your upvote!</p>
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <video width="1100" controls>
+                          <source src="/static/images/proxy.mp4" type="video/mp4">
+                          <source src="proxy.ogg" type="video/ogg">
+                          Your browser does not support this video.
+                        </video>
+                    </div>
                   </div>
 
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-blurt" data-dismiss="modal">Close</button>
                   </div>
                 </div>
               </div>
