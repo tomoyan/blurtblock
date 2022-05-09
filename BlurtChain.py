@@ -1100,12 +1100,15 @@ https://blurtblock.herokuapp.com/blurt/upvote
         # check member level bonus
         member_bonus = self.member_bonus(username)
 
-        # check witness proxcy bonus (10%)
+        # check witness proxcy bonus (+10%)
         is_proxy = self.is_proxy(username)
-        print('IS_PROXY', username, is_proxy)
+        print('IS_PROXY', username, is_proxy, delegation_bonus)
         if is_proxy:
             print('+10%')
             member_bonus += 10.0
+        else:
+            delegation_bonus /= 2
+            print('-50%', delegation_bonus)
 
         # check recommended witness bonus
         # witness_bonus = self.witness_bonus(username)
