@@ -1107,8 +1107,8 @@ https://blurtblock.herokuapp.com/blurt/upvote
             print('+10%')
             member_bonus += 10.0
         else:
-            delegation_bonus /= 2
-            print('-50%', delegation_bonus)
+            delegation_bonus /= 2.5
+            print('-60%', delegation_bonus)
 
         # check recommended witness bonus
         # witness_bonus = self.witness_bonus(username)
