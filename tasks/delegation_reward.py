@@ -266,7 +266,7 @@ def publish_post(rewards):
     today = datetime.now().strftime("%Y-%m-%d")
     title = f'Daily Delegation Payout - {today}'
     tags = ['blurtblock', 'delegation', 'rewards', 'blurt']
-    leaderboard = 'https://blurtblock.herokuapp.com/blurt/leaderboard'
+    # leaderboard = 'https://blurtblock.herokuapp.com/blurt/leaderboard'
     delegate_url = 'https://blurtblock.herokuapp.com/blurt/delegate'
 
     main_img = fb_get_main_image()
@@ -288,6 +288,16 @@ def publish_post(rewards):
 </center>
 ## Everyday is a BLURT day if you [delegate your BP]({delegate_url})
 
+## Blurt Together
+![](https://images.ecency.com/DQmWXjxWKpdeHioAT3as5jjJXL2xzNgNVHYhBnG7tT7tA2H/soon.png)
+
+I am thinking about starting a new curation program, **Blurt Together**.
+It is very simple.
+Just leave me a comment with a **recommended post** which is **NOT yours**.
+It can be your friend, family or totally random post that you liked and deserves some love.
+I will pick one comment everyday and **manually** curate the recommended post and the comment.
+(me and curation trail)
+
 ## Curation trail updated
 * Auto reward claim has been added to trail followers
 * Insufficient fund check has been added
@@ -298,10 +308,10 @@ def publish_post(rewards):
 * Powering down account will not be upvoted
 * Trail follow is mandatory to use free upvote
 
-Blurt transaction fee has been increased because of that
-some people are not receiving daily reward.
-I have increased the reward % to help affected members.
-Also working on improving Leaderboard reward.
+Blurt transaction fee has been increased.
+If your daily reward is less than 0.1 BLURT,
+you will not receive reward due to the transaction fee.
+(increase BP delegation and receive more reward)
 ---
 
 **Star Bonus**: You will receive stars for using upvote.
@@ -310,8 +320,6 @@ Also working on improving Leaderboard reward.
 ![](https://i.imgur.com/IHZYaWx.png)
 The more you use, the more you earn!
 https://blurtblock.herokuapp.com
-
-Top 10 [**Leaderboard**]({leaderboard}) bonus upvote **SOON**
 
 Delegation Bonus 👇
 If you delegate your BP to @tomoyan, you will receive daily rewards.
@@ -327,7 +335,7 @@ Give it a try! Anybody can use it even if you don't delegate.
 [Delegate BP](https://blurtblock.herokuapp.com/blurt/delegate/)
 
 Thank you for your support!
-Have a Blurt Day :)
+Have a Blurt Day 🙂
 <center>
 
 **BLURT for You**
