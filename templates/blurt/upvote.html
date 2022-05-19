@@ -222,23 +222,26 @@
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title">10% Proxy Bonus is LIVE!</h5>
+                    <h5 class="modal-title">Get Your 10% Proxy Bonus!</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
                   <div class="modal-body">
-                    <p class="lead">Set your <b>witness proxy</b> @
-                        <a href="https://blurtwallet.com/~witnesses" target="_blank">Witness Page</a>
+                    <p class="lead">Set your <b>witness proxy!</b>
+                        <a href="https://blurtwallet.com/~witnesses" target="_blank"></a>
                     </p>
-                    <p class="lead">and get <b>10% bonus upvote everytime</b></p>
-                    <p class="text-center">
+                    <p class="lead"><b>10% bonus</b> will be added to your upvote everytime 👇</p>
+<!--                     <p class="text-center">
                         <button type="button" class="btn btn-blurt" data-toggle="modal" data-target="#witnessProxyModal">
                             <h4>How to Set Witness Proxy</h4>
                         </button>
-                    </p>
-                    <p class="font-italic font-weight-lighter">
-                        (upvote % is decreased for non proxy users)
+                    </p> -->
+                    <p class="text-center font-italic font-weight-lighter">
+                        <a href="" data-toggle="modal" data-target="#witnessProxyModal">
+                            <img src="{{ url_for('static', filename='images/proxy.gif') }}" class="img-fluid">
+                        </a>
+                        (50% less vote for non proxy users)
                     </p>
                   </div>
                   <div class="modal-footer">
@@ -255,17 +258,21 @@
               <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="proxyModalLabel">10% Proxy Bonus is LIVE!</h5>
+                    <h5 class="modal-title" id="proxyModalLabel">How to set witness proxy</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
 
                   <div class="modal-body">
-                    <p class="lead">Go to witnesses page -> Scroll down to the bottom of the page -> Set witness <b>proxy</b> to tomoyan here (required private active key)
-                        <a href="https://blurtwallet.com/~witnesses" target="_blank">https://blurtwallet.com/~witnesses</a>
+                    <p class="lead">
+                        <ul class="list-group list-group-flush">
+                          <li class="list-group-item">1. Go to <a href="https://blurtwallet.com/~witnesses" target="_blank">witness page</a></li>
+                          <li class="list-group-item">2. Scroll down to the bottom of the page</li>
+                          <li class="list-group-item">3. <b>SET PROXY</b> to <b>tomoyan</b></li>
+                          <li class="list-group-item">(private active key required)</li>
+                        </ul>
                     </p>
-                    <p class="lead">10% bonus weight will be added to your upvote!</p>
                     <div class="embed-responsive embed-responsive-16by9">
                         <video width="1100" controls>
                           <source src="/static/images/proxy.mp4" type="video/mp4">
@@ -274,7 +281,7 @@
                         </video>
                     </div>
                     <p class="font-italic font-weight-lighter">
-                        (upvote % is decreased for non proxy users)
+                        (50% less vote for non proxy users)
                     </p>
                   </div>
 
