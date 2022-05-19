@@ -592,15 +592,25 @@ class BlurtChain:
     def check_content(self, identifier):
         # Return True if no content
         # False if content exists
-        result = False
+        result = {
+            'status': False
+        }
 
         try:
-            Comment(
+            c = Comment(
                 identifier, api='condenser',
                 blockchain_instance=self.blurt)
         except Exception as err:
-            result = True
-            print('CHECK_CONTENT_ERR:', err)
+            result['status'] = True
+            result['message'] = 'Error: Content dose not exit. \
+                Please check the URL'
+            print('CHECK_CONTENT_NOT_EXIST:', err)
+            return result
+
+        # check iduvts tag
+        if 'iduvts' in c.json_metadata['tags']:
+            result['status'] = True
+            result['message'] = 'Error: iduvts tag'
 
         return result
 
@@ -1003,8 +1013,8 @@ https://blurtblock.herokuapp.com/blurt/upvote
 
         # check content
         content = self.check_content(identifier)
-        if content:
-            data['message'] = f'Error: Content dose not exit. Please check URL'
+        if content['status']:
+            data['message'] = content['message']
             return data
 
         # check location iduvts
@@ -1046,7 +1056,7 @@ https://blurtblock.herokuapp.com/blurt/upvote
         is_ignored = self.is_ignored(username)
         if is_ignored:
             print('is_ignored_err', username)
-            data['message'] = f'Error: Oops, something went wrong {username}'
+            data['message'] = f'Error: Oops, something went wrong {username} (ig)'
             return data
 
         # check power_down
@@ -1659,6 +1669,7 @@ https://blurtblock.herokuapp.com/blurt/upvote
         is_verified = self.verify_key(username, message)
         if is_verified['status'] is False:
             result = is_verified
+            result['message'] += is_verified['message']
             return result
 
         trail_data = {
