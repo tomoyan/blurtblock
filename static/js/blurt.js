@@ -652,11 +652,16 @@ $(document).ready(function(){
                         if (value['type'] === 'transfer_to_vesting') {
                             transfer_to_vesting = `
                                 <div class="col-sm-auto text-sm-left text-truncate">
-                                    Power Up ${value['bp']} BP
+                                    <a href="${BLURTURL}/@${value['from']}"
+                                        target="_blank">
+                                        ${value['from']}
+                                    </a>
+                                    <i class="bi bi-arrow-right"></i>
                                     <a href="${BLURTURL}/@${value['to']}"
                                         target="_blank">
                                         ${value['to']}
                                     </a>
+                                    ${value['bp']} BP
                                 </div>
                             `;
                         }
@@ -796,6 +801,7 @@ $(document).ready(function(){
                                     ${comment_benefactor_reward}
                                     ${transfer}
                                     ${delegate_vesting_shares}
+                                    ${transfer_to_vesting}
                                     ${withdraw_vesting}
                                     ${claim_reward_balance}
                                     ${vote}
