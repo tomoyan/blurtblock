@@ -776,11 +776,6 @@ $(document).ready(function(){
                         if (value['type'] === 'follow' || value['type'] === 'unfollow') {
                             follow = `
                                 <div class="col-sm-auto text-sm-left text-truncate">
-                                    <a href="${BLURTURL}/@${value['from']}"
-                                        target="_blank">
-                                        ${value['from']}
-                                    </a>
-                                    <i class="bi bi-arrow-right"></i>
                                     <a href="${BLURTURL}/@${value['to']}"
                                         target="_blank">
                                         ${value['to']}
