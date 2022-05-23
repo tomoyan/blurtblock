@@ -309,6 +309,18 @@ class BlurtChain:
                     op_data['approve'] = op["approve"]
                 elif op['type'] == 'account_witness_proxy':
                     op_data['proxy'] = op["proxy"]
+                elif op['type'] == 'custom_json' and op['id'] == 'follow':
+                    json_data = json.loads(op['json'])
+
+                    if len(json_data[1]['what']):
+                        op_data['type'] = 'follow'
+                    else:
+                        op_data['type'] = 'unfollow'
+
+                    op_data['title'] = op_data['type'].replace(
+                        '_', ' ').title()
+                    op_data['from'] = json_data[1]['follower']
+                    op_data['to'] = json_data[1]['following']
                 else:
                     pass
 
@@ -1117,7 +1129,7 @@ https://blurtblock.herokuapp.com/blurt/upvote
             print('+10%')
             member_bonus += 10.0
         else:
-            delegation_bonus /= 2.5
+            delegation_bonus *= 0.4
             print('-60%', delegation_bonus)
 
         # check recommended witness bonus
