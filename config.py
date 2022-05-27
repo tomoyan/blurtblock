@@ -21,10 +21,9 @@ class Config(object):
     # Blurt Node list
     NODE_LIST = [
         'https://rpc.blurt.world',
-        # 'https://rpc.blurt.live',
+        'https://rpc.blurt.live',
         'https://rpc.blurt.one',
         'https://blurt-rpc.saboin.com',
-        'https://rpc.nerdtopia.de',
         'https://kentzz.blurt.world',
         'https://rpc.blurtlatam.com',
         'https://blurtrpc.actifit.io',
