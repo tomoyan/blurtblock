@@ -26,7 +26,22 @@ db_name = 'coal_list'
 def main():
     print('UPDATE_COAL_START')
 
-    import_coal_file()
+    # get coal raw file
+    base_url = 'https://gitlab.com'
+    url = (
+        f'{base_url}'
+        '/blurt/openblurt/coal/-/raw/master/coal.json'
+    )
+
+    response = requests.get(url)
+    coal_json = response.json()
+
+    for username in coal_json:
+        # skip if username exists in fb
+        if is_coal(username):
+            continue
+
+        add_to_coal_list(username)
 
     print('UPDATE_COAL_END')
 
@@ -48,7 +63,7 @@ def is_coal(username=''):
 
 
 def add_to_coal_list(username=''):
-    print("ADD_TO_COAL_LIST", username)
+    print("ADD_TO_COAL_LIST:", username)
     # add username to a coal_list
 
     now = datetime.utcnow()
@@ -60,28 +75,7 @@ def add_to_coal_list(username=''):
     }
 
     result = db_prd.child(db_name).push(data)
-    print("SAVE_RESULT ", result)
-
-
-def import_coal_file():
-    print('IMPORT_COAL_FILE')
-
-    # access coal raw file
-    base_url = 'https://gitlab.com'
-    url = (
-        f'{base_url}'
-        '/blurt/openblurt/coal/-/raw/master/coal.json'
-    )
-
-    response = requests.get(url)
-    coal_json = response.json()
-
-    for username in coal_json:
-        # skip if username exists in fb
-        if is_coal(username):
-            continue
-
-        add_to_coal_list(username)
+    print("SAVE_RESULT:", result)
 
 
 if __name__ == '__main__':
