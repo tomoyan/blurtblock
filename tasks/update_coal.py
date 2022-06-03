@@ -22,6 +22,8 @@ firebase = pyrebase.initialize_app(firebase_config_prd)
 # Get a reference to the database service
 db_prd = firebase.database()
 
+db_name = 'coal_list'
+
 
 def main():
     print('UPDATE_COAL_START')
@@ -32,17 +34,18 @@ def main():
 
 
 def is_coal(username=''):
-    print('IS_COAL:', username)
     result = False
-    db_name = 'coal_list'
+
+    if not username:
+        return
 
     coal = db_prd.child(
         db_name).order_by_child("username").equal_to(username).get().val()
-    # print(len(coal))
+
     if len(coal):
         result = True
 
-    print('COAL_RESULT:', result)
+    print('IS_COAL:', username, result)
     return result
 
 
@@ -53,7 +56,6 @@ def add_to_coal_list(username=''):
         print('Already coaled')
         return
 
-    db_name = "coal_list"
     now = datetime.utcnow()
     current_time = now.strftime("%m/%d/%Y %H:%M:%S")
 
@@ -80,7 +82,8 @@ def import_coal_file():
     coal_json = response.json()
 
     for username in coal_json:
-        print(f'{username}')
+        # check if username exists in fb
+        is_coal(username)
         # add_to_coal_list(username)
 
 
