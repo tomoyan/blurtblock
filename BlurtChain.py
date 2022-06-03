@@ -849,13 +849,14 @@ class BlurtChain:
         comment_body = f"""
 {img_url}
 ** Your post has been upvoted ({vote_weight} %) **
-* **Curation Trail Registration is Open!**
-[Curation Trail Here](https://blurtblock.herokuapp.com/blurt/trail)
+* **Curation Trail is Open!**
+[Join Trail Here](https://blurtblock.herokuapp.com/blurt/trail)
 
-* **Delegate more BP for better Upvote + Daily BLURT** 😉
+* **Delegate more BP for bigger Upvote + Daily BLURT** 😉
 [Delegate BP Here](https://blurtblock.herokuapp.com/blurt/delegate)
 
 Thank you 🙂 @tomoyan
+* **Upvote**
 https://blurtblock.herokuapp.com/blurt/upvote
         """
 
