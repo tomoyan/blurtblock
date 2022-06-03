@@ -1,45 +1,9 @@
-# from beem import Blurt
-# from beem.account import Account
 import pyrebase
 import base64
 import json
 import os
 from datetime import datetime
-# import random
 import requests
-
-# Setup blurt nodes and account
-# blurt_nodes = [
-#     'https://rpc.blurt.world',
-#     'https://rpc.blurt.live',
-#     'https://rpc.blurt.one',
-#     'https://blurt-rpc.saboin.com',
-#     'https://kentzz.blurt.world',
-#     'https://rpc.blurtlatam.com',
-#     'https://blurtrpc.actifit.io',
-# ]
-
-
-# def get_node():
-#     result = blurt_nodes[0]
-#     random.shuffle(blurt_nodes)
-
-#     for node in blurt_nodes:
-#         try:
-#             response = requests.get(node, timeout=0.5)
-#             if response:
-#                 result = node
-#                 break
-#         except requests.exceptions.RequestException as e:
-#             print(f'NODE_ERR:{node} {e}')
-
-#     return result
-
-
-# USERNAME = os.environ.get('USERNAME')
-# UPVOTE_KEY = os.environ.get('POST_KEY')
-# BLURT = Blurt(get_node(), keys=[UPVOTE_KEY], num_retries=3)
-# ACCOUNT = Account(USERNAME, blockchain_instance=BLURT)
 
 
 # Firebase configuration
@@ -116,7 +80,7 @@ def import_coal_file():
     coal_json = response.json()
 
     for username in coal_json:
-        print(f'{username=}')
+        print(f'{username}')
         # add_to_coal_list(username)
 
 
