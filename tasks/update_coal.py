@@ -5,7 +5,6 @@ import os
 from datetime import datetime
 import requests
 
-
 # Firebase configuration
 serviceAccountCredentials = json.loads(
     base64.b64decode(os.environ.get('FB_SERVICEACCOUNT').encode()).decode())
@@ -21,7 +20,6 @@ firebase = pyrebase.initialize_app(firebase_config_prd)
 
 # Get a reference to the database service
 db_prd = firebase.database()
-
 db_name = 'coal_list'
 
 
@@ -52,9 +50,6 @@ def is_coal(username=''):
 def add_to_coal_list(username=''):
     print("ADD_TO_COAL_LIST", username)
     # add username to a coal_list
-    if is_coal(username):
-        print('Already coaled')
-        return
 
     now = datetime.utcnow()
     current_time = now.strftime("%m/%d/%Y %H:%M:%S")
@@ -82,9 +77,11 @@ def import_coal_file():
     coal_json = response.json()
 
     for username in coal_json:
-        # check if username exists in fb
-        is_coal(username)
-        # add_to_coal_list(username)
+        # skip if username exists in fb
+        if is_coal(username):
+            continue
+
+        add_to_coal_list(username)
 
 
 if __name__ == '__main__':
