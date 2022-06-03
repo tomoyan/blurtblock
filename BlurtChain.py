@@ -855,9 +855,9 @@ class BlurtChain:
 * **Delegate more BP for bigger Upvote + Daily BLURT** 😉
 [Delegate BP Here](https://blurtblock.herokuapp.com/blurt/delegate)
 
-Thank you 🙂 @tomoyan
 * **Upvote**
 https://blurtblock.herokuapp.com/blurt/upvote
+Thank you 🙂 @tomoyan
         """
 
         # Post a reply comment
