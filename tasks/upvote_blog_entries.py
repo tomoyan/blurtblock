@@ -44,7 +44,7 @@ ACCOUNT = Account(USERNAME, blockchain_instance=BLURT)
 
 USERS = [
     'maxinpower', 'famigliacurione', 'tomoyan',
-    'kahkashanrkploy', 'kamranrkploy',
+    'kahkashanrkploy', 'kamranrkploy', 'blurt-fpl'
 ]
 
 now = datetime.utcnow()
