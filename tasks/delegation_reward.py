@@ -288,14 +288,15 @@ def publish_post(rewards):
 ## Everyday is a BLURT day if you [delegate your BP]({delegate_url})
 
 ## Blurt Together
-![](https://images.ecency.com/DQmWXjxWKpdeHioAT3as5jjJXL2xzNgNVHYhBnG7tT7tA2H/soon.png)
+![](https://images.ecency.com/DQmb2VCRNTwqEBLnQp8USHpK9bZGvkBa9ynxyGtNi27vTM1/bt.gif)
 
-I am thinking about starting a new curation program, **Blurt Together**.
-It is very simple.
-Just leave me a comment with a **recommended post** which is **NOT yours**.
-It can be your friend, family or totally random post that you liked and deserves some love.
-I will pick one comment everyday and **manually** curate the recommended post and the comment.
-(me and curation trail)
+This is my manual curation program.
+https://blurt.blog/blurttogether/@tomoyan/blurt-together-6-6-2022
+
+Just leave me a comment with a **favorite post** which is **NOT yours**.
+It can be your friend, family or some post that you liked and deserves some love.
+I will pick one comment and **manually** curate both the post and the comment.
+(by me and [curation trail](https://blurtblock.herokuapp.com/blurt/trail/))
 
 ## Curation trail updated
 * Auto reward claim has been added to trail followers

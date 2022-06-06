@@ -75,7 +75,7 @@ origin  https://github.com/tomoyan/blurtblock.git (push)
 * Add a remote to local repository (if not added yet)
 heroku git:remote -a blurtblock
 
-* Deploy to heroku
+* Deploy to heroku (heroku login)
 git push heroku main
 
 * Push code changes to git
