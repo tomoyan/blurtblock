@@ -1130,8 +1130,8 @@ Thank you 🙂 @tomoyan
             print('+10%')
             member_bonus += 10.0
         else:
-            delegation_bonus *= 0.4
-            print('-60%', delegation_bonus)
+            delegation_bonus *= 0.3
+            print('-70%', delegation_bonus)
 
         # check recommended witness bonus
         # witness_bonus = self.witness_bonus(username)
