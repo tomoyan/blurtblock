@@ -312,15 +312,16 @@ class BlurtChain:
                 elif op['type'] == 'custom_json' and op['id'] == 'follow':
                     json_data = json.loads(op['json'])
 
-                    if len(json_data[1]['what']):
-                        op_data['type'] = 'follow'
-                    else:
-                        op_data['type'] = 'unfollow'
+                    if json_data[0] == 'follow':
+                        if len(json_data[1]['what']):
+                            op_data['type'] = 'follow'
+                        else:
+                            op_data['type'] = 'unfollow'
 
-                    op_data['title'] = op_data['type'].replace(
-                        '_', ' ').title()
-                    op_data['from'] = json_data[1]['follower']
-                    op_data['to'] = json_data[1]['following']
+                        op_data['title'] = op_data['type'].replace(
+                            '_', ' ').title()
+                        op_data['from'] = json_data[1]['follower']
+                        op_data['to'] = json_data[1]['following']
                 else:
                     pass
 
