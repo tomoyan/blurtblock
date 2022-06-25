@@ -68,7 +68,7 @@ class BlurtChain:
 
         for node in BLURT_NODES:
             try:
-                response = requests.get(node, timeout=0.5)
+                response = requests.get(node, timeout=1)
                 if response:
                     result = node
                     break
@@ -90,7 +90,7 @@ class BlurtChain:
             self.account_info['recharge_time_str'] = recharge_time
 
             # GET ACCOUNT DETAILS
-            noderpc = NodeRPC(self.get_node())
+            noderpc = NodeRPC(self.nodes)
             account_data = noderpc.get_account(self.username)[0]
             self.account_info['username'] = account_data['name']
 
