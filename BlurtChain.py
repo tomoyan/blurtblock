@@ -2,7 +2,7 @@ from beem.instance import set_shared_blockchain_instance
 from beem.account import Account
 from beem.amount import Amount
 from beem.comment import Comment
-# from beem.witness import Witness
+from beem.witness import Witness
 from beemapi.noderpc import NodeRPC
 from beem import Blurt
 from config import Config
@@ -61,6 +61,13 @@ class BlurtChain:
         except Exception:
             self.username = None
             self.account = None
+
+        try:
+            witness = Witness(self.username)
+            if witness.is_active:
+                self.witness = 1
+        except Exception:
+            self.witness = 0
 
     def get_node(self):
         result = BLURT_NODES[0]
@@ -1525,7 +1532,10 @@ Thank you 🙂 @tomoyan
             'producer_reward_vests': Amount("0 VESTS"),
         }
 
-        ops = ['author_reward', 'curation_reward', 'producer_reward']
+        ops = ['author_reward', 'curation_reward']
+        if self.witness:
+            ops = ['author_reward', 'curation_reward', 'producer_reward']
+
         transactions = self.account.history_reverse(
             start=data['start'], stop=data['stop'], only_ops=ops)
 
@@ -1580,6 +1590,7 @@ Thank you 🙂 @tomoyan
             author_total_vests = Amount("0 VESTS")
             curation_total_vests = Amount("0 VESTS")
             producer_total_vests = Amount("0 VESTS")
+
             for result in results:
                 author_total_vests += Amount(result['author_reward_vests'])
                 curation_total_vests += Amount(result['curation_reward_vests'])

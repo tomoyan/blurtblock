@@ -91,7 +91,7 @@ def blurt_profile_data(username=None):
                 # 1, 7, 30 day rewards
                 # transfer, upvote, comment history
                 # incoming delegation
-                threading_processes(username)
+                threading_processes(username, blurt)
 
         return render_template(
             'blurt/profile_data.html',
@@ -218,19 +218,18 @@ def maintenance():
     return render_template('blurt/maintenance.html')
 
 
-def threading_processes(username=None):
+def threading_processes(username, blurt):
     if username is None:
         return
 
-    blurt = BC.BlurtChain(username)
+    # blurt = BC.BlurtChain(username)
 
     # this thread runs in the background
     # result is saved in db
     durations = [1, 7, 30]
     for duration in durations:
-        dblurt = BC.BlurtChain(username)
         t = threading.Thread(
-            target=dblurt.get_rewards, args=[duration])
+            target=blurt.get_rewards, args=[duration])
         t.start()
 
     # Check incoming delegations and store in fb
