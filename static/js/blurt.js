@@ -159,6 +159,9 @@ $(document).ready(function(){
                         <strong>Author BP</strong>
                     </div>
                     <div class="col-sm text-sm-left text-truncate">
+                        <strong>Author BLURT</strong>
+                    </div>
+                    <div class="col-sm text-sm-left text-truncate">
                         <strong>Curation BP</strong>
                     </div>
                     <div class="col-sm text-sm-left text-truncate">
@@ -236,7 +239,13 @@ $(document).ready(function(){
                 else {
                     let producer = ``
                     if ( parseFloat(data['producer']) ) {
-                        producer = `(${data['producer']} BP)`;
+                        producer = `
+                            <button type="button" class="btn btn-secondary"
+                                data-toggle="tooltip" data-placement="top"
+                                title="producer reward">
+                              (${data['producer']} BP)
+                            </button>
+                        `;
                     }
                     transactions = `
                         <div class="container">
@@ -246,6 +255,9 @@ $(document).ready(function(){
                                 </div>
                                 <div class="col-sm text-sm-left text-truncate">
                                     ${data['author']} BP
+                                </div>
+                                <div class="col-sm text-sm-left text-truncate">
+                                    ${data['author_blurt']} BLURT
                                 </div>
                                 <div class="col-sm text-sm-left text-truncate">
                                     ${data['curation']} BP
@@ -279,7 +291,13 @@ $(document).ready(function(){
                 else {
                     let producer = ``
                     if ( parseFloat(data['producer']) ) {
-                        producer = `(${data['producer']} BP)`;
+                        producer = `
+                            <button type="button" class="btn btn-secondary"
+                                data-toggle="tooltip" data-placement="top"
+                                title="producer reward">
+                              (${data['producer']} BP)
+                            </button>
+                        `;
                     }
                     transactions = `
                         <div class="container">
@@ -289,6 +307,9 @@ $(document).ready(function(){
                                 </div>
                                 <div class="col-sm text-sm-left text-truncate">
                                     ${data['author']} BP
+                                </div>
+                                <div class="col-sm text-sm-left text-truncate">
+                                    ${data['author_blurt']} BLURT
                                 </div>
                                 <div class="col-sm text-sm-left text-truncate">
                                     ${data['curation']} BP
@@ -322,7 +343,13 @@ $(document).ready(function(){
                 else {
                     let producer = ``
                     if ( parseFloat(data['producer']) ) {
-                        producer = `(${data['producer']} BP)`;
+                        producer = `
+                            <button type="button" class="btn btn-secondary"
+                                data-toggle="tooltip" data-placement="top"
+                                title="producer reward">
+                              (${data['producer']} BP)
+                            </button>
+                        `;
                     }
                     transactions = `
                         <div class="container">
@@ -332,6 +359,9 @@ $(document).ready(function(){
                                 </div>
                                 <div class="col-sm text-sm-left text-truncate">
                                     ${data['author']} BP
+                                </div>
+                                <div class="col-sm text-sm-left text-truncate">
+                                    ${data['author_blurt']} BLURT
                                 </div>
                                 <div class="col-sm text-sm-left text-truncate">
                                     ${data['curation']} BP

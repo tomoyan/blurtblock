@@ -1527,6 +1527,7 @@ Thank you 🙂 @tomoyan
         # get reward history data
         # and sums up each reward in vests
         vests = {
+            'author_reward_blurt': Amount("0 BLURT"),
             'author_reward_vests': Amount("0 VESTS"),
             'curation_reward_vests': Amount("0 VESTS"),
             'producer_reward_vests': Amount("0 VESTS"),
@@ -1543,6 +1544,8 @@ Thank you 🙂 @tomoyan
             if tx['type'] == 'author_reward':
                 vesting_payout = tx['vesting_payout']
                 vests['author_reward_vests'] += Amount(vesting_payout)
+                blurt_payout = tx['blurt_payout']
+                vests['author_reward_blurt'] += Amount(blurt_payout)
             elif tx['type'] == 'curation_reward':
                 reward = tx['reward']
                 vests['curation_reward_vests'] += Amount(reward)
@@ -1587,11 +1590,13 @@ Thank you 🙂 @tomoyan
         with concurrent.futures.ThreadPoolExecutor() as executor:
             results = executor.map(self.process_rewards, dates)
 
+            author_total_blurt = Amount("0 BLURT")
             author_total_vests = Amount("0 VESTS")
             curation_total_vests = Amount("0 VESTS")
             producer_total_vests = Amount("0 VESTS")
 
             for result in results:
+                author_total_blurt += Amount(result['author_reward_blurt'])
                 author_total_vests += Amount(result['author_reward_vests'])
                 curation_total_vests += Amount(result['curation_reward_vests'])
                 producer_total_vests += Amount(result['producer_reward_vests'])
@@ -1611,9 +1616,12 @@ Thank you 🙂 @tomoyan
             except TypeError:
                 producer = 0
 
-            total = author + curation + producer
+            author_blurt = author_total_blurt.amount
+
+            total = author + curation + producer + author_blurt
 
             data['total'] = f"{total:,.3f}"
+            data['author_blurt'] = f"{author_blurt:,.3f}"
             data['author'] = f"{author:,.3f}"
             data['curation'] = f"{curation:,.3f}"
             data['producer'] = f"{producer:,.3f}"

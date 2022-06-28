@@ -226,7 +226,7 @@ def threading_processes(username, blurt):
 
     # this thread runs in the background
     # result is saved in db
-    durations = [1, 7, 30]
+    durations = [30, 7, 1]
     for duration in durations:
         t = threading.Thread(
             target=blurt.get_rewards, args=[duration])
