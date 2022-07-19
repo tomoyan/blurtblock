@@ -1077,7 +1077,8 @@ Thank you 🙂 @tomoyan
         is_ignored = self.is_ignored(username)
         if is_ignored:
             print('is_ignored_err', username)
-            data['message'] = f'Error: Oops, something went wrong {username} (ig)'
+            data['message'] = f'\
+                Error: Oops, something went wrong {username} (ig)'
             return data
 
         # check power_down
@@ -1138,8 +1139,8 @@ Thank you 🙂 @tomoyan
             print('+10%')
             member_bonus += 10.0
         else:
-            delegation_bonus *= 0.3
-            print('-70%', delegation_bonus)
+            delegation_bonus *= 0.2
+            print('-80%', delegation_bonus)
 
         # check recommended witness bonus
         # witness_bonus = self.witness_bonus(username)
