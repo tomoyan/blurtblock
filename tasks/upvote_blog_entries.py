@@ -105,7 +105,7 @@ def upvote_blog_entries_username(name):
             except Exception as err:
                 print('BLOG_ENTRY_VOTE_ERR', err)
 
-            time.sleep(3)
+            time.sleep(5)
 
 
 if __name__ == '__main__':
