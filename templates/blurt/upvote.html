@@ -28,14 +28,14 @@
              crossorigin="anonymous"></script>
 
         <!-- witness proxy modal popup -->
-        <script>
+<!--         <script>
             $(document).ready(function(){
                 setTimeout(function() {
                     $("#proxyModal").modal('show');
                 }, 2000);
 
             });
-        </script>
+        </script> -->
     </head>
     <body>
 
@@ -90,7 +90,7 @@
               </ol>
 
               <div class="carousel-inner">
-                <div class="carousel-item active">
+                <div class="carousel-item">
                     <div class="gradient-carousel row text-white p-2">
                         <div class="col-sm-1"></div>
                         <div class="col-sm-4">
@@ -175,18 +175,18 @@
                     </div>
                 </div>
 
-                <div class="carousel-item">
+                <div class="carousel-item active">
                     <div class="gradient-carousel row text-white p-2">
                         <div class="col-sm-1"></div>
                         <div class="col-sm-4">
-                            <a href="https://blurtwallet.com/~witnesses?highlight=eastmael" target="_blank">
-                            <img src="https://imgp.blurt.world/profileimage/eastmael/256x256" alt="eastmael slide"
+                            <a href="https://blurtwallet.com/~witnesses?highlight=openb" target="_blank">
+                            <img src="https://imgp.blurt.world/profileimage/openb/256x256" alt="openb slide"
                                 class="img-thumbnail">
                             </a>
                         </div>
                         <div class="col-sm-6 font-weight-light">
-                            <a class="text-white" href="https://blurtwallet.com/~witnesses?highlight=eastmael" target="_blank">
-                                <h3><u>Vote for @eastmael</u></h3></a>
+                            <a class="text-white" href="https://blurtwallet.com/~witnesses?highlight=openb" target="_blank">
+                                <h3><u>Vote for @openb</u></h3></a>
                         </div>
                         <div class="col-sm-1"></div>
                     </div>
@@ -197,12 +197,15 @@
 
                     <!-- Trigger Witness Proxy Modal -->
                     <button type="button" class="btn btn-blurt" data-toggle="modal" data-target="#witnessProxyModal">
-                        <h4>How to Set Witness Proxy</h4>
+                        <h4>How to Vote for Witness</h4>
                     </button>
 
                     <p>
                         <a class="text-warning" href="https://blurtwallet.com/~witnesses" target="_blank">
-                            <h5 class="text-warning"><u>Set proxy and get 10% bonus upvote</u></h5>
+                            <h5 class="text-warning"><u>Vote for witness and get 10% bonus</u></h5>
+                        </a>
+                        <a class="text-warning" href="https://blurtwallet.com/~witnesses" target="_blank">
+                            <h5 class="text-warning">(<u>SOON</u>)</h5>
                         </a>
                     </p>
                 </div>
@@ -222,7 +225,7 @@
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title">Get Your 10% Proxy Bonus!</h5>
+                    <h5 class="modal-title">Get Your 10% Witness Bonus!</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
@@ -241,7 +244,7 @@
                         <a href="" data-toggle="modal" data-target="#witnessProxyModal">
                             <img src="{{ url_for('static', filename='images/proxy.gif') }}" class="img-fluid">
                         </a>
-                        (50% less vote for non proxy users)
+                        (50% less vote for non witness voters)
                     </p>
                   </div>
                   <div class="modal-footer">
@@ -252,7 +255,7 @@
             </div>
             <!-- modal popup end -->
 
-            <!-- Witness Proxy Modal -->
+            <!-- Witness Vote Modal -->
             <div class="modal fade" id="witnessProxyModal" tabindex="-1"
                 aria-labelledby="proxyModalLabel" aria-hidden="true">
               <div class="modal-dialog modal-xl">
@@ -267,21 +270,21 @@
                   <div class="modal-body">
                     <p class="lead">
                         <ul class="list-group list-group-flush">
-                          <li class="list-group-item">1. Go to <a href="https://blurtwallet.com/~witnesses" target="_blank">witness page</a></li>
-                          <li class="list-group-item">2. Scroll down to the bottom of the page</li>
-                          <li class="list-group-item">3. <b>SET PROXY</b> to <b>tomoyan</b></li>
+                          <li class="list-group-item">1. Go to
+                            <a href="https://blurtwallet.com/~witnesses" target="_blank">witness page</a></li>
+                          <li class="list-group-item">2. Vote for recommended witnesses</li>
                           <li class="list-group-item">(private active key required)</li>
                         </ul>
                     </p>
-                    <div class="embed-responsive embed-responsive-16by9">
+<!--                     <div class="embed-responsive embed-responsive-16by9">
                         <video width="1100" controls>
                           <source src="/static/images/proxy.mp4" type="video/mp4">
                           <source src="proxy.ogg" type="video/ogg">
                           Your browser does not support this video.
                         </video>
-                    </div>
+                    </div> -->
                     <p class="font-italic font-weight-lighter">
-                        (50% less vote for non proxy users)
+                        (50% less vote for non witness voters)
                     </p>
                   </div>
 
