@@ -136,7 +136,7 @@ def trail_upvote(identifier, vote_weight):
         except Exception as err:
             print('TRAIL_VOTE_ERR', username, node, err)
 
-        time.sleep(1)
+        time.sleep(4)
 
 
 def disable_trail(username):
