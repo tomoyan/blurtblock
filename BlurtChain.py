@@ -556,16 +556,16 @@ class BlurtChain:
 
         return result
 
-    def is_proxy(self, username):
-        # check if username set proxy to tomoyan
-        # return True if proxy is set
+    def is_witness_bonus(self, username):
+        # check if voted for openb witness
+        # return True if voted
         result = False
+        witness_votes = self.witness_votes
+        print(f"{witness_votes=}")
+        recommended_witness = {'openb'}
+        matches = len(witness_votes.intersection(recommended_witness))
 
-        blurt = Blurt(node=self.nodes, num_retries=5)
-        account = Account(username, blockchain_instance=blurt)
-        proxy = account.json()['proxy']
-
-        if proxy == 'tomoyan':
+        if matches:
             result = True
 
         return result
@@ -1132,15 +1132,15 @@ Thank you 🙂 @tomoyan
         # check member level bonus
         member_bonus = self.member_bonus(username)
 
-        # check witness proxcy bonus (+10%)
-        # is_proxy = self.is_proxy(username)
-        # print('IS_PROXY', username, is_proxy, delegation_bonus)
-        # if is_proxy:
-        #     print('+10%')
-        #     member_bonus += 10.0
-        # else:
-        #     delegation_bonus *= 0.5
-        #     print('-50%', delegation_bonus)
+        # check witness vote bonus (+10%)
+        is_witness_bonus = self.is_witness_bonus(username)
+        print('IS_WITNESS_BONUS', username, is_witness_bonus)
+        if is_witness_bonus:
+            print('+10%')
+            member_bonus += 10.0
+        else:
+            delegation_bonus *= 0.5
+            print('-50%', delegation_bonus)
 
         # check recommended witness bonus
         # witness_bonus = self.witness_bonus(username)
