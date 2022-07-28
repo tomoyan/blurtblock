@@ -28,14 +28,14 @@
              crossorigin="anonymous"></script>
 
         <!-- witness proxy modal popup -->
-<!--         <script>
+        <script>
             $(document).ready(function(){
                 setTimeout(function() {
                     $("#popupModal").modal('show');
-                }, 2000);
+                }, 3000);
 
             });
-        </script> -->
+        </script>
     </head>
     <body>
 
@@ -222,16 +222,18 @@
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title">Get Your 10% Witness Bonus!</h5>
+                    <h5 class="modal-title">10% Witness Bonus Upvote!</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
                   <div class="modal-body">
-                    <p class="lead">Vote for <b>Recommended Witness</b>
-                        <a href="https://blurtwallet.com/~witnesses" target="_blank"></a>
+                    <p class="lead">
+                        Vote for <b>Recommended Witness</b> and <b>get 10% bonus</b> upvote everytime 👇<br>
+                        <a href="https://blurtwallet.com/~witnesses?highlight=openb" target="_blank">
+                            Click here to <b>Vote</b> now
+                        </a>
                     </p>
-                    <p class="lead"><b>10% bonus</b> will be added to your upvote everytime 👇</p>
                     <p class="text-center font-italic font-weight-lighter">
                         <a href="" data-toggle="modal" data-target="#witnessProxyModal">
                             <img src="{{ url_for('static', filename='images/vote.gif') }}" class="img-fluid">
@@ -263,8 +265,8 @@
                     <p class="lead">
                         <ul class="list-group list-group-flush">
                           <li class="list-group-item">1. Go to
-                            <a href="https://blurtwallet.com/~witnesses" target="_blank">witness page</a></li>
-                          <li class="list-group-item">2. Vote for recommended witnesses</li>
+                            <a href="https://blurtwallet.com/~witnesses" target="_blank">Witness Page</a></li>
+                          <li class="list-group-item">2. Vote for recommended witness</li>
                           <li class="list-group-item">(private active key required)</li>
                         </ul>
                     </p>
