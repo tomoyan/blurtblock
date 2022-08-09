@@ -1197,10 +1197,15 @@ Thank you 🙂 @tomoyan
 
         data = {
             'status': True,
-            'message': 'Thank You. This post has been upvoted.',
+            'message': 'This post has been upvoted',
             'identifier': identifier,
             'vote_weight': is_upvoted["vote_weight"]
         }
+
+        if is_witness_bonus:
+            data['message'] += ' +10% Witness Bonus!'
+        else:
+            data['message'] += ' No Witness Bonus😬 Vote for witness'
 
         # UPVOTE REWARD COUNTS
         # increment upvote count if username exists in fb
