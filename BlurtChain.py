@@ -715,7 +715,7 @@ class BlurtChain:
         blurt = Blurt(node=self.nodes, num_retries=5)
         account = Account(username, blockchain_instance=blurt)
 
-        # check delegation_bonus (bonus_weight 10 - 40%)
+        # check delegation_bonus (bonus_weight 10 - 80%)
         vesting_delegations = account.get_vesting_delegations()
         for delegation in vesting_delegations:
             if delegation["delegatee"] == "tomoyan":
@@ -740,8 +740,16 @@ class BlurtChain:
                     bonus_weight = round(random.uniform(25, 30), 2)
                 elif 50000.0 <= delegation_bp < 100000.0:
                     bonus_weight = round(random.uniform(30, 35), 2)
-                elif delegation_bp >= 100000.0:
-                    bonus_weight = 40.0
+                elif 100000.0 <= delegation_bp < 200000.0:
+                    bonus_weight = round(random.uniform(40, 45), 2)
+                elif 200000.0 <= delegation_bp < 300000.0:
+                    bonus_weight = round(random.uniform(50, 55), 2)
+                elif 300000.0 <= delegation_bp < 400000.0:
+                    bonus_weight = round(random.uniform(60, 65), 2)
+                elif 400000.0 <= delegation_bp < 500000.0:
+                    bonus_weight = round(random.uniform(70, 75), 2)
+                elif delegation_bp >= 500000.0:
+                    bonus_weight = 80.0
 
                 break
 
@@ -766,11 +774,11 @@ class BlurtChain:
             # check leaderboard rank
             ranking = self.get_ranking(username)
             if ranking == 1:
-                bonus_weight = 20.0
-            # elif ranking == 2:
-            #     bonus_weight = 10.0
-            # elif ranking == 3:
-            #     bonus_weight = 5.0
+                bonus_weight = 15.0
+            elif ranking == 2:
+                bonus_weight = 10.0
+            elif ranking == 3:
+                bonus_weight = 5.0
 
         return bonus_weight
 
@@ -1147,14 +1155,14 @@ Thank you 🙂 @tomoyan
         # member_bonus += witness_bonus
 
         # check star bonus
-        # 2.5 stars -> 25%
-        # 5 stars -> 50%
+        # 2.5 stars -> 15%
+        # 5 stars -> 25%
         star_bonus = 0.0
         stars = self.get_star_rating(username)
         if stars == 2.5:
-            star_bonus = 25.0
+            star_bonus = 15.0
         elif stars == 5.0:
-            star_bonus = 50.0
+            star_bonus = 25.0
         member_bonus += star_bonus
 
         bonus_weight = delegation_bonus + member_bonus
@@ -1384,8 +1392,8 @@ Thank you 🙂 @tomoyan
             db_name).child(replaced_username).get()
 
         # Full and Half star counts
-        full_count = 100  # 100% vote weight
-        half_count = 50  # 25%+ vote weight
+        full_count = 50  # 100% vote weight
+        half_count = 25  # 25%+ vote weight
         stars = 0.0
         count = 0
 
