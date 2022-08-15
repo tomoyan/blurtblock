@@ -562,6 +562,13 @@ class BlurtChain:
         result = False
         witness_votes = self.witness_votes
         print(f"{witness_votes=}")
+
+        bad_witness = {'fervi', 'double-u'}
+        bad_matches = len(witness_votes.intersection(bad_witness))
+        if bad_matches:
+            print('BAD_WITNESS')
+            return result
+
         recommended_witness = {'openb'}
         matches = len(witness_votes.intersection(recommended_witness))
 
