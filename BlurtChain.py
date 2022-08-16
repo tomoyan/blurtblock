@@ -643,8 +643,8 @@ class BlurtChain:
 
     def check_last_ip(self, client_ip):
         print('CHECK_LAST_IP', client_ip)
-        # 2 hour = 7200 sec
-        wait_time = 7200.0
+        # 6 hour = 21600 sec
+        wait_time = 21600.0
         last_vote = None
         result = False
 
