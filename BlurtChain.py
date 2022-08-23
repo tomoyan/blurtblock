@@ -1151,11 +1151,11 @@ Thank you 🙂 @tomoyan
         is_witness_bonus = self.is_witness_bonus(username)
         print('IS_WITNESS_BONUS', username, is_witness_bonus)
         if is_witness_bonus:
-            print('+10%')
-            member_bonus += 10.0
+            print('+15%')
+            member_bonus += 15.0
         else:
-            delegation_bonus *= 0.3
-            print('-70%', delegation_bonus)
+            delegation_bonus *= 0.25
+            print('-75%', delegation_bonus)
 
         # check recommended witness bonus
         # witness_bonus = self.witness_bonus(username)
@@ -1218,7 +1218,7 @@ Thank you 🙂 @tomoyan
         }
 
         if is_witness_bonus:
-            data['message'] += ' +10% Witness Bonus!'
+            data['message'] += ' +15% Witness Bonus!'
         else:
             data['message'] += ' No Witness Bonus😬(Vote for recommended witness)'
 

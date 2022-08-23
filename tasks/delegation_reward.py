@@ -44,8 +44,8 @@ account = Account(username, blockchain_instance=blurt)
 token_power = account.get_token_power()
 token_power = f'{token_power:,.2f} BP'
 
-# 35% of curation reward distributed
-PERCENT = 30
+# 25% of curation reward distributed
+PERCENT = 25
 
 REWARD_MINIMUM = 0.1
 
