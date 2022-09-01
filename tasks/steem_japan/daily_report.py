@@ -65,7 +65,6 @@ def get_sds_data(url):
     return json_data
 
 
-# @cache
 def get_muted_members():
     print('get_muted_members')
     muted_members = []
@@ -75,7 +74,6 @@ def get_muted_members():
     return muted_members
 
 
-# @cache
 def get_community_roles(role):
     # get role members and return list
     print('get_community_roles', role)
