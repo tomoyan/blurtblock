@@ -41,7 +41,7 @@ pycryptodome==3.9.9
 pycryptodomex==3.9.8
 pylibscrypt==1.8.0
 pyparsing==2.4.7
-Pyrebase4==4.4.1
+Pyrebase4==4.5.0
 python-dateutil==2.8.1
 python-dotenv==0.15.0
 python-jwt==3.3.4
