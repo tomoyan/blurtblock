@@ -206,8 +206,8 @@ def comment_post(body, identifier):
             body=body,
             reply_identifier=identifier,
             self_vote=False)
-    except Exception:
-        continue
+    except Exception as err:
+        print(f'POST_ERROR: {identifier} {err}')
     finally:
         # Posting is allowed every 3 seconds
         # Sleep 5 secs
