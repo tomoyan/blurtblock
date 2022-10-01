@@ -196,7 +196,7 @@ https://steemitwallet.com/~witnesses
 
 
 def comment_post(body, identifier):
-    print('COMMENT_POST')
+    print('COMMENT_POST', identifier)
 
     # Post reply comment
     try:
