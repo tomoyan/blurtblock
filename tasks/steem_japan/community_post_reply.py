@@ -56,12 +56,6 @@ def main():
     # post reply comments
     post_reply_comments(community_posts)
 
-    # comment reply for voted posts
-    # post_reply(community_posts['voted'])
-
-    # comment reply for unvoted posts
-    # post_comment(community_posts['unvoted'])
-
     print('END COMMUNITY_POST_REPLY')
 
 
@@ -212,110 +206,6 @@ def comment_post(body, identifier):
         # Posting is allowed every 3 seconds
         # Sleep 5 secs
         time.sleep(5)
-
-
-def post_reply(community_posts):
-    print('post_reply community_posts')
-    # post a comment for voted posts
-
-    # Get 'thank you' gif from giphy
-    url = (
-        'http://api.giphy.com/v1/gifs/search?'
-        'q=arigato thanks appreciation&'
-        'api_key=b2w5nCHfqrGt6tbXBD7BCcfw11plV5b1&'
-        'limit=100'
-    )
-    response = requests.get(url)
-    json_data = response.json()
-
-    # Pick one random image data from json response
-    default_img = 'https://i.imgur.com/6qvr7sJ.jpg'
-    image_data = random.choice(json_data['data'])
-    gif_img = image_data['images']['original']['url']
-    gif_img = gif_img.split('?', 1)[0]
-    img_url = gif_img or default_img
-
-    for post in community_posts:
-        body = f"""
-![]({img_url})
-@{post['author']} さん、こんにちは。
-@japansteemitがこの記事を**アップボート**しました。
-
-![](https://cdn.steemitimages.com/DQmTqjyUPHQynfivV8eREroJhUfcSCvFJ4krct5KgTedAQt/image.png)
-
-### tomoyan.witnessに投票お願いします👇
-https://steemitwallet.com/~witnesses
-[![](https://i.imgur.com/UJIIIWO.png)](https://steemlogin.com/sign/account-witness-vote?witness=tomoyan.witness&approve=1)
-
-### 💡 アップボートガイド 💡
-* SPデレゲーション [500 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=500%20SP) \
-[1000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=1000%20SP) \
-[2000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=2000%20SP) \
-[3000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=3000%20SP) \
-[5000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=5000%20SP)
-* Set 10-30% beneficiary to @japansteemit
-* コミュニティーキュレーショントレールをフォロー [ここ]({TRAIL_URL})
-
-分からない事は何でも質問して下さい🙇
-[![](https://i.imgur.com/jT2loCz.png)](https://tinyurl.com/steemit-guide)
-[![](https://i.imgur.com/Fk8AhOW.png)](https://discord.gg/pE5fuktSAt)
-    """
-
-        # Post reply comment
-        try:
-            STEEM.post(
-                author=COMMUNITY_NAME,
-                title=TITLE,
-                body=body,
-                reply_identifier=post['identifier'],
-                self_vote=False)
-        except Exception:
-            continue
-        finally:
-            # Posting is allowed every 3 seconds
-            # Sleep 5 secs
-            time.sleep(5)
-
-
-def post_comment(unvoted_posts):
-    print('post_comment unvoted_posts')
-    # post a comment for unvoted posts
-    for post in unvoted_posts:
-        body = f"""
-@{post['author']} さん、こんにちは。
-![image.png](https://cdn.steemitimages.com/DQmTqjyUPHQynfivV8eREroJhUfcSCvFJ4krct5KgTedAQt/image.png)
-### 💡 アップボートガイド 💡
-* SPデレゲーション [500 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=500%20SP) \
-[1000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=1000%20SP) \
-[2000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=2000%20SP) \
-[3000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=3000%20SP) \
-[5000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=5000%20SP)
-* Set 10-30% beneficiary to @japansteemit
-* コミュニティーキュレーショントレールをフォロー [ここ]({TRAIL_URL})
-
-### tomoyan.witnessに投票お願いします👇
-https://steemitwallet.com/~witnesses
-[![](https://i.imgur.com/UJIIIWO.png)](https://steemlogin.com/sign/account-witness-vote?witness=tomoyan.witness&approve=1)
-
-分からない事は何でも質問して下さい🙇
-[![](https://i.imgur.com/jT2loCz.png)](https://tinyurl.com/steemit-guide)
-[![](https://i.imgur.com/Fk8AhOW.png)](https://discord.gg/pE5fuktSAt)
-        """
-
-        # Post reply comment
-        try:
-            STEEM.post(
-                author=COMMUNITY_NAME,
-                title=TITLE,
-                body=body,
-                reply_identifier=post['identifier'],
-                self_vote=False)
-        except Exception:
-            continue
-        finally:
-            # Posting is allowed every 3 seconds
-            # Sleep 5 secs
-            time.sleep(5)
 
 
 if __name__ == '__main__':
