@@ -115,7 +115,7 @@ def process_payout(curation_reward, delegators):
     today = now.strftime("%Y-%m-%d")
 
     ACCOUNT = Account(COMMUNITY_NAME, blockchain_instance=STEEM)
-    memo = f'{today}:JapanSteemit SP Delegation Reward'
+    memo = f'{today} JapanSteemit SP Delegation Reward'
 
     muted_members = get_muted_members()
     # print(f'{muted_members=}')
