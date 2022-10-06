@@ -789,25 +789,6 @@ class BlurtChain:
 
         return bonus_weight
 
-    def witness_bonus(self, username):
-        bonus_weight = 0.0
-        witness_votes = self.witness_votes
-        recommended_witness = {
-            'kamranrkploy', 'saboin', 'tekraze'
-        }
-
-        match = len(witness_votes.intersection(recommended_witness))
-
-        # bonus depends on number of recommended_witness match
-        if match == 1:
-            bonus_weight = 1.0
-        elif match == 2:
-            bonus_weight = 3.0
-        elif match == 3:
-            bonus_weight = 10.0
-
-        return bonus_weight
-
     def upvote_post(self, identifier, delegation_bonus, member_bonus):
         upvote_account = Config.UPVOTE_ACCOUNT
         upvote_key = Config.UPVOTE_KEY
@@ -1151,15 +1132,12 @@ Thank you 🙂 @tomoyan
         is_witness_bonus = self.is_witness_bonus(username)
         print('IS_WITNESS_BONUS', username, is_witness_bonus)
         if is_witness_bonus:
-            print('+15%')
-            member_bonus += 15.0
+            witness_bonus = random.randint(10, 15)
+            print(f'+{witness_bonus}%')
+            member_bonus += witness_bonus
         else:
             delegation_bonus *= 0.25
             print('-75%', delegation_bonus)
-
-        # check recommended witness bonus
-        # witness_bonus = self.witness_bonus(username)
-        # member_bonus += witness_bonus
 
         # check star bonus
         # 2.5 stars -> 15%
