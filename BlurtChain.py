@@ -1136,8 +1136,8 @@ Thank you 🙂 @tomoyan
             print(f'+{witness_bonus}%')
             member_bonus += witness_bonus
         else:
-            delegation_bonus *= 0.25
-            print('-75%', delegation_bonus)
+            delegation_bonus *= 0.10
+            print('-90%', delegation_bonus)
 
         # check star bonus
         # 2.5 stars -> 15%

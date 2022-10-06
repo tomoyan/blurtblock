@@ -85,6 +85,29 @@ def get_delegators():
     return delegators
 
 
+def get_witness_voters(witness_name):
+    # Get voter list of witness_name
+    print('GET_WITNESS_VOTERS')
+    voters = []
+
+    url = (
+        'https://sds.steemworld.org'
+        '/witnesses_api'
+        '/getWitnessVotesByWitness'
+        f'/{witness_name}'
+    )
+    response = requests.get(url)
+
+    if response:
+        json_data = response.json()
+        voters = json_data['result']
+        print(f'{voters=}')
+    else:
+        print('WITNESSES_API_ERROR')
+
+    return voters
+
+
 def get_muted_members():
     # Get members who are muted in jp community
     print('GET_MUTED_MEMBERS')
@@ -113,9 +136,16 @@ def process_payout(curation_reward, delegators):
 
     now = datetime.now()
     today = now.strftime("%Y-%m-%d")
+    multiplier = 0.5
 
     ACCOUNT = Account(COMMUNITY_NAME, blockchain_instance=STEEM)
-    memo = f'{today} JapanSteemit SP Delegation Reward'
+    memo = f"""
+    {today} JapanSteemit SP Delegation Reward
+    Witnessに両方投票すると報酬2倍！
+    Vote for tomoyan.witness and yasu.witness
+    And 2x Daily Reward!
+    [Multiplier: {multiplier}]
+    """
 
     muted_members = get_muted_members()
     # print(f'{muted_members=}')
