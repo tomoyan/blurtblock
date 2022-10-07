@@ -9,10 +9,9 @@ from beem.account import Account
 from beem.instance import set_shared_blockchain_instance
 from beem.community import Community
 
-MINIMUM_REWARD = 0.01
+MINIMUM_REWARD = 0.001
 COMMUNITY_NAME = os.environ.get('COMMUNITY_NAME')
 COMMUNITY_ACTIVE_KEY = os.environ.get('COMMUNITY_ACTIVE_KEY')
-
 
 # Setup Steem nodes
 STEEMIT_NODES = [
@@ -85,9 +84,27 @@ def get_delegators():
     return delegators
 
 
+def get_muted_members():
+    # Get members who are muted in jp community
+    print('GET_MUTED_MEMBERS')
+    muted_members = []
+    steem_japan = 'hive-161179'
+    community = Community(steem_japan, blockchain_instance=STEEM)
+
+    # Get a list of community roles
+    roles = community.get_community_roles()
+
+    # Find muted members
+    for role in roles:
+        if role[1] == 'muted':
+            muted_members.append(role[0])
+
+    return muted_members
+
+
 def get_witness_voters(witness_name):
     # Get voter list of witness_name
-    print('GET_WITNESS_VOTERS')
+    print('GET_WITNESS_VOTERS', witness_name)
     voters = []
 
     url = (
@@ -108,24 +125,6 @@ def get_witness_voters(witness_name):
     return voters
 
 
-def get_muted_members():
-    # Get members who are muted in jp community
-    print('GET_MUTED_MEMBERS')
-    muted_members = []
-    steem_japan = 'hive-161179'
-    community = Community(steem_japan, blockchain_instance=STEEM)
-
-    # Get a list of community roles
-    roles = community.get_community_roles()
-
-    # Find muted members
-    for role in roles:
-        if role[1] == 'muted':
-            muted_members.append(role[0])
-
-    return muted_members
-
-
 def process_payout(curation_reward, delegators):
     print('PROCESS_PAYOUT')
 
@@ -136,16 +135,11 @@ def process_payout(curation_reward, delegators):
 
     now = datetime.now()
     today = now.strftime("%Y-%m-%d")
-    multiplier = 0.5
+
+    tomoyan_voters = get_witness_voters('tomoyan.witness')
+    yasu_voters = get_witness_voters('yasu.witness')
 
     ACCOUNT = Account(COMMUNITY_NAME, blockchain_instance=STEEM)
-    memo = f"""
-    {today} JapanSteemit SP Delegation Reward
-    Witnessに両方投票すると報酬2倍！
-    Vote for tomoyan.witness and yasu.witness
-    And 2x Daily Reward!
-    [Multiplier: {multiplier}]
-    """
 
     muted_members = get_muted_members()
     # print(f'{muted_members=}')
@@ -164,14 +158,32 @@ def process_payout(curation_reward, delegators):
             print(f"MUTED: {delegator['delegator']}")
             continue
 
+        # check witness support for tomoyan + yasu
+        # and update multiplier
+        multiplier = 0.5
+        if delegator['delegator'] in tomoyan_voters:
+            multiplier += 0.5
+
+        if delegator['delegator'] in yasu_voters:
+            multiplier += 0.5
+
         percentage = delegator['sp'] / total_sp_delegation
         reward = curation_reward * percentage
+        reward *= multiplier
 
         if reward < MINIMUM_REWARD:
             print(f"MINIMUM_REWARD>{reward=} {delegator['delegator']=}")
             continue
 
         # Today's reward
+        memo = f"""
+        {today} JapanSteemit SP Delegation Reward
+        - Witness 2人に投票すると報酬が50%アップ！
+        Vote for @tomoyan.witness and @yasu.witness
+        Daily Reward 50% UP!
+        [Multiplier: {multiplier}%]
+        https://steemitwallet.com/~witnesses
+        """
         try:
             print(f"{delegator['delegator']=} {reward=} {memo}")
             ACCOUNT.transfer(delegator['delegator'], reward, 'STEEM', memo)
