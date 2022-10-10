@@ -158,14 +158,18 @@ def post_reply_comments(community_posts):
 https://steemitwallet.com/~witnesses
 [![](https://i.imgur.com/UJIIIWO.png)](https://steemlogin.com/sign/account-witness-vote?witness=tomoyan.witness&approve=1)
 
+### SPデレゲーション報酬
+Wintessに投票すると毎日の報酬がアップ！詳しくは👇
+https://steemit.com/hive-161179/@japansteemit/sp-delegation-reward-update
+
 ### 💡 アップボートガイド 💡
-* SPデレゲーション [500 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=500%20SP) \
+* STEEM POWERをデレゲート [500 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=500%20SP) \
 [1000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=1000%20SP) \
 [2000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=2000%20SP) \
 [3000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=3000%20SP) \
 [5000 SP]({STEEMLOGIN_URL}{DELEGATE_URL}=5000%20SP)
 * Set 10-30% beneficiary to @japansteemit
-* コミュニティーキュレーショントレールをフォロー [ここ]({TRAIL_URL})
+* コミュニティーキュレーションをフォロー [ここ]({TRAIL_URL})
 
 分からない事は何でも質問して下さい🙇
 [![](https://i.imgur.com/jT2loCz.png)](https://tinyurl.com/steemit-guide)
