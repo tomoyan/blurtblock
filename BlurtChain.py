@@ -565,7 +565,7 @@ class BlurtChain:
 
         bad_witness = {
             'fervi', 'double-u', 'etainclub', 'joviansummer',
-            'jakeminlim', 'ytyeasin', 'jacobgadikian'
+            'jakeminlim', 'ytyeasin', 'jacobgadikian', 'gamer0815'
         }
         bad_matches = len(witness_votes.intersection(bad_witness))
         if bad_matches:
@@ -1131,13 +1131,14 @@ Thank you 🙂 @tomoyan
         # check member level bonus
         member_bonus = self.member_bonus(username)
 
-        # check witness vote bonus (+10%)
+        # check witness vote bonus (+10-15%)
         is_witness_bonus = self.is_witness_bonus(username)
+        witness_bonus_percent = 0
         print('IS_WITNESS_BONUS', username, is_witness_bonus)
         if is_witness_bonus:
-            witness_bonus = random.randint(10, 15)
-            print(f'+{witness_bonus}%')
-            member_bonus += witness_bonus
+            witness_bonus_percent = random.randint(10, 15)
+            print(f'+{witness_bonus_percent}%')
+            member_bonus += witness_bonus_percent
         else:
             delegation_bonus *= 0.10
             print('-90%', delegation_bonus)
@@ -1199,7 +1200,7 @@ Thank you 🙂 @tomoyan
         }
 
         if is_witness_bonus:
-            data['message'] += ' +15% Witness Bonus!'
+            data['message'] += f' +{witness_bonus_percent}% Witness Bonus!'
         else:
             data['message'] += ' No Witness Bonus😬 Vote recommended witnesses.'
             data['message'] += ' Do not vote bad/inactive witnesses.'
