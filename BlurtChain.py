@@ -563,7 +563,10 @@ class BlurtChain:
         witness_votes = self.witness_votes
         print(f"{witness_votes=}")
 
-        bad_witness = {'fervi', 'double-u'}
+        bad_witness = {
+            'fervi', 'double-u', 'etainclub', 'joviansummer',
+            'jakeminlim', 'ytyeasin', 'jacobgadikian'
+        }
         bad_matches = len(witness_votes.intersection(bad_witness))
         if bad_matches:
             print('BAD_WITNESS')
@@ -1198,7 +1201,8 @@ Thank you 🙂 @tomoyan
         if is_witness_bonus:
             data['message'] += ' +15% Witness Bonus!'
         else:
-            data['message'] += ' No Witness Bonus😬(Vote for recommended witness)'
+            data['message'] += ' No Witness Bonus😬 Vote recommended witnesses'
+            data['message'] += ' Do not vote bad/inactive witnesses'
 
         # UPVOTE REWARD COUNTS
         # increment upvote count if username exists in fb
