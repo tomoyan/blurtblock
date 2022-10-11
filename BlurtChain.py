@@ -1201,8 +1201,8 @@ Thank you 🙂 @tomoyan
         if is_witness_bonus:
             data['message'] += ' +15% Witness Bonus!'
         else:
-            data['message'] += ' No Witness Bonus😬 Vote recommended witnesses'
-            data['message'] += ' Do not vote bad/inactive witnesses'
+            data['message'] += ' No Witness Bonus😬 Vote recommended witnesses.'
+            data['message'] += ' Do not vote bad/inactive witnesses.'
 
         # UPVOTE REWARD COUNTS
         # increment upvote count if username exists in fb
