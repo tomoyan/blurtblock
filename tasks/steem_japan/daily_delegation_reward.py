@@ -9,7 +9,7 @@ from beem.account import Account
 from beem.instance import set_shared_blockchain_instance
 from beem.community import Community
 
-MINIMUM_REWARD = 0.001
+MINIMUM_REWARD = 0.01
 COMMUNITY_NAME = os.environ.get('COMMUNITY_NAME')
 COMMUNITY_ACTIVE_KEY = os.environ.get('COMMUNITY_ACTIVE_KEY')
 
