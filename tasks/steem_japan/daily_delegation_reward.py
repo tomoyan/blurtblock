@@ -118,7 +118,6 @@ def get_witness_voters(witness_name):
     if response:
         json_data = response.json()
         voters = json_data['result']
-        print(f'{voters=}')
     else:
         print('WITNESSES_API_ERROR')
 
@@ -142,7 +141,6 @@ def process_payout(curation_reward, delegators):
     ACCOUNT = Account(COMMUNITY_NAME, blockchain_instance=STEEM)
 
     muted_members = get_muted_members()
-    # print(f'{muted_members=}')
 
     counter = collections.Counter()
     for d in delegators:
@@ -150,7 +148,6 @@ def process_payout(curation_reward, delegators):
 
     result = dict(counter)
     total_sp_delegation = result['sp']
-    # print(f'{total_sp_delegation=}')
 
     for delegator in delegators:
         # skip muted_members
@@ -185,7 +182,6 @@ def process_payout(curation_reward, delegators):
         https://steemitwallet.com/~witnesses
         """
         try:
-            print(f"{delegator['delegator']=} {reward=} {memo}")
             ACCOUNT.transfer(delegator['delegator'], reward, 'STEEM', memo)
         except Exception as err:
             print(f'TRANSFER_ERROR: {err}')
