@@ -1081,8 +1081,8 @@ Thank you 🙂 @tomoyan
             wallet_url = f'https://blurtwallet.com/@{username}'
             data['message'] = f"""
             Error: This account is Powering Down.
-            Please check your <a href="{wallet_url}">Wallet</a>
-            and cancel Power Down before using Upvote.
+            Check your <a href="{wallet_url}">Wallet</a>
+            and <b>Cancel Power Down</b> before using Upvote.
             Thank you.
             """
             data['message'] = Markup(data['message'])
