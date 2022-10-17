@@ -43,7 +43,7 @@ BLURT = Blurt(get_node(), keys=[UPVOTE_KEY], num_retries=3)
 ACCOUNT = Account(USERNAME, blockchain_instance=BLURT)
 
 USERS = [
-    'maxinpower', 'famigliacurione', 'tomoyan',
+    'maxinpower', 'tomoyan',
     'kahkashanrkploy', 'kamranrkploy'
 ]
 
