@@ -875,24 +875,18 @@ Thank you 🙂 @tomoyan
             reply_identifier=vote_data['identifier'])
 
     def is_power_down(self, username):
-        # If user is powering down 10%~, return True
-        percentage = 0.1  # 0.1 - 10% power down
+        # If user is powering down, return True
         witness_votes = {}
         result = False
 
         noderpc = NodeRPC(self.nodes)
         account_data = noderpc.get_account(username)[0]
-        # Total BP
-        vesting_shares = Amount(account_data['vesting_shares'])
 
-        # Total BP withdraw (4 weeks power down)
+        # Check power down amount
         vesting_withdraw_rate = Amount(account_data['vesting_withdraw_rate'])
-        vesting_withdraw_total = vesting_withdraw_rate.amount * 4
-
-        # check power down percentage
-        if vesting_shares.amount:
-            if (vesting_withdraw_total / vesting_shares.amount) >= percentage:
-                result = True
+        if vesting_withdraw_rate.amount > 0:
+            print(f'{vesting_withdraw_rate.amount=}')
+            result = True
 
         # set witness_votes data for witness_bonus
         witness_votes = set(account_data["witness_votes"])
@@ -1086,9 +1080,9 @@ Thank you 🙂 @tomoyan
             print('is_power_down_err', username)
             wallet_url = f'https://blurtwallet.com/@{username}'
             data['message'] = f"""
-            Error: This account is powering down more than 10%.
+            Error: This account is Powering Down.
             Please check your <a href="{wallet_url}">Wallet</a>
-            and cancel power down before using this tool.
+            and cancel Power Down before using Upvote.
             Thank you.
             """
             data['message'] = Markup(data['message'])

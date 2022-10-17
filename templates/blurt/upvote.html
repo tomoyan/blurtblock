@@ -293,16 +293,6 @@
                     <!-- used to protect the form against csrf attacks -->
                     {{ form.hidden_tag() }}
 
-                    <div class="form-group">
-                        <label for="postInputURL">Enter Blurt Post URL</label>
-                        <input type="url"
-                            name="url"
-                            class="form-control" id="postInputURL"
-                            aria-describedby="urlHelp"
-                            placeholder="https://blurt.blog/@username/permalink"
-                            >
-                    </div>
-
                     <!-- flash message -->
                     {% with messages = get_flashed_messages(with_categories=true) %}
                     {% if messages %}
@@ -327,6 +317,16 @@
                         {% endfor %}
                     {% endif %}
                     {% endwith %}
+
+                    <div class="form-group">
+                        <label for="postInputURL">Enter Blurt Post URL</label>
+                        <input type="url"
+                            name="url"
+                            class="form-control" id="postInputURL"
+                            aria-describedby="urlHelp"
+                            placeholder="https://blurt.blog/@username/permalink"
+                            >
+                    </div>
 
                     <!-- A-ADS -->
                     <p id="a-ads" class="mb-0">
