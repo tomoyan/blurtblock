@@ -298,11 +298,17 @@ def make_post_body(data):
             |{member[2]}|{member[5]}|{pd}|\n"
 
     jp_posts = ""
+    identifiers = []
     for post in data['posts']:
         author = post[18]
+        permlink = post[19]
+        identifier = f'{author}/{permlink}'
+        if identifier in identifiers:
+            continue
+
         title = textwrap.shorten(post[20], width=35, placeholder='...')
         jp_posts += \
-            f"[{author} - {title}](steemit.com/@{post[18]}/{post[19]})\n"
+            f"[{author} - {title}](steemit.com/@{permlink})\n"
 
     body = f"""
 ### [Steem Japanのコミュニティーページから投稿しよう](https://steemit.com/created/hive-161179)
