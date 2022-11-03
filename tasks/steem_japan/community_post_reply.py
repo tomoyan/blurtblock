@@ -42,7 +42,7 @@ COMMUNITY_NAME = os.environ.get('COMMUNITY_NAME')
 
 # STEEM = Steem(node=get_node(), keys=[COMMUNITY_POST_KEY])
 # set_shared_blockchain_instance(STEEM)
-STEEM = get_steem()
+STEEM = get_steem(COMMUNITY_POST_KEY)
 ACCOUNT = Account(COMMUNITY_NAME, blockchain_instance=STEEM)
 
 TRAIL_URL = 'https://tinyurl.com/curation-trail'
