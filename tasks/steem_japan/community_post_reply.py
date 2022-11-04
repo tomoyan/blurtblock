@@ -4,37 +4,8 @@ import requests
 import random
 from datetime import datetime, timedelta
 
-# from beem import Steem
 from beem.account import Account
-# from beem.nodelist import NodeList
-# from beem.instance import set_shared_blockchain_instance
 from _steem import get_steem
-
-# Setup Steem nodes
-# nodelist = NodeList()
-# nodelist.update_nodes()
-# # nodes = nodelist.get_steem_nodes()
-# nodes = [
-#     'https://api.steemit.com',
-#     'https://api.steem.buzz',
-#     'https://steem.61bts.com'
-# ]
-
-
-# def get_node():
-#     result = nodes[0]
-#     random.shuffle(nodes)
-
-#     for node in nodes:
-#         try:
-#             response = requests.get(node, timeout=0.5)
-#             if response:
-#                 result = node
-#                 break
-#         except requests.exceptions.RequestException as e:
-#             print(f'GET_NODE_ERR:{node} {e}')
-
-#     return result
 
 
 COMMUNITY_POST_KEY = os.environ.get('COMMUNITY_POST_KEY')
