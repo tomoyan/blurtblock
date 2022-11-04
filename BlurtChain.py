@@ -1376,8 +1376,8 @@ Thank you 🙂 @tomoyan
             db_name).child(replaced_username).get()
 
         # Full and Half star counts
-        full_count = 50  # 100% vote weight
-        half_count = 25  # 25%+ vote weight
+        full_count = 25  # 100% vote weight
+        half_count = 10  # 25%+ vote weight
         stars = 0.0
         count = 0
 
