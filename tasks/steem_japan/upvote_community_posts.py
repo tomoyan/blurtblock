@@ -1,4 +1,5 @@
 import os
+import time
 import requests
 from datetime import datetime, timedelta
 from beem.account import Account
@@ -24,6 +25,7 @@ def get_sds_data(url):
 def get_community_posts():
     posts = []
     authors = []
+    muted_members = get_muted_members()
 
     # last 24h data
     start_epoch = datetime.now() - timedelta(days=1)
@@ -40,7 +42,7 @@ def get_community_posts():
 
     for post in community_posts:
         # Skip is_muted members
-        if post[13]:
+        if post[13] or post[18] in muted_members:
             continue
 
         # Check duplicate author
@@ -106,11 +108,30 @@ def upvote_posts(posts):
         except Exception as err:
             print('UPVOTE_ERR', err, identifier)
 
+        time.sleep(3)
+
+
+def get_muted_members():
+    muted_members = []
+    url = (
+        'https://sds.steemworld.org'
+        '/communities_api'
+        '/getCommunityRoles'
+        '/hive-161179'
+    )
+    json_data = get_sds_data(url)
+    rows = json_data['result']['rows']
+
+    for row in rows:
+        if row[-1] == 'muted':
+            muted_members.append(row[1])
+
+    return muted_members
+
 
 def main():
     print('START_UPVOTE_COMMUNITY_POSTS')
 
-    posts = []
     posts = get_community_posts()
     upvote_posts(posts)
 
