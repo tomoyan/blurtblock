@@ -85,9 +85,6 @@ def upvote_blog_entries_username(name):
             identifier = post.authorperm
             weight = 100.0
 
-            if name in ['kahkashanrkploy', 'kamranrkploy']:
-                weight = 50.0
-
             # Upvote a post
             try:
                 BLURT.vote(weight, identifier, account=ACCOUNT)
