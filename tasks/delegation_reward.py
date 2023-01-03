@@ -106,13 +106,29 @@ def inv_tx(reward_bp):
         db_prd.child(db_name).push(tx_data)
 
 
+def get_budget(budget):
+    reserve_name = os.environ.get('RESERVE_NAME')
+    reserve_key = os.environ.get('RESERVE_KEY')
+    upvote_account = os.environ.get('UPVOTE_ACCOUNT')
+
+    blurt_obj = Blurt(get_node(), keys=[reserve_key])
+    account_obj = Account(reserve_name, blockchain_instance=blurt_obj)
+
+    # TX BLURT
+    try:
+        account_obj.transfer(upvote_account, budget, 'BLURT', 'Reward Budget')
+    except Exception as err:
+        print('GET_BUDGET_ERROR', err)
+
+
 def get_reward_budget():
     budget_bp = 0
     # Get 1 day curation reward in BP
     reward_bp = account.get_curation_reward(days=1)
-    inv_tx(reward_bp)
+    # inv_tx(reward_bp)
 
     budget_bp = int(reward_bp * PERCENT / 100)
+    get_budget(budget_bp)
 
     return budget_bp
 
