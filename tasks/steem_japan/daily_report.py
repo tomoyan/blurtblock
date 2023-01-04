@@ -29,7 +29,7 @@ def get_node():
     return result
 
 
-POST_KEY = os.environ.get('POST_KEY')
+POST_KEY = os.environ.get('ST_POST_KEY')
 USERNAME = os.environ.get('USERNAME')
 
 STEEM = Steem(node=get_node(), keys=[POST_KEY])
