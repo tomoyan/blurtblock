@@ -10,7 +10,7 @@ chardet==3.0.4
 click==7.1.2
 click-shell==2.0
 cryptocode==0.1
-cryptography==3.4.6
+cryptography==39.0.1
 diff-match-patch==20200713
 Dumper==1.2.0
 ecdsa==0.15
