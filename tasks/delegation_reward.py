@@ -275,8 +275,11 @@ def fb_get_main_image():
 
 
 def publish_post(rewards):
-    post_key = os.environ.get('POST_KEY')
-    b = Blurt(get_node(), keys=[post_key])
+    print('PUBLISH_POST')
+    post_key = os.environ.get('BL_POST_KEY')
+    print('post_key', post_key)
+    blurt_obj = Blurt(get_node(), keys=[post_key])
+    print('blurt_obj', blurt_obj)
 
     today = datetime.now().strftime("%Y-%m-%d")
     title = f'Daily Delegation Payout - {today}'
@@ -361,7 +364,8 @@ Have a Blurt Day 🙂
 
     """
 
-    b.post(
+    print('Posting')
+    blurt_obj.post(
         author=username,
         title=title,
         body=body,
