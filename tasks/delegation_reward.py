@@ -11,12 +11,12 @@ import requests
 # Setup blurt nodes and account
 blurt_nodes = [
     'https://rpc.blurt.world',
-    # 'https://rpc.blurt.live',
     'https://rpc.blurt.one',
     'https://blurt-rpc.saboin.com',
+    # 'https://rpc.blurt.live',
     # 'https://kentzz.blurt.world',
     # 'https://rpc.blurtlatam.com',
-    'https://blurtrpc.actifit.io',
+    # 'https://blurtrpc.actifit.io',
 ]
 
 
@@ -70,13 +70,19 @@ db_prd = firebase.database()
 def main():
     print('Start delegation_reward')
 
+    print('GET_REWARD_BUDGET')
     budget = get_reward_budget()
 
+    print('GET_DELEGATION_LIST')
     delegations = get_delegation_list()
 
+    print('GET_REWARDS')
     rewards = get_rewards(budget, delegations)
 
+    print('SEND_REWARDS')
     send_rewards(rewards)
+
+    print('PUBLISH_POST')
     publish_post(rewards)
 
     print('End delegation_reward')
@@ -276,11 +282,8 @@ def fb_get_main_image():
 
 
 def publish_post(rewards):
-    print('PUBLISH_POST')
     post_key = os.environ.get('BL_POST_KEY')
-    print('post_key', post_key)
     blurt_obj = Blurt(get_node(), keys=[post_key])
-    print('blurt_obj', blurt_obj)
 
     today = datetime.now().strftime("%Y-%m-%d")
     title = f'Daily Delegation Payout - {today}'
