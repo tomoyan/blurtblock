@@ -11,12 +11,12 @@ import requests
 # Setup blurt nodes and account
 blurt_nodes = [
     'https://rpc.blurt.world',
-    'https://rpc.blurt.one',
+    # 'https://rpc.blurt.one',
     'https://blurt-rpc.saboin.com',
     # 'https://rpc.blurt.live',
     # 'https://kentzz.blurt.world',
     # 'https://rpc.blurtlatam.com',
-    # 'https://blurtrpc.actifit.io',
+    'https://blurtrpc.actifit.io',
 ]
 
 
