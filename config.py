@@ -23,7 +23,7 @@ class Config(object):
         'https://rpc.blurt.world',
         # 'https://rpc.blurt.live',
         # 'https://rpc.blurt.one',
-        'https://blurt-rpc.saboin.com',
+        # 'https://blurt-rpc.saboin.com',
         # 'https://kentzz.blurt.world',
-        'https://blurtrpc.actifit.io',
+        # 'https://blurtrpc.actifit.io',
     ]
