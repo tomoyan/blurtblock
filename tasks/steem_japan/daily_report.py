@@ -68,8 +68,8 @@ def get_sds_data(url):
 def get_muted_members():
     print('get_muted_members')
     muted_members = []
-    ACCOUNT = Account(USERNAME, blockchain_instance=STEEM)
-    muted_members = ACCOUNT.get_mutings()
+    # ACCOUNT = Account(USERNAME, blockchain_instance=STEEM)
+    # muted_members = ACCOUNT.get_mutings()
 
     return muted_members
 
@@ -325,8 +325,6 @@ def make_post_body(data):
 
 ### Steemitの仕組みや使い方などを日本語で説明しています
 [![](https://i.imgur.com/jT2loCz.png)](https://tinyurl.com/steemit-guide)
-### Witness(証人)の投票お願いします
-[![](https://i.imgur.com/UJIIIWO.png)](https://steemlogin.com/sign/account-witness-vote?witness=tomoyan.witness&approve=1)
 
 ---
 
