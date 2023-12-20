@@ -207,6 +207,8 @@ def get_account_info(members):
         f'/{members_str}'
     )
     print('url', url)
+    print('members', members)
+    print('members_str', members_str)
     json_data = get_sds_data(url)
     print('json_data', json_data)
 
