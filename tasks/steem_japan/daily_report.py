@@ -175,22 +175,24 @@ def get_community_members():
     # "author":18,"permlink":19,"title":20,"json_metadata":21,"body":22}
     community_data = json_data['result']['rows']
     print('url', url)
-    print('json_data', json_data)
+    # print('community_data', community_data)
 
     for data in community_data:
-        print('data', data)
-        # skip muted members
-        if data[18] in muted_members:
+        print('author', data[6], data[18])
+        print('is_muted', data[24], data[13])
+        print('created', data[8], data[3])
+        # skip muted members ("author":6)
+        if data[6] in muted_members:
             continue
 
-        # skip muted posts ("is_muted":13)
-        if data[13]:
+        # skip muted posts ("is_muted":24)
+        if data[24]:
             continue
 
-        # last 24h posts ("author":18)
-        if data[3] > start_epoch:
-            if data[18] not in members:
-                members.append(data[18])
+        # last 24h posts ("author":6, "created":8)
+        if data[8] > start_epoch:
+            if data[6] not in members:
+                members.append(data[6])
         else:
             break
 
