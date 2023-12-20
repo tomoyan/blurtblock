@@ -176,7 +176,6 @@ def get_community_members():
     community_data = json_data['result']['rows']
     print('url', url)
     print('json_data', json_data)
-    print('community_data', community_data)
 
     for data in community_data:
         print('data', data)
