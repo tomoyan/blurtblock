@@ -168,19 +168,17 @@ def get_community_members():
     )
     json_data = get_sds_data(url)
 
-    # {"link_id":0,"link_status":1,"author_status":2,"created":3,"payout":4,
-    # "payout_comments":5,"net_rshares":6,"reply_count":7,"resteem_count":8,
-    # "upvote_count":9,"downvote_count":10,"downvote_weight":11,"word_count":12,
-    # "is_muted":13,"is_pinned":14,"last_reply":15,"category":16,"community":17,
-    # "author":18,"permlink":19,"title":20,"json_metadata":21,"body":22}
+    # {"link_id":0,"link_status":1,"author_reputation":2,"author_status":3,
+    # "author_role":4,"author_title":5,"author":6,"permlink":7,"created":8,
+    # "last_update":9,"cashout_time":10,"payout":11,"payout_comments":12,
+    # "promoted":13,"net_rshares":14,"max_accepted_payout":15,"percent_steem_dollars":16,
+    # "children":17,"resteem_count":18,"upvote_count":19,"downvote_count":20,
+    # "downvote_weight":21,"word_count":22,"is_author_muted":23,"is_muted":24,
+    # "is_pinned":25,"last_reply":26,"category":27,"community":28,"json_images":29,
+    # "json_metadata":30,"title":31,"body":32}
     community_data = json_data['result']['rows']
-    print('url', url)
-    # print('community_data', community_data)
 
     for data in community_data:
-        print('author', data[6], data[18])
-        print('is_muted', data[24], data[13])
-        print('created', data[8], data[3])
         # skip muted members ("author":6)
         if data[6] in muted_members:
             continue
@@ -207,15 +205,12 @@ def get_account_info(members):
     url = (
         'https://sds.steemworld.org'
         '/accounts_api'
-        '/getAccountsFields'
-        '/balance_steem,balance_sbd,vests_own,powerdown'
+        '/getAccountsExt'
         f'/{members_str}'
+        '/japansteemit'
+        '/name,balance_steem,balance_sbd,vests_own,powerdown'
     )
-    print('url', url)
-    print('members', members)
-    print('members_str', members_str)
     json_data = get_sds_data(url)
-    print('json_data', json_data)
 
     # {'name': 0, 'balance_steem': 1,
     # 'balance_sbd': 2, 'vests_own': 3,
