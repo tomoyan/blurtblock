@@ -206,7 +206,9 @@ def get_account_info(members):
         '/balance_steem,balance_sbd,vests_own,powerdown'
         f'/{members_str}'
     )
+    print('url', url)
     json_data = get_sds_data(url)
+    print('json_data', json_data)
 
     # {'name': 0, 'balance_steem': 1,
     # 'balance_sbd': 2, 'vests_own': 3,
