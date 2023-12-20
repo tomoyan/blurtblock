@@ -174,8 +174,12 @@ def get_community_members():
     # "is_muted":13,"is_pinned":14,"last_reply":15,"category":16,"community":17,
     # "author":18,"permlink":19,"title":20,"json_metadata":21,"body":22}
     community_data = json_data['result']['rows']
+    print('url', url)
+    print('json_data', json_data)
+    print('community_data', community_data)
 
     for data in community_data:
+        print('data', data)
         # skip muted members
         if data[18] in muted_members:
             continue
