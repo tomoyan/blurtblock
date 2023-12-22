@@ -7,6 +7,7 @@ from _steem import get_steem
 
 COMMUNITY_NAME = os.environ.get('COMMUNITY_NAME')
 COMMUNITY_POST_KEY = os.environ.get('COMMUNITY_POST_KEY')
+
 STEEM = get_steem(COMMUNITY_POST_KEY)
 ACCOUNT = Account(COMMUNITY_NAME, blockchain_instance=STEEM)
 
@@ -23,6 +24,7 @@ def get_sds_data(url):
 
 
 def get_community_posts():
+    print('START GET_COMMUNITY_POSTS')
     posts = []
     authors = []
     muted_members = get_muted_members()
@@ -41,28 +43,33 @@ def get_community_posts():
     community_posts = json_data['result']['rows']
 
     for post in community_posts:
+        author = post[6]
+        created = post[8]
+        permlink = post[7]
+        title = post[31]
+
         # Skip is_muted members
-        if post[13] or post[18] in muted_members:
+        if author in muted_members:
             continue
 
         # Check duplicate author
-        if post[18] in authors:
+        if author in authors:
             continue
 
-            # Only 24h posts
-        if post[3] > start_epoch:
-            date = datetime.fromtimestamp(post[3])
-            sp = check_delegation_sp(post[18])
+        # Only 24h posts
+        if created > start_epoch:
+            date = datetime.fromtimestamp(created)
+            sp = check_delegation_sp(author)
 
             posts.append({
                 'date': date,
-                'author': post[18],
-                'permlink': post[19],
-                'title': post[20],
+                'author': author,
+                'permlink': permlink,
+                'title': title,
                 'sp': sp
             })
 
-            authors.append(post[18])
+            authors.append(author)
         else:
             break
 
