@@ -250,7 +250,7 @@ def get_headline_news():
 
     url = (
         'https://newsapi.org/v2/top-headlines?'
-        'country=jp&'
+        'country=us&'
         f'category={topic}&'
         'pageSize=100&'
         f'apiKey={NEWS_API_KEY}')
