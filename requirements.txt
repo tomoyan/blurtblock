@@ -58,5 +58,5 @@ scrypt==0.8.15
 six==1.15.0
 urllib3==1.26.5
 websocket-client==0.57.0
-Werkzeug==1.0.1
+Werkzeug==2.2.3
 WTForms==2.3.1
