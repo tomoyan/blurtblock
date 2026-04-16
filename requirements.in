@@ -55,6 +55,8 @@ ruamel.yaml.clib
 s3transfer
 six
 urllib3<2
+cryptography>=46.0.7
+jwcrypto>=1.5.7
 websocket-client
 Werkzeug
 WTForms
