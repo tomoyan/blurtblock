@@ -8,7 +8,7 @@ from beem import Blurt
 from config import Config
 from beemgraphenebase.account import PrivateKey
 
-from flask import Markup
+from markupsafe import Markup
 from datetime import datetime, timedelta
 import random
 import requests
@@ -22,8 +22,12 @@ import cryptocode
 import re
 
 # Firebase configuration
-serviceAccountCredentials = json.loads(
-    base64.b64decode(Config.FB_SERVICEACCOUNT.encode()).decode())
+try:
+    serviceAccountCredentials = json.loads(
+        base64.b64decode(Config.FB_SERVICEACCOUNT.encode()).decode())
+except Exception as e:
+    serviceAccountCredentials = {}
+    print(f"Warning: Failed to load Firebase Service Account Credentials: {e}")
 firebase_config = {
     "apiKey": Config.FB_APIKEY,
     "authDomain": Config.FB_AUTHDOMAIN,
